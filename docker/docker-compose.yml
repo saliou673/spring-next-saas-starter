@@ -1,0 +1,24 @@
+services:
+  db:
+    image: postgres:18-alpine3.23
+    container_name: saasapp-db
+    environment:
+      POSTGRES_DB: saasappdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    volumes:
+      - saasapp_db_pg_data:/var/lib/postgresql/
+
+    restart: unless-stopped
+
+  maildev:
+    image: maildev/maildev:2.2.1
+    container_name: saasapp-maildev
+    ports:
+      - "1025:1025" # SMTP
+      - "1080:1080" # Web UI
+
+volumes:
+  saasapp_db_pg_data:

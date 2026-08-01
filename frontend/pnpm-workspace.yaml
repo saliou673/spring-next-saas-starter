@@ -1,0 +1,9 @@
+packages:
+  - apps/*
+  - packages/*
+
+allowBuilds:
+  'es5-ex': true
+  'es5-ext': true
+  'msgpackr-extract': true
+  sharp: true

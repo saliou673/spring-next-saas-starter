@@ -1,0 +1,15 @@
+# Ignore everything by default
+/*
+
+# Allow frontend workspace files
+!saasapp-web/
+!saasapp-apiclient/
+
+# Ignore dependencies and build output
+saasapp-web/node_modules/
+saasapp-web/.next/
+saasapp-apiclient/node_modules/
+saasapp-apiclient/dist/
+
+# Ignore auto-generated API client
+saasapp-apiclient/src/gen/
