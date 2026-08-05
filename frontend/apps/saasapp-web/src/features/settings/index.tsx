@@ -1,52 +1,55 @@
 "use client";
 
 import { Monitor, Bell, Palette, Wrench, UserCog } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Separator } from "@/components/ui/separator";
 import { Main } from "@/components/layout/main";
 import { SidebarNav } from "./components/sidebar-nav";
-
-const sidebarNavItems = [
-    {
-        title: "Profile",
-        href: "/settings",
-        icon: <UserCog size={18} />,
-    },
-    {
-        title: "Account",
-        href: "/settings/account",
-        icon: <Wrench size={18} />,
-    },
-    {
-        title: "Appearance",
-        href: "/settings/appearance",
-        icon: <Palette size={18} />,
-    },
-    {
-        title: "Notifications",
-        href: "/settings/notifications",
-        icon: <Bell size={18} />,
-    },
-    {
-        title: "Display",
-        href: "/settings/display",
-        icon: <Monitor size={18} />,
-    },
-];
 
 type SettingsProps = {
     children?: React.ReactNode;
 };
 
 export function Settings({ children }: SettingsProps) {
+    const t = useTranslations("Settings");
+
+    const sidebarNavItems = [
+        {
+            title: t("nav.profile"),
+            href: "/settings",
+            icon: <UserCog size={18} />,
+        },
+        {
+            title: t("nav.account"),
+            href: "/settings/account",
+            icon: <Wrench size={18} />,
+        },
+        {
+            title: t("nav.appearance"),
+            href: "/settings/appearance",
+            icon: <Palette size={18} />,
+        },
+        {
+            title: t("nav.notifications"),
+            href: "/settings/notifications",
+            icon: <Bell size={18} />,
+        },
+        {
+            title: t("nav.display"),
+            href: "/settings/display",
+            icon: <Monitor size={18} />,
+        },
+    ];
+
     return (
         <>
             <Main fixed>
                 <div className="space-y-0.5">
                     <h1 className="text-2xl font-bold tracking-tight md:text-3xl">
-                        Settings
+                        {t("pageTitle")}
                     </h1>
                     <p className="text-muted-foreground">
-                        Manage your account settings and set e-mail preferences.
+                        {t("description")}
                     </p>
                 </div>
                 <Separator className="my-4 lg:my-6" />

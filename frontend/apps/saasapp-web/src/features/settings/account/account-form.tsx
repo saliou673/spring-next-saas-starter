@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { z } from "zod";
 import { format, parseISO } from "date-fns";
 import { useForm } from "react-hook-form";
@@ -14,6 +14,7 @@ import {
     useGetUserDetails,
     useUpdateAccount,
 } from "@api-client";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { handleServerError } from "@/lib/handle-server-error";
 import { Button } from "@/components/ui/button";
@@ -32,48 +33,31 @@ import { Textarea } from "@/components/ui/textarea";
 import { DatePicker } from "@/components/date-picker";
 import { SelectDropdown } from "@/components/select-dropdown";
 
-const languageOptions = [
-    { label: "English", value: "en" },
-    { label: "French", value: "fr" },
-] as const;
+function createAccountFormSchema(t: ReturnType<typeof useTranslations>) {
+    return z.object({
+        firstName: z
+            .string()
+            .trim()
+            .min(1, t("firstNameRequired"))
+            .max(100, t("firstNameMax")),
+        lastName: z
+            .string()
+            .trim()
+            .min(1, t("lastNameRequired"))
+            .max(100, t("lastNameMax")),
+        email: z.email(t("emailInvalid")),
+        phoneNumber: z.string().max(50, t("phoneNumberMax")).optional(),
+        birthDate: z.date(t("birthDateRequired")),
+        gender: z.enum(["MALE", "FEMALE"], t("genderRequired")),
+        address: z.string().max(500, t("addressMax")).optional(),
+        languageKey: z.string().max(20, t("languageMax")).optional(),
+        imageUrl: z
+            .union([z.literal(""), z.url(t("imageUrlInvalid"))])
+            .optional(),
+    });
+}
 
-const genderOptions = [
-    { label: "Male", value: updateUserRequestGenderEnum.MALE },
-    { label: "Female", value: updateUserRequestGenderEnum.FEMALE },
-] as const;
-
-const accountFormSchema = z.object({
-    firstName: z
-        .string()
-        .trim()
-        .min(1, "Please enter your first name.")
-        .max(100, "First name must not be longer than 100 characters."),
-    lastName: z
-        .string()
-        .trim()
-        .min(1, "Please enter your last name.")
-        .max(100, "Last name must not be longer than 100 characters."),
-    email: z.email("Please enter a valid email."),
-    phoneNumber: z
-        .string()
-        .max(50, "Phone number must not be longer than 50 characters.")
-        .optional(),
-    birthDate: z.date("Please select your birth date."),
-    gender: z.enum(["MALE", "FEMALE"], "Please select your gender."),
-    address: z
-        .string()
-        .max(500, "Address must not be longer than 500 characters.")
-        .optional(),
-    languageKey: z
-        .string()
-        .max(20, "Language must not be longer than 20 characters.")
-        .optional(),
-    imageUrl: z
-        .union([z.literal(""), z.url("Please enter a valid image URL.")])
-        .optional(),
-});
-
-type AccountFormValues = z.infer<typeof accountFormSchema>;
+type AccountFormValues = z.infer<ReturnType<typeof createAccountFormSchema>>;
 
 const defaultValues: AccountFormValues = {
     firstName: "",
@@ -137,17 +121,37 @@ function AccountFormSkeleton() {
 }
 
 export function AccountForm() {
+    const t = useTranslations("SettingsAccount.form");
+    const tValidation = useTranslations("SettingsAccount.form.validation");
     const queryClient = useQueryClient();
     const { data: user, isLoading, isError } = useGetUserDetails();
     const updateAccount = useUpdateAccount({
         mutation: {
             onSuccess: (updatedUser) => {
                 queryClient.setQueryData(getUserDetailsQueryKey(), updatedUser);
-                toast.success("Account updated");
+                toast.success(t("toastUpdated"));
             },
             onError: handleServerError,
         },
     });
+
+    const languageOptions = [
+        { label: t("fields.languageEnglish"), value: "en" },
+        { label: t("fields.languageFrench"), value: "fr" },
+    ] as const;
+
+    const genderOptions = [
+        { label: t("fields.genderMale"), value: updateUserRequestGenderEnum.MALE },
+        {
+            label: t("fields.genderFemale"),
+            value: updateUserRequestGenderEnum.FEMALE,
+        },
+    ] as const;
+
+    const accountFormSchema = useMemo(
+        () => createAccountFormSchema(tValidation),
+        [tValidation]
+    );
 
     const form = useForm<AccountFormValues>({
         resolver: zodResolver(accountFormSchema),
@@ -167,8 +171,7 @@ export function AccountForm() {
     if (isError || !user) {
         return (
             <p className="text-sm text-muted-foreground">
-                Unable to load account details. Refresh the page and try again.{" "}
-                {JSON.stringify(isError)}
+                {t("loadError")} {JSON.stringify(isError)}
             </p>
         );
     }
@@ -187,10 +190,12 @@ export function AccountForm() {
                         name="firstName"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>First name</FormLabel>
+                                <FormLabel>{t("fields.firstName")}</FormLabel>
                                 <FormControl>
                                     <Input
-                                        placeholder="Enter your first name"
+                                        placeholder={t(
+                                            "fields.firstNamePlaceholder"
+                                        )}
                                         {...field}
                                     />
                                 </FormControl>
@@ -203,10 +208,12 @@ export function AccountForm() {
                         name="lastName"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Last name</FormLabel>
+                                <FormLabel>{t("fields.lastName")}</FormLabel>
                                 <FormControl>
                                     <Input
-                                        placeholder="Enter your last name"
+                                        placeholder={t(
+                                            "fields.lastNamePlaceholder"
+                                        )}
                                         {...field}
                                     />
                                 </FormControl>
@@ -221,13 +228,12 @@ export function AccountForm() {
                     name="email"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Email</FormLabel>
+                            <FormLabel>{t("fields.email")}</FormLabel>
                             <FormControl>
                                 <Input {...field} disabled />
                             </FormControl>
                             <FormDescription>
-                                Email is managed separately and cannot be
-                                changed from this page.
+                                {t("fields.emailDescription")}
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -239,17 +245,18 @@ export function AccountForm() {
                     name="phoneNumber"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Phone number</FormLabel>
+                            <FormLabel>{t("fields.phoneNumber")}</FormLabel>
                             <FormControl>
                                 <Input
-                                    placeholder="Enter your phone number"
+                                    placeholder={t(
+                                        "fields.phoneNumberPlaceholder"
+                                    )}
                                     {...field}
                                     value={field.value ?? ""}
                                 />
                             </FormControl>
                             <FormDescription>
-                                Add a contact number for account-related
-                                communication.
+                                {t("fields.phoneNumberDescription")}
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -262,18 +269,20 @@ export function AccountForm() {
                         name="birthDate"
                         render={({ field }) => (
                             <FormItem className="flex flex-col">
-                                <FormLabel>Birth date</FormLabel>
+                                <FormLabel>{t("fields.birthDate")}</FormLabel>
                                 <FormControl>
                                     <DatePicker
                                         selected={field.value}
                                         onSelect={(date) =>
                                             field.onChange(date ?? field.value)
                                         }
-                                        placeholder="Select your birth date"
+                                        placeholder={t(
+                                            "fields.birthDatePlaceholder"
+                                        )}
                                     />
                                 </FormControl>
                                 <FormDescription>
-                                    Used as part of your account profile.
+                                    {t("fields.birthDateDescription")}
                                 </FormDescription>
                                 <FormMessage />
                             </FormItem>
@@ -285,11 +294,11 @@ export function AccountForm() {
                         name="gender"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Gender</FormLabel>
+                                <FormLabel>{t("fields.gender")}</FormLabel>
                                 <SelectDropdown
                                     defaultValue={field.value}
                                     onValueChange={field.onChange}
-                                    placeholder="Select gender"
+                                    placeholder={t("fields.genderPlaceholder")}
                                     className="w-full"
                                     items={genderOptions.map((option) => ({
                                         label: option.label,
@@ -298,7 +307,7 @@ export function AccountForm() {
                                     isControlled
                                 />
                                 <FormDescription>
-                                    This value is stored on your account.
+                                    {t("fields.genderDescription")}
                                 </FormDescription>
                                 <FormMessage />
                             </FormItem>
@@ -311,11 +320,13 @@ export function AccountForm() {
                     name="languageKey"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Language</FormLabel>
+                            <FormLabel>{t("fields.language")}</FormLabel>
                             <FormControl>
                                 <Input
                                     list="account-language-options"
-                                    placeholder="Select or type a language code"
+                                    placeholder={t(
+                                        "fields.languagePlaceholder"
+                                    )}
                                     {...field}
                                     value={field.value ?? ""}
                                 />
@@ -331,7 +342,7 @@ export function AccountForm() {
                                 ))}
                             </datalist>
                             <FormDescription>
-                                Stored as a language code such as `en` or `fr`.
+                                {t("fields.languageDescription")}
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -343,16 +354,18 @@ export function AccountForm() {
                     name="imageUrl"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Profile image URL</FormLabel>
+                            <FormLabel>{t("fields.imageUrl")}</FormLabel>
                             <FormControl>
                                 <Input
-                                    placeholder="https://example.com/avatar.png"
+                                    placeholder={t(
+                                        "fields.imageUrlPlaceholder"
+                                    )}
                                     {...field}
                                     value={field.value ?? ""}
                                 />
                             </FormControl>
                             <FormDescription>
-                                Use a public image URL for your avatar.
+                                {t("fields.imageUrlDescription")}
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -364,17 +377,19 @@ export function AccountForm() {
                     name="address"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Address</FormLabel>
+                            <FormLabel>{t("fields.address")}</FormLabel>
                             <FormControl>
                                 <Textarea
-                                    placeholder="Enter your address"
+                                    placeholder={t(
+                                        "fields.addressPlaceholder"
+                                    )}
                                     className="resize-none"
                                     {...field}
                                     value={field.value ?? ""}
                                 />
                             </FormControl>
                             <FormDescription>
-                                This address is stored on your account profile.
+                                {t("fields.addressDescription")}
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -388,8 +403,8 @@ export function AccountForm() {
                     }
                 >
                     {updateAccount.isPending
-                        ? "Saving changes..."
-                        : "Update account"}
+                        ? t("submitPending")
+                        : t("submitDefault")}
                 </Button>
             </form>
         </Form>

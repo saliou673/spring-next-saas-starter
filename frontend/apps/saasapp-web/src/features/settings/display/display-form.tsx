@@ -1,6 +1,8 @@
+import { useMemo } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { showSubmittedData } from "@/lib/show-submitted-data";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -14,40 +16,26 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 
-const items = [
-    {
-        id: "recents",
-        label: "Recents",
-    },
-    {
-        id: "home",
-        label: "Home",
-    },
-    {
-        id: "applications",
-        label: "Applications",
-    },
-    {
-        id: "desktop",
-        label: "Desktop",
-    },
-    {
-        id: "downloads",
-        label: "Downloads",
-    },
-    {
-        id: "documents",
-        label: "Documents",
-    },
+const itemIds = [
+    "recents",
+    "home",
+    "applications",
+    "desktop",
+    "downloads",
+    "documents",
 ] as const;
 
-const displayFormSchema = z.object({
-    items: z.array(z.string()).refine((value) => value.some((item) => item), {
-        message: "You have to select at least one item.",
-    }),
-});
+function createDisplayFormSchema(t: ReturnType<typeof useTranslations>) {
+    return z.object({
+        items: z
+            .array(z.string())
+            .refine((value) => value.some((item) => item), {
+                message: t("atLeastOneError"),
+            }),
+    });
+}
 
-type DisplayFormValues = z.infer<typeof displayFormSchema>;
+type DisplayFormValues = z.infer<ReturnType<typeof createDisplayFormSchema>>;
 
 // This can come from your database or API.
 const defaultValues: Partial<DisplayFormValues> = {
@@ -55,6 +43,12 @@ const defaultValues: Partial<DisplayFormValues> = {
 };
 
 export function DisplayForm() {
+    const t = useTranslations("SettingsDisplay.form");
+    const displayFormSchema = useMemo(() => createDisplayFormSchema(t), [t]);
+    const items = itemIds.map((id) => ({
+        id,
+        label: t(`items.${id}`),
+    }));
     const form = useForm<DisplayFormValues>({
         resolver: zodResolver(displayFormSchema),
         defaultValues,
@@ -73,11 +67,10 @@ export function DisplayForm() {
                         <FormItem>
                             <div className="mb-4">
                                 <FormLabel className="text-base">
-                                    Sidebar
+                                    {t("sidebarLabel")}
                                 </FormLabel>
                                 <FormDescription>
-                                    Select the items you want to display in the
-                                    sidebar.
+                                    {t("sidebarDescription")}
                                 </FormDescription>
                             </div>
                             {items.map((item) => (
@@ -130,7 +123,7 @@ export function DisplayForm() {
                         </FormItem>
                     )}
                 />
-                <Button type="submit">Update display</Button>
+                <Button type="submit">{t("submit")}</Button>
             </form>
         </Form>
     );

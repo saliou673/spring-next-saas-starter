@@ -4,6 +4,17 @@
         "english": "Anglais",
         "french": "Français"
     },
+    "Settings": {
+        "pageTitle": "Paramètres",
+        "description": "Gérez les paramètres de votre compte et vos préférences d'e-mail.",
+        "nav": {
+            "profile": "Profil",
+            "account": "Compte",
+            "appearance": "Apparence",
+            "notifications": "Notifications",
+            "display": "Affichage"
+        }
+    },
     "SettingsProfile": {
         "pageTitle": "Paramètres",
         "sectionTitle": "Profil",
@@ -205,6 +216,159 @@
                 "nameRequired": "Le nom est requis.",
                 "permissionRequired": "Sélectionnez au moins une permission."
             }
+        }
+    },
+    "SettingsAccount": {
+        "metadataTitle": "Paramètres du compte",
+        "sectionTitle": "Compte",
+        "sectionDescription": "Mettez à jour les informations personnelles et de compte enregistrées pour votre utilisateur.",
+        "dangerZoneTitle": "Zone de danger",
+        "dangerZoneDescription": "La suppression de votre compte est réversible pendant 30 jours. Passé ce délai, toutes vos données seront définitivement effacées.",
+        "deleteAccountButton": "Supprimer le compte",
+        "form": {
+            "fields": {
+                "firstName": "Prénom",
+                "firstNamePlaceholder": "Saisissez votre prénom",
+                "lastName": "Nom",
+                "lastNamePlaceholder": "Saisissez votre nom",
+                "email": "E-mail",
+                "emailDescription": "L'e-mail est géré séparément et ne peut pas être modifié depuis cette page.",
+                "phoneNumber": "Numéro de téléphone",
+                "phoneNumberPlaceholder": "Saisissez votre numéro de téléphone",
+                "phoneNumberDescription": "Ajoutez un numéro de contact pour les communications liées au compte.",
+                "birthDate": "Date de naissance",
+                "birthDatePlaceholder": "Sélectionnez votre date de naissance",
+                "birthDateDescription": "Utilisée dans le cadre de votre profil de compte.",
+                "gender": "Genre",
+                "genderPlaceholder": "Sélectionnez le genre",
+                "genderDescription": "Cette valeur est enregistrée sur votre compte.",
+                "genderMale": "Homme",
+                "genderFemale": "Femme",
+                "language": "Langue",
+                "languagePlaceholder": "Sélectionnez ou saisissez un code de langue",
+                "languageDescription": "Enregistrée sous forme de code de langue tel que `en` ou `fr`.",
+                "languageEnglish": "Anglais",
+                "languageFrench": "Français",
+                "imageUrl": "URL de l'image de profil",
+                "imageUrlPlaceholder": "https://exemple.com/avatar.png",
+                "imageUrlDescription": "Utilisez une URL d'image publique pour votre avatar.",
+                "address": "Adresse",
+                "addressPlaceholder": "Saisissez votre adresse",
+                "addressDescription": "Cette adresse est enregistrée sur votre profil de compte."
+            },
+            "submitDefault": "Mettre à jour le compte",
+            "submitPending": "Enregistrement des modifications...",
+            "loadError": "Impossible de charger les informations du compte. Actualisez la page et réessayez.",
+            "toastUpdated": "Compte mis à jour",
+            "validation": {
+                "firstNameRequired": "Veuillez saisir votre prénom.",
+                "firstNameMax": "Le prénom ne doit pas dépasser 100 caractères.",
+                "lastNameRequired": "Veuillez saisir votre nom.",
+                "lastNameMax": "Le nom ne doit pas dépasser 100 caractères.",
+                "emailInvalid": "Veuillez saisir une adresse e-mail valide.",
+                "phoneNumberMax": "Le numéro de téléphone ne doit pas dépasser 50 caractères.",
+                "birthDateRequired": "Veuillez sélectionner votre date de naissance.",
+                "genderRequired": "Veuillez sélectionner votre genre.",
+                "addressMax": "L'adresse ne doit pas dépasser 500 caractères.",
+                "languageMax": "La langue ne doit pas dépasser 20 caractères.",
+                "imageUrlInvalid": "Veuillez saisir une URL d'image valide."
+            }
+        },
+        "emailChange": {
+            "title": "Changer l'adresse e-mail",
+            "description": "Un code de confirmation à 4 chiffres sera envoyé à votre nouvelle adresse e-mail pour vérifier sa propriété. Vous serez déconnecté après le changement.",
+            "newEmailLabel": "Nouvelle adresse e-mail",
+            "newEmailPlaceholder": "votre-nouvel-email@exemple.com",
+            "sendButton": "Envoyer le code de confirmation",
+            "sendingButton": "Envoi du code...",
+            "codeSentToast": "Un code à 4 chiffres a été envoyé à {email}.",
+            "confirmTitle": "Confirmez votre nouvel e-mail",
+            "confirmDescription": "Saisissez le code à 4 chiffres envoyé à <bold>{email}</bold>.",
+            "codeLabel": "Code de confirmation",
+            "cancelButton": "Annuler",
+            "confirmButton": "Confirmer",
+            "confirmingButton": "Confirmation...",
+            "changedTitle": "E-mail modifié",
+            "changedDescription": "Votre e-mail a été mis à jour avec succès vers <bold>{email}</bold>. Vous serez déconnecté et redirigé vers la page de connexion dans <bold>{countdown}s</bold>.",
+            "signInNowButton": "Se connecter maintenant",
+            "validation": {
+                "newEmailInvalid": "Veuillez saisir une adresse e-mail valide.",
+                "codeLength": "Veuillez saisir le code à 4 chiffres."
+            }
+        },
+        "deleteDialog": {
+            "title": "Supprimer le compte",
+            "description1": "Cette action désactivera définitivement votre compte. Vous disposez de 30 jours pour le récupérer avant que toutes vos données ne soient effacées.",
+            "description2": "Saisissez votre mot de passe pour confirmer que vous êtes le propriétaire du compte.",
+            "emailLabel": "E-mail",
+            "passwordLabel": "Mot de passe",
+            "passwordPlaceholder": "Saisissez votre mot de passe",
+            "confirmButton": "Supprimer le compte",
+            "invalidPasswordToast": "Mot de passe invalide. Veuillez réessayer.",
+            "genericErrorToast": "Échec de la suppression de votre compte. Veuillez réessayer plus tard."
+        }
+    },
+    "SettingsAppearance": {
+        "metadataTitle": "Paramètres d'apparence",
+        "sectionTitle": "Apparence",
+        "sectionDescription": "Personnalisez l'apparence de l'application. Basculez automatiquement entre les thèmes jour et nuit.",
+        "form": {
+            "fontLabel": "Police",
+            "fontDescription": "Définissez la police que vous souhaitez utiliser dans le tableau de bord.",
+            "themeLabel": "Thème",
+            "themeDescription": "Sélectionnez le thème du tableau de bord.",
+            "themeSystem": "Système",
+            "themeLight": "Clair",
+            "themeDark": "Sombre",
+            "submitDefault": "Mettre à jour les préférences",
+            "submitPending": "Mise à jour...",
+            "loadError": "Impossible de charger vos préférences. Actualisez la page et réessayez.",
+            "toastUpdated": "Préférences mises à jour"
+        }
+    },
+    "SettingsNotifications": {
+        "metadataTitle": "Paramètres de notification",
+        "sectionTitle": "Notifications",
+        "sectionDescription": "Configurez la façon dont vous recevez les notifications.",
+        "form": {
+            "notifyLabel": "M'avertir de...",
+            "typeAll": "Tous les nouveaux messages",
+            "typeMentions": "Messages directs et mentions",
+            "typeNone": "Rien",
+            "emailNotificationsTitle": "Notifications par e-mail",
+            "communicationLabel": "E-mails de communication",
+            "communicationDescription": "Recevez des e-mails sur l'activité de votre compte.",
+            "marketingLabel": "E-mails marketing",
+            "marketingDescription": "Recevez des e-mails sur les nouveaux produits, fonctionnalités et plus encore.",
+            "socialLabel": "E-mails sociaux",
+            "socialDescription": "Recevez des e-mails pour les demandes d'ami, les abonnements et plus encore.",
+            "securityLabel": "E-mails de sécurité",
+            "securityDescription": "Recevez des e-mails sur l'activité et la sécurité de votre compte.",
+            "mobileLabel": "Utiliser des paramètres différents pour mes appareils mobiles",
+            "mobileDescription": "Vous pouvez gérer vos notifications mobiles dans la page <link>paramètres mobiles</link>.",
+            "submit": "Mettre à jour les notifications",
+            "validation": {
+                "typeRequired": "Veuillez sélectionner un type de notification."
+            }
+        }
+    },
+    "SettingsDisplay": {
+        "metadataTitle": "Paramètres d'affichage",
+        "sectionTitle": "Affichage",
+        "sectionDescription": "Activez ou désactivez des éléments pour contrôler ce qui est affiché dans l'application.",
+        "form": {
+            "sidebarLabel": "Barre latérale",
+            "sidebarDescription": "Sélectionnez les éléments que vous souhaitez afficher dans la barre latérale.",
+            "items": {
+                "recents": "Récents",
+                "home": "Accueil",
+                "applications": "Applications",
+                "desktop": "Bureau",
+                "downloads": "Téléchargements",
+                "documents": "Documents"
+            },
+            "atLeastOneError": "Vous devez sélectionner au moins un élément.",
+            "submit": "Mettre à jour l'affichage"
         }
     }
 }

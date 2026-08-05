@@ -15,6 +15,7 @@ import {
     useGetCurrentUserPreferences,
     useUpdateCurrentUserPreferences,
 } from "@api-client";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { handleServerError } from "@/lib/handle-server-error";
 import {
@@ -110,6 +111,7 @@ function ThemeItem({
 }
 
 export function AppearanceForm() {
+    const t = useTranslations("SettingsAppearance.form");
     const queryClient = useQueryClient();
     const { setFont } = useFont();
     const { setTheme } = useTheme();
@@ -142,7 +144,7 @@ export function AppearanceForm() {
                                   }
                                 : currentUser
                     );
-                    toast.success("Preferences updated");
+                    toast.success(t("toastUpdated"));
                 },
                 onError: handleServerError,
             },
@@ -179,9 +181,7 @@ export function AppearanceForm() {
 
     if (isPreferencesError) {
         return (
-            <p className="text-sm text-muted-foreground">
-                Unable to load your preferences. Refresh the page and try again.
-            </p>
+            <p className="text-sm text-muted-foreground">{t("loadError")}</p>
         );
     }
 
@@ -193,7 +193,7 @@ export function AppearanceForm() {
                     name="font"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Font</FormLabel>
+                            <FormLabel>{t("fontLabel")}</FormLabel>
                             <div className="relative w-max">
                                 <FormControl>
                                     <select
@@ -216,7 +216,7 @@ export function AppearanceForm() {
                                 <ChevronDownIcon className="absolute end-3 top-2.5 h-4 w-4 opacity-50" />
                             </div>
                             <FormDescription className="font-manrope">
-                                Set the font you want to use in the dashboard.
+                                {t("fontDescription")}
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -227,9 +227,9 @@ export function AppearanceForm() {
                     name="theme"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Theme</FormLabel>
+                            <FormLabel>{t("themeLabel")}</FormLabel>
                             <FormDescription>
-                                Select the theme for the dashboard.
+                                {t("themeDescription")}
                             </FormDescription>
                             <FormMessage />
                             <RadioGroup
@@ -239,7 +239,7 @@ export function AppearanceForm() {
                             >
                                 <ThemeItem
                                     value="system"
-                                    label="System"
+                                    label={t("themeSystem")}
                                     previewClassName="hover:border-accent"
                                 >
                                     <div className="space-y-2 rounded-sm bg-linear-to-r from-[#ecedef] to-slate-950 p-2">
@@ -252,13 +252,13 @@ export function AppearanceForm() {
                                             <div className="h-2 w-[100px] rounded-lg bg-slate-400" />
                                         </div>
                                         <div className="rounded-md border border-white/30 px-2 py-1 text-center text-xs font-medium text-white">
-                                            System
+                                            {t("themeSystem")}
                                         </div>
                                     </div>
                                 </ThemeItem>
                                 <ThemeItem
                                     value="light"
-                                    label="Light"
+                                    label={t("themeLight")}
                                     previewClassName="hover:border-accent"
                                 >
                                     <div className="space-y-2 rounded-sm bg-[#ecedef] p-2">
@@ -278,7 +278,7 @@ export function AppearanceForm() {
                                 </ThemeItem>
                                 <ThemeItem
                                     value="dark"
-                                    label="Dark"
+                                    label={t("themeDark")}
                                     previewClassName="bg-popover hover:bg-accent hover:text-accent-foreground"
                                 >
                                     <div className="space-y-2 rounded-sm bg-slate-950 p-2">
@@ -303,8 +303,8 @@ export function AppearanceForm() {
 
                 <Button type="submit" disabled={isUpdatingPreferences}>
                     {isUpdatingPreferences
-                        ? "Updating..."
-                        : "Update preferences"}
+                        ? t("submitPending")
+                        : t("submitDefault")}
                 </Button>
             </form>
         </Form>

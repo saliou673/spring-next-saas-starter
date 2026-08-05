@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ContentSection } from "../components/content-section";
@@ -9,12 +10,13 @@ import { DeleteAccountDialog } from "./delete-account-dialog";
 import { EmailChangeSection } from "./email-change-section";
 
 export function SettingsAccount() {
+    const t = useTranslations("SettingsAccount");
     const [deleteOpen, setDeleteOpen] = useState(false);
 
     return (
         <ContentSection
-            title="Account"
-            desc="Update the personal and account information stored for your user."
+            title={t("sectionTitle")}
+            desc={t("sectionDescription")}
         >
             <div className="space-y-10">
                 <AccountForm />
@@ -26,12 +28,10 @@ export function SettingsAccount() {
                     <Separator />
                     <div>
                         <h4 className="text-sm font-medium text-destructive">
-                            Danger Zone
+                            {t("dangerZoneTitle")}
                         </h4>
                         <p className="mt-1 text-sm text-muted-foreground">
-                            Deleting your account is reversible within 30 days.
-                            After that, all your data will be permanently
-                            erased.
+                            {t("dangerZoneDescription")}
                         </p>
                     </div>
                     <Button
@@ -39,7 +39,7 @@ export function SettingsAccount() {
                         size="sm"
                         onClick={() => setDeleteOpen(true)}
                     >
-                        Delete account
+                        {t("deleteAccountButton")}
                     </Button>
                 </div>
                 <DeleteAccountDialog

@@ -4,6 +4,17 @@
         "english": "English",
         "french": "French"
     },
+    "Settings": {
+        "pageTitle": "Settings",
+        "description": "Manage your account settings and set e-mail preferences.",
+        "nav": {
+            "profile": "Profile",
+            "account": "Account",
+            "appearance": "Appearance",
+            "notifications": "Notifications",
+            "display": "Display"
+        }
+    },
     "SettingsProfile": {
         "pageTitle": "Settings",
         "sectionTitle": "Profile",
@@ -205,6 +216,159 @@
                 "nameRequired": "Name is required.",
                 "permissionRequired": "Select at least one permission."
             }
+        }
+    },
+    "SettingsAccount": {
+        "metadataTitle": "Account Settings",
+        "sectionTitle": "Account",
+        "sectionDescription": "Update the personal and account information stored for your user.",
+        "dangerZoneTitle": "Danger Zone",
+        "dangerZoneDescription": "Deleting your account is reversible within 30 days. After that, all your data will be permanently erased.",
+        "deleteAccountButton": "Delete account",
+        "form": {
+            "fields": {
+                "firstName": "First name",
+                "firstNamePlaceholder": "Enter your first name",
+                "lastName": "Last name",
+                "lastNamePlaceholder": "Enter your last name",
+                "email": "Email",
+                "emailDescription": "Email is managed separately and cannot be changed from this page.",
+                "phoneNumber": "Phone number",
+                "phoneNumberPlaceholder": "Enter your phone number",
+                "phoneNumberDescription": "Add a contact number for account-related communication.",
+                "birthDate": "Birth date",
+                "birthDatePlaceholder": "Select your birth date",
+                "birthDateDescription": "Used as part of your account profile.",
+                "gender": "Gender",
+                "genderPlaceholder": "Select gender",
+                "genderDescription": "This value is stored on your account.",
+                "genderMale": "Male",
+                "genderFemale": "Female",
+                "language": "Language",
+                "languagePlaceholder": "Select or type a language code",
+                "languageDescription": "Stored as a language code such as `en` or `fr`.",
+                "languageEnglish": "English",
+                "languageFrench": "French",
+                "imageUrl": "Profile image URL",
+                "imageUrlPlaceholder": "https://example.com/avatar.png",
+                "imageUrlDescription": "Use a public image URL for your avatar.",
+                "address": "Address",
+                "addressPlaceholder": "Enter your address",
+                "addressDescription": "This address is stored on your account profile."
+            },
+            "submitDefault": "Update account",
+            "submitPending": "Saving changes...",
+            "loadError": "Unable to load account details. Refresh the page and try again.",
+            "toastUpdated": "Account updated",
+            "validation": {
+                "firstNameRequired": "Please enter your first name.",
+                "firstNameMax": "First name must not be longer than 100 characters.",
+                "lastNameRequired": "Please enter your last name.",
+                "lastNameMax": "Last name must not be longer than 100 characters.",
+                "emailInvalid": "Please enter a valid email.",
+                "phoneNumberMax": "Phone number must not be longer than 50 characters.",
+                "birthDateRequired": "Please select your birth date.",
+                "genderRequired": "Please select your gender.",
+                "addressMax": "Address must not be longer than 500 characters.",
+                "languageMax": "Language must not be longer than 20 characters.",
+                "imageUrlInvalid": "Please enter a valid image URL."
+            }
+        },
+        "emailChange": {
+            "title": "Change email address",
+            "description": "A 4-digit confirmation code will be sent to your new email address to verify ownership. You will be signed out after the change.",
+            "newEmailLabel": "New email address",
+            "newEmailPlaceholder": "your-new-email@example.com",
+            "sendButton": "Send confirmation code",
+            "sendingButton": "Sending code...",
+            "codeSentToast": "A 4-digit code has been sent to {email}.",
+            "confirmTitle": "Confirm your new email",
+            "confirmDescription": "Enter the 4-digit code sent to <bold>{email}</bold>.",
+            "codeLabel": "Confirmation code",
+            "cancelButton": "Cancel",
+            "confirmButton": "Confirm",
+            "confirmingButton": "Confirming...",
+            "changedTitle": "Email changed",
+            "changedDescription": "Your email has been successfully updated to <bold>{email}</bold>. You will be signed out and redirected to the sign-in page in <bold>{countdown}s</bold>.",
+            "signInNowButton": "Sign in now",
+            "validation": {
+                "newEmailInvalid": "Please enter a valid email address.",
+                "codeLength": "Please enter the 4-digit code."
+            }
+        },
+        "deleteDialog": {
+            "title": "Delete account",
+            "description1": "This will permanently deactivate your account. You have 30 days to recover it before all your data is erased.",
+            "description2": "Enter your password to confirm you are the account owner.",
+            "emailLabel": "Email",
+            "passwordLabel": "Password",
+            "passwordPlaceholder": "Enter your password",
+            "confirmButton": "Delete account",
+            "invalidPasswordToast": "Invalid password. Please try again.",
+            "genericErrorToast": "Failed to delete your account. Please try again later."
+        }
+    },
+    "SettingsAppearance": {
+        "metadataTitle": "Appearance Settings",
+        "sectionTitle": "Appearance",
+        "sectionDescription": "Customize the appearance of the app. Automatically switch between day and night themes.",
+        "form": {
+            "fontLabel": "Font",
+            "fontDescription": "Set the font you want to use in the dashboard.",
+            "themeLabel": "Theme",
+            "themeDescription": "Select the theme for the dashboard.",
+            "themeSystem": "System",
+            "themeLight": "Light",
+            "themeDark": "Dark",
+            "submitDefault": "Update preferences",
+            "submitPending": "Updating...",
+            "loadError": "Unable to load your preferences. Refresh the page and try again.",
+            "toastUpdated": "Preferences updated"
+        }
+    },
+    "SettingsNotifications": {
+        "metadataTitle": "Notification Settings",
+        "sectionTitle": "Notifications",
+        "sectionDescription": "Configure how you receive notifications.",
+        "form": {
+            "notifyLabel": "Notify me about...",
+            "typeAll": "All new messages",
+            "typeMentions": "Direct messages and mentions",
+            "typeNone": "Nothing",
+            "emailNotificationsTitle": "Email Notifications",
+            "communicationLabel": "Communication emails",
+            "communicationDescription": "Receive emails about your account activity.",
+            "marketingLabel": "Marketing emails",
+            "marketingDescription": "Receive emails about new products, features, and more.",
+            "socialLabel": "Social emails",
+            "socialDescription": "Receive emails for friend requests, follows, and more.",
+            "securityLabel": "Security emails",
+            "securityDescription": "Receive emails about your account activity and security.",
+            "mobileLabel": "Use different settings for my mobile devices",
+            "mobileDescription": "You can manage your mobile notifications in the <link>mobile settings</link> page.",
+            "submit": "Update notifications",
+            "validation": {
+                "typeRequired": "Please select a notification type."
+            }
+        }
+    },
+    "SettingsDisplay": {
+        "metadataTitle": "Display Settings",
+        "sectionTitle": "Display",
+        "sectionDescription": "Turn items on or off to control what's displayed in the app.",
+        "form": {
+            "sidebarLabel": "Sidebar",
+            "sidebarDescription": "Select the items you want to display in the sidebar.",
+            "items": {
+                "recents": "Recents",
+                "home": "Home",
+                "applications": "Applications",
+                "desktop": "Desktop",
+                "downloads": "Downloads",
+                "documents": "Documents"
+            },
+            "atLeastOneError": "You have to select at least one item.",
+            "submit": "Update display"
         }
     }
 }

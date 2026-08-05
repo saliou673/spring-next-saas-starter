@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useConfirmEmailChange, useRequestEmailChange } from "@api-client";
 import { CheckCircle2Icon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { handleServerError } from "@/lib/handle-server-error";
 import { Button } from "@/components/ui/button";
@@ -32,18 +33,26 @@ import {
     InputOTPSlot,
 } from "@/components/ui/input-otp";
 
-const requestSchema = z.object({
-    newEmail: z.email("Please enter a valid email address."),
-});
+function createRequestSchema(t: ReturnType<typeof useTranslations>) {
+    return z.object({
+        newEmail: z.email(t("newEmailInvalid")),
+    });
+}
 
-const confirmSchema = z.object({
-    code: z.string().length(4, "Please enter the 4-digit code."),
-});
+function createConfirmSchema(t: ReturnType<typeof useTranslations>) {
+    return z.object({
+        code: z.string().length(4, t("codeLength")),
+    });
+}
 
-type RequestFormValues = z.infer<typeof requestSchema>;
-type ConfirmFormValues = z.infer<typeof confirmSchema>;
+type RequestFormValues = z.infer<ReturnType<typeof createRequestSchema>>;
+type ConfirmFormValues = z.infer<ReturnType<typeof createConfirmSchema>>;
 
 export function EmailChangeSection() {
+    const t = useTranslations("SettingsAccount.emailChange");
+    const tValidation = useTranslations(
+        "SettingsAccount.emailChange.validation"
+    );
     const [otpOpen, setOtpOpen] = useState(false);
     const [pendingEmail, setPendingEmail] = useState("");
     const [confirmed, setConfirmed] = useState(false);
@@ -58,6 +67,15 @@ export function EmailChangeSection() {
         const timer = setTimeout(() => setCountdown((c) => c - 1), 1000);
         return () => clearTimeout(timer);
     }, [confirmed, countdown]);
+
+    const requestSchema = useMemo(
+        () => createRequestSchema(tValidation),
+        [tValidation]
+    );
+    const confirmSchema = useMemo(
+        () => createConfirmSchema(tValidation),
+        [tValidation]
+    );
 
     const requestForm = useForm<RequestFormValues>({
         resolver: zodResolver(requestSchema),
@@ -74,7 +92,9 @@ export function EmailChangeSection() {
             onSuccess: () => {
                 setOtpOpen(true);
                 toast.success(
-                    `A 4-digit code has been sent to ${requestForm.getValues("newEmail")}.`
+                    t("codeSentToast", {
+                        email: requestForm.getValues("newEmail"),
+                    })
                 );
             },
             onError: handleServerError,
@@ -112,13 +132,9 @@ export function EmailChangeSection() {
         <>
             <div className="space-y-4">
                 <div>
-                    <h4 className="text-sm font-medium">
-                        Change email address
-                    </h4>
+                    <h4 className="text-sm font-medium">{t("title")}</h4>
                     <p className="mt-1 text-sm text-muted-foreground">
-                        A 4-digit confirmation code will be sent to your new
-                        email address to verify ownership. You will be signed
-                        out after the change.
+                        {t("description")}
                     </p>
                 </div>
                 <Form {...requestForm}>
@@ -131,11 +147,15 @@ export function EmailChangeSection() {
                             name="newEmail"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>New email address</FormLabel>
+                                    <FormLabel>
+                                        {t("newEmailLabel")}
+                                    </FormLabel>
                                     <FormControl>
                                         <Input
                                             type="email"
-                                            placeholder="your-new-email@example.com"
+                                            placeholder={t(
+                                                "newEmailPlaceholder"
+                                            )}
                                             {...field}
                                         />
                                     </FormControl>
@@ -149,8 +169,8 @@ export function EmailChangeSection() {
                             disabled={requestMutation.isPending}
                         >
                             {requestMutation.isPending
-                                ? "Sending code..."
-                                : "Send confirmation code"}
+                                ? t("sendingButton")
+                                : t("sendButton")}
                         </Button>
                     </form>
                 </Form>
@@ -169,19 +189,18 @@ export function EmailChangeSection() {
                             <DialogHeader>
                                 <DialogTitle className="flex items-center gap-2">
                                     <CheckCircle2Icon className="size-5 text-green-500" />
-                                    Email changed
+                                    {t("changedTitle")}
                                 </DialogTitle>
                                 <DialogDescription>
-                                    Your email has been successfully updated to{" "}
-                                    <span className="font-medium text-foreground">
-                                        {pendingEmail}
-                                    </span>
-                                    . You will be signed out and redirected to
-                                    the sign-in page in{" "}
-                                    <span className="font-medium text-foreground">
-                                        {countdown}s
-                                    </span>
-                                    .
+                                    {t.rich("changedDescription", {
+                                        email: pendingEmail,
+                                        countdown,
+                                        bold: (chunks) => (
+                                            <span className="font-medium text-foreground">
+                                                {chunks}
+                                            </span>
+                                        ),
+                                    })}
                                 </DialogDescription>
                             </DialogHeader>
                             <DialogFooter>
@@ -190,7 +209,7 @@ export function EmailChangeSection() {
                                         window.location.href = "/sign-in";
                                     }}
                                 >
-                                    Sign in now
+                                    {t("signInNowButton")}
                                 </Button>
                             </DialogFooter>
                         </>
@@ -198,14 +217,17 @@ export function EmailChangeSection() {
                         <>
                             <DialogHeader>
                                 <DialogTitle>
-                                    Confirm your new email
+                                    {t("confirmTitle")}
                                 </DialogTitle>
                                 <DialogDescription>
-                                    Enter the 4-digit code sent to{" "}
-                                    <span className="font-medium text-foreground">
-                                        {pendingEmail}
-                                    </span>
-                                    .
+                                    {t.rich("confirmDescription", {
+                                        email: pendingEmail,
+                                        bold: (chunks) => (
+                                            <span className="font-medium text-foreground">
+                                                {chunks}
+                                            </span>
+                                        ),
+                                    })}
                                 </DialogDescription>
                             </DialogHeader>
                             <Form {...confirmForm}>
@@ -221,7 +243,7 @@ export function EmailChangeSection() {
                                         render={({ field }) => (
                                             <FormItem className="flex flex-col items-center">
                                                 <FormLabel className="sr-only">
-                                                    Confirmation code
+                                                    {t("codeLabel")}
                                                 </FormLabel>
                                                 <FormControl>
                                                     <InputOTP
@@ -256,15 +278,15 @@ export function EmailChangeSection() {
                                             onClick={handleCancel}
                                             disabled={confirmMutation.isPending}
                                         >
-                                            Cancel
+                                            {t("cancelButton")}
                                         </Button>
                                         <Button
                                             type="submit"
                                             disabled={confirmMutation.isPending}
                                         >
                                             {confirmMutation.isPending
-                                                ? "Confirming..."
-                                                : "Confirm"}
+                                                ? t("confirmingButton")
+                                                : t("confirmButton")}
                                         </Button>
                                     </DialogFooter>
                                 </form>
