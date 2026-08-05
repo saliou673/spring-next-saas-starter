@@ -56,7 +56,17 @@ focus on your product's actual domain from day one.
 - Rate limiting (Resilience4j) on auth and general API endpoints, independently configurable
 - API versioning via the `X-API-Version` header
 - Health checks (Spring Actuator) and Prometheus metrics (Micrometer)
-- Localized email templates and API messages (English/French)
+
+### Internationalization (i18n)
+
+The whole stack is internationalized (English/French out of the box):
+
+- **Backend** — domain exceptions, email templates, and API error messages are all localized. Locale is resolved
+  per-request from the `Accept-Language` header, or from the authenticated user's stored language preference when
+  connected (which takes precedence)
+- **Frontend** — the admin dashboard UI is fully internationalized via [next-intl](https://next-intl.dev/), with a
+  language switcher in the header that persists the chosen language to the user's account, so it's remembered across
+  sessions and devices
 
 ### Frontend (web)
 
@@ -64,7 +74,7 @@ A [shadcn/ui](https://ui.shadcn.com/)-based admin dashboard (built on top of the
 [shadcn-admin](https://github.com/satnaing/shadcn-admin) template) already wired to the backend:
 
 - Auth pages: sign in, sign up, OTP verification, forgot/recover password, invitation completion
-- Dashboard, user management, role groups, app configurations, tasks, chats, and an app directory
+- Dashboard, user management, role groups, and app configurations
 - Account settings: profile, notifications, appearance, display
 - Legal/informational pages: terms, privacy, cookie policy, help center, contact
 - Fully typed data layer via TanStack Query hooks generated from the backend OpenAPI spec — no hand-written HTTP
@@ -98,6 +108,7 @@ yet exposed through a full feature — they exist so you don't have to add the p
 | Frontend monorepo     | pnpm workspace (`frontend/`)                                                          |
 | Web app               | Next.js 16, React 19, TypeScript, Tailwind CSS 4, shadcn/ui (Radix primitives)         |
 | Web data layer        | TanStack Query, TanStack Table, Zustand, React Hook Form + Zod                        |
+| Internationalization  | Backend: Spring `MessageSource` (English/French) — Frontend: next-intl (English/French) |
 | API client codegen    | [Kubb](https://www.kubb.dev/) — generates a typed TanStack Query client from the backend's OpenAPI spec |
 | Mobile app            | Expo + React Native (scaffold)                                                        |
 | Local email testing   | [MailDev](https://github.com/maildev/maildev)                                         |
