@@ -5,7 +5,7 @@ package com.saasapp.domain.exceptions;
  */
 public class AccountExpiredException extends AuthFunctionalException {
 
-    public AccountExpiredException(String message) {
-        super(message);
+    public AccountExpiredException() {
+        super("error.auth.account-expired", "Your account has expired.");
     }
 }

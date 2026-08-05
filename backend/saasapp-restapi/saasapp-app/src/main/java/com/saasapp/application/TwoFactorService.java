@@ -93,15 +93,15 @@ public class TwoFactorService implements TwoFactorUseCase {
 
         TwoFactorChallenge challenge = challengePersistencePort
                 .findByUserIdAndPurpose(user.getId(), TwoFactorChallengePurpose.SETUP)
-                .orElseThrow(() -> new InvalidTwoFactorChallengeException("No pending 2FA setup challenge found"));
+                .orElseThrow(InvalidTwoFactorChallengeException::noPendingSetup);
 
         if (challenge.isExpired()) {
-            throw new InvalidTwoFactorChallengeException("2FA setup challenge has expired. Please initiate setup again.");
+            throw InvalidTwoFactorChallengeException.setupExpired();
         }
 
         TwoFactorProviderPort provider = getProvider(challenge.getType());
         if (!provider.verify(user, challenge.getCode(), code)) {
-            throw new InvalidTwoFactorChallengeException("Invalid 2FA code");
+            throw InvalidTwoFactorChallengeException.invalidCode();
         }
 
         challengePersistencePort.deleteById(challenge.getId());
@@ -118,11 +118,14 @@ public class TwoFactorService implements TwoFactorUseCase {
         User user = getCurrentUser();
 
         if (!user.isTwoFactorEnabled()) {
-            throw new FunctionalException("Two-factor authentication is not enabled for this account");
+            throw new FunctionalException(
+                    "error.two-factor.not-enabled",
+                    "Two-factor authentication is not enabled for this account."
+            );
         }
 
         if (!passwordHasherPort.matches(currentPassword, user.getUserCredentials().getPasswordHash())) {
-            throw new InvalidCurrentPasswordException("Invalid password");
+            throw new InvalidCurrentPasswordException();
         }
 
         challengePersistencePort.deleteByUserId(user.getId());
@@ -133,21 +136,21 @@ public class TwoFactorService implements TwoFactorUseCase {
     @Override
     public JwtToken verifyLoginChallenge(String challengeId, String code) {
         TwoFactorChallenge challenge = challengePersistencePort.findById(challengeId)
-                .orElseThrow(() -> new InvalidTwoFactorChallengeException("Invalid or expired 2FA challenge"));
+                .orElseThrow(InvalidTwoFactorChallengeException::notFoundOrExpired);
 
         if (!TwoFactorChallengePurpose.LOGIN.equals(challenge.getPurpose())) {
-            throw new InvalidTwoFactorChallengeException("Invalid 2FA challenge");
+            throw InvalidTwoFactorChallengeException.invalidPurpose();
         }
 
         if (challenge.isExpired()) {
-            throw new InvalidTwoFactorChallengeException("2FA challenge has expired. Please log in again.");
+            throw InvalidTwoFactorChallengeException.expired();
         }
 
         User user = challenge.getUser();
         TwoFactorProviderPort provider = getProvider(challenge.getType());
 
         if (!provider.verify(user, challenge.getCode(), code)) {
-            throw new InvalidTwoFactorChallengeException("Invalid 2FA code");
+            throw InvalidTwoFactorChallengeException.invalidCode();
         }
 
         challengePersistencePort.deleteById(challengeId);
@@ -168,7 +171,7 @@ public class TwoFactorService implements TwoFactorUseCase {
     private User getCurrentUser() {
         String email = currentUserEmailPort.getCurrentUserEmail();
         return userPersistencePort.findWithAuthoritiesByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
+                .orElseThrow(() -> new UserNotFoundException(email));
     }
 
     private TwoFactorProviderPort getProvider(TwoFactorMethodType type) {

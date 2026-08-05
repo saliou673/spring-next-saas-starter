@@ -5,7 +5,7 @@ package com.saasapp.domain.exceptions;
  */
 public class InvalidCredentialsException extends AuthFunctionalException {
 
-    public InvalidCredentialsException(String message) {
-        super(message);
+    public InvalidCredentialsException() {
+        super("error.auth.invalid-credentials", "Incorrect email or password.");
     }
 }

@@ -13,7 +13,7 @@ public record Email(String value) {
 
     public Email {
         if (!EMAIL_PATTERN.matcher(value).matches()) {
-            throw new InvalidUserNameException("Invalid email format");
+            throw new InvalidUserNameException(value);
         }
 
         value = value.toLowerCase();

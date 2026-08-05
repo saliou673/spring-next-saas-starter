@@ -5,7 +5,10 @@ package com.saasapp.domain.exceptions;
  * and the user has not yet configured 2FA on their account.
  */
 public class TwoFactorSetupRequiredException extends AuthFunctionalException {
-    public TwoFactorSetupRequiredException(String message) {
-        super(message);
+    public TwoFactorSetupRequiredException() {
+        super(
+                "error.auth.two-factor-setup-required",
+                "Two-factor authentication is required for all users. Please set up 2FA before logging in."
+        );
     }
 }

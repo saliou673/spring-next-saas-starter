@@ -6,7 +6,7 @@ package com.saasapp.domain.exceptions;
  * Use this to group auth-related functional errors and handle them consistently.
  */
 public class AuthFunctionalException extends FunctionalException {
-    public AuthFunctionalException(String message) {
-        super(message);
+    protected AuthFunctionalException(String code, String message, Object... args) {
+        super(code, message, args);
     }
 }

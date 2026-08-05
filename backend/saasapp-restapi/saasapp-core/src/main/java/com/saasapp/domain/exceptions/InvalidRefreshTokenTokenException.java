@@ -5,7 +5,7 @@ package com.saasapp.domain.exceptions;
  */
 public class InvalidRefreshTokenTokenException extends FunctionalException {
 
-    public InvalidRefreshTokenTokenException(String message) {
-        super(message);
+    public InvalidRefreshTokenTokenException() {
+        super("error.auth.refresh-token-invalid-token", "The refresh token is invalid.");
     }
 }

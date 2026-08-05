@@ -60,22 +60,22 @@ public class JwtTokenAdapter implements JwtTokenPort {
 
         } catch (BadCredentialsException e) {
             log.error("Authentication failed: Invalid username or password", e);
-            throw new InvalidCredentialsException("Nom d'utilisateur ou mot de passe incorrect");
+            throw new InvalidCredentialsException();
         } catch (LockedException e) {
             log.error("Authentication failed: Account is locked", e);
-            throw new AccountLockedException("Le compte est verrouillé");
+            throw new AccountLockedException();
         } catch (DisabledException e) {
             log.error("Authentication failed: Account is disabled", e);
-            throw new AccountDisabledException("Le compte est désactivé");
+            throw new AccountDisabledException();
         } catch (AccountExpiredException e) {
             log.error("Authentication failed: Account has expired", e);
-            throw new AccountExpiredException("Le compte a expiré");
+            throw new AccountExpiredException();
         } catch (CredentialsExpiredException e) {
             log.error("Authentication failed: Credentials have expired", e);
-            throw new CredentialsExpiredException("Les identifiants ont expiré");
+            throw new CredentialsExpiredException();
         } catch (AuthenticationException e) {
             log.error("Authentication failed: {}", e.getMessage(), e);
-            throw new AuthenticationFailedException("Échec de l'authentification: " + e.getMessage());
+            throw new AuthenticationFailedException(e.getMessage());
         }
     }
 

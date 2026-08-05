@@ -44,7 +44,7 @@ public class RoleGroupService implements RoleGroupUseCase {
     @Transactional(readOnly = true)
     public RoleGroup getById(Long id) {
         return roleGroupPersistencePort.findById(id)
-                .orElseThrow(() -> new RoleGroupNotFoundException("Role group not found with id: " + id));
+                .orElseThrow(() -> new RoleGroupNotFoundException(id));
     }
 
     @Override
@@ -52,7 +52,7 @@ public class RoleGroupService implements RoleGroupUseCase {
         log.debug("Creating role group: name={}", name);
 
         if (roleGroupPersistencePort.existsByName(name)) {
-            throw new RoleGroupNameAlreadyExistsException("Role group with name '" + name + "' already exists");
+            throw new RoleGroupNameAlreadyExistsException(name);
         }
 
         Set<Permission> permissions = permissionPersistencePort.findByCodes(permissionCodes);
@@ -67,7 +67,7 @@ public class RoleGroupService implements RoleGroupUseCase {
         RoleGroup roleGroup = getById(id);
 
         if (!roleGroup.getName().equals(name) && roleGroupPersistencePort.existsByName(name)) {
-            throw new RoleGroupNameAlreadyExistsException("Role group with name '" + name + "' already exists");
+            throw new RoleGroupNameAlreadyExistsException(name);
         }
 
         Set<Permission> permissions = permissionPersistencePort.findByCodes(permissionCodes);

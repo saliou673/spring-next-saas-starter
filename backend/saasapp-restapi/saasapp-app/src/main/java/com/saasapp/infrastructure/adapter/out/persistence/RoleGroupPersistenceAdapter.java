@@ -99,9 +99,9 @@ public class RoleGroupPersistenceAdapter implements RoleGroupPersistencePort {
     public void assignToUser(Long userId, Long roleGroupId) {
         AdapterPersistenceUtils.executeDbOperation(() -> {
             UserEntity user = userRepository.findById(userId)
-                    .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
+                    .orElseThrow(() -> new UserNotFoundException(userId));
             RoleGroupEntity roleGroup = roleGroupRepository.findById(roleGroupId)
-                    .orElseThrow(() -> new RoleGroupNotFoundException("Role group not found with id: " + roleGroupId));
+                    .orElseThrow(() -> new RoleGroupNotFoundException(roleGroupId));
             user.getRoleGroups().add(roleGroup);
             userRepository.save(user);
         }, "Error assigning role group to user");
@@ -112,9 +112,9 @@ public class RoleGroupPersistenceAdapter implements RoleGroupPersistencePort {
     public void revokeFromUser(Long userId, Long roleGroupId) {
         AdapterPersistenceUtils.executeDbOperation(() -> {
             UserEntity user = userRepository.findById(userId)
-                    .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
+                    .orElseThrow(() -> new UserNotFoundException(userId));
             RoleGroupEntity roleGroup = roleGroupRepository.findById(roleGroupId)
-                    .orElseThrow(() -> new RoleGroupNotFoundException("Role group not found with id: " + roleGroupId));
+                    .orElseThrow(() -> new RoleGroupNotFoundException(roleGroupId));
             user.getRoleGroups().remove(roleGroup);
             userRepository.save(user);
         }, "Error revoking role group from user");

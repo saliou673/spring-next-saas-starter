@@ -5,7 +5,7 @@ package com.saasapp.domain.exceptions;
  */
 public class AccountDisabledException extends AuthFunctionalException {
 
-    public AccountDisabledException(String message) {
-        super(message);
+    public AccountDisabledException() {
+        super("error.auth.account-disabled", "Your account is disabled.");
     }
 }

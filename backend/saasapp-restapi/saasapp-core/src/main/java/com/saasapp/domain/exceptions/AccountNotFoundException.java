@@ -5,7 +5,7 @@ package com.saasapp.domain.exceptions;
  */
 public class AccountNotFoundException extends AuthFunctionalException {
 
-    public AccountNotFoundException(String message) {
-        super(message);
+    public AccountNotFoundException(String email) {
+        super("error.auth.account-not-found", "No account found for " + email + ".", email);
     }
 }

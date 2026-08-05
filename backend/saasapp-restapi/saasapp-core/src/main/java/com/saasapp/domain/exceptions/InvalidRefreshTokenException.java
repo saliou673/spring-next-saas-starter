@@ -3,8 +3,8 @@ package com.saasapp.domain.exceptions;
 /**
  * Thrown when a refresh token is not found or is otherwise invalid.
  */
-public class InvalidRefreshTokenException extends RuntimeException {
+public class InvalidRefreshTokenException extends FunctionalException {
     public InvalidRefreshTokenException() {
-        super("Invalid refresh token");
+        super("error.auth.invalid-refresh-token", "Invalid refresh token.");
     }
 }

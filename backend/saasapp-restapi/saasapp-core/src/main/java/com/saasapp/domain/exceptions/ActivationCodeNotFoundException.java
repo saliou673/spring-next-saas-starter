@@ -5,7 +5,11 @@ package com.saasapp.domain.exceptions;
  */
 public class ActivationCodeNotFoundException extends FunctionalException {
 
-    public ActivationCodeNotFoundException(String message) {
-        super(message);
+    public ActivationCodeNotFoundException(String activationCode) {
+        super(
+                "error.auth.activation-code-not-found",
+                "No account found for activation code " + activationCode + ".",
+                activationCode
+        );
     }
 }

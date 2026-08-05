@@ -5,7 +5,7 @@ package com.saasapp.domain.exceptions;
  */
 public class AccountLockedException extends AuthFunctionalException {
 
-    public AccountLockedException(String message) {
-        super(message);
+    public AccountLockedException() {
+        super("error.auth.account-locked", "Your account is locked.");
     }
 }

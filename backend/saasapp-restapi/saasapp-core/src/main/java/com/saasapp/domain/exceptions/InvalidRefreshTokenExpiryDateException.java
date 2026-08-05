@@ -5,7 +5,7 @@ package com.saasapp.domain.exceptions;
  */
 public class InvalidRefreshTokenExpiryDateException extends FunctionalException {
 
-    public InvalidRefreshTokenExpiryDateException(String message) {
-        super(message);
+    public InvalidRefreshTokenExpiryDateException() {
+        super("error.auth.refresh-token-invalid-expiry", "The refresh token expiry date is invalid.");
     }
 }

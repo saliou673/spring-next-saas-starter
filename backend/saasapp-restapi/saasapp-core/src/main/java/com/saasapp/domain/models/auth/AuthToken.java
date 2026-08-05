@@ -46,16 +46,16 @@ public class AuthToken {
 
     private AuthToken(Long id, String accessToken, String refreshToken, Boolean rememberMe, Instant expiryDate, User user, Instant creationDate) {
         if (StringUtils.isBlank(accessToken)) {
-            throw new InvalidRefreshTokenTokenException("Access token must not be null or blank");
+            throw new InvalidRefreshTokenTokenException();
         }
         if (StringUtils.isBlank(refreshToken)) {
-            throw new InvalidRefreshTokenTokenException("Refresh token must not be null or blank");
+            throw new InvalidRefreshTokenTokenException();
         }
         if (expiryDate == null) {
-            throw new InvalidRefreshTokenExpiryDateException("Refresh token expiry date must not be null");
+            throw new InvalidRefreshTokenExpiryDateException();
         }
         if (user == null) {
-            throw new InvalidRefreshTokenUserException("Refresh token user must not be null");
+            throw new InvalidRefreshTokenUserException();
         }
 
         this.id = id;
@@ -89,14 +89,14 @@ public class AuthToken {
 
     public void updateExpiryDate(@NonNull Instant newExpiryDate) {
         if (newExpiryDate.isBefore(Instant.now())) {
-            throw new InvalidRefreshTokenExpiryDateException("Refresh token expiry date must be in the future");
+            throw new InvalidRefreshTokenExpiryDateException();
         }
         this.expiryDate = newExpiryDate;
     }
 
     public void updateAccessToken(String newAccessToken) {
         if (StringUtils.isBlank(newAccessToken)) {
-            throw new InvalidRefreshTokenTokenException("Access token must not be null or blank");
+            throw new InvalidRefreshTokenTokenException();
         }
         this.accessToken = newAccessToken;
     }

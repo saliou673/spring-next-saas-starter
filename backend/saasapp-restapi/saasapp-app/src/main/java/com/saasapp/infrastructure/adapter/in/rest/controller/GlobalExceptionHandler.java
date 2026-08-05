@@ -3,7 +3,10 @@ package com.saasapp.infrastructure.adapter.in.rest.controller;
 
 import com.saasapp.domain.exceptions.*;
 import com.saasapp.infrastructure.adapter.in.rest.controller.dto.ValidationErrorResponseDTO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -19,11 +22,20 @@ import java.util.Map;
 
 
 /**
- * Translates domain and validation exceptions into structured HTTP error responses.
+ * Translates domain and validation exceptions into structured, localized HTTP error responses.
+ * <p>
+ * Domain exceptions ({@link FunctionalException}, {@link TechnicalException}) carry a stable
+ * {@link LocalizedError#getCode() message code} and {@link LocalizedError#getArgs() args} rather
+ * than a display-ready string, so the domain layer stays free of any i18n framework dependency.
+ * This adapter is where the code+args pair is resolved to a locale-specific message, using the
+ * incoming request's resolved {@link java.util.Locale} (see {@code LocaleConfiguration}).
  */
 @Slf4j
 @RestControllerAdvice
+@RequiredArgsConstructor
 public class GlobalExceptionHandler {
+
+    private final MessageSource messageSource;
 
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<String> handleInvalidImage(ResponseStatusException ex) {
@@ -35,26 +47,40 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidRefreshTokenException.class)
     public ResponseEntity<ValidationErrorResponseDTO> handleInvalidRefreshToken(InvalidRefreshTokenException ex) {
         logError(ex);
-        return buildErrorResponse(HttpStatus.UNAUTHORIZED, "Invalid Refresh Token", ex.getMessage());
+        return buildErrorResponse(HttpStatus.UNAUTHORIZED, "Invalid Refresh Token", resolveMessage(ex));
     }
 
     @ExceptionHandler(TwoFactorSetupRequiredException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ResponseEntity<ValidationErrorResponseDTO> handleTwoFactorSetupRequired(TwoFactorSetupRequiredException ex) {
         logError(ex);
-        return buildErrorResponse(HttpStatus.FORBIDDEN, "2FA Setup Required", ex.getMessage());
+        return buildErrorResponse(HttpStatus.FORBIDDEN, "2FA Setup Required", resolveMessage(ex));
     }
 
     @ExceptionHandler(AuthFunctionalException.class)
     public ResponseEntity<ValidationErrorResponseDTO> handleAuthenticationExceptions(AuthFunctionalException ex) {
         logError(ex);
-        return buildErrorResponse(HttpStatus.UNAUTHORIZED, "Authentication Error", ex.getMessage());
+        return buildErrorResponse(HttpStatus.UNAUTHORIZED, "Authentication Error", resolveMessage(ex));
+    }
+
+    @ExceptionHandler(UserAlreadyActivatedException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseEntity<ValidationErrorResponseDTO> handleUserAlreadyActivated(UserAlreadyActivatedException ex) {
+        logError(ex);
+        return buildErrorResponse(HttpStatus.CONFLICT, "User Error", resolveMessage(ex));
     }
 
     @ExceptionHandler(FunctionalException.class)
     public ResponseEntity<ValidationErrorResponseDTO> handleUserException(FunctionalException ex) {
         logError(ex);
-        return buildErrorResponse(HttpStatus.BAD_REQUEST, "Business Error", ex.getMessage());
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, "Business Error", resolveMessage(ex));
+    }
+
+    @ExceptionHandler(TechnicalException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<ValidationErrorResponseDTO> handleTechnicalException(TechnicalException ex) {
+        logError(ex);
+        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Technical Error", resolveMessage(ex));
     }
 
 
@@ -90,6 +116,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Resolves a {@link LocalizedError}'s message code + args to the current request locale,
+     * falling back to the exception's own (English) message if no translation is found.
+     */
+    private <T extends RuntimeException & LocalizedError> String resolveMessage(T ex) {
+        return messageSource.getMessage(ex.getCode(), ex.getArgs(), ex.getMessage(), LocaleContextHolder.getLocale());
+    }
+
     private ResponseEntity<ValidationErrorResponseDTO> buildErrorResponse(
             HttpStatus status,
             String title,
@@ -112,28 +146,28 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public ResponseEntity<ValidationErrorResponseDTO> handleAlreadyExists(UserAlreadyExistsException ex) {
         logError(ex);
-        return buildErrorResponse(HttpStatus.CONFLICT, "User Error", ex.getMessage());
+        return buildErrorResponse(HttpStatus.CONFLICT, "User Error", resolveMessage(ex));
     }
 
     @ExceptionHandler(TwoFactorAlreadyEnabledException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ResponseEntity<ValidationErrorResponseDTO> handleTwoFactorAlreadyEnabled(TwoFactorAlreadyEnabledException ex) {
         logError(ex);
-        return buildErrorResponse(HttpStatus.CONFLICT, "2FA Error", ex.getMessage());
+        return buildErrorResponse(HttpStatus.CONFLICT, "2FA Error", resolveMessage(ex));
     }
 
     @ExceptionHandler(RoleGroupNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ValidationErrorResponseDTO> handleRoleGroupNotFound(RoleGroupNotFoundException ex) {
         logError(ex);
-        return buildErrorResponse(HttpStatus.NOT_FOUND, "Role Group Error", ex.getMessage());
+        return buildErrorResponse(HttpStatus.NOT_FOUND, "Role Group Error", resolveMessage(ex));
     }
 
     @ExceptionHandler(RoleGroupNameAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ResponseEntity<ValidationErrorResponseDTO> handleRoleGroupNameConflict(RoleGroupNameAlreadyExistsException ex) {
         logError(ex);
-        return buildErrorResponse(HttpStatus.CONFLICT, "Role Group Error", ex.getMessage());
+        return buildErrorResponse(HttpStatus.CONFLICT, "Role Group Error", resolveMessage(ex));
     }
 
     private static void logError(Exception ex) {

@@ -5,7 +5,7 @@ package com.saasapp.domain.exceptions;
  */
 public class AccountNotActivatedException extends AuthFunctionalException {
 
-    public AccountNotActivatedException(String message) {
-        super(message);
+    public AccountNotActivatedException(String email) {
+        super("error.auth.account-not-activated", "The account for " + email + " is not activated.", email);
     }
 }

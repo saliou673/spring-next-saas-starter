@@ -28,9 +28,7 @@ public class AppConfigurationService implements AppConfigurationUseCase {
     public AppConfiguration create(AppConfigurationCategory category, String code, String label, String description) {
         log.debug("Creating reference data: category={}, code={}", category, code);
         if (appConfigurationPersistencePort.existsByCategoryAndCode(category, code)) {
-            throw new AppConfigurationAlreadyExistsException(
-                    "Reference data with category " + category + " and code " + code + " already exists"
-            );
+            throw new AppConfigurationAlreadyExistsException(category, code);
         }
         AppConfiguration appConfiguration = AppConfiguration.create(category, code, label, description);
         return appConfigurationPersistencePort.save(appConfiguration);
@@ -40,12 +38,10 @@ public class AppConfigurationService implements AppConfigurationUseCase {
     public AppConfiguration update(Long id, String code, String label, String description, boolean active) {
         log.debug("Updating reference data id={}", id);
         AppConfiguration appConfiguration = appConfigurationPersistencePort.findById(id)
-                .orElseThrow(() -> new AppConfigurationNotFoundException("Reference data not found with id: " + id));
+                .orElseThrow(() -> new AppConfigurationNotFoundException(id));
 
         if (appConfigurationPersistencePort.existsByCategoryAndCodeAndIdNot(appConfiguration.getCategory(), code, id)) {
-            throw new AppConfigurationAlreadyExistsException(
-                    "Reference data with category " + appConfiguration.getCategory() + " and code " + code + " already exists"
-            );
+            throw new AppConfigurationAlreadyExistsException(appConfiguration.getCategory(), code);
         }
 
         appConfiguration.update(code, label, description, active);
@@ -56,14 +52,10 @@ public class AppConfigurationService implements AppConfigurationUseCase {
     public AppConfiguration updateByCategoryAndCode(AppConfigurationCategory category, String code, String newCode, String label, String description, boolean active) {
         log.debug("Updating reference data: category={}, code={}", category, code);
         AppConfiguration appConfiguration = appConfigurationPersistencePort.findByCategoryAndCode(category, code)
-                .orElseThrow(() -> new AppConfigurationNotFoundException(
-                        "Reference data not found for category " + category + " and code: " + code
-                ));
+                .orElseThrow(() -> new AppConfigurationNotFoundException(category, code));
 
         if (!code.equals(newCode) && appConfigurationPersistencePort.existsByCategoryAndCodeAndIdNot(category, newCode, appConfiguration.getId())) {
-            throw new AppConfigurationAlreadyExistsException(
-                    "Reference data with category " + category + " and code " + newCode + " already exists"
-            );
+            throw new AppConfigurationAlreadyExistsException(category, newCode);
         }
 
         appConfiguration.update(newCode, label, description, active);
@@ -79,13 +71,13 @@ public class AppConfigurationService implements AppConfigurationUseCase {
     public void delete(Long id) {
         log.debug("Deleting reference data id={}", id);
         AppConfiguration appConfiguration = appConfigurationPersistencePort.findById(id)
-                .orElseThrow(() -> new AppConfigurationNotFoundException("Reference data not found with id: " + id));
+                .orElseThrow(() -> new AppConfigurationNotFoundException(id));
         appConfigurationPersistencePort.remove(appConfiguration);
     }
 
     @Override
     public AppConfiguration getById(Long id) {
         return appConfigurationPersistencePort.findById(id)
-                .orElseThrow(() -> new AppConfigurationNotFoundException("Reference data not found with id: " + id));
+                .orElseThrow(() -> new AppConfigurationNotFoundException(id));
     }
 }

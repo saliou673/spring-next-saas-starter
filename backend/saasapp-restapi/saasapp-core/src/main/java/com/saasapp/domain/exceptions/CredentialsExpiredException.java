@@ -5,7 +5,7 @@ package com.saasapp.domain.exceptions;
  */
 public class CredentialsExpiredException extends AuthFunctionalException {
 
-    public CredentialsExpiredException(String message) {
-        super(message);
+    public CredentialsExpiredException() {
+        super("error.auth.credentials-expired", "Your credentials have expired.");
     }
 }

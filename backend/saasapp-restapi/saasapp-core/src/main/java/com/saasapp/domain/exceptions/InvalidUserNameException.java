@@ -1,10 +1,10 @@
 package com.saasapp.domain.exceptions;
 
 /**
- * Thrown when a username (first or last name) fails validation.
+ * Thrown when an email address fails format validation while constructing an {@code Email} value object.
  */
-public class InvalidUserNameException extends RuntimeException {
-    public InvalidUserNameException(String message) {
-        super(message);
+public class InvalidUserNameException extends FunctionalException {
+    public InvalidUserNameException(String value) {
+        super("error.user.invalid-email-format", "Invalid email format: " + value, value);
     }
 }

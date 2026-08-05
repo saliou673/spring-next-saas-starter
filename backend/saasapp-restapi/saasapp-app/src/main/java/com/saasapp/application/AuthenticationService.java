@@ -51,15 +51,14 @@ public class AuthenticationService implements AuthenticationUseCase {
         AuthenticatedUser authenticatedUser = jwtTokenPort.authenticate(email, password);
 
         User user = userPersistencePort.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
+                .orElseThrow(() -> new UserNotFoundException(email));
 
         boolean globalTwoFactorRequired = securitySettingsPersistencePort.find()
                 .map(SecuritySettings::isTwoFactorRequired)
                 .orElse(false);
 
         if (globalTwoFactorRequired && !user.isTwoFactorEnabled()) {
-            throw new TwoFactorSetupRequiredException(
-                    "Two-factor authentication is required for all users. Please set up 2FA before logging in.");
+            throw new TwoFactorSetupRequiredException();
         }
 
         if (user.isTwoFactorEnabled()) {
@@ -147,7 +146,7 @@ public class AuthenticationService implements AuthenticationUseCase {
 
     private String generateAndSaveRefreshToken(String email, String accessToken, Instant accessTokenExpiryDate, boolean rememberMe) {
         User user = userPersistencePort.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
+                .orElseThrow(() -> new UserNotFoundException(email));
 
         authTokenPersistencePort.deleteAllForUser(user);
 

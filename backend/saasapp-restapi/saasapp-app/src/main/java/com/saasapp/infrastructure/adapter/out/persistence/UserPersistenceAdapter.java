@@ -11,6 +11,7 @@ import com.saasapp.infrastructure.adapter.out.persistence.mapper.UserMapper;
 import com.saasapp.infrastructure.adapter.out.persistence.repository.RoleGroupRepository;
 import com.saasapp.infrastructure.adapter.out.persistence.repository.UserRepository;
 import com.saasapp.infrastructure.adapter.out.persistence.repository.UserPreferenceRepository;
+import com.saasapp.infrastructure.security.UserLanguageKeyLookup;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,10 +34,11 @@ public class UserPersistenceAdapter implements UserPersistencePort, UserDetailsP
     private final UserMapper userMapper;
     private final RoleGroupRepository roleGroupRepository;
     private final UserPreferenceRepository userPreferenceRepository;
+    private final UserLanguageKeyLookup userLanguageKeyLookup;
 
     @Override
     public User save(User user) {
-        return AdapterPersistenceUtils.executeDbOperation(
+        User savedUser = AdapterPersistenceUtils.executeDbOperation(
                 () -> {
                     UserEntity entity = userMapper.toEntity(user);
                     if (!user.getRoleGroups().isEmpty()) {
@@ -52,6 +54,9 @@ public class UserPersistenceAdapter implements UserPersistencePort, UserDetailsP
                 },
                 "Error saving user with email: " + user.getUserCredentials().getEmail()
         );
+        // The languageKey may have changed; evict so locale resolution picks it up immediately.
+        userLanguageKeyLookup.evict(savedUser.getUserCredentials().getEmail());
+        return savedUser;
     }
 
     @Override

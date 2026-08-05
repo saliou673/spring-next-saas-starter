@@ -4,7 +4,7 @@ package com.saasapp.domain.exceptions;
  * Thrown when an email address fails format validation.
  */
 public class EmailInvalidException extends FunctionalException {
-    public EmailInvalidException(String message) {
-        super(message);
+    public EmailInvalidException(String email) {
+        super("error.auth.invalid-email", "Invalid email: " + email, email);
     }
 }

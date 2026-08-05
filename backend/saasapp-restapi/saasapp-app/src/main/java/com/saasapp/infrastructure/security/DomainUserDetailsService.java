@@ -30,18 +30,18 @@ public class DomainUserDetailsService implements UserDetailsService {
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(@Nonnull final String email) {
         if (!(new EmailValidator().isValid(email, null))) {
-            throw new EmailInvalidException("Invalid email: " + email);
+            throw new EmailInvalidException(email);
         }
 
         return userDetailsPersistencePort
                 .findUserWithAuthoritiesByEmail(email)
                 .map(user -> createSpringSecurityUser(email, user))
-                .orElseThrow(() -> new AccountNotFoundException("User with email " + email + " not found"));
+                .orElseThrow(() -> new AccountNotFoundException(email));
     }
 
     private org.springframework.security.core.userdetails.User createSpringSecurityUser(String email, User user) {
         if (!user.isActive()) {
-            throw new AccountNotActivatedException("User with email " + email + " is not activated");
+            throw new AccountNotActivatedException(email);
         }
 
         List<SimpleGrantedAuthority> grantedAuthorities = user

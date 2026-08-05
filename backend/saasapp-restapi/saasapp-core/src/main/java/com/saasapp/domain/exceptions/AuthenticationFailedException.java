@@ -5,7 +5,7 @@ package com.saasapp.domain.exceptions;
  */
 public class AuthenticationFailedException extends AuthFunctionalException {
 
-    public AuthenticationFailedException(String message) {
-        super(message);
+    public AuthenticationFailedException(String reason) {
+        super("error.auth.authentication-failed", "Authentication failed: " + reason, reason);
     }
 }

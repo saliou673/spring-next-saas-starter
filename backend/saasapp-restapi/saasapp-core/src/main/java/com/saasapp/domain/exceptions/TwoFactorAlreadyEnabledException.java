@@ -5,6 +5,9 @@ package com.saasapp.domain.exceptions;
  */
 public class TwoFactorAlreadyEnabledException extends FunctionalException {
     public TwoFactorAlreadyEnabledException() {
-        super("Two-factor authentication is already enabled for this account");
+        super(
+                "error.auth.two-factor-already-enabled",
+                "Two-factor authentication is already enabled for this account."
+        );
     }
 }
