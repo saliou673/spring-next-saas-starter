@@ -15,6 +15,14 @@ type DataTableBulkActionsProps<TData> = {
     table: Table<TData>;
     entityName: string;
     children: React.ReactNode;
+    /** Pre-pluralized/translated overrides. Default to English built from `entityName` when omitted. */
+    entityLabel?: string;
+    selectedWord?: string;
+    announcementMessage?: string;
+    toolbarAriaLabel?: string;
+    selectedCountAriaLabel?: string;
+    clearSelectionLabel?: string;
+    clearSelectionTitle?: string;
 };
 
 /**
@@ -31,16 +39,27 @@ export function DataTableBulkActions<TData>({
     table,
     entityName,
     children,
+    entityLabel,
+    selectedWord = "selected",
+    announcementMessage,
+    toolbarAriaLabel,
+    selectedCountAriaLabel,
+    clearSelectionLabel = "Clear selection",
+    clearSelectionTitle = "Clear selection (Escape)",
 }: DataTableBulkActionsProps<TData>): React.ReactNode | null {
     const selectedRows = table.getFilteredSelectedRowModel().rows;
     const selectedCount = selectedRows.length;
+    const resolvedEntityLabel =
+        entityLabel ?? `${entityName}${selectedCount > 1 ? "s" : ""}`;
     const toolbarRef = useRef<HTMLDivElement>(null);
     const [announcement, setAnnouncement] = useState("");
 
     // Announce selection changes to screen readers
     useEffect(() => {
         if (selectedCount > 0) {
-            const message = `${selectedCount} ${entityName}${selectedCount > 1 ? "s" : ""} selected. Bulk actions toolbar is available.`;
+            const message =
+                announcementMessage ??
+                `${selectedCount} ${resolvedEntityLabel} selected. Bulk actions toolbar is available.`;
 
             // Use queueMicrotask to defer state update and avoid cascading renders
             queueMicrotask(() => {
@@ -51,7 +70,7 @@ export function DataTableBulkActions<TData>({
             const timer = setTimeout(() => setAnnouncement(""), 3000);
             return () => clearTimeout(timer);
         }
-    }, [selectedCount, entityName]);
+    }, [selectedCount, resolvedEntityLabel, announcementMessage]);
 
     const handleClearSelection = () => {
         table.resetRowSelection();
@@ -142,7 +161,10 @@ export function DataTableBulkActions<TData>({
             <div
                 ref={toolbarRef}
                 role="toolbar"
-                aria-label={`Bulk actions for ${selectedCount} selected ${entityName}${selectedCount > 1 ? "s" : ""}`}
+                aria-label={
+                    toolbarAriaLabel ??
+                    `Bulk actions for ${selectedCount} selected ${resolvedEntityLabel}`
+                }
                 aria-describedby="bulk-actions-description"
                 tabIndex={-1}
                 onKeyDown={handleKeyDown}
@@ -167,15 +189,17 @@ export function DataTableBulkActions<TData>({
                                 size="icon"
                                 onClick={handleClearSelection}
                                 className="size-6 rounded-full"
-                                aria-label="Clear selection"
-                                title="Clear selection (Escape)"
+                                aria-label={clearSelectionLabel}
+                                title={clearSelectionTitle}
                             >
                                 <X />
-                                <span className="sr-only">Clear selection</span>
+                                <span className="sr-only">
+                                    {clearSelectionLabel}
+                                </span>
                             </Button>
                         </TooltipTrigger>
                         <TooltipContent>
-                            <p>Clear selection (Escape)</p>
+                            <p>{clearSelectionTitle}</p>
                         </TooltipContent>
                     </Tooltip>
 
@@ -192,15 +216,17 @@ export function DataTableBulkActions<TData>({
                         <Badge
                             variant="default"
                             className="min-w-8 rounded-lg"
-                            aria-label={`${selectedCount} selected`}
+                            aria-label={
+                                selectedCountAriaLabel ??
+                                `${selectedCount} selected`
+                            }
                         >
                             {selectedCount}
                         </Badge>{" "}
                         <span className="hidden sm:inline">
-                            {entityName}
-                            {selectedCount > 1 ? "s" : ""}
+                            {resolvedEntityLabel}
                         </span>{" "}
-                        selected
+                        {selectedWord}
                     </div>
 
                     <Separator

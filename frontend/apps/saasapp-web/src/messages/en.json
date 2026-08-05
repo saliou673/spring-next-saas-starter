@@ -22,18 +22,137 @@
             "address": "Address"
         },
         "notProvided": "Not provided",
-        "genderValues": {
+        "errorTitle": "Unable to load profile",
+        "errorDescription": "Refresh the page and try again."
+    },
+    "UserEnums": {
+        "gender": {
             "MALE": "Male",
             "FEMALE": "Female"
         },
-        "statusValues": {
+        "status": {
             "NOT_ACTIVATED": "Not activated",
             "ACTIVATED": "Activated",
             "DEACTIVATED": "Deactivated",
             "LOCKED": "Locked",
             "BANNED": "Banned"
+        }
+    },
+    "DataTable": {
+        "reset": "Reset",
+        "noResultsFound": "No results found.",
+        "clearFilters": "Clear filters",
+        "nSelected": "{count} selected",
+        "toggleColumns": "Toggle columns",
+        "view": "View",
+        "rowsPerPage": "Rows per page",
+        "pageOf": "Page {page} of {total}",
+        "goToFirstPage": "Go to first page",
+        "goToPreviousPage": "Go to previous page",
+        "goToNextPage": "Go to next page",
+        "goToLastPage": "Go to last page",
+        "goToPage": "Go to page {page}"
+    },
+    "Users": {
+        "pageTitle": "Users",
+        "title": "User List",
+        "description": "Manage your users and their roles here.",
+        "addUser": "Add user",
+        "table": {
+            "columns": {
+                "name": "Name",
+                "email": "Email",
+                "phoneNumber": "Phone Number",
+                "roleGroups": "Role Groups",
+                "gender": "Gender",
+                "status": "Status"
+            },
+            "selectAll": "Select all",
+            "selectRow": "Select row",
+            "loading": "Loading users...",
+            "errorFallback": "Unable to load users.",
+            "noResults": "No results.",
+            "searchPlaceholder": "Filter by email...",
+            "filters": {
+                "status": "Status",
+                "gender": "Gender",
+                "roleGroup": "Role Group"
+            }
         },
-        "errorTitle": "Unable to load profile",
-        "errorDescription": "Refresh the page and try again."
+        "rowActions": {
+            "openMenu": "Open menu",
+            "edit": "Edit",
+            "delete": "Delete"
+        },
+        "bulkActions": {
+            "deleteSelected": "Delete selected users",
+            "clearSelection": "Clear selection",
+            "clearSelectionTitle": "Clear selection (Escape)",
+            "entityLabel": "{count, plural, one {user} other {users}}",
+            "selectedWord": "{count, plural, one {selected} other {selected}}",
+            "announcement": "{count, plural, one {# user selected. Bulk actions toolbar is available.} other {# users selected. Bulk actions toolbar is available.}}",
+            "toolbarAriaLabel": "{count, plural, one {Bulk actions for # selected user} other {Bulk actions for # selected users}}",
+            "selectedCountAriaLabel": "{count, plural, one {# selected} other {# selected}}"
+        },
+        "deleteDialog": {
+            "title": "Delete User",
+            "confirmMessage": "Are you sure you want to delete <bold>{email}</bold>? This action will permanently remove this managed user from the system. This cannot be undone.",
+            "emailLabel": "User email:",
+            "emailPlaceholder": "Enter the user email to confirm deletion.",
+            "warningTitle": "Warning!",
+            "warningDescription": "Please be careful, this operation can not be rolled back.",
+            "confirmButton": "Delete",
+            "successToast": "User deleted."
+        },
+        "multiDeleteDialog": {
+            "title": "{count, plural, one {Delete # user} other {Delete # users}}",
+            "description": "Are you sure you want to delete the selected users? This action cannot be undone.",
+            "confirmLabel": "Confirm by typing \"{word}\":",
+            "placeholder": "Type \"{word}\" to confirm.",
+            "typeToConfirmError": "Please type \"{word}\" to confirm.",
+            "successToast": "{count, plural, one {Deleted # user.} other {Deleted # users.}}",
+            "partialToast": "Deleted {deleted} of {total} selected users."
+        },
+        "form": {
+            "addTitle": "Add New User",
+            "editTitle": "Edit User",
+            "addDescription": "Create a managed user and assign at least one role group.",
+            "editDescription": "Update the managed user profile and assigned role groups. Email cannot be changed.",
+            "fields": {
+                "email": "Email",
+                "emailPlaceholder": "john.doe@example.com",
+                "emailEditNote": "Email updates are not supported by the admin user endpoint.",
+                "firstName": "First Name",
+                "firstNamePlaceholder": "John",
+                "lastName": "Last Name",
+                "lastNamePlaceholder": "Doe",
+                "birthDate": "Birth Date",
+                "gender": "Gender",
+                "genderPlaceholder": "Select a gender",
+                "phoneNumber": "Phone Number",
+                "phoneNumberPlaceholder": "+33601020304",
+                "address": "Address",
+                "addressPlaceholder": "221B Baker Street",
+                "languageKey": "Language Key",
+                "languageKeyPlaceholder": "en",
+                "imageUrl": "Image URL",
+                "imageUrlPlaceholder": "https://example.com/avatar.png",
+                "roleGroups": "Role Groups"
+            },
+            "roleGroupsLoading": "Loading role groups...",
+            "roleGroupsEmpty": "No role groups available.",
+            "roleGroupsDescriptionEdit": "Assign or revoke role groups for this user.",
+            "roleGroupsDescriptionAdd": "Role groups are required when creating a managed user.",
+            "submitAdd": "Create user",
+            "submitEdit": "Save changes",
+            "toastCreated": "User created.",
+            "toastUpdated": "User updated.",
+            "validation": {
+                "emailRequired": "Email is required.",
+                "firstNameRequired": "First name is required.",
+                "lastNameRequired": "Last name is required.",
+                "roleGroupRequired": "At least one role group is required."
+            }
+        }
     }
 }

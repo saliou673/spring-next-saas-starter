@@ -1,4 +1,5 @@
 import { UserPlus } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { useUsers } from "./users-provider";
 
@@ -9,6 +10,7 @@ type UsersPrimaryButtonsProps = {
 export function UsersPrimaryButtons({
     canCreateUsers,
 }: UsersPrimaryButtonsProps) {
+    const t = useTranslations("Users");
     const { setOpen } = useUsers();
 
     if (!canCreateUsers) {
@@ -18,7 +20,7 @@ export function UsersPrimaryButtons({
     return (
         <div className="flex gap-2">
             <Button className="space-x-1" onClick={() => setOpen("add")}>
-                <span>Add user</span> <UserPlus size={18} />
+                <span>{t("addUser")}</span> <UserPlus size={18} />
             </Button>
         </div>
     );

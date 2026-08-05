@@ -6,6 +6,7 @@ import {
     getCoreRowModel,
     useReactTable,
 } from "@tanstack/react-table";
+import { useTranslations } from "next-intl";
 import {
     useGetUsersAsAdmin,
     useGetRoleGroupsAsAdmin,
@@ -28,7 +29,12 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { DataTablePagination, DataTableToolbar } from "@/components/data-table";
-import { genderOptions, userStatusOptions } from "../data/data";
+import {
+    useGenderLabels,
+    useGenderOptions,
+    useUserStatusLabels,
+    useUserStatusOptions,
+} from "../data/data";
 import { mapUserDetailsToRow } from "../data/schema";
 import { DataTableBulkActions } from "./data-table-bulk-actions";
 import { buildUsersColumns } from "./users-columns";
@@ -80,6 +86,11 @@ function getStringFilterValue(
 }
 
 export function UsersTable({ canDeleteUsers, canUpdateUsers }: DataTableProps) {
+    const t = useTranslations("Users.table");
+    const genderLabels = useGenderLabels();
+    const genderOptions = useGenderOptions();
+    const userStatusLabels = useUserStatusLabels();
+    const userStatusOptions = useUserStatusOptions();
     const search = useNextSearchObject();
     const navigate = useNextNavigateSearch();
     const [rowSelection, setRowSelection] = useState({});
@@ -240,8 +251,24 @@ export function UsersTable({ canDeleteUsers, canUpdateUsers }: DataTableProps) {
     );
     const totalPages = data?.totalPages ?? 0;
     const columns = useMemo(
-        () => buildUsersColumns({ canDeleteUsers, canUpdateUsers }),
-        [canDeleteUsers, canUpdateUsers]
+        () =>
+            buildUsersColumns({
+                canDeleteUsers,
+                canUpdateUsers,
+                genderLabels,
+                userStatusLabels,
+                labels: {
+                    selectAll: t("selectAll"),
+                    selectRow: t("selectRow"),
+                    name: t("columns.name"),
+                    email: t("columns.email"),
+                    phoneNumber: t("columns.phoneNumber"),
+                    roleGroups: t("columns.roleGroups"),
+                    gender: t("columns.gender"),
+                    status: t("columns.status"),
+                },
+            }),
+        [canDeleteUsers, canUpdateUsers, genderLabels, userStatusLabels, t]
     );
 
     // eslint-disable-next-line react-hooks/incompatible-library
@@ -279,24 +306,24 @@ export function UsersTable({ canDeleteUsers, canUpdateUsers }: DataTableProps) {
         >
             <DataTableToolbar
                 table={table}
-                searchPlaceholder="Filter by email..."
+                searchPlaceholder={t("searchPlaceholder")}
                 searchKey="email"
                 searchValue={emailSearchValue}
                 onSearchChange={setEmailSearchValue}
                 filters={[
                     {
                         columnId: "status",
-                        title: "Status",
+                        title: t("filters.status"),
                         options: userStatusOptions,
                     },
                     {
                         columnId: "gender",
-                        title: "Gender",
+                        title: t("filters.gender"),
                         options: genderOptions,
                     },
                     {
                         columnId: "roleGroupNames",
-                        title: "Role Group",
+                        title: t("filters.roleGroup"),
                         options: roleGroupOptions,
                     },
                 ]}
@@ -347,7 +374,7 @@ export function UsersTable({ canDeleteUsers, canUpdateUsers }: DataTableProps) {
                                     colSpan={columns.length}
                                     className="h-24 text-center"
                                 >
-                                    Loading users...
+                                    {t("loading")}
                                 </TableCell>
                             </TableRow>
                         ) : isError ? (
@@ -357,7 +384,7 @@ export function UsersTable({ canDeleteUsers, canUpdateUsers }: DataTableProps) {
                                     className="h-24 text-center text-destructive"
                                 >
                                     {error?.response?.data?.message ??
-                                        "Unable to load users."}
+                                        t("errorFallback")}
                                 </TableCell>
                             </TableRow>
                         ) : table.getRowModel().rows?.length ? (
@@ -394,7 +421,7 @@ export function UsersTable({ canDeleteUsers, canUpdateUsers }: DataTableProps) {
                                     colSpan={columns.length}
                                     className="h-24 text-center"
                                 >
-                                    No results.
+                                    {t("noResults")}
                                 </TableCell>
                             </TableRow>
                         )}

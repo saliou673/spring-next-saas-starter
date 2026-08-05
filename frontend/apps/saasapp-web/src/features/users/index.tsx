@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useGetCurrentUserPermissions } from "@api-client";
 import { Main } from "@/components/layout/main";
 import { UsersDialogs } from "./components/users-dialogs";
@@ -8,6 +9,7 @@ import { UsersProvider } from "./components/users-provider";
 import { UsersTable } from "./components/users-table";
 
 export function Users() {
+    const t = useTranslations("Users");
     const { data: permissions } = useGetCurrentUserPermissions();
 
     const permissionCodes = new Set(
@@ -27,10 +29,10 @@ export function Users() {
                 <div className="flex flex-wrap items-end justify-between gap-2">
                     <div>
                         <h2 className="text-2xl font-bold tracking-tight">
-                            User List
+                            {t("title")}
                         </h2>
                         <p className="text-muted-foreground">
-                            Manage your users and their roles here.
+                            {t("description")}
                         </p>
                     </div>
                     <UsersPrimaryButtons canCreateUsers={canCreateUsers} />

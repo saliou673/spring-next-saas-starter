@@ -22,18 +22,137 @@
             "address": "Adresse"
         },
         "notProvided": "Non renseigné",
-        "genderValues": {
+        "errorTitle": "Impossible de charger le profil",
+        "errorDescription": "Actualisez la page et réessayez."
+    },
+    "UserEnums": {
+        "gender": {
             "MALE": "Homme",
             "FEMALE": "Femme"
         },
-        "statusValues": {
+        "status": {
             "NOT_ACTIVATED": "Non activé",
             "ACTIVATED": "Activé",
             "DEACTIVATED": "Désactivé",
             "LOCKED": "Verrouillé",
             "BANNED": "Banni"
+        }
+    },
+    "DataTable": {
+        "reset": "Réinitialiser",
+        "noResultsFound": "Aucun résultat.",
+        "clearFilters": "Effacer les filtres",
+        "nSelected": "{count} sélectionné(s)",
+        "toggleColumns": "Afficher les colonnes",
+        "view": "Affichage",
+        "rowsPerPage": "Lignes par page",
+        "pageOf": "Page {page} sur {total}",
+        "goToFirstPage": "Aller à la première page",
+        "goToPreviousPage": "Aller à la page précédente",
+        "goToNextPage": "Aller à la page suivante",
+        "goToLastPage": "Aller à la dernière page",
+        "goToPage": "Aller à la page {page}"
+    },
+    "Users": {
+        "pageTitle": "Utilisateurs",
+        "title": "Liste des utilisateurs",
+        "description": "Gérez vos utilisateurs et leurs rôles ici.",
+        "addUser": "Ajouter un utilisateur",
+        "table": {
+            "columns": {
+                "name": "Nom",
+                "email": "E-mail",
+                "phoneNumber": "Numéro de téléphone",
+                "roleGroups": "Groupes de rôles",
+                "gender": "Genre",
+                "status": "Statut"
+            },
+            "selectAll": "Tout sélectionner",
+            "selectRow": "Sélectionner la ligne",
+            "loading": "Chargement des utilisateurs...",
+            "errorFallback": "Impossible de charger les utilisateurs.",
+            "noResults": "Aucun résultat.",
+            "searchPlaceholder": "Filtrer par e-mail...",
+            "filters": {
+                "status": "Statut",
+                "gender": "Genre",
+                "roleGroup": "Groupe de rôles"
+            }
         },
-        "errorTitle": "Impossible de charger le profil",
-        "errorDescription": "Actualisez la page et réessayez."
+        "rowActions": {
+            "openMenu": "Ouvrir le menu",
+            "edit": "Modifier",
+            "delete": "Supprimer"
+        },
+        "bulkActions": {
+            "deleteSelected": "Supprimer les utilisateurs sélectionnés",
+            "clearSelection": "Effacer la sélection",
+            "clearSelectionTitle": "Effacer la sélection (Échap)",
+            "entityLabel": "{count, plural, one {utilisateur} other {utilisateurs}}",
+            "selectedWord": "{count, plural, one {sélectionné} other {sélectionnés}}",
+            "announcement": "{count, plural, one {# utilisateur sélectionné. La barre d'actions groupées est disponible.} other {# utilisateurs sélectionnés. La barre d'actions groupées est disponible.}}",
+            "toolbarAriaLabel": "{count, plural, one {Actions groupées pour # utilisateur sélectionné} other {Actions groupées pour # utilisateurs sélectionnés}}",
+            "selectedCountAriaLabel": "{count, plural, one {# sélectionné} other {# sélectionnés}}"
+        },
+        "deleteDialog": {
+            "title": "Supprimer l'utilisateur",
+            "confirmMessage": "Voulez-vous vraiment supprimer <bold>{email}</bold> ? Cette action supprimera définitivement cet utilisateur géré du système. Cette opération est irréversible.",
+            "emailLabel": "E-mail de l'utilisateur :",
+            "emailPlaceholder": "Saisissez l'e-mail de l'utilisateur pour confirmer la suppression.",
+            "warningTitle": "Attention !",
+            "warningDescription": "Soyez prudent, cette opération ne peut pas être annulée.",
+            "confirmButton": "Supprimer",
+            "successToast": "Utilisateur supprimé."
+        },
+        "multiDeleteDialog": {
+            "title": "{count, plural, one {Supprimer # utilisateur} other {Supprimer # utilisateurs}}",
+            "description": "Voulez-vous vraiment supprimer les utilisateurs sélectionnés ? Cette opération est irréversible.",
+            "confirmLabel": "Confirmez en saisissant « {word} » :",
+            "placeholder": "Saisissez « {word} » pour confirmer.",
+            "typeToConfirmError": "Veuillez saisir « {word} » pour confirmer.",
+            "successToast": "{count, plural, one {# utilisateur supprimé.} other {# utilisateurs supprimés.}}",
+            "partialToast": "{deleted} utilisateur(s) supprimé(s) sur {total} sélectionné(s)."
+        },
+        "form": {
+            "addTitle": "Ajouter un utilisateur",
+            "editTitle": "Modifier l'utilisateur",
+            "addDescription": "Créez un utilisateur géré et attribuez-lui au moins un groupe de rôles.",
+            "editDescription": "Modifiez le profil de l'utilisateur géré et les groupes de rôles attribués. L'e-mail ne peut pas être modifié.",
+            "fields": {
+                "email": "E-mail",
+                "emailPlaceholder": "jean.dupont@exemple.com",
+                "emailEditNote": "La modification de l'e-mail n'est pas prise en charge par l'API d'administration des utilisateurs.",
+                "firstName": "Prénom",
+                "firstNamePlaceholder": "Jean",
+                "lastName": "Nom",
+                "lastNamePlaceholder": "Dupont",
+                "birthDate": "Date de naissance",
+                "gender": "Genre",
+                "genderPlaceholder": "Sélectionnez un genre",
+                "phoneNumber": "Numéro de téléphone",
+                "phoneNumberPlaceholder": "+33601020304",
+                "address": "Adresse",
+                "addressPlaceholder": "221B Baker Street",
+                "languageKey": "Clé de langue",
+                "languageKeyPlaceholder": "fr",
+                "imageUrl": "URL de l'image",
+                "imageUrlPlaceholder": "https://exemple.com/avatar.png",
+                "roleGroups": "Groupes de rôles"
+            },
+            "roleGroupsLoading": "Chargement des groupes de rôles...",
+            "roleGroupsEmpty": "Aucun groupe de rôles disponible.",
+            "roleGroupsDescriptionEdit": "Attribuez ou révoquez des groupes de rôles pour cet utilisateur.",
+            "roleGroupsDescriptionAdd": "Un groupe de rôles est requis lors de la création d'un utilisateur géré.",
+            "submitAdd": "Créer l'utilisateur",
+            "submitEdit": "Enregistrer les modifications",
+            "toastCreated": "Utilisateur créé.",
+            "toastUpdated": "Utilisateur mis à jour.",
+            "validation": {
+                "emailRequired": "L'e-mail est requis.",
+                "firstNameRequired": "Le prénom est requis.",
+                "lastNameRequired": "Le nom est requis.",
+                "roleGroupRequired": "Au moins un groupe de rôles est requis."
+            }
+        }
     }
 }

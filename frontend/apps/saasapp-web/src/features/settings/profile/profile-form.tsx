@@ -137,8 +137,8 @@ function ProfileFormSkeleton() {
 export function ProfileForm() {
     const { data: user, isLoading, isError } = useGetUserDetails();
     const t = useTranslations("SettingsProfile");
-    const tGender = useTranslations("SettingsProfile.genderValues");
-    const tStatus = useTranslations("SettingsProfile.statusValues");
+    const tGender = useTranslations("UserEnums.gender");
+    const tStatus = useTranslations("UserEnums.status");
 
     if (isLoading) {
         return <ProfileFormSkeleton />;

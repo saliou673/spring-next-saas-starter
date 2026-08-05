@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import {
     userDetailsGenderEnum,
     userDetailsStatusEnum,
@@ -5,14 +6,6 @@ import {
     type UserDetailsStatusEnumKey,
 } from "@api-client";
 import { type UserGender, type UserStatus } from "./schema";
-
-export const userStatusLabels: Record<UserStatus, string> = {
-    [userDetailsStatusEnum.NOT_ACTIVATED]: "Not activated",
-    [userDetailsStatusEnum.ACTIVATED]: "Activated",
-    [userDetailsStatusEnum.DEACTIVATED]: "Deactivated",
-    [userDetailsStatusEnum.LOCKED]: "Locked",
-    [userDetailsStatusEnum.BANNED]: "Banned",
-};
 
 export const userStatusBadgeClassNames: Record<UserStatus, string> = {
     [userDetailsStatusEnum.NOT_ACTIVATED]:
@@ -26,23 +19,47 @@ export const userStatusBadgeClassNames: Record<UserStatus, string> = {
         "bg-destructive/10 text-destructive border-destructive/20 dark:bg-destructive/50 dark:text-primary",
 };
 
-export const userStatusOptions: {
+export function useUserStatusLabels(): Record<UserStatus, string> {
+    const t = useTranslations("UserEnums.status");
+
+    return {
+        [userDetailsStatusEnum.NOT_ACTIVATED]: t("NOT_ACTIVATED"),
+        [userDetailsStatusEnum.ACTIVATED]: t("ACTIVATED"),
+        [userDetailsStatusEnum.DEACTIVATED]: t("DEACTIVATED"),
+        [userDetailsStatusEnum.LOCKED]: t("LOCKED"),
+        [userDetailsStatusEnum.BANNED]: t("BANNED"),
+    };
+}
+
+export function useUserStatusOptions(): {
     label: string;
     value: UserDetailsStatusEnumKey;
-}[] = Object.values(userDetailsStatusEnum).map((value) => ({
-    label: userStatusLabels[value],
-    value,
-}));
+}[] {
+    const labels = useUserStatusLabels();
 
-export const genderLabels: Record<UserGender, string> = {
-    [userDetailsGenderEnum.MALE]: "Male",
-    [userDetailsGenderEnum.FEMALE]: "Female",
-};
+    return Object.values(userDetailsStatusEnum).map((value) => ({
+        label: labels[value],
+        value,
+    }));
+}
 
-export const genderOptions: {
+export function useGenderLabels(): Record<UserGender, string> {
+    const t = useTranslations("UserEnums.gender");
+
+    return {
+        [userDetailsGenderEnum.MALE]: t("MALE"),
+        [userDetailsGenderEnum.FEMALE]: t("FEMALE"),
+    };
+}
+
+export function useGenderOptions(): {
     label: string;
     value: UserDetailsGenderEnumKey;
-}[] = Object.values(userDetailsGenderEnum).map((value) => ({
-    label: genderLabels[value],
-    value,
-}));
+}[] {
+    const labels = useGenderLabels();
+
+    return Object.values(userDetailsGenderEnum).map((value) => ({
+        label: labels[value],
+        value,
+    }));
+}

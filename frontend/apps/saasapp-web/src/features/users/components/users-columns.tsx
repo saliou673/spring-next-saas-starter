@@ -3,22 +3,33 @@ import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { LongText } from "@/components/long-text";
-import {
-    genderLabels,
-    userStatusBadgeClassNames,
-    userStatusLabels,
-} from "../data/data";
-import { type UserRow } from "../data/schema";
+import { userStatusBadgeClassNames } from "../data/data";
+import { type UserGender, type UserRow, type UserStatus } from "../data/schema";
 import { DataTableRowActions } from "./data-table-row-actions";
 
 type BuildUsersColumnsOptions = {
     canDeleteUsers: boolean;
     canUpdateUsers: boolean;
+    genderLabels: Record<UserGender, string>;
+    userStatusLabels: Record<UserStatus, string>;
+    labels: {
+        selectAll: string;
+        selectRow: string;
+        name: string;
+        email: string;
+        phoneNumber: string;
+        roleGroups: string;
+        gender: string;
+        status: string;
+    };
 };
 
 export function buildUsersColumns({
     canDeleteUsers,
     canUpdateUsers,
+    genderLabels,
+    userStatusLabels,
+    labels,
 }: BuildUsersColumnsOptions): ColumnDef<UserRow>[] {
     const columns: ColumnDef<UserRow>[] = [];
 
@@ -34,7 +45,7 @@ export function buildUsersColumns({
                     onCheckedChange={(value) =>
                         table.toggleAllPageRowsSelected(!!value)
                     }
-                    aria-label="Select all"
+                    aria-label={labels.selectAll}
                     className="translate-y-[2px]"
                 />
             ),
@@ -47,7 +58,7 @@ export function buildUsersColumns({
                 <Checkbox
                     checked={row.getIsSelected()}
                     onCheckedChange={(value) => row.toggleSelected(!!value)}
-                    aria-label="Select row"
+                    aria-label={labels.selectRow}
                     className="translate-y-[2px]"
                 />
             ),
@@ -59,7 +70,7 @@ export function buildUsersColumns({
     columns.push(
         {
             accessorKey: "fullName",
-            header: "Name",
+            header: labels.name,
             cell: ({ row }) => (
                 <LongText className="max-w-40 ps-3">
                     {row.original.fullName}
@@ -77,7 +88,7 @@ export function buildUsersColumns({
         },
         {
             accessorKey: "email",
-            header: "Email",
+            header: labels.email,
             cell: ({ row }) => (
                 <LongText className="max-w-52">{row.original.email}</LongText>
             ),
@@ -85,13 +96,13 @@ export function buildUsersColumns({
         },
         {
             accessorKey: "phoneNumber",
-            header: "Phone Number",
+            header: labels.phoneNumber,
             cell: ({ row }) => <div>{row.original.phoneNumber ?? "—"}</div>,
             enableSorting: false,
         },
         {
             accessorKey: "roleGroupNames",
-            header: "Role Groups",
+            header: labels.roleGroups,
             cell: ({ row }) => (
                 <div className="flex flex-wrap gap-1">
                     {row.original.roleGroupNames.map((name) => (
@@ -107,14 +118,14 @@ export function buildUsersColumns({
         },
         {
             accessorKey: "gender",
-            header: "Gender",
+            header: labels.gender,
             cell: ({ row }) => <div>{genderLabels[row.original.gender]}</div>,
             filterFn: (row, id, value) => value.includes(row.getValue(id)),
             enableSorting: false,
         },
         {
             accessorKey: "status",
-            header: "Status",
+            header: labels.status,
             cell: ({ row }) => (
                 <Badge
                     variant="outline"

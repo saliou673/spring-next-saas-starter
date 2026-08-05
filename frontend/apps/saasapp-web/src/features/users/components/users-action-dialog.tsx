@@ -17,6 +17,7 @@ import {
     useUpdateUserAsAdmin,
 } from "@api-client";
 import { getUsersAsAdminQueryKey } from "@api-client";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { handleServerError } from "@/lib/handle-server-error";
 import { Button } from "@/components/ui/button";
@@ -41,7 +42,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { SelectDropdown } from "@/components/select-dropdown";
-import { genderOptions } from "../data/data";
+import { useGenderOptions } from "../data/data";
 import {
     mapRoleGroupToOption,
     mapUserDetailsToRow,
@@ -49,31 +50,33 @@ import {
     type UserRow,
 } from "../data/schema";
 
-const formSchema = z
-    .object({
-        email: z.string().trim().email("Email is required."),
-        firstName: z.string().trim().min(1, "First name is required."),
-        lastName: z.string().trim().min(1, "Last name is required."),
-        birthDate: z.string().optional(),
-        gender: z.string().optional(),
-        phoneNumber: z.string().optional(),
-        address: z.string().optional(),
-        languageKey: z.string().optional(),
-        imageUrl: z.string().optional(),
-        roleGroupNames: z.array(z.string()),
-        isEdit: z.boolean(),
-    })
-    .superRefine((values, context) => {
-        if (!values.isEdit && values.roleGroupNames.length === 0) {
-            context.addIssue({
-                code: z.ZodIssueCode.custom,
-                message: "At least one role group is required.",
-                path: ["roleGroupNames"],
-            });
-        }
-    });
+function createFormSchema(t: ReturnType<typeof useTranslations>) {
+    return z
+        .object({
+            email: z.string().trim().email(t("emailRequired")),
+            firstName: z.string().trim().min(1, t("firstNameRequired")),
+            lastName: z.string().trim().min(1, t("lastNameRequired")),
+            birthDate: z.string().optional(),
+            gender: z.string().optional(),
+            phoneNumber: z.string().optional(),
+            address: z.string().optional(),
+            languageKey: z.string().optional(),
+            imageUrl: z.string().optional(),
+            roleGroupNames: z.array(z.string()),
+            isEdit: z.boolean(),
+        })
+        .superRefine((values, context) => {
+            if (!values.isEdit && values.roleGroupNames.length === 0) {
+                context.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: t("roleGroupRequired"),
+                    path: ["roleGroupNames"],
+                });
+            }
+        });
+}
 
-type UserForm = z.infer<typeof formSchema>;
+type UserForm = z.infer<ReturnType<typeof createFormSchema>>;
 
 type UserActionDialogProps = {
     currentRow?: UserRow;
@@ -107,8 +110,15 @@ export function UsersActionDialog({
     open,
     onOpenChange,
 }: UserActionDialogProps) {
+    const t = useTranslations("Users.form");
+    const tValidation = useTranslations("Users.form.validation");
+    const genderOptions = useGenderOptions();
     const isEdit = !!currentRow;
     const queryClient = useQueryClient();
+    const formSchema = useMemo(
+        () => createFormSchema(tValidation),
+        [tValidation]
+    );
     const form = useForm<UserForm>({
         resolver: zodResolver(formSchema),
         defaultValues: getDefaultValues(currentRow),
@@ -170,7 +180,7 @@ export function UsersActionDialog({
             mutation: {
                 onSuccess: async () => {
                     await invalidateUsers();
-                    toast.success("User created.");
+                    toast.success(t("toastCreated"));
                     form.reset(getDefaultValues());
                     onOpenChange(false);
                 },
@@ -244,7 +254,7 @@ export function UsersActionDialog({
                     getUserAsAdminQueryKey(userId),
                     updatedUser
                 );
-                toast.success("User updated.");
+                toast.success(t("toastUpdated"));
                 onOpenChange(false);
             } catch (error) {
                 handleServerError(error);
@@ -285,12 +295,12 @@ export function UsersActionDialog({
             <DialogContent className="flex max-h-[90vh] flex-col overflow-y-auto sm:max-w-2xl sm:overflow-hidden">
                 <DialogHeader className="text-start">
                     <DialogTitle>
-                        {isEdit ? "Edit User" : "Add New User"}
+                        {isEdit ? t("editTitle") : t("addTitle")}
                     </DialogTitle>
                     <DialogDescription>
                         {isEdit
-                            ? "Update the managed user profile and assigned role groups. Email cannot be changed."
-                            : "Create a managed user and assign at least one role group."}
+                            ? t("editDescription")
+                            : t("addDescription")}
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
@@ -306,21 +316,25 @@ export function UsersActionDialog({
                                     name="email"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Email</FormLabel>
+                                            <FormLabel>
+                                                {t("fields.email")}
+                                            </FormLabel>
                                             <FormControl>
                                                 <Input
                                                     {...field}
                                                     disabled={
                                                         isEdit || isPending
                                                     }
-                                                    placeholder="john.doe@example.com"
+                                                    placeholder={t(
+                                                        "fields.emailPlaceholder"
+                                                    )}
                                                 />
                                             </FormControl>
                                             {isEdit && (
                                                 <FormDescription>
-                                                    Email updates are not
-                                                    supported by the admin user
-                                                    endpoint.
+                                                    {t(
+                                                        "fields.emailEditNote"
+                                                    )}
                                                 </FormDescription>
                                             )}
                                             <FormMessage />
@@ -334,13 +348,15 @@ export function UsersActionDialog({
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
-                                                    First Name
+                                                    {t("fields.firstName")}
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         {...field}
                                                         disabled={isPending}
-                                                        placeholder="John"
+                                                        placeholder={t(
+                                                            "fields.firstNamePlaceholder"
+                                                        )}
                                                     />
                                                 </FormControl>
                                                 <FormMessage />
@@ -352,12 +368,16 @@ export function UsersActionDialog({
                                         name="lastName"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Last Name</FormLabel>
+                                                <FormLabel>
+                                                    {t("fields.lastName")}
+                                                </FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         {...field}
                                                         disabled={isPending}
-                                                        placeholder="Doe"
+                                                        placeholder={t(
+                                                            "fields.lastNamePlaceholder"
+                                                        )}
                                                     />
                                                 </FormControl>
                                                 <FormMessage />
@@ -372,7 +392,7 @@ export function UsersActionDialog({
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
-                                                    Birth Date
+                                                    {t("fields.birthDate")}
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
@@ -390,13 +410,17 @@ export function UsersActionDialog({
                                         name="gender"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Gender</FormLabel>
+                                                <FormLabel>
+                                                    {t("fields.gender")}
+                                                </FormLabel>
                                                 <SelectDropdown
                                                     defaultValue={field.value}
                                                     onValueChange={
                                                         field.onChange
                                                     }
-                                                    placeholder="Select a gender"
+                                                    placeholder={t(
+                                                        "fields.genderPlaceholder"
+                                                    )}
                                                     items={genderOptions}
                                                     disabled={isPending}
                                                     className="w-full"
@@ -412,12 +436,16 @@ export function UsersActionDialog({
                                     name="phoneNumber"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Phone Number</FormLabel>
+                                            <FormLabel>
+                                                {t("fields.phoneNumber")}
+                                            </FormLabel>
                                             <FormControl>
                                                 <Input
                                                     {...field}
                                                     disabled={isPending}
-                                                    placeholder="+33601020304"
+                                                    placeholder={t(
+                                                        "fields.phoneNumberPlaceholder"
+                                                    )}
                                                 />
                                             </FormControl>
                                             <FormMessage />
@@ -429,12 +457,16 @@ export function UsersActionDialog({
                                     name="address"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Address</FormLabel>
+                                            <FormLabel>
+                                                {t("fields.address")}
+                                            </FormLabel>
                                             <FormControl>
                                                 <Input
                                                     {...field}
                                                     disabled={isPending}
-                                                    placeholder="221B Baker Street"
+                                                    placeholder={t(
+                                                        "fields.addressPlaceholder"
+                                                    )}
                                                 />
                                             </FormControl>
                                             <FormMessage />
@@ -448,13 +480,15 @@ export function UsersActionDialog({
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
-                                                    Language Key
+                                                    {t("fields.languageKey")}
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         {...field}
                                                         disabled={isPending}
-                                                        placeholder="en"
+                                                        placeholder={t(
+                                                            "fields.languageKeyPlaceholder"
+                                                        )}
                                                     />
                                                 </FormControl>
                                                 <FormMessage />
@@ -466,12 +500,16 @@ export function UsersActionDialog({
                                         name="imageUrl"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Image URL</FormLabel>
+                                                <FormLabel>
+                                                    {t("fields.imageUrl")}
+                                                </FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         {...field}
                                                         disabled={isPending}
-                                                        placeholder="https://example.com/avatar.png"
+                                                        placeholder={t(
+                                                            "fields.imageUrlPlaceholder"
+                                                        )}
                                                     />
                                                 </FormControl>
                                                 <FormMessage />
@@ -484,20 +522,24 @@ export function UsersActionDialog({
                                     name="roleGroupNames"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Role Groups</FormLabel>
+                                            <FormLabel>
+                                                {t("fields.roleGroups")}
+                                            </FormLabel>
                                             <div className="rounded-md border">
                                                 <ScrollArea className="h-48">
                                                     <div className="space-y-3 p-4">
                                                         {isRoleGroupsLoading ? (
                                                             <p className="text-sm text-muted-foreground">
-                                                                Loading role
-                                                                groups...
+                                                                {t(
+                                                                    "roleGroupsLoading"
+                                                                )}
                                                             </p>
                                                         ) : roleGroupOptions.length ===
                                                           0 ? (
                                                             <p className="text-sm text-muted-foreground">
-                                                                No role groups
-                                                                available.
+                                                                {t(
+                                                                    "roleGroupsEmpty"
+                                                                )}
                                                             </p>
                                                         ) : (
                                                             roleGroupOptions.map(
@@ -564,8 +606,12 @@ export function UsersActionDialog({
                                             </div>
                                             <FormDescription>
                                                 {isEdit
-                                                    ? "Assign or revoke role groups for this user."
-                                                    : "Role groups are required when creating a managed user."}
+                                                    ? t(
+                                                          "roleGroupsDescriptionEdit"
+                                                      )
+                                                    : t(
+                                                          "roleGroupsDescriptionAdd"
+                                                      )}
                                             </FormDescription>
                                             <FormMessage />
                                         </FormItem>
@@ -580,7 +626,7 @@ export function UsersActionDialog({
                                 disabled={isPending}
                                 className="w-full sm:w-auto"
                             >
-                                {isEdit ? "Save changes" : "Create user"}
+                                {isEdit ? t("submitEdit") : t("submitAdd")}
                             </Button>
                         </DialogFooter>
                     </form>
