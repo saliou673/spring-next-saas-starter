@@ -3,7 +3,15 @@
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
+import { useQueryClient } from "@tanstack/react-query";
+import {
+    getUserDetailsQueryKey,
+    useGetUserDetails,
+    useUpdateAccount,
+} from "@api-client";
 import { Check, Languages } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { handleServerError } from "@/lib/handle-server-error";
 import { cn } from "@/lib/utils";
 import { setLocale } from "@/i18n/actions";
 import { locales, type Locale } from "@/i18n/locales";
@@ -19,6 +27,14 @@ export function LanguageSwitch() {
     const locale = useLocale();
     const t = useTranslations("LanguageSwitch");
     const router = useRouter();
+    const queryClient = useQueryClient();
+    const { status } = useSession();
+    const { data: user } = useGetUserDetails(undefined, {
+        query: { enabled: status === "authenticated" },
+    });
+    const { mutateAsync: updateAccount } = useUpdateAccount({
+        mutation: { onError: handleServerError },
+    });
     const [isPending, startTransition] = useTransition();
 
     const localeLabels: Record<Locale, string> = {
@@ -29,6 +45,30 @@ export function LanguageSwitch() {
     const handleSetLocale = (nextLocale: Locale) => {
         startTransition(async () => {
             await setLocale(nextLocale);
+
+            if (status === "authenticated" && user) {
+                try {
+                    const updatedUser = await updateAccount({
+                        data: {
+                            firstName: user.firstName,
+                            lastName: user.lastName,
+                            phoneNumber: user.phoneNumber,
+                            birthDate: user.birthDate,
+                            gender: user.gender,
+                            address: user.address,
+                            languageKey: nextLocale,
+                            imageUrl: user.imageUrl,
+                        },
+                    });
+                    queryClient.setQueryData(
+                        getUserDetailsQueryKey(),
+                        updatedUser
+                    );
+                } catch {
+                    // Error already reported via handleServerError.
+                }
+            }
+
             router.refresh();
         });
     };

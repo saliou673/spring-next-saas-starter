@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
+import { useRouter } from "next/navigation";
 import { AxiosError } from "axios";
 import {
     QueryCache,
@@ -11,8 +12,10 @@ import {
     configureApiClient,
     getCurrentUserPreferencesQueryKey,
     useGetCurrentUserPreferences,
+    useGetUserDetails,
 } from "@api-client";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { useLocale } from "next-intl";
 import { SessionProvider, signOut, useSession } from "next-auth/react";
 import { toast } from "sonner";
 import {
@@ -25,6 +28,8 @@ import { DirectionProvider } from "@/context/direction-provider";
 import { FontProvider, useFont } from "@/context/font-provider";
 import { ThemeProvider, useTheme } from "@/context/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { setLocale } from "@/i18n/actions";
+import { isLocale } from "@/i18n/locales";
 
 function makeQueryClient() {
     const isDev = process.env.NODE_ENV === "development";
@@ -130,6 +135,28 @@ function UserPreferenceSync() {
     return null;
 }
 
+function AccountLocaleSync() {
+    const { status } = useSession();
+    const router = useRouter();
+    const locale = useLocale();
+    const { data: user } = useGetUserDetails(undefined, {
+        query: { enabled: status === "authenticated" },
+    });
+
+    useEffect(() => {
+        if (status !== "authenticated") return;
+
+        const languageKey = user?.languageKey;
+        if (!isLocale(languageKey) || languageKey === locale) return;
+
+        void setLocale(languageKey).then(() => {
+            router.refresh();
+        });
+    }, [locale, router, status, user?.languageKey]);
+
+    return null;
+}
+
 export function Providers({ children }: ProvidersProps) {
     const [queryClient] = useState(makeQueryClient);
 
@@ -140,6 +167,7 @@ export function Providers({ children }: ProvidersProps) {
                 <ThemeProvider>
                     <FontProvider>
                         <UserPreferenceSync />
+                        <AccountLocaleSync />
                         <DirectionProvider>
                             {children}
                             <Toaster duration={5000} />
