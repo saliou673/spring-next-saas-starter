@@ -6,15 +6,21 @@ import { DataTableRowActions } from "./data-table-row-actions";
 
 type BuildRoleGroupsColumnsOptions = {
     canManageRoleGroups: boolean;
+    labels: {
+        name: string;
+        description: string;
+        permissions: string;
+    };
 };
 
 export function buildRoleGroupsColumns({
     canManageRoleGroups,
+    labels,
 }: BuildRoleGroupsColumnsOptions): ColumnDef<RoleGroupRow>[] {
     const columns: ColumnDef<RoleGroupRow>[] = [
         {
             accessorKey: "name",
-            header: "Name",
+            header: labels.name,
             cell: ({ row }) => (
                 <LongText className="max-w-40">{row.original.name}</LongText>
             ),
@@ -22,7 +28,7 @@ export function buildRoleGroupsColumns({
         },
         {
             accessorKey: "description",
-            header: "Description",
+            header: labels.description,
             cell: ({ row }) => (
                 <LongText className="max-w-64">
                     {row.original.description ?? "—"}
@@ -31,7 +37,7 @@ export function buildRoleGroupsColumns({
         },
         {
             accessorKey: "permissionCodes",
-            header: "Permissions",
+            header: labels.permissions,
             cell: ({ row }) => {
                 const codes = row.original.permissionCodes;
                 const maxVisible = 3;

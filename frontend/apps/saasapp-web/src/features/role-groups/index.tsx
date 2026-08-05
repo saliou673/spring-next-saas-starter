@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useGetCurrentUserPermissions } from "@api-client";
 import { Main } from "@/components/layout/main";
 import { RoleGroupsDialogs } from "./components/role-groups-dialogs";
@@ -8,6 +9,7 @@ import { RoleGroupsProvider } from "./components/role-groups-provider";
 import { RoleGroupsTable } from "./components/role-groups-table";
 
 export function RoleGroups() {
+    const t = useTranslations("RoleGroups");
     const { data: permissions } = useGetCurrentUserPermissions();
 
     const permissionCodes = new Set(
@@ -24,10 +26,10 @@ export function RoleGroups() {
                 <div className="flex flex-wrap items-end justify-between gap-2">
                     <div>
                         <h2 className="text-2xl font-bold tracking-tight">
-                            Role Groups
+                            {t("title")}
                         </h2>
                         <p className="text-muted-foreground">
-                            Manage role groups and their assigned permissions.
+                            {t("description")}
                         </p>
                     </div>
                     <RoleGroupsPrimaryButtons

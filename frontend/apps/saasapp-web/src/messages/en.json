@@ -154,5 +154,57 @@
                 "roleGroupRequired": "At least one role group is required."
             }
         }
+    },
+    "RoleGroups": {
+        "pageTitle": "Role Groups",
+        "title": "Role Groups",
+        "description": "Manage role groups and their assigned permissions.",
+        "addRoleGroup": "Add role group",
+        "table": {
+            "columns": {
+                "name": "Name",
+                "description": "Description",
+                "permissions": "Permissions"
+            },
+            "loading": "Loading role groups...",
+            "errorFallback": "Unable to load role groups.",
+            "noResults": "No results.",
+            "searchPlaceholder": "Filter by name..."
+        },
+        "rowActions": {
+            "openMenu": "Open menu",
+            "edit": "Edit",
+            "delete": "Delete"
+        },
+        "deleteDialog": {
+            "title": "Delete Role Group",
+            "confirmMessage": "Are you sure you want to delete <bold>{name}</bold>? This action cannot be undone. The deletion will fail if the role group is still assigned to users.",
+            "confirmButton": "Delete",
+            "successToast": "Role group deleted."
+        },
+        "form": {
+            "addTitle": "Add New Role Group",
+            "editTitle": "Edit Role Group",
+            "addDescription": "Create a role group and assign at least one permission.",
+            "editDescription": "Update the role group name, description, and assigned permissions.",
+            "fields": {
+                "name": "Name",
+                "namePlaceholder": "e.g. Admin, Editor",
+                "description": "Description",
+                "descriptionPlaceholder": "Describe the role group...",
+                "permissions": "Permissions"
+            },
+            "permissionsLoading": "Loading permissions...",
+            "permissionsEmpty": "No permissions available.",
+            "permissionsDescription": "Select the permissions granted by this role group.",
+            "submitAdd": "Create role group",
+            "submitEdit": "Save changes",
+            "toastCreated": "Role group created.",
+            "toastUpdated": "Role group updated.",
+            "validation": {
+                "nameRequired": "Name is required.",
+                "permissionRequired": "Select at least one permission."
+            }
+        }
     }
 }

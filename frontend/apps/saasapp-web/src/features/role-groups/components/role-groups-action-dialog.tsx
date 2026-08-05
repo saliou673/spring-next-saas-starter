@@ -11,6 +11,7 @@ import {
     useGetPermissionsAsAdmin,
     useUpdateRoleGroupAsAdmin,
 } from "@api-client";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { handleServerError } from "@/lib/handle-server-error";
 import { Button } from "@/components/ui/button";
@@ -37,15 +38,17 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { type RoleGroupRow } from "../data/schema";
 
-const formSchema = z.object({
-    name: z.string().trim().min(1, "Name is required.").max(100),
-    description: z.string().optional(),
-    permissionCodes: z
-        .array(z.string())
-        .min(1, "Select at least one permission."),
-});
+function createFormSchema(t: ReturnType<typeof useTranslations>) {
+    return z.object({
+        name: z.string().trim().min(1, t("nameRequired")).max(100),
+        description: z.string().optional(),
+        permissionCodes: z
+            .array(z.string())
+            .min(1, t("permissionRequired")),
+    });
+}
 
-type RoleGroupForm = z.infer<typeof formSchema>;
+type RoleGroupForm = z.infer<ReturnType<typeof createFormSchema>>;
 
 type RoleGroupActionDialogProps = {
     currentRow?: RoleGroupRow;
@@ -66,8 +69,14 @@ export function RoleGroupsActionDialog({
     open,
     onOpenChange,
 }: RoleGroupActionDialogProps) {
+    const t = useTranslations("RoleGroups.form");
+    const tValidation = useTranslations("RoleGroups.form.validation");
     const isEdit = !!currentRow;
     const queryClient = useQueryClient();
+    const formSchema = useMemo(
+        () => createFormSchema(tValidation),
+        [tValidation]
+    );
 
     const form = useForm<RoleGroupForm>({
         resolver: zodResolver(formSchema),
@@ -105,7 +114,7 @@ export function RoleGroupsActionDialog({
             mutation: {
                 onSuccess: async () => {
                     await invalidateRoleGroups();
-                    toast.success("Role group created.");
+                    toast.success(t("toastCreated"));
                     form.reset(getDefaultValues());
                     onOpenChange(false);
                 },
@@ -118,7 +127,7 @@ export function RoleGroupsActionDialog({
             mutation: {
                 onSuccess: async () => {
                     await invalidateRoleGroups();
-                    toast.success("Role group updated.");
+                    toast.success(t("toastUpdated"));
                     onOpenChange(false);
                 },
                 onError: handleServerError,
@@ -166,12 +175,12 @@ export function RoleGroupsActionDialog({
             <DialogContent className="flex max-h-[90vh] flex-col overflow-y-auto sm:max-w-lg sm:overflow-hidden">
                 <DialogHeader className="text-start">
                     <DialogTitle>
-                        {isEdit ? "Edit Role Group" : "Add New Role Group"}
+                        {isEdit ? t("editTitle") : t("addTitle")}
                     </DialogTitle>
                     <DialogDescription>
                         {isEdit
-                            ? "Update the role group name, description, and assigned permissions."
-                            : "Create a role group and assign at least one permission."}
+                            ? t("editDescription")
+                            : t("addDescription")}
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
@@ -187,12 +196,16 @@ export function RoleGroupsActionDialog({
                                     name="name"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Name</FormLabel>
+                                            <FormLabel>
+                                                {t("fields.name")}
+                                            </FormLabel>
                                             <FormControl>
                                                 <Input
                                                     {...field}
                                                     disabled={isPending}
-                                                    placeholder="e.g. Admin, Editor"
+                                                    placeholder={t(
+                                                        "fields.namePlaceholder"
+                                                    )}
                                                 />
                                             </FormControl>
                                             <FormMessage />
@@ -204,12 +217,16 @@ export function RoleGroupsActionDialog({
                                     name="description"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Description</FormLabel>
+                                            <FormLabel>
+                                                {t("fields.description")}
+                                            </FormLabel>
                                             <FormControl>
                                                 <Textarea
                                                     {...field}
                                                     disabled={isPending}
-                                                    placeholder="Describe the role group..."
+                                                    placeholder={t(
+                                                        "fields.descriptionPlaceholder"
+                                                    )}
                                                     rows={3}
                                                 />
                                             </FormControl>
@@ -222,20 +239,24 @@ export function RoleGroupsActionDialog({
                                     name="permissionCodes"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Permissions</FormLabel>
+                                            <FormLabel>
+                                                {t("fields.permissions")}
+                                            </FormLabel>
                                             <div className="rounded-md border">
                                                 <ScrollArea className="h-56">
                                                     <div className="space-y-3 p-4">
                                                         {isPermissionsLoading ? (
                                                             <p className="text-sm text-muted-foreground">
-                                                                Loading
-                                                                permissions...
+                                                                {t(
+                                                                    "permissionsLoading"
+                                                                )}
                                                             </p>
                                                         ) : permissionOptions.length ===
                                                           0 ? (
                                                             <p className="text-sm text-muted-foreground">
-                                                                No permissions
-                                                                available.
+                                                                {t(
+                                                                    "permissionsEmpty"
+                                                                )}
                                                             </p>
                                                         ) : (
                                                             permissionOptions.map(
@@ -302,8 +323,7 @@ export function RoleGroupsActionDialog({
                                                 </ScrollArea>
                                             </div>
                                             <FormDescription>
-                                                Select the permissions granted
-                                                by this role group.
+                                                {t("permissionsDescription")}
                                             </FormDescription>
                                             <FormMessage />
                                         </FormItem>
@@ -318,7 +338,7 @@ export function RoleGroupsActionDialog({
                                 disabled={isPending}
                                 className="w-full sm:w-auto"
                             >
-                                {isEdit ? "Save changes" : "Create role group"}
+                                {isEdit ? t("submitEdit") : t("submitAdd")}
                             </Button>
                         </DialogFooter>
                     </form>

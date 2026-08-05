@@ -5,6 +5,7 @@ import {
     getCoreRowModel,
     useReactTable,
 } from "@tanstack/react-table";
+import { useTranslations } from "next-intl";
 import { useGetRoleGroupsAsAdmin } from "@api-client";
 import { cn } from "@/lib/utils";
 import {
@@ -29,6 +30,7 @@ type RoleGroupsTableProps = {
 };
 
 export function RoleGroupsTable({ canManageRoleGroups }: RoleGroupsTableProps) {
+    const t = useTranslations("RoleGroups.table");
     const search = useNextSearchObject();
     const navigate = useNextNavigateSearch();
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
@@ -85,8 +87,16 @@ export function RoleGroupsTable({ canManageRoleGroups }: RoleGroupsTableProps) {
 
     const totalPages = data?.totalPages ?? 0;
     const columns = useMemo(
-        () => buildRoleGroupsColumns({ canManageRoleGroups }),
-        [canManageRoleGroups]
+        () =>
+            buildRoleGroupsColumns({
+                canManageRoleGroups,
+                labels: {
+                    name: t("columns.name"),
+                    description: t("columns.description"),
+                    permissions: t("columns.permissions"),
+                },
+            }),
+        [canManageRoleGroups, t]
     );
 
     // eslint-disable-next-line react-hooks/incompatible-library
@@ -116,7 +126,7 @@ export function RoleGroupsTable({ canManageRoleGroups }: RoleGroupsTableProps) {
         <div className="flex flex-1 flex-col gap-4">
             <DataTableToolbar
                 table={table}
-                searchPlaceholder="Filter by name..."
+                searchPlaceholder={t("searchPlaceholder")}
                 searchKey="name"
                 searchValue={nameSearchValue}
                 onSearchChange={setNameSearchValue}
@@ -166,7 +176,7 @@ export function RoleGroupsTable({ canManageRoleGroups }: RoleGroupsTableProps) {
                                     colSpan={columns.length}
                                     className="h-24 text-center"
                                 >
-                                    Loading role groups...
+                                    {t("loading")}
                                 </TableCell>
                             </TableRow>
                         ) : isError ? (
@@ -176,7 +186,7 @@ export function RoleGroupsTable({ canManageRoleGroups }: RoleGroupsTableProps) {
                                     className="h-24 text-center text-destructive"
                                 >
                                     {error?.response?.data?.message ??
-                                        "Unable to load role groups."}
+                                        t("errorFallback")}
                                 </TableCell>
                             </TableRow>
                         ) : table.getRowModel().rows?.length ? (
@@ -207,7 +217,7 @@ export function RoleGroupsTable({ canManageRoleGroups }: RoleGroupsTableProps) {
                                     colSpan={columns.length}
                                     className="h-24 text-center"
                                 >
-                                    No results.
+                                    {t("noResults")}
                                 </TableCell>
                             </TableRow>
                         )}

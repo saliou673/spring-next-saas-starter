@@ -6,6 +6,7 @@ import {
     useDeleteRoleGroupAsAdmin,
 } from "@api-client";
 import { AlertTriangle } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { handleServerError } from "@/lib/handle-server-error";
 import { ConfirmDialog } from "@/components/confirm-dialog";
@@ -22,6 +23,7 @@ export function RoleGroupsDeleteDialog({
     onOpenChange,
     currentRow,
 }: RoleGroupDeleteDialogProps) {
+    const t = useTranslations("RoleGroups.deleteDialog");
     const queryClient = useQueryClient();
     const { mutate, isPending } = useDeleteRoleGroupAsAdmin({
         mutation: {
@@ -29,7 +31,7 @@ export function RoleGroupsDeleteDialog({
                 await queryClient.invalidateQueries({
                     queryKey: getRoleGroupsAsAdminQueryKey(),
                 });
-                toast.success("Role group deleted.");
+                toast.success(t("successToast"));
                 onOpenChange(false);
             },
             onError: handleServerError,
@@ -52,18 +54,20 @@ export function RoleGroupsDeleteDialog({
                         className="me-1 inline-block stroke-destructive"
                         size={18}
                     />{" "}
-                    Delete Role Group
+                    {t("title")}
                 </span>
             }
             desc={
                 <p>
-                    Are you sure you want to delete{" "}
-                    <span className="font-bold">{currentRow.name}</span>? This
-                    action cannot be undone. The deletion will fail if the role
-                    group is still assigned to users.
+                    {t.rich("confirmMessage", {
+                        name: currentRow.name,
+                        bold: (chunks) => (
+                            <span className="font-bold">{chunks}</span>
+                        ),
+                    })}
                 </p>
             }
-            confirmText="Delete"
+            confirmText={t("confirmButton")}
             destructive
         />
     );

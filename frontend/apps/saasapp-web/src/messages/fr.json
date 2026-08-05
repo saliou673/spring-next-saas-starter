@@ -154,5 +154,57 @@
                 "roleGroupRequired": "Au moins un groupe de rôles est requis."
             }
         }
+    },
+    "RoleGroups": {
+        "pageTitle": "Groupes de rôles",
+        "title": "Groupes de rôles",
+        "description": "Gérez les groupes de rôles et leurs permissions attribuées.",
+        "addRoleGroup": "Ajouter un groupe de rôles",
+        "table": {
+            "columns": {
+                "name": "Nom",
+                "description": "Description",
+                "permissions": "Permissions"
+            },
+            "loading": "Chargement des groupes de rôles...",
+            "errorFallback": "Impossible de charger les groupes de rôles.",
+            "noResults": "Aucun résultat.",
+            "searchPlaceholder": "Filtrer par nom..."
+        },
+        "rowActions": {
+            "openMenu": "Ouvrir le menu",
+            "edit": "Modifier",
+            "delete": "Supprimer"
+        },
+        "deleteDialog": {
+            "title": "Supprimer le groupe de rôles",
+            "confirmMessage": "Voulez-vous vraiment supprimer <bold>{name}</bold> ? Cette opération est irréversible. La suppression échouera si le groupe de rôles est encore attribué à des utilisateurs.",
+            "confirmButton": "Supprimer",
+            "successToast": "Groupe de rôles supprimé."
+        },
+        "form": {
+            "addTitle": "Ajouter un groupe de rôles",
+            "editTitle": "Modifier le groupe de rôles",
+            "addDescription": "Créez un groupe de rôles et attribuez-lui au moins une permission.",
+            "editDescription": "Modifiez le nom, la description et les permissions attribuées du groupe de rôles.",
+            "fields": {
+                "name": "Nom",
+                "namePlaceholder": "ex. Admin, Éditeur",
+                "description": "Description",
+                "descriptionPlaceholder": "Décrivez le groupe de rôles...",
+                "permissions": "Permissions"
+            },
+            "permissionsLoading": "Chargement des permissions...",
+            "permissionsEmpty": "Aucune permission disponible.",
+            "permissionsDescription": "Sélectionnez les permissions accordées par ce groupe de rôles.",
+            "submitAdd": "Créer le groupe de rôles",
+            "submitEdit": "Enregistrer les modifications",
+            "toastCreated": "Groupe de rôles créé.",
+            "toastUpdated": "Groupe de rôles mis à jour.",
+            "validation": {
+                "nameRequired": "Le nom est requis.",
+                "permissionRequired": "Sélectionnez au moins une permission."
+            }
+        }
     }
 }
