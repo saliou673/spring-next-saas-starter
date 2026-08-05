@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useGetCurrentUserPermissions } from "@api-client";
+import { useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
 import { useLayout } from "@/context/layout-provider";
 import {
@@ -9,7 +10,7 @@ import {
     SidebarHeader,
     SidebarRail,
 } from "@/components/ui/sidebar";
-import { sidebarData } from "./data/sidebar-data";
+import { getSidebarNavGroups, sidebarTeams } from "./data/sidebar-data";
 import { NavGroup } from "./nav-group";
 import { NavUser } from "./nav-user";
 import { TeamSwitcher } from "./team-switcher";
@@ -87,6 +88,8 @@ function filterNavGroups(
 export function AppSidebar() {
     const { collapsible, variant } = useLayout();
     const { status } = useSession();
+    const t = useTranslations("Sidebar");
+    const tSettingsNav = useTranslations("Settings.nav");
     const { data: permissions } = useGetCurrentUserPermissions({
         query: {
             enabled: status === "authenticated",
@@ -102,14 +105,18 @@ export function AppSidebar() {
         [permissions]
     );
     const navGroups = useMemo(
-        () => filterNavGroups(sidebarData.navGroups, permissionCodes),
-        [permissionCodes]
+        () =>
+            filterNavGroups(
+                getSidebarNavGroups(t, tSettingsNav),
+                permissionCodes
+            ),
+        [permissionCodes, t, tSettingsNav]
     );
 
     return (
         <Sidebar collapsible={collapsible} variant={variant}>
             <SidebarHeader>
-                <TeamSwitcher teams={sidebarData.teams} />
+                <TeamSwitcher teams={sidebarTeams} />
 
                 {/* Replace <TeamSwitch /> with the following <AppTitle />
          /* if you want to use the normal app title instead of TeamSwitch dropdown */}

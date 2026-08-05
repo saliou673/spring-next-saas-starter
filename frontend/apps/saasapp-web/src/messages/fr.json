@@ -15,6 +15,25 @@
             "display": "Affichage"
         }
     },
+    "Sidebar": {
+        "groups": {
+            "general": "Général",
+            "other": "Autre"
+        },
+        "nav": {
+            "dashboard": "Tableau de bord",
+            "users": "Utilisateurs",
+            "roleGroups": "Groupes de rôles",
+            "configuration": "Configuration",
+            "referenceData": "Données de référence",
+            "fileStorage": "Stockage de fichiers",
+            "taxRates": "Taux de taxe",
+            "companyProfile": "Profil de l'entreprise",
+            "security": "Sécurité",
+            "settings": "Paramètres",
+            "helpCenter": "Centre d'aide"
+        }
+    },
     "SettingsProfile": {
         "pageTitle": "Paramètres",
         "sectionTitle": "Profil",

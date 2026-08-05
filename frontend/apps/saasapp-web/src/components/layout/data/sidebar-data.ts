@@ -19,74 +19,79 @@ import {
     Tag,
     ShieldAlert,
 } from "lucide-react";
+import { type useTranslations } from "next-intl";
 import { type SidebarData } from "../types";
 
-export const sidebarData: SidebarData = {
-    teams: [
+export const sidebarTeams: SidebarData["teams"] = [
+    {
+        name: "Shadcn Admin",
+        logo: Command,
+        plan: "Vite + ShadcnUI",
+    },
+    {
+        name: "Acme Inc",
+        logo: GalleryVerticalEnd,
+        plan: "Enterprise",
+    },
+    {
+        name: "Acme Corp.",
+        logo: AudioWaveform,
+        plan: "Startup",
+    },
+];
+
+export function getSidebarNavGroups(
+    t: ReturnType<typeof useTranslations>,
+    tSettingsNav: ReturnType<typeof useTranslations>
+): SidebarData["navGroups"] {
+    return [
         {
-            name: "Shadcn Admin",
-            logo: Command,
-            plan: "Vite + ShadcnUI",
-        },
-        {
-            name: "Acme Inc",
-            logo: GalleryVerticalEnd,
-            plan: "Enterprise",
-        },
-        {
-            name: "Acme Corp.",
-            logo: AudioWaveform,
-            plan: "Startup",
-        },
-    ],
-    navGroups: [
-        {
-            title: "General",
+            title: t("groups.general"),
             items: [
                 {
-                    title: "Dashboard",
+                    title: t("nav.dashboard"),
                     url: "/",
                     icon: LayoutDashboard,
                 },
                 {
-                    title: "Users",
+                    title: t("nav.users"),
                     url: "/users",
                     icon: Users,
                     requiredPermission: "user:read",
                 },
                 {
-                    title: "Role Groups",
+                    title: t("nav.roleGroups"),
                     url: "/role-groups",
                     icon: ShieldCheck,
                     requiredPermission: "role-group:read",
                 },
                 {
-                    title: "Configuration",
+                    title: t("nav.configuration"),
                     icon: SlidersHorizontal,
                     requiredPermission: "config:manage",
                     items: [
                         {
-                            title: "Reference Data",
+                            title: t("nav.referenceData"),
                             url: "/configurations",
                             icon: Tag,
                         },
                         {
-                            title: "File Storage",
+                            title: t("nav.fileStorage"),
                             url: "/configurations/storage-settings",
                             icon: HardDrive,
                         },
                         {
-                            title: "Tax Rates",
+                            title: t("nav.taxRates"),
                             url: "/configurations/tax-configurations",
                             icon: Percent,
                         },
                         {
-                            title: "Company Profile",
+                            title: t("nav.companyProfile"),
                             url: "/configurations/enterprise-profile",
                             icon: Building2,
                         },
                         {
-                            title: "Security",
+                            title: t("nav.security"),
                             url: "/configurations/security-settings",
                             icon: ShieldAlert,
                         },
@@ -95,45 +100,45 @@ export const sidebarData: SidebarData = {
             ],
         },
         {
-            title: "Other",
+            title: t("groups.other"),
             items: [
                 {
-                    title: "Settings",
+                    title: t("nav.settings"),
                     icon: Settings,
                     items: [
                         {
-                            title: "Profile",
+                            title: tSettingsNav("profile"),
                             url: "/settings",
                             icon: UserCog,
                         },
                         {
-                            title: "Account",
+                            title: tSettingsNav("account"),
                             url: "/settings/account",
                             icon: Wrench,
                         },
                         {
-                            title: "Appearance",
+                            title: tSettingsNav("appearance"),
                             url: "/settings/appearance",
                             icon: Palette,
                         },
                         {
-                            title: "Notifications",
+                            title: tSettingsNav("notifications"),
                             url: "/settings/notifications",
                             icon: Bell,
                         },
                         {
-                            title: "Display",
+                            title: tSettingsNav("display"),
                             url: "/settings/display",
                             icon: Monitor,
                         },
                     ],
                 },
                 {
-                    title: "Help Center",
+                    title: t("nav.helpCenter"),
                     url: "/help-center",
                     icon: HelpCircle,
                 },
             ],
         },
-    ],
-};
+    ];
+}

@@ -15,6 +15,25 @@
             "display": "Display"
         }
     },
+    "Sidebar": {
+        "groups": {
+            "general": "General",
+            "other": "Other"
+        },
+        "nav": {
+            "dashboard": "Dashboard",
+            "users": "Users",
+            "roleGroups": "Role Groups",
+            "configuration": "Configuration",
+            "referenceData": "Reference Data",
+            "fileStorage": "File Storage",
+            "taxRates": "Tax Rates",
+            "companyProfile": "Company Profile",
+            "security": "Security",
+            "settings": "Settings",
+            "helpCenter": "Help Center"
+        }
+    },
     "SettingsProfile": {
         "pageTitle": "Settings",
         "sectionTitle": "Profile",

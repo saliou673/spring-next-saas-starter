@@ -1,6 +1,7 @@
 import React from "react";
 import { ArrowRight, ChevronRight, Laptop, Moon, Sun } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useSearch } from "@/context/search-provider";
 import { useTheme } from "@/context/theme-provider";
 import {
@@ -12,13 +13,19 @@ import {
     CommandList,
     CommandSeparator,
 } from "@/components/ui/command";
-import { sidebarData } from "./layout/data/sidebar-data";
+import { getSidebarNavGroups } from "./layout/data/sidebar-data";
 import { ScrollArea } from "./ui/scroll-area";
 
 export function CommandMenu() {
     const router = useRouter();
     const { setTheme } = useTheme();
     const { open, setOpen } = useSearch();
+    const t = useTranslations("Sidebar");
+    const tSettingsNav = useTranslations("Settings.nav");
+    const navGroups = React.useMemo(
+        () => getSidebarNavGroups(t, tSettingsNav),
+        [t, tSettingsNav]
+    );
 
     const runCommand = React.useCallback(
         (command: () => unknown) => {
@@ -34,7 +41,7 @@ export function CommandMenu() {
             <CommandList>
                 <ScrollArea type="hover" className="h-72 pe-1">
                     <CommandEmpty>No results found.</CommandEmpty>
-                    {sidebarData.navGroups.map((group) => (
+                    {navGroups.map((group) => (
                         <CommandGroup key={group.title} heading={group.title}>
                             {group.items.map((navItem, i) => {
                                 if (navItem.url)
