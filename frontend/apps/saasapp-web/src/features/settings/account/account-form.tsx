@@ -321,26 +321,17 @@ export function AccountForm() {
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>{t("fields.language")}</FormLabel>
-                            <FormControl>
-                                <Input
-                                    list="account-language-options"
-                                    placeholder={t(
-                                        "fields.languagePlaceholder"
-                                    )}
-                                    {...field}
-                                    value={field.value ?? ""}
-                                />
-                            </FormControl>
-                            <datalist id="account-language-options">
-                                {languageOptions.map((language) => (
-                                    <option
-                                        key={language.value}
-                                        value={language.value}
-                                    >
-                                        {language.label}
-                                    </option>
-                                ))}
-                            </datalist>
+                            <SelectDropdown
+                                defaultValue={field.value || undefined}
+                                onValueChange={field.onChange}
+                                placeholder={t("fields.languagePlaceholder")}
+                                className="w-full"
+                                items={languageOptions.map((language) => ({
+                                    label: language.label,
+                                    value: language.value,
+                                }))}
+                                isControlled
+                            />
                             <FormDescription>
                                 {t("fields.languageDescription")}
                             </FormDescription>
