@@ -1,6 +1,8 @@
 "use client";
 
 import { format, parseISO } from "date-fns";
+import { enUS, fr } from "date-fns/locale";
+import { useLocale, useTranslations } from "next-intl";
 import { type UserSummary, useGetUserDetails } from "@api-client";
 import {
     Card,
@@ -11,88 +13,116 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
-function formatBirthDate(birthDate?: string) {
-    if (!birthDate) return "Not provided";
+const dateFnsLocales = { en: enUS, fr } as const;
+
+function formatBirthDate(
+    birthDate: string | undefined,
+    locale: string,
+    notProvidedLabel: string
+) {
+    if (!birthDate) return notProvidedLabel;
 
     const parsedDate = parseISO(birthDate);
     return Number.isNaN(parsedDate.getTime())
         ? birthDate
-        : format(parsedDate, "MMMM d, yyyy");
+        : format(parsedDate, "PPP", {
+              locale: dateFnsLocales[locale as keyof typeof dateFnsLocales],
+          });
 }
 
-function formatEnumValue(value?: string) {
-    if (!value) return "Not provided";
+type EnumTranslator = (value: string) => string;
 
-    return value
-        .toLowerCase()
-        .split("_")
-        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-        .join(" ");
-}
+function ProfileSummary({
+    user,
+    t,
+    tGender,
+    tStatus,
+}: {
+    user: UserSummary;
+    t: ReturnType<typeof useTranslations>;
+    tGender: EnumTranslator;
+    tStatus: EnumTranslator;
+}) {
+    const locale = useLocale();
+    const notProvided = t("notProvided");
 
-function ProfileSummary({ user }: { user: UserSummary }) {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Profile summary</CardTitle>
-                <CardDescription>
-                    Review the account information currently stored for your
-                    profile.
-                </CardDescription>
+                <CardTitle>{t("summaryTitle")}</CardTitle>
+                <CardDescription>{t("summaryDescription")}</CardDescription>
             </CardHeader>
             <CardContent className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-1">
-                    <p className="text-sm font-medium">Email</p>
+                    <p className="text-sm font-medium">
+                        {t("fields.email")}
+                    </p>
                     <p className="text-sm text-muted-foreground">
                         {user.email}
                     </p>
                 </div>
                 <div className="space-y-1">
-                    <p className="text-sm font-medium">Status</p>
+                    <p className="text-sm font-medium">
+                        {t("fields.status")}
+                    </p>
                     <p className="text-sm text-muted-foreground">
-                        {formatEnumValue(user.status)}
+                        {user.status ? tStatus(user.status) : notProvided}
                     </p>
                 </div>
                 <div className="space-y-1">
-                    <p className="text-sm font-medium">First name</p>
+                    <p className="text-sm font-medium">
+                        {t("fields.firstName")}
+                    </p>
                     <p className="text-sm text-muted-foreground">
                         {user.firstName}
                     </p>
                 </div>
                 <div className="space-y-1">
-                    <p className="text-sm font-medium">Last name</p>
+                    <p className="text-sm font-medium">
+                        {t("fields.lastName")}
+                    </p>
                     <p className="text-sm text-muted-foreground">
                         {user.lastName}
                     </p>
                 </div>
                 <div className="space-y-1">
-                    <p className="text-sm font-medium">Birth date</p>
+                    <p className="text-sm font-medium">
+                        {t("fields.birthDate")}
+                    </p>
                     <p className="text-sm text-muted-foreground">
-                        {formatBirthDate(user.birthDate)}
+                        {formatBirthDate(user.birthDate, locale, notProvided)}
                     </p>
                 </div>
                 <div className="space-y-1">
-                    <p className="text-sm font-medium">Gender</p>
+                    <p className="text-sm font-medium">
+                        {t("fields.gender")}
+                    </p>
                     <p className="text-sm text-muted-foreground">
-                        {formatEnumValue(user.gender)}
+                        {user.gender ? tGender(user.gender) : notProvided}
                     </p>
                 </div>
                 <div className="space-y-1">
-                    <p className="text-sm font-medium">Phone number</p>
+                    <p className="text-sm font-medium">
+                        {t("fields.phoneNumber")}
+                    </p>
                     <p className="text-sm text-muted-foreground">
-                        {user.phoneNumber || "Not provided"}
+                        {user.phoneNumber || notProvided}
                     </p>
                 </div>
                 <div className="space-y-1">
-                    <p className="text-sm font-medium">Language</p>
+                    <p className="text-sm font-medium">
+                        {t("fields.language")}
+                    </p>
                     <p className="text-sm text-muted-foreground">
-                        {user.languageKey || "Not provided"}
+                        {user.languageKey || notProvided}
                     </p>
                 </div>
                 <div className="space-y-1 sm:col-span-2">
-                    <p className="text-sm font-medium">Address</p>
+                    <p className="text-sm font-medium">
+                        {t("fields.address")}
+                    </p>
                     <p className="text-sm text-muted-foreground">
-                        {user.address || "Not provided"}
+                        {user.address || notProvided}
                     </p>
                 </div>
             </CardContent>
@@ -106,6 +136,9 @@ function ProfileFormSkeleton() {
 
 export function ProfileForm() {
     const { data: user, isLoading, isError } = useGetUserDetails();
+    const t = useTranslations("SettingsProfile");
+    const tGender = useTranslations("SettingsProfile.genderValues");
+    const tStatus = useTranslations("SettingsProfile.statusValues");
 
     if (isLoading) {
         return <ProfileFormSkeleton />;
@@ -115,14 +148,14 @@ export function ProfileForm() {
         return (
             <Card>
                 <CardHeader>
-                    <CardTitle>Unable to load profile</CardTitle>
-                    <CardDescription>
-                        Refresh the page and try again.
-                    </CardDescription>
+                    <CardTitle>{t("errorTitle")}</CardTitle>
+                    <CardDescription>{t("errorDescription")}</CardDescription>
                 </CardHeader>
             </Card>
         );
     }
 
-    return <ProfileSummary user={user} />;
+    return (
+        <ProfileSummary user={user} t={t} tGender={tGender} tStatus={tStatus} />
+    );
 }

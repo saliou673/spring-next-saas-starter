@@ -1,0 +1,39 @@
+{
+    "LanguageSwitch": {
+        "toggleLabel": "Changer de langue",
+        "english": "Anglais",
+        "french": "Français"
+    },
+    "SettingsProfile": {
+        "pageTitle": "Paramètres",
+        "sectionTitle": "Profil",
+        "sectionDescription": "Consultez les informations de profil actuellement associées à votre compte.",
+        "summaryTitle": "Résumé du profil",
+        "summaryDescription": "Consultez les informations de compte actuellement enregistrées pour votre profil.",
+        "fields": {
+            "email": "E-mail",
+            "status": "Statut",
+            "firstName": "Prénom",
+            "lastName": "Nom",
+            "birthDate": "Date de naissance",
+            "gender": "Genre",
+            "phoneNumber": "Numéro de téléphone",
+            "language": "Langue",
+            "address": "Adresse"
+        },
+        "notProvided": "Non renseigné",
+        "genderValues": {
+            "MALE": "Homme",
+            "FEMALE": "Femme"
+        },
+        "statusValues": {
+            "NOT_ACTIVATED": "Non activé",
+            "ACTIVATED": "Activé",
+            "DEACTIVATED": "Désactivé",
+            "LOCKED": "Verrouillé",
+            "BANNED": "Banni"
+        },
+        "errorTitle": "Impossible de charger le profil",
+        "errorDescription": "Actualisez la page et réessayez."
+    }
+}

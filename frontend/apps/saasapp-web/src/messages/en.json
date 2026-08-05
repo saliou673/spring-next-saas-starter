@@ -1,0 +1,39 @@
+{
+    "LanguageSwitch": {
+        "toggleLabel": "Toggle language",
+        "english": "English",
+        "french": "French"
+    },
+    "SettingsProfile": {
+        "pageTitle": "Settings",
+        "sectionTitle": "Profile",
+        "sectionDescription": "Review the profile information currently attached to your account.",
+        "summaryTitle": "Profile summary",
+        "summaryDescription": "Review the account information currently stored for your profile.",
+        "fields": {
+            "email": "Email",
+            "status": "Status",
+            "firstName": "First name",
+            "lastName": "Last name",
+            "birthDate": "Birth date",
+            "gender": "Gender",
+            "phoneNumber": "Phone number",
+            "language": "Language",
+            "address": "Address"
+        },
+        "notProvided": "Not provided",
+        "genderValues": {
+            "MALE": "Male",
+            "FEMALE": "Female"
+        },
+        "statusValues": {
+            "NOT_ACTIVATED": "Not activated",
+            "ACTIVATED": "Activated",
+            "DEACTIVATED": "Deactivated",
+            "LOCKED": "Locked",
+            "BANNED": "Banned"
+        },
+        "errorTitle": "Unable to load profile",
+        "errorDescription": "Refresh the page and try again."
+    }
+}

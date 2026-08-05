@@ -1,5 +1,7 @@
 import "@/styles/index.css";
 import type { Metadata } from "next";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
@@ -14,9 +16,12 @@ type RootLayoutProps = Readonly<{
     children: React.ReactNode;
 }>;
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({ children }: RootLayoutProps) {
+    const locale = await getLocale();
+    const messages = await getMessages();
+
     return (
-        <html lang="en" suppressHydrationWarning>
+        <html lang={locale} suppressHydrationWarning>
             <head>
                 {/* Prevent FOUC: read cookie and apply theme class before React hydrates */}
                 <script
@@ -26,7 +31,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 />
             </head>
             <body>
-                <Providers>{children}</Providers>
+                <NextIntlClientProvider locale={locale} messages={messages}>
+                    <Providers>{children}</Providers>
+                </NextIntlClientProvider>
             </body>
         </html>
     );

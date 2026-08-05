@@ -8,6 +8,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { ConfigDrawer } from "@/components/config-drawer";
 import { AppSidebar } from "@/components/layout/app-sidebar";
 import { Header } from "@/components/layout/header";
+import { LanguageSwitch } from "@/components/language-switch";
 import { ProfileDropdown } from "@/components/profile-dropdown";
 import { Search } from "@/components/search";
 import { SkipToMain } from "@/components/skip-to-main";
@@ -23,6 +24,7 @@ function DefaultAuthenticatedHeader() {
         <Header fixed>
             <Search />
             <div className="ms-auto flex items-center space-x-4">
+                <LanguageSwitch />
                 <ThemeSwitch />
                 <ConfigDrawer />
                 <ProfileDropdown />
