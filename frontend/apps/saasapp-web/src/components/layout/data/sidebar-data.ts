@@ -3,12 +3,10 @@ import {
     LayoutDashboard,
     Monitor,
     Bug,
-    ListTodo,
     FileX,
     HelpCircle,
     Lock,
     Bell,
-    Package,
     Palette,
     ServerOff,
     Settings,
@@ -16,7 +14,6 @@ import {
     UserCog,
     UserX,
     Users,
-    MessagesSquare,
     ShieldCheck,
     AudioWaveform,
     Command,
@@ -27,7 +24,6 @@ import {
     Building2,
     Tag,
     ShieldAlert,
-    CreditCard,
 } from "lucide-react";
 import { type SidebarData } from "../types";
 
@@ -57,22 +53,6 @@ export const sidebarData: SidebarData = {
                     title: "Dashboard",
                     url: "/",
                     icon: LayoutDashboard,
-                },
-                {
-                    title: "Tasks",
-                    url: "/tasks",
-                    icon: ListTodo,
-                },
-                {
-                    title: "Apps",
-                    url: "/apps",
-                    icon: Package,
-                },
-                {
-                    title: "Chats",
-                    url: "/chats",
-                    badge: "3",
-                    icon: MessagesSquare,
                 },
                 {
                     title: "Users",
