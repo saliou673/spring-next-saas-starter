@@ -1,0 +1,22 @@
+{
+    "common": {
+        "loading": "Loading...",
+        "retry": "Retry",
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "save": "Save",
+        "ok": "OK"
+    },
+    "languageSwitch": {
+        "toggleLabel": "Toggle language",
+        "english": "English",
+        "french": "French"
+    },
+    "auth": {
+        "signIn": {
+            "title": "Sign in",
+            "placeholderHint": "The sign-in flow isn't built yet. This placeholder just proves the authenticated/unauthenticated navigation shell works.",
+            "devSignInButton": "Dev: sign in with dummy tokens"
+        }
+    }
+}
