@@ -1,13 +1,18 @@
 import { configureApiClient } from '@api-client';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { DarkTheme, DefaultTheme, Stack, ThemeProvider as NavigationThemeProvider } from 'expo-router';
 import { useEffect, useState, type ReactNode } from 'react';
+import { I18nextProvider } from 'react-i18next';
 
 import { AnimatedSplashOverlay } from '@/components/animated-icon';
+import { AppErrorBoundary } from '@/components/error-boundary';
+import { Toaster } from '@/components/toast/toaster';
 import { apiBaseUrl } from '@/constants/env';
 import { AppThemeProvider, useAppTheme } from '@/context/theme-provider';
 import { AuthProvider, useAuth } from '@/hooks/use-auth';
+import i18n, { hydrateStoredLanguage } from '@/i18n';
 import { hydrateAccessToken, setupAuthInterceptor } from '@/lib/auth-interceptor';
+import { handleQueryError } from '@/lib/handle-query-error';
 
 configureApiClient({ baseURL: apiBaseUrl });
 setupAuthInterceptor();
@@ -43,22 +48,34 @@ function NavigationThemeSync({ children }: { children: ReactNode }) {
 }
 
 export default function RootLayout() {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        queryCache: new QueryCache({ onError: handleQueryError }),
+        mutationCache: new MutationCache({ onError: handleQueryError }),
+      })
+  );
 
   useEffect(() => {
     void hydrateAccessToken();
+    void hydrateStoredLanguage();
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <AppThemeProvider>
-          <NavigationThemeSync>
-            <AnimatedSplashOverlay />
-            <RootNavigator />
-          </NavigationThemeSync>
-        </AppThemeProvider>
-      </AuthProvider>
-    </QueryClientProvider>
+    <AppErrorBoundary>
+      <I18nextProvider i18n={i18n}>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <AppThemeProvider>
+              <NavigationThemeSync>
+                <AnimatedSplashOverlay />
+                <RootNavigator />
+                <Toaster />
+              </NavigationThemeSync>
+            </AppThemeProvider>
+          </AuthProvider>
+        </QueryClientProvider>
+      </I18nextProvider>
+    </AppErrorBoundary>
   );
 }
