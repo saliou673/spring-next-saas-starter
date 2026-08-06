@@ -1,0 +1,30 @@
+{
+    "common": {
+        "loading": "Chargement...",
+        "retry": "Réessayer",
+        "cancel": "Annuler",
+        "confirm": "Confirmer",
+        "save": "Enregistrer",
+        "ok": "OK"
+    },
+    "languageSwitch": {
+        "toggleLabel": "Changer de langue",
+        "english": "Anglais",
+        "french": "Français"
+    },
+    "auth": {
+        "signIn": {
+            "title": "Connexion",
+            "placeholderHint": "Le parcours de connexion n'est pas encore construit. Cet écran provisoire prouve simplement que la navigation authentifiée/non authentifiée fonctionne.",
+            "devSignInButton": "Dev : se connecter avec des jetons fictifs"
+        }
+    },
+    "errors": {
+        "sessionExpired": "Votre session a expiré. Veuillez vous reconnecter.",
+        "serverError": "Une erreur est survenue de notre côté. Veuillez réessayer.",
+        "generic": "Une erreur est survenue.",
+        "boundaryTitle": "Une erreur est survenue",
+        "boundaryHint": "Une erreur inattendue s'est produite. Vous pouvez réessayer.",
+        "boundaryRetry": "Réessayer"
+    }
+}
