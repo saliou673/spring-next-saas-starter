@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -8,16 +9,16 @@ import { useAuth } from '@/hooks/use-auth';
 
 export default function SignInScreen() {
   const { signIn } = useAuth();
+  const { t } = useTranslation();
 
   return (
     <ThemedView style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
         <ThemedText type="title" style={styles.title}>
-          Sign in
+          {t('auth.signIn.title')}
         </ThemedText>
         <ThemedText type="small" themeColor="textSecondary" style={styles.hint}>
-          The sign-in flow isn&apos;t built yet. This placeholder just proves the
-          authenticated/unauthenticated navigation shell works.
+          {t('auth.signIn.placeholderHint')}
         </ThemedText>
 
         {__DEV__ && (
@@ -26,7 +27,7 @@ export default function SignInScreen() {
             onPress={() =>
               void signIn({ accessToken: 'dev-access-token', refreshToken: 'dev-refresh-token' })
             }>
-            <ThemedText type="link">Dev: sign in with dummy tokens</ThemedText>
+            <ThemedText type="link">{t('auth.signIn.devSignInButton')}</ThemedText>
           </Pressable>
         )}
       </SafeAreaView>
