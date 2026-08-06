@@ -2,7 +2,11 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
+    "allowImportingTsExtensions": true,
     "paths": {
+      "@api-client": [
+        "../../packages/saasapp-apiclient/src/index.ts"
+      ],
       "@/*": [
         "./src/*"
       ],
