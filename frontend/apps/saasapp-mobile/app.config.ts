@@ -2,6 +2,9 @@ import type { ConfigContext, ExpoConfig } from "expo/config";
 
 export type AppEnv = "development" | "staging" | "production";
 
+// Derived from saasapp-web's light-mode `--primary` theme token (oklch(0.208 0.042 265.755)).
+const BRAND_COLOR = "#0f172b";
+
 const DEFAULT_API_BASE_URLS: Record<AppEnv, string> = {
     development: "http://localhost:8080",
     staging: "https://staging-api.saasapp.dev",
@@ -25,7 +28,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
 
     return {
         ...config,
-        name: "saasapp-mobile",
+        name: "Saasapp",
         slug: "saasapp-mobile",
         version: "1.0.0",
         orientation: "portrait",
@@ -33,17 +36,17 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         scheme: "saasappmobile",
         userInterfaceStyle: "automatic",
         ios: {
-            icon: "./assets/expo.icon",
+            icon: "./assets/images/icon.png",
         },
         android: {
             adaptiveIcon: {
-                backgroundColor: "#E6F4FE",
+                backgroundColor: BRAND_COLOR,
                 foregroundImage: "./assets/images/android-icon-foreground.png",
                 backgroundImage: "./assets/images/android-icon-background.png",
                 monochromeImage: "./assets/images/android-icon-monochrome.png",
             },
             predictiveBackGestureEnabled: false,
-            package: "com.anonymous.saasappmobile",
+            package: "com.saasapp.mobile",
         },
         web: {
             output: "static",
@@ -51,13 +54,17 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         },
         plugins: [
             "expo-router",
+            "expo-secure-store",
+            "expo-localization",
             [
                 "expo-splash-screen",
                 {
-                    backgroundColor: "#208AEF",
+                    backgroundColor: BRAND_COLOR,
+                    image: "./assets/images/splash-icon.png",
+                    imageWidth: 160,
                     android: {
                         image: "./assets/images/splash-icon.png",
-                        imageWidth: 76,
+                        imageWidth: 160,
                     },
                 },
             ],
