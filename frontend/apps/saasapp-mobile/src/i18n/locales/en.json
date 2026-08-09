@@ -20,6 +20,7 @@
             "emailPlaceholder": "name@example.com",
             "passwordLabel": "Password",
             "passwordPlaceholder": "********",
+            "rememberMe": "Keep me signed in",
             "submit": "Sign in",
             "emailRequired": "Please enter your email",
             "emailInvalid": "Please enter a valid email address",

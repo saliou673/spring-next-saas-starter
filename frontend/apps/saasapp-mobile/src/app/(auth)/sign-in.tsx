@@ -6,6 +6,7 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
+  Switch,
   TextInput,
   View,
 } from 'react-native';
@@ -55,6 +56,7 @@ export default function SignInScreen() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [formError, setFormError] = useState<string | null>(null);
 
@@ -113,7 +115,7 @@ export default function SignInScreen() {
     if (errors.email || errors.password) return;
 
     try {
-      const response = await mutateAsync({ data: { email, password } });
+      const response = await mutateAsync({ data: { email, password, rememberMe } });
 
       if (isTwoFactorChallenge(response)) {
         setFormError(t('auth.signIn.twoFactorNotSupported'));
@@ -207,6 +209,16 @@ export default function SignInScreen() {
                 )}
               </View>
 
+              <View style={styles.rememberMeRow}>
+                <ThemedText type="small">{t('auth.signIn.rememberMe')}</ThemedText>
+                <Switch
+                  value={rememberMe}
+                  onValueChange={setRememberMe}
+                  disabled={isPending}
+                  accessibilityLabel={t('auth.signIn.rememberMe')}
+                />
+              </View>
+
               {formError && (
                 <ThemedText type="small" themeColor="danger">
                   {formError}
@@ -265,6 +277,11 @@ const styles = StyleSheet.create({
   },
   field: {
     gap: Spacing.one,
+  },
+  rememberMeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   input: {
     borderWidth: 1,
