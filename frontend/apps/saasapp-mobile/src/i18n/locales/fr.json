@@ -27,7 +27,37 @@
             "passwordRequired": "Veuillez saisir votre mot de passe",
             "passwordTooShort": "Le mot de passe doit contenir au moins 7 caractères",
             "invalidCredentials": "E-mail ou mot de passe incorrect",
-            "twoFactorNotSupported": "Ce compte requiert l'authentification à deux facteurs, qui n'est pas encore prise en charge dans l'application mobile."
+            "twoFactorNotSupported": "Ce compte requiert l'authentification à deux facteurs, qui n'est pas encore prise en charge dans l'application mobile.",
+            "noAccount": "Vous n'avez pas de compte ?",
+            "signUpLink": "S'inscrire"
+        },
+        "signUp": {
+            "title": "Créer un compte",
+            "subtitle": "Renseignez vos informations pour commencer.",
+            "firstNameLabel": "Prénom",
+            "firstNamePlaceholder": "Jean",
+            "lastNameLabel": "Nom",
+            "lastNamePlaceholder": "Dupont",
+            "emailLabel": "E-mail",
+            "emailPlaceholder": "nom@exemple.com",
+            "passwordLabel": "Mot de passe",
+            "passwordPlaceholder": "********",
+            "confirmPasswordLabel": "Confirmer le mot de passe",
+            "submit": "Créer un compte",
+            "firstNameRequired": "Veuillez saisir votre prénom",
+            "lastNameRequired": "Veuillez saisir votre nom",
+            "emailRequired": "Veuillez saisir votre e-mail",
+            "emailInvalid": "Veuillez saisir une adresse e-mail valide",
+            "passwordRequired": "Veuillez saisir votre mot de passe",
+            "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères",
+            "passwordTooWeak": "Le mot de passe doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial",
+            "confirmPasswordRequired": "Veuillez confirmer votre mot de passe",
+            "passwordsDoNotMatch": "Les mots de passe ne correspondent pas.",
+            "haveAccount": "Vous avez déjà un compte ?",
+            "signInLink": "Se connecter"
+        },
+        "notices": {
+            "accountCreated": "Compte créé. Consultez votre e-mail pour le lien d'activation, puis connectez-vous."
         }
     },
     "errors": {

@@ -27,7 +27,37 @@
             "passwordRequired": "Please enter your password",
             "passwordTooShort": "Password must be at least 7 characters long",
             "invalidCredentials": "Invalid email or password",
-            "twoFactorNotSupported": "This account requires two-factor authentication, which isn't supported in the mobile app yet."
+            "twoFactorNotSupported": "This account requires two-factor authentication, which isn't supported in the mobile app yet.",
+            "noAccount": "Don't have an account?",
+            "signUpLink": "Sign up"
+        },
+        "signUp": {
+            "title": "Create an account",
+            "subtitle": "Fill in your details to get started.",
+            "firstNameLabel": "First name",
+            "firstNamePlaceholder": "John",
+            "lastNameLabel": "Last name",
+            "lastNamePlaceholder": "Doe",
+            "emailLabel": "Email",
+            "emailPlaceholder": "name@example.com",
+            "passwordLabel": "Password",
+            "passwordPlaceholder": "********",
+            "confirmPasswordLabel": "Confirm password",
+            "submit": "Create account",
+            "firstNameRequired": "Please enter your first name",
+            "lastNameRequired": "Please enter your last name",
+            "emailRequired": "Please enter your email",
+            "emailInvalid": "Please enter a valid email address",
+            "passwordRequired": "Please enter your password",
+            "passwordTooShort": "Password must be at least 8 characters long",
+            "passwordTooWeak": "Password must include upper, lower, number, and special character",
+            "confirmPasswordRequired": "Please confirm your password",
+            "passwordsDoNotMatch": "Passwords don't match.",
+            "haveAccount": "Already have an account?",
+            "signInLink": "Sign in"
+        },
+        "notices": {
+            "accountCreated": "Account created. Check your email for the activation link, then sign in."
         }
     },
     "errors": {
