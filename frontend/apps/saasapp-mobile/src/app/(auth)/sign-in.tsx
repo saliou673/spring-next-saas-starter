@@ -185,6 +185,10 @@ export default function SignInScreen() {
         onSubmitEditing={() => void onSubmit()}
       />
 
+      <Link href="/forgot-password" style={styles.forgotPassword}>
+        <ThemedText type="linkPrimary">{t('auth.signIn.forgotPassword')}</ThemedText>
+      </Link>
+
       <View style={styles.rememberMeRow}>
         <ThemedText type="small">{t('auth.signIn.rememberMe')}</ThemedText>
         <Switch
@@ -220,6 +224,9 @@ export default function SignInScreen() {
 }
 
 const styles = StyleSheet.create({
+  forgotPassword: {
+    alignSelf: 'flex-end',
+  },
   rememberMeRow: {
     flexDirection: 'row',
     alignItems: 'center',

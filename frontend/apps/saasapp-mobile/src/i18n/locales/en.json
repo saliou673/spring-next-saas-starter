@@ -28,7 +28,21 @@
             "passwordTooShort": "Password must be at least 7 characters long",
             "invalidCredentials": "Invalid email or password",
             "noAccount": "Don't have an account?",
-            "signUpLink": "Sign up"
+            "signUpLink": "Sign up",
+            "forgotPassword": "Forgot password?"
+        },
+        "forgotPassword": {
+            "title": "Reset your password",
+            "subtitle": "We'll email you a code to set a new password.",
+            "emailLabel": "Email",
+            "emailPlaceholder": "name@example.com",
+            "submit": "Send reset code",
+            "emailRequired": "Please enter your email",
+            "emailInvalid": "Please enter a valid email address",
+            "noAccount": "No account found with this email address.",
+            "sentTitle": "Check your email",
+            "sentSubtitle": "If an account exists, we sent a reset code to {{email}}.",
+            "backToSignIn": "Back to sign in"
         },
         "signUp": {
             "title": "Create an account",

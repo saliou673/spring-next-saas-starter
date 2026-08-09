@@ -28,7 +28,21 @@
             "passwordTooShort": "Le mot de passe doit contenir au moins 7 caractères",
             "invalidCredentials": "E-mail ou mot de passe incorrect",
             "noAccount": "Vous n'avez pas de compte ?",
-            "signUpLink": "S'inscrire"
+            "signUpLink": "S'inscrire",
+            "forgotPassword": "Mot de passe oublié ?"
+        },
+        "forgotPassword": {
+            "title": "Réinitialiser votre mot de passe",
+            "subtitle": "Nous vous enverrons un code par e-mail pour définir un nouveau mot de passe.",
+            "emailLabel": "E-mail",
+            "emailPlaceholder": "nom@exemple.com",
+            "submit": "Envoyer le code",
+            "emailRequired": "Veuillez saisir votre e-mail",
+            "emailInvalid": "Veuillez saisir une adresse e-mail valide",
+            "noAccount": "Aucun compte ne correspond à cette adresse e-mail.",
+            "sentTitle": "Consultez vos e-mails",
+            "sentSubtitle": "Si un compte existe, nous avons envoyé un code à {{email}}.",
+            "backToSignIn": "Retour à la connexion"
         },
         "signUp": {
             "title": "Créer un compte",
