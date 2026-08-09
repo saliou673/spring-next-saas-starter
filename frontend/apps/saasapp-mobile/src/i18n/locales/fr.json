@@ -15,8 +15,18 @@
     "auth": {
         "signIn": {
             "title": "Connexion",
-            "placeholderHint": "Le parcours de connexion n'est pas encore construit. Cet écran provisoire prouve simplement que la navigation authentifiée/non authentifiée fonctionne.",
-            "devSignInButton": "Dev : se connecter avec des jetons fictifs"
+            "subtitle": "Saisissez votre e-mail et votre mot de passe pour continuer.",
+            "emailLabel": "E-mail",
+            "emailPlaceholder": "nom@exemple.com",
+            "passwordLabel": "Mot de passe",
+            "passwordPlaceholder": "********",
+            "submit": "Se connecter",
+            "emailRequired": "Veuillez saisir votre e-mail",
+            "emailInvalid": "Veuillez saisir une adresse e-mail valide",
+            "passwordRequired": "Veuillez saisir votre mot de passe",
+            "passwordTooShort": "Le mot de passe doit contenir au moins 7 caractères",
+            "invalidCredentials": "E-mail ou mot de passe incorrect",
+            "twoFactorNotSupported": "Ce compte requiert l'authentification à deux facteurs, qui n'est pas encore prise en charge dans l'application mobile."
         }
     },
     "errors": {

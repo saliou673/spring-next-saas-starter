@@ -26,8 +26,8 @@ export function handleQueryError(error: unknown): void {
             return;
         }
 
-        const title = error.response?.data?.title as string | undefined;
-        showToast(title ?? i18n.t("errors.generic"), "error");
+        const message = error.response?.data?.message as string | undefined;
+        showToast(message ?? i18n.t("errors.generic"), "error");
         return;
     }
 

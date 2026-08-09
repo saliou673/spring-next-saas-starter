@@ -52,7 +52,14 @@ export default function RootLayout() {
     () =>
       new QueryClient({
         queryCache: new QueryCache({ onError: handleQueryError }),
-        mutationCache: new MutationCache({ onError: handleQueryError }),
+        mutationCache: new MutationCache({
+          // Screens that render API errors inline opt out so the user doesn't
+          // get the same failure twice, once inline and once as a toast.
+          onError: (error, _variables, _context, mutation) => {
+            if (mutation.meta?.skipGlobalErrorToast) return;
+            handleQueryError(error);
+          },
+        }),
       })
   );
 

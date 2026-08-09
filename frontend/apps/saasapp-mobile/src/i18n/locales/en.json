@@ -15,8 +15,18 @@
     "auth": {
         "signIn": {
             "title": "Sign in",
-            "placeholderHint": "The sign-in flow isn't built yet. This placeholder just proves the authenticated/unauthenticated navigation shell works.",
-            "devSignInButton": "Dev: sign in with dummy tokens"
+            "subtitle": "Enter your email and password to continue.",
+            "emailLabel": "Email",
+            "emailPlaceholder": "name@example.com",
+            "passwordLabel": "Password",
+            "passwordPlaceholder": "********",
+            "submit": "Sign in",
+            "emailRequired": "Please enter your email",
+            "emailInvalid": "Please enter a valid email address",
+            "passwordRequired": "Please enter your password",
+            "passwordTooShort": "Password must be at least 7 characters long",
+            "invalidCredentials": "Invalid email or password",
+            "twoFactorNotSupported": "This account requires two-factor authentication, which isn't supported in the mobile app yet."
         }
     },
     "errors": {
