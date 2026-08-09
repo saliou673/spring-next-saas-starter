@@ -98,10 +98,10 @@ export default function SignUpScreen() {
 
     try {
       await mutateAsync({ data: { firstName, lastName, email, password } });
-      // Registration leaves the account inactive until the emailed activation
-      // code is used (#15), so there is nothing to sign in with yet.
+      // Registration isn't finished until the emailed activation code is
+      // entered (#15), so hand the user straight to that step.
       showToast(t('auth.toasts.accountCreated'), 'success');
-      router.replace('/sign-in');
+      router.replace({ pathname: '/activate', params: { email } });
     } catch (error) {
       applyApiError(error);
     }

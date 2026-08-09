@@ -105,8 +105,17 @@
             "signInLink": "Sign in"
         },
         "activate": {
-            "title": "Activating your account",
-            "subtitle": "This only takes a moment."
+            "title": "Activate your account",
+            "subtitle": "Enter the code we sent to {{email}} to finish creating your account.",
+            "subtitleGeneric": "Enter the activation code we emailed you to finish creating your account.",
+            "codeLabel": "Activation code",
+            "codePlaceholder": "A1B2",
+            "submit": "Activate account",
+            "codeRequired": "Please enter your activation code",
+            "invalidCode": "That activation code is invalid or has expired.",
+            "resend": "Send me a new code",
+            "noAccount": "No account found with this email address.",
+            "backToSignIn": "Back to sign in"
         },
         "twoFactor": {
             "title": "Two-factor verification",
@@ -125,9 +134,9 @@
             "signedOut": "You have been signed out.",
             "twoFactorVerified": "Verification successful.",
             "resetCodeSent": "Reset code sent to {{email}}.",
-            "accountCreated": "Account created. Check your email for the activation link, then sign in.",
+            "accountCreated": "Account created. Enter the code we emailed you to finish.",
             "accountActivated": "Your account is active. You can sign in now.",
-            "activationFailed": "That activation link is invalid or has expired. Request a new one from the sign-up confirmation email.",
+            "activationCodeSent": "We sent you a new activation code.",
             "twoFactorExpired": "Your verification session has expired. Please sign in again.",
             "passwordReset": "Your password has been reset. Sign in with your new password.",
             "invitationCompleted": "Your account is ready. Sign in with your email and new password."
