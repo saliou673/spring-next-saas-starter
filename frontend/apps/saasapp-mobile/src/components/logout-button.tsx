@@ -6,6 +6,7 @@ import { useRouter } from 'expo-router';
 import { useLogout } from '@api-client';
 
 import { ThemedText } from '@/components/themed-text';
+import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/use-auth';
 import { useTheme } from '@/hooks/use-theme';
@@ -37,6 +38,7 @@ export function LogoutButton() {
 
     await signOut();
     queryClient.clear();
+    showToast(t('auth.toasts.signedOut'), 'success');
     router.replace('/sign-in');
   }
 

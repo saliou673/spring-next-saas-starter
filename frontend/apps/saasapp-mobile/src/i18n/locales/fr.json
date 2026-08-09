@@ -120,7 +120,11 @@
         "logout": {
             "action": "Se déconnecter"
         },
-        "notices": {
+        "toasts": {
+            "signedIn": "Content de vous revoir !",
+            "signedOut": "Vous avez été déconnecté.",
+            "twoFactorVerified": "Vérification réussie.",
+            "resetCodeSent": "Code de réinitialisation envoyé à {{email}}.",
             "accountCreated": "Compte créé. Consultez votre e-mail pour le lien d'activation, puis connectez-vous.",
             "accountActivated": "Votre compte est actif. Vous pouvez maintenant vous connecter.",
             "activationFailed": "Ce lien d'activation est invalide ou a expiré. Demandez-en un nouveau depuis l'e-mail de confirmation d'inscription.",

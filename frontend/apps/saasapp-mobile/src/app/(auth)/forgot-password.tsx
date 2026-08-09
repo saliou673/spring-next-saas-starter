@@ -9,6 +9,7 @@ import { AuthScreen } from '@/components/auth-screen';
 import { FormTextField } from '@/components/form-text-field';
 import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
+import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -41,6 +42,7 @@ export default function ForgotPasswordScreen() {
 
     try {
       await mutateAsync({ data: email });
+      showToast(t('auth.toasts.resetCodeSent', { email }), 'success');
       setIsSent(true);
     } catch (error) {
       if (error instanceof AxiosError) {

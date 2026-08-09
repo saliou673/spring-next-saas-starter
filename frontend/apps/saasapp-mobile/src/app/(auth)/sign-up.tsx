@@ -9,6 +9,7 @@ import { AuthScreen } from '@/components/auth-screen';
 import { FormTextField } from '@/components/form-text-field';
 import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
+import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -99,7 +100,8 @@ export default function SignUpScreen() {
       await mutateAsync({ data: { firstName, lastName, email, password } });
       // Registration leaves the account inactive until the emailed activation
       // code is used (#15), so there is nothing to sign in with yet.
-      router.replace({ pathname: '/sign-in', params: { notice: 'accountCreated' } });
+      showToast(t('auth.toasts.accountCreated'), 'success');
+      router.replace('/sign-in');
     } catch (error) {
       applyApiError(error);
     }

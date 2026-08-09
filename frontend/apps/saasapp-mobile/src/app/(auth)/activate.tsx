@@ -5,12 +5,13 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useActivateAccount } from '@api-client';
 
 import { AuthScreen } from '@/components/auth-screen';
+import { showToast } from '@/components/toast/toast-store';
 
 /**
  * Landing route for the activation link emailed after sign-up, reached as
  * `saasappmobile://activate?code=...`. It has no UI of its own beyond a
- * spinner: it fires the activation call and hands the outcome to sign-in as a
- * notice.
+ * spinner: it fires the activation call, then sends the user to sign-in with
+ * the outcome as a toast.
  */
 export default function ActivateScreen() {
   const { t } = useTranslation();
@@ -31,14 +32,16 @@ export default function ActivateScreen() {
 
   useEffect(() => {
     if (!code || isError) {
-      router.replace({ pathname: '/sign-in', params: { notice: 'activationFailed' } });
+      showToast(t('auth.toasts.activationFailed'), 'error');
+      router.replace('/sign-in');
       return;
     }
 
     if (isSuccess) {
-      router.replace({ pathname: '/sign-in', params: { notice: 'accountActivated' } });
+      showToast(t('auth.toasts.accountActivated'), 'success');
+      router.replace('/sign-in');
     }
-  }, [code, isError, isSuccess, router]);
+  }, [code, isError, isSuccess, router, t]);
 
   return (
     <AuthScreen title={t('auth.activate.title')} subtitle={t('auth.activate.subtitle')}>

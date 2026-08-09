@@ -120,7 +120,11 @@
         "logout": {
             "action": "Sign out"
         },
-        "notices": {
+        "toasts": {
+            "signedIn": "Welcome back!",
+            "signedOut": "You have been signed out.",
+            "twoFactorVerified": "Verification successful.",
+            "resetCodeSent": "Reset code sent to {{email}}.",
             "accountCreated": "Account created. Check your email for the activation link, then sign in.",
             "accountActivated": "Your account is active. You can sign in now.",
             "activationFailed": "That activation link is invalid or has expired. Request a new one from the sign-up confirmation email.",
