@@ -23,6 +23,7 @@ const NOTICES = {
   accountCreated: 'info',
   accountActivated: 'info',
   activationFailed: 'error',
+  twoFactorExpired: 'error',
 } as const;
 
 type NoticeKey = keyof typeof NOTICES;
@@ -44,8 +45,10 @@ type FieldErrors = {
  */
 type LoginTokens = { accessToken: string; refreshToken: string };
 
-function isTwoFactorChallenge(response: unknown): boolean {
-  return typeof response === 'object' && response !== null && 'challengeId' in response;
+function getChallengeId(response: unknown): string | null {
+  if (typeof response !== 'object' || response === null) return null;
+  const candidate = response as { challengeId?: unknown };
+  return typeof candidate.challengeId === 'string' ? candidate.challengeId : null;
 }
 
 function isLoginTokens(response: unknown): response is LoginTokens {
@@ -124,8 +127,9 @@ export default function SignInScreen() {
     try {
       const response = await mutateAsync({ data: { email, password, rememberMe } });
 
-      if (isTwoFactorChallenge(response)) {
-        setFormError(t('auth.signIn.twoFactorNotSupported'));
+      const challengeId = getChallengeId(response);
+      if (challengeId) {
+        router.push({ pathname: '/two-factor', params: { challengeId } });
         return;
       }
 

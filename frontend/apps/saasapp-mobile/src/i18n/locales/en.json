@@ -27,7 +27,6 @@
             "passwordRequired": "Please enter your password",
             "passwordTooShort": "Password must be at least 7 characters long",
             "invalidCredentials": "Invalid email or password",
-            "twoFactorNotSupported": "This account requires two-factor authentication, which isn't supported in the mobile app yet.",
             "noAccount": "Don't have an account?",
             "signUpLink": "Sign up"
         },
@@ -60,10 +59,20 @@
             "title": "Activating your account",
             "subtitle": "This only takes a moment."
         },
+        "twoFactor": {
+            "title": "Two-factor verification",
+            "subtitle": "Enter the code from your authenticator app.",
+            "codeLabel": "Verification code",
+            "codePlaceholder": "123456",
+            "submit": "Verify",
+            "codeLength": "Enter the {{count}}-digit code",
+            "invalidCode": "Invalid verification code"
+        },
         "notices": {
             "accountCreated": "Account created. Check your email for the activation link, then sign in.",
             "accountActivated": "Your account is active. You can sign in now.",
-            "activationFailed": "That activation link is invalid or has expired. Request a new one from the sign-up confirmation email."
+            "activationFailed": "That activation link is invalid or has expired. Request a new one from the sign-up confirmation email.",
+            "twoFactorExpired": "Your verification session has expired. Please sign in again."
         }
     },
     "errors": {
