@@ -63,6 +63,22 @@
             "invalidCode": "That reset code is invalid or has expired.",
             "backToSignIn": "Back to sign in"
         },
+        "invitation": {
+            "title": "Complete your invitation",
+            "subtitle": "Choose a password to finish setting up your account.",
+            "newPasswordLabel": "Password",
+            "confirmPasswordLabel": "Confirm password",
+            "passwordPlaceholder": "********",
+            "submit": "Complete setup",
+            "passwordRequired": "Please enter a password",
+            "passwordTooShort": "Password must be at least 8 characters long",
+            "passwordTooWeak": "Password must include upper, lower, number, and special character",
+            "confirmPasswordRequired": "Please confirm your password",
+            "passwordsDoNotMatch": "Passwords don't match.",
+            "invalidCode": "That invitation is invalid or has expired. Contact your administrator.",
+            "missingCode": "Invalid or missing invitation link. Please contact your administrator.",
+            "backToSignIn": "Back to sign in"
+        },
         "signUp": {
             "title": "Create an account",
             "subtitle": "Fill in your details to get started.",
@@ -106,7 +122,8 @@
             "accountActivated": "Your account is active. You can sign in now.",
             "activationFailed": "That activation link is invalid or has expired. Request a new one from the sign-up confirmation email.",
             "twoFactorExpired": "Your verification session has expired. Please sign in again.",
-            "passwordReset": "Your password has been reset. Sign in with your new password."
+            "passwordReset": "Your password has been reset. Sign in with your new password.",
+            "invitationCompleted": "Your account is ready. Sign in with your email and new password."
         }
     },
     "errors": {
