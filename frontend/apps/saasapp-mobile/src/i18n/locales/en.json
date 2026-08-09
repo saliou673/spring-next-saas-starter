@@ -117,6 +117,9 @@
             "codeLength": "Enter the {{count}}-digit code",
             "invalidCode": "Invalid verification code"
         },
+        "logout": {
+            "action": "Sign out"
+        },
         "notices": {
             "accountCreated": "Account created. Check your email for the activation link, then sign in.",
             "accountActivated": "Your account is active. You can sign in now.",

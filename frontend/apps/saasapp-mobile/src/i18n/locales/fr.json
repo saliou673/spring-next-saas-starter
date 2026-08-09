@@ -117,6 +117,9 @@
             "codeLength": "Saisissez le code à {{count}} chiffres",
             "invalidCode": "Code de vérification invalide"
         },
+        "logout": {
+            "action": "Se déconnecter"
+        },
         "notices": {
             "accountCreated": "Compte créé. Consultez votre e-mail pour le lien d'activation, puis connectez-vous.",
             "accountActivated": "Votre compte est actif. Vous pouvez maintenant vous connecter.",
