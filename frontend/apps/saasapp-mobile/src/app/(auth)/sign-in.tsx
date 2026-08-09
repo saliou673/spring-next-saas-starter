@@ -24,6 +24,7 @@ const NOTICES = {
   accountActivated: 'info',
   activationFailed: 'error',
   twoFactorExpired: 'error',
+  passwordReset: 'info',
 } as const;
 
 type NoticeKey = keyof typeof NOTICES;

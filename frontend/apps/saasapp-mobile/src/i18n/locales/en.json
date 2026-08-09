@@ -42,6 +42,25 @@
             "noAccount": "No account found with this email address.",
             "sentTitle": "Check your email",
             "sentSubtitle": "If an account exists, we sent a reset code to {{email}}.",
+            "enterCodeLink": "I have a code",
+            "backToSignIn": "Back to sign in"
+        },
+        "resetPassword": {
+            "title": "Set a new password",
+            "subtitle": "Enter the code we emailed you and choose a new password.",
+            "codeLabel": "Reset code",
+            "codePlaceholder": "Paste the code from your email",
+            "newPasswordLabel": "New password",
+            "confirmPasswordLabel": "Confirm new password",
+            "passwordPlaceholder": "********",
+            "submit": "Reset password",
+            "codeRequired": "Please enter your reset code",
+            "passwordRequired": "Please enter a new password",
+            "passwordTooShort": "Password must be at least 8 characters long",
+            "passwordTooWeak": "Password must include upper, lower, number, and special character",
+            "confirmPasswordRequired": "Please confirm your new password",
+            "passwordsDoNotMatch": "Passwords don't match.",
+            "invalidCode": "That reset code is invalid or has expired.",
             "backToSignIn": "Back to sign in"
         },
         "signUp": {
@@ -86,7 +105,8 @@
             "accountCreated": "Account created. Check your email for the activation link, then sign in.",
             "accountActivated": "Your account is active. You can sign in now.",
             "activationFailed": "That activation link is invalid or has expired. Request a new one from the sign-up confirmation email.",
-            "twoFactorExpired": "Your verification session has expired. Please sign in again."
+            "twoFactorExpired": "Your verification session has expired. Please sign in again.",
+            "passwordReset": "Your password has been reset. Sign in with your new password."
         }
     },
     "errors": {

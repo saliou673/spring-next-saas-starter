@@ -64,6 +64,9 @@ export default function ForgotPasswordScreen() {
       <AuthScreen
         title={t('auth.forgotPassword.sentTitle')}
         subtitle={t('auth.forgotPassword.sentSubtitle', { email })}>
+        <Link href="/reset-password" replace>
+          <ThemedText type="linkPrimary">{t('auth.forgotPassword.enterCodeLink')}</ThemedText>
+        </Link>
         <Link href="/sign-in" replace>
           <ThemedText type="linkPrimary">{t('auth.forgotPassword.backToSignIn')}</ThemedText>
         </Link>

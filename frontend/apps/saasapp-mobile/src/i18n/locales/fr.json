@@ -42,6 +42,25 @@
             "noAccount": "Aucun compte ne correspond à cette adresse e-mail.",
             "sentTitle": "Consultez vos e-mails",
             "sentSubtitle": "Si un compte existe, nous avons envoyé un code à {{email}}.",
+            "enterCodeLink": "J'ai un code",
+            "backToSignIn": "Retour à la connexion"
+        },
+        "resetPassword": {
+            "title": "Définir un nouveau mot de passe",
+            "subtitle": "Saisissez le code reçu par e-mail et choisissez un nouveau mot de passe.",
+            "codeLabel": "Code de réinitialisation",
+            "codePlaceholder": "Collez le code reçu par e-mail",
+            "newPasswordLabel": "Nouveau mot de passe",
+            "confirmPasswordLabel": "Confirmer le nouveau mot de passe",
+            "passwordPlaceholder": "********",
+            "submit": "Réinitialiser le mot de passe",
+            "codeRequired": "Veuillez saisir votre code de réinitialisation",
+            "passwordRequired": "Veuillez saisir un nouveau mot de passe",
+            "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères",
+            "passwordTooWeak": "Le mot de passe doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial",
+            "confirmPasswordRequired": "Veuillez confirmer votre nouveau mot de passe",
+            "passwordsDoNotMatch": "Les mots de passe ne correspondent pas.",
+            "invalidCode": "Ce code de réinitialisation est invalide ou a expiré.",
             "backToSignIn": "Retour à la connexion"
         },
         "signUp": {
@@ -86,7 +105,8 @@
             "accountCreated": "Compte créé. Consultez votre e-mail pour le lien d'activation, puis connectez-vous.",
             "accountActivated": "Votre compte est actif. Vous pouvez maintenant vous connecter.",
             "activationFailed": "Ce lien d'activation est invalide ou a expiré. Demandez-en un nouveau depuis l'e-mail de confirmation d'inscription.",
-            "twoFactorExpired": "Votre session de vérification a expiré. Veuillez vous reconnecter."
+            "twoFactorExpired": "Votre session de vérification a expiré. Veuillez vous reconnecter.",
+            "passwordReset": "Votre mot de passe a été réinitialisé. Connectez-vous avec le nouveau."
         }
     },
     "errors": {
