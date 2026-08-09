@@ -15,8 +15,21 @@ import { useAuth } from '@/hooks/use-auth';
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MIN_PASSWORD_LENGTH = 7;
 
-/** Keys under `auth.notices` that other screens may hand to sign-in via search params. */
-const NOTICE_KEYS = ['accountCreated'] as const;
+/**
+ * Notices other screens may hand to sign-in via search params, mapped to how
+ * they should read. Allowlisted so an arbitrary param can't render as a notice.
+ */
+const NOTICES = {
+  accountCreated: 'info',
+  accountActivated: 'info',
+  activationFailed: 'error',
+} as const;
+
+type NoticeKey = keyof typeof NOTICES;
+
+function isNoticeKey(value: string | undefined): value is NoticeKey {
+  return value !== undefined && value in NOTICES;
+}
 
 type FieldErrors = {
   email?: string;
@@ -57,7 +70,7 @@ export default function SignInScreen() {
     mutation: { meta: { skipGlobalErrorToast: true } },
   });
 
-  const noticeKey = NOTICE_KEYS.find((key) => key === notice);
+  const noticeKey = isNoticeKey(notice) ? notice : undefined;
 
   function validate(): FieldErrors {
     const errors: FieldErrors = {};
@@ -134,7 +147,9 @@ export default function SignInScreen() {
   return (
     <AuthScreen title={t('auth.signIn.title')} subtitle={t('auth.signIn.subtitle')}>
       {noticeKey && (
-        <ThemedText type="small" themeColor="textSecondary">
+        <ThemedText
+          type="small"
+          themeColor={NOTICES[noticeKey] === 'error' ? 'danger' : 'textSecondary'}>
           {t(`auth.notices.${noticeKey}`)}
         </ThemedText>
       )}

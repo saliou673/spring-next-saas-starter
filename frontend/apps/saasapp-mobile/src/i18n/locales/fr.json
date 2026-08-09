@@ -56,8 +56,14 @@
             "haveAccount": "Vous avez déjà un compte ?",
             "signInLink": "Se connecter"
         },
+        "activate": {
+            "title": "Activation de votre compte",
+            "subtitle": "Cela ne prend qu'un instant."
+        },
         "notices": {
-            "accountCreated": "Compte créé. Consultez votre e-mail pour le lien d'activation, puis connectez-vous."
+            "accountCreated": "Compte créé. Consultez votre e-mail pour le lien d'activation, puis connectez-vous.",
+            "accountActivated": "Votre compte est actif. Vous pouvez maintenant vous connecter.",
+            "activationFailed": "Ce lien d'activation est invalide ou a expiré. Demandez-en un nouveau depuis l'e-mail de confirmation d'inscription."
         }
     },
     "errors": {

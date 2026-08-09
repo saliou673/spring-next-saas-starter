@@ -56,8 +56,14 @@
             "haveAccount": "Already have an account?",
             "signInLink": "Sign in"
         },
+        "activate": {
+            "title": "Activating your account",
+            "subtitle": "This only takes a moment."
+        },
         "notices": {
-            "accountCreated": "Account created. Check your email for the activation link, then sign in."
+            "accountCreated": "Account created. Check your email for the activation link, then sign in.",
+            "accountActivated": "Your account is active. You can sign in now.",
+            "activationFailed": "That activation link is invalid or has expired. Request a new one from the sign-up confirmation email."
         }
     },
     "errors": {

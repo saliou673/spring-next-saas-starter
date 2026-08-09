@@ -51,10 +51,16 @@ export default function RootLayout() {
   const [queryClient] = useState(
     () =>
       new QueryClient({
-        queryCache: new QueryCache({ onError: handleQueryError }),
+        // Screens that render API errors themselves opt out via
+        // `meta: { skipGlobalErrorToast: true }` so the user doesn't get the
+        // same failure twice, once inline and once as a toast.
+        queryCache: new QueryCache({
+          onError: (error, query) => {
+            if (query.meta?.skipGlobalErrorToast) return;
+            handleQueryError(error);
+          },
+        }),
         mutationCache: new MutationCache({
-          // Screens that render API errors inline opt out so the user doesn't
-          // get the same failure twice, once inline and once as a toast.
           onError: (error, _variables, _context, mutation) => {
             if (mutation.meta?.skipGlobalErrorToast) return;
             handleQueryError(error);
