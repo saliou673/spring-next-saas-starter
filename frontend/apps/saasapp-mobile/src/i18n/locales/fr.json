@@ -159,7 +159,22 @@
             "email": "Modifier l'e-mail",
             "password": "Modifier le mot de passe",
             "twoFactor": "Authentification à deux facteurs",
-            "delete": "Supprimer le compte"
+            "delete": "Supprimer le compte",
+            "emailChange": {
+                "description": "Saisissez une nouvelle adresse e-mail. Nous vous enverrons un code pour la confirmer.",
+                "confirmDescription": "Saisissez le code envoyé à {{email}}.",
+                "newEmailLabel": "Nouvel e-mail",
+                "newEmailPlaceholder": "nom@exemple.com",
+                "emailInvalid": "Veuillez saisir une adresse e-mail valide",
+                "sendButton": "Envoyer le code",
+                "codeLabel": "Code de confirmation",
+                "codeLength": "Saisissez le code à {{count}} caractères",
+                "confirmButton": "Confirmer",
+                "cancelButton": "Utiliser une autre adresse e-mail",
+                "invalidCode": "Ce code est invalide ou a expiré.",
+                "codeSentToast": "Code envoyé à {{email}}.",
+                "toastChanged": "Votre e-mail a été mis à jour."
+            }
         },
         "profile": {
             "fields": {

@@ -159,7 +159,22 @@
             "email": "Change email",
             "password": "Change password",
             "twoFactor": "Two-factor authentication",
-            "delete": "Delete account"
+            "delete": "Delete account",
+            "emailChange": {
+                "description": "Enter a new email address. We'll send a code to confirm it.",
+                "confirmDescription": "Enter the code we sent to {{email}}.",
+                "newEmailLabel": "New email",
+                "newEmailPlaceholder": "name@example.com",
+                "emailInvalid": "Please enter a valid email address",
+                "sendButton": "Send code",
+                "codeLabel": "Confirmation code",
+                "codeLength": "Enter the {{count}}-character code",
+                "confirmButton": "Confirm",
+                "cancelButton": "Use a different email",
+                "invalidCode": "That code is invalid or has expired.",
+                "codeSentToast": "Code sent to {{email}}.",
+                "toastChanged": "Your email has been updated."
+            }
         },
         "profile": {
             "fields": {
