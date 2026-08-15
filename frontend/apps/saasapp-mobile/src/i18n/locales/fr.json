@@ -174,6 +174,21 @@
                 "invalidCode": "Ce code est invalide ou a expiré.",
                 "codeSentToast": "Code envoyé à {{email}}.",
                 "toastChanged": "Votre e-mail a été mis à jour."
+            },
+            "changePassword": {
+                "description": "Choisissez un nouveau mot de passe robuste.",
+                "currentPasswordLabel": "Mot de passe actuel",
+                "newPasswordLabel": "Nouveau mot de passe",
+                "confirmPasswordLabel": "Confirmer le nouveau mot de passe",
+                "currentPasswordRequired": "Veuillez saisir votre mot de passe actuel",
+                "newPasswordRequired": "Veuillez saisir un nouveau mot de passe",
+                "newPasswordTooShort": "Le mot de passe doit contenir au moins 8 caractères",
+                "newPasswordTooWeak": "Le mot de passe doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial",
+                "confirmPasswordRequired": "Veuillez confirmer votre nouveau mot de passe",
+                "passwordsDoNotMatch": "Les mots de passe ne correspondent pas.",
+                "invalidCurrentPassword": "Votre mot de passe actuel est incorrect.",
+                "submit": "Mettre à jour le mot de passe",
+                "toastUpdated": "Votre mot de passe a été mis à jour."
             }
         },
         "profile": {

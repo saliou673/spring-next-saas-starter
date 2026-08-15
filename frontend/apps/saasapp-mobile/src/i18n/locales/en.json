@@ -174,6 +174,21 @@
                 "invalidCode": "That code is invalid or has expired.",
                 "codeSentToast": "Code sent to {{email}}.",
                 "toastChanged": "Your email has been updated."
+            },
+            "changePassword": {
+                "description": "Choose a strong new password.",
+                "currentPasswordLabel": "Current password",
+                "newPasswordLabel": "New password",
+                "confirmPasswordLabel": "Confirm new password",
+                "currentPasswordRequired": "Please enter your current password",
+                "newPasswordRequired": "Please enter a new password",
+                "newPasswordTooShort": "Password must be at least 8 characters long",
+                "newPasswordTooWeak": "Password must include upper, lower, number, and special character",
+                "confirmPasswordRequired": "Please confirm your new password",
+                "passwordsDoNotMatch": "Passwords don't match.",
+                "invalidCurrentPassword": "Your current password is incorrect.",
+                "submit": "Update password",
+                "toastUpdated": "Your password has been updated."
             }
         },
         "profile": {
