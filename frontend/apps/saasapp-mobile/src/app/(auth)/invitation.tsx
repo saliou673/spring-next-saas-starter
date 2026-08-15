@@ -8,6 +8,7 @@ import { AuthScreen } from '@/components/auth-screen';
 import { FormTextField } from '@/components/form-text-field';
 import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
+import { showToast } from '@/components/toast/toast-store';
 
 const MIN_PASSWORD_LENGTH = 8;
 // Mirrors the backend's InvitationCompleteRequest constraint.
@@ -63,7 +64,8 @@ export default function InvitationScreen() {
 
     try {
       await mutateAsync({ data: { code, newPassword } });
-      router.replace({ pathname: '/sign-in', params: { notice: 'invitationCompleted' } });
+      showToast(t('auth.toasts.invitationCompleted'), 'success');
+      router.replace('/sign-in');
     } catch (error) {
       if (error instanceof AxiosError) {
         const data = error.response?.data as { message?: string } | undefined;

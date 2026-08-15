@@ -105,8 +105,17 @@
             "signInLink": "Se connecter"
         },
         "activate": {
-            "title": "Activation de votre compte",
-            "subtitle": "Cela ne prend qu'un instant."
+            "title": "Activer votre compte",
+            "subtitle": "Saisissez le code envoyé à {{email}} pour terminer la création de votre compte.",
+            "subtitleGeneric": "Saisissez le code d'activation reçu par e-mail pour terminer la création de votre compte.",
+            "codeLabel": "Code d'activation",
+            "codePlaceholder": "A1B2",
+            "submit": "Activer le compte",
+            "codeRequired": "Veuillez saisir votre code d'activation",
+            "invalidCode": "Ce code d'activation est invalide ou a expiré.",
+            "resend": "Envoyez-moi un nouveau code",
+            "noAccount": "Aucun compte ne correspond à cette adresse e-mail.",
+            "backToSignIn": "Retour à la connexion"
         },
         "twoFactor": {
             "title": "Vérification en deux étapes",
@@ -117,10 +126,17 @@
             "codeLength": "Saisissez le code à {{count}} chiffres",
             "invalidCode": "Code de vérification invalide"
         },
-        "notices": {
-            "accountCreated": "Compte créé. Consultez votre e-mail pour le lien d'activation, puis connectez-vous.",
+        "logout": {
+            "action": "Se déconnecter"
+        },
+        "toasts": {
+            "signedIn": "Content de vous revoir !",
+            "signedOut": "Vous avez été déconnecté.",
+            "twoFactorVerified": "Vérification réussie.",
+            "resetCodeSent": "Code de réinitialisation envoyé à {{email}}.",
+            "accountCreated": "Compte créé. Saisissez le code reçu par e-mail pour terminer.",
             "accountActivated": "Votre compte est actif. Vous pouvez maintenant vous connecter.",
-            "activationFailed": "Ce lien d'activation est invalide ou a expiré. Demandez-en un nouveau depuis l'e-mail de confirmation d'inscription.",
+            "activationCodeSent": "Nous vous avons envoyé un nouveau code d'activation.",
             "twoFactorExpired": "Votre session de vérification a expiré. Veuillez vous reconnecter.",
             "passwordReset": "Votre mot de passe a été réinitialisé. Connectez-vous avec le nouveau.",
             "invitationCompleted": "Votre compte est prêt. Connectez-vous avec votre e-mail et votre nouveau mot de passe."
