@@ -10,6 +10,7 @@ import jakarta.validation.constraints.NotNull;
 @Schema(name = "UserPreferences")
 public record UserPreferencesDTO(
         @NotNull @Valid AppearancePreferencesDTO appearance,
-        @NotNull @Valid NotificationPreferencesDTO notifications
+        @NotNull @Valid NotificationPreferencesDTO notifications,
+        @NotNull @Valid DisplayPreferencesDTO display
 ) {
 }

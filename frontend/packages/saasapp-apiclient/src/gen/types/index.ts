@@ -240,6 +240,10 @@ export type {
     Disable2FactorMutationRequest,
     Disable2FactorMutationResponse,
 } from "./Disable2Factor.ts";
+export type {
+    DisplayPreferences,
+    DisplayPreferencesTextSizeEnumKey,
+} from "./DisplayPreferences.ts";
 export type { EmailChangeConfirmRequest } from "./EmailChangeConfirmRequest.ts";
 export type { EmailChangeRequest } from "./EmailChangeRequest.ts";
 export type {
@@ -726,6 +730,7 @@ export { deleteCurrentAccountHeaderParamsXAPIVersionEnum } from "./DeleteCurrent
 export { deleteRoleGroupAsAdminHeaderParamsXAPIVersionEnum } from "./DeleteRoleGroupAsAdmin.ts";
 export { deleteUserAsAdminHeaderParamsXAPIVersionEnum } from "./DeleteUserAsAdmin.ts";
 export { disable2FactorHeaderParamsXAPIVersionEnum } from "./Disable2Factor.ts";
+export { displayPreferencesTextSizeEnum } from "./DisplayPreferences.ts";
 export { finishPasswordResetHeaderParamsXAPIVersionEnum } from "./FinishPasswordReset.ts";
 export { getAppConfigurationByCategoryAndCodeHeaderParamsXAPIVersionEnum } from "./GetAppConfigurationByCategoryAndCode.ts";
 export { getAppConfigurationByCategoryAndCodePathParamsCategoryEnum } from "./GetAppConfigurationByCategoryAndCode.ts";

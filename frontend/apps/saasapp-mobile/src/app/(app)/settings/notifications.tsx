@@ -25,7 +25,13 @@ export default function NotificationsScreen() {
     if (!preferences) return;
 
     updatePreferences(
-      { data: { appearance: preferences.appearance, notifications: { productUpdatesEnabled } } },
+      {
+        data: {
+          appearance: preferences.appearance,
+          notifications: { productUpdatesEnabled },
+          display: preferences.display,
+        },
+      },
       {
         onError: () => showToast(t('settings.notifications.saveError'), 'error'),
       }

@@ -5,6 +5,7 @@ import com.saasapp.domain.enumerations.UserGender;
 import com.saasapp.domain.enumerations.UserGroupConstants;
 import com.saasapp.domain.enumerations.UserStatus;
 import com.saasapp.domain.models.userpreference.FontPreference;
+import com.saasapp.domain.models.userpreference.TextSizePreference;
 import com.saasapp.domain.models.userpreference.ThemePreference;
 import com.saasapp.domain.ports.out.NotificationSenderPort;
 import com.saasapp.infrastructure.adapter.in.rest.controller.dto.UserPreferencesDTO;
@@ -12,6 +13,7 @@ import com.saasapp.infrastructure.adapter.in.rest.controller.dto.PermissionDTO;
 import com.saasapp.infrastructure.adapter.in.rest.controller.dto.UserSummaryDTO;
 import com.saasapp.infrastructure.adapter.in.rest.controller.dto.AppearancePreferencesDTO;
 import com.saasapp.infrastructure.adapter.in.rest.controller.dto.NotificationPreferencesDTO;
+import com.saasapp.infrastructure.adapter.in.rest.controller.dto.DisplayPreferencesDTO;
 import com.saasapp.infrastructure.adapter.in.rest.controller.requests.*;
 import com.saasapp.infrastructure.adapter.out.persistence.entity.PermissionEntity;
 import com.saasapp.infrastructure.adapter.out.persistence.entity.RoleGroupEntity;
@@ -229,7 +231,8 @@ class UserAccountControllerTest extends IntegrationTest {
         createUser("test@example.com", Set.of(UserGroupConstants.ADMIN));
         UserPreferencesDTO request = new UserPreferencesDTO(
                 new AppearancePreferencesDTO(ThemePreference.DARK, FontPreference.MANROPE),
-                new NotificationPreferencesDTO(true)
+                new NotificationPreferencesDTO(true),
+                new DisplayPreferencesDTO(TextSizePreference.LARGE, true)
         );
 
         UserPreferencesDTO updated = put(API_ACCOUNT_PREFERENCES, request, UserPreferencesDTO.class, status().isOk());
@@ -239,12 +242,18 @@ class UserAccountControllerTest extends IntegrationTest {
         assertThat(updated.appearance().theme()).isEqualTo(ThemePreference.DARK);
         assertThat(updated.appearance().font()).isEqualTo(FontPreference.MANROPE);
         assertThat(updated.notifications().productUpdatesEnabled()).isTrue();
+        assertThat(updated.display().textSize()).isEqualTo(TextSizePreference.LARGE);
+        assertThat(updated.display().reduceMotion()).isTrue();
         assertThat(currentAccount.preferences().appearance().theme()).isEqualTo(ThemePreference.DARK);
         assertThat(currentAccount.preferences().appearance().font()).isEqualTo(FontPreference.MANROPE);
         assertThat(currentAccount.preferences().notifications().productUpdatesEnabled()).isTrue();
+        assertThat(currentAccount.preferences().display().textSize()).isEqualTo(TextSizePreference.LARGE);
+        assertThat(currentAccount.preferences().display().reduceMotion()).isTrue();
         assertThat(currentPreferences.appearance().theme()).isEqualTo(ThemePreference.DARK);
         assertThat(currentPreferences.appearance().font()).isEqualTo(FontPreference.MANROPE);
         assertThat(currentPreferences.notifications().productUpdatesEnabled()).isTrue();
+        assertThat(currentPreferences.display().textSize()).isEqualTo(TextSizePreference.LARGE);
+        assertThat(currentPreferences.display().reduceMotion()).isTrue();
     }
 
     @Test

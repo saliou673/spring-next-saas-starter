@@ -409,20 +409,17 @@
     "SettingsDisplay": {
         "metadataTitle": "Paramètres d'affichage",
         "sectionTitle": "Affichage",
-        "sectionDescription": "Activez ou désactivez des éléments pour contrôler ce qui est affiché dans l'application.",
+        "sectionDescription": "Ajustez la taille du texte et les animations.",
         "form": {
-            "sidebarLabel": "Barre latérale",
-            "sidebarDescription": "Sélectionnez les éléments que vous souhaitez afficher dans la barre latérale.",
-            "items": {
-                "recents": "Récents",
-                "home": "Accueil",
-                "applications": "Applications",
-                "desktop": "Bureau",
-                "downloads": "Téléchargements",
-                "documents": "Documents"
-            },
-            "atLeastOneError": "Vous devez sélectionner au moins un élément.",
-            "submit": "Mettre à jour l'affichage"
+            "textSizeLabel": "Taille du texte",
+            "textSizeDescription": "Ajustez la taille du texte dans toute l'application.",
+            "textSizeSMALL": "Petite",
+            "textSizeDEFAULT": "Par défaut",
+            "textSizeLARGE": "Grande",
+            "reduceMotionLabel": "Réduire les animations",
+            "reduceMotionDescription": "Minimise les animations et les transitions.",
+            "toastUpdated": "Préférences d'affichage mises à jour.",
+            "loadError": "Impossible de charger vos préférences d'affichage. Veuillez réessayer."
         }
     }
 }

@@ -264,7 +264,9 @@
             "textSizeDefault": "Par défaut",
             "textSizeLarge": "Grande",
             "reduceMotionLabel": "Réduire les animations",
-            "reduceMotionDescription": "Minimise les animations et les transitions."
+            "reduceMotionDescription": "Minimise les animations et les transitions.",
+            "saveError": "Impossible d'enregistrer votre préférence d'affichage. Veuillez réessayer.",
+            "loadError": "Impossible de charger vos préférences d'affichage. Veuillez réessayer."
         },
         "language": {
             "description": "Choisissez la langue utilisée dans l'application.",
