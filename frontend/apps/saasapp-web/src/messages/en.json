@@ -333,6 +333,35 @@
                 "passwordsDoNotMatch": "Passwords don't match."
             }
         },
+        "twoFactor": {
+            "title": "Two-factor authentication",
+            "description": "Add an authenticator app for an extra layer of security when signing in.",
+            "setup": {
+                "startButton": "Enable two-factor authentication",
+                "startingButton": "Starting setup...",
+                "scanHint": "Scan this QR code with your authenticator app.",
+                "manualEntryHint": "Or enter this code manually:",
+                "codeLabel": "Verification code",
+                "confirmButton": "Confirm and enable",
+                "confirmingButton": "Confirming...",
+                "invalidCode": "Invalid verification code",
+                "toastEnabled": "Two-factor authentication is now enabled.",
+                "validation": {
+                    "codeRequired": "Please enter the code from your authenticator app."
+                }
+            },
+            "disable": {
+                "description": "Enter your current password to turn off two-factor authentication.",
+                "currentPasswordLabel": "Current password",
+                "disableButton": "Disable two-factor authentication",
+                "disablingButton": "Disabling...",
+                "invalidPassword": "Your current password is incorrect.",
+                "toastDisabled": "Two-factor authentication is now disabled.",
+                "validation": {
+                    "passwordRequired": "Please enter your current password."
+                }
+            }
+        },
         "deleteDialog": {
             "title": "Delete account",
             "description1": "This will permanently deactivate your account. You have 30 days to recover it before all your data is erased.",

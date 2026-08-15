@@ -333,6 +333,35 @@
                 "passwordsDoNotMatch": "Les mots de passe ne correspondent pas."
             }
         },
+        "twoFactor": {
+            "title": "Authentification à deux facteurs",
+            "description": "Ajoutez une application d'authentification pour une sécurité renforcée lors de la connexion.",
+            "setup": {
+                "startButton": "Activer l'authentification à deux facteurs",
+                "startingButton": "Démarrage de la configuration...",
+                "scanHint": "Scannez ce code QR avec votre application d'authentification.",
+                "manualEntryHint": "Ou saisissez ce code manuellement :",
+                "codeLabel": "Code de vérification",
+                "confirmButton": "Confirmer et activer",
+                "confirmingButton": "Confirmation...",
+                "invalidCode": "Code de vérification invalide",
+                "toastEnabled": "L'authentification à deux facteurs est maintenant activée.",
+                "validation": {
+                    "codeRequired": "Veuillez saisir le code de votre application d'authentification."
+                }
+            },
+            "disable": {
+                "description": "Saisissez votre mot de passe actuel pour désactiver l'authentification à deux facteurs.",
+                "currentPasswordLabel": "Mot de passe actuel",
+                "disableButton": "Désactiver l'authentification à deux facteurs",
+                "disablingButton": "Désactivation...",
+                "invalidPassword": "Votre mot de passe actuel est incorrect.",
+                "toastDisabled": "L'authentification à deux facteurs est maintenant désactivée.",
+                "validation": {
+                    "passwordRequired": "Veuillez saisir votre mot de passe actuel."
+                }
+            }
+        },
         "deleteDialog": {
             "title": "Supprimer le compte",
             "description1": "Cette action désactivera définitivement votre compte. Vous disposez de 30 jours pour le récupérer avant que toutes vos données ne soient effacées.",
