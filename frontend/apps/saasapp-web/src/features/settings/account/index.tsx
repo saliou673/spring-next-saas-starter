@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ContentSection } from "../components/content-section";
 import { AccountForm } from "./account-form";
+import { ChangePasswordSection } from "./change-password-section";
 import { DeleteAccountDialog } from "./delete-account-dialog";
 import { EmailChangeSection } from "./email-change-section";
 
@@ -20,6 +21,10 @@ export function SettingsAccount() {
         >
             <div className="space-y-10">
                 <AccountForm />
+                <div className="space-y-4">
+                    <Separator />
+                    <ChangePasswordSection />
+                </div>
                 <div className="space-y-4">
                     <Separator />
                     <EmailChangeSection />

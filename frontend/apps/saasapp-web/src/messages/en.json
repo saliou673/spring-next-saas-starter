@@ -315,6 +315,24 @@
                 "codeLength": "Please enter the 4-digit code."
             }
         },
+        "changePassword": {
+            "title": "Change password",
+            "description": "Choose a strong new password for your account.",
+            "currentPasswordLabel": "Current password",
+            "newPasswordLabel": "New password",
+            "confirmPasswordLabel": "Confirm new password",
+            "submitDefault": "Update password",
+            "submitPending": "Updating password...",
+            "toastUpdated": "Your password has been updated.",
+            "invalidCurrentPassword": "Your current password is incorrect.",
+            "validation": {
+                "currentPasswordRequired": "Please enter your current password.",
+                "newPasswordTooShort": "Password must be at least 8 characters long.",
+                "newPasswordTooWeak": "Password must include upper, lower, number, and special character.",
+                "confirmPasswordRequired": "Please confirm your new password.",
+                "passwordsDoNotMatch": "Passwords don't match."
+            }
+        },
         "deleteDialog": {
             "title": "Delete account",
             "description1": "This will permanently deactivate your account. You have 30 days to recover it before all your data is erased.",

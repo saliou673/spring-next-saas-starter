@@ -315,6 +315,24 @@
                 "codeLength": "Veuillez saisir le code à 4 chiffres."
             }
         },
+        "changePassword": {
+            "title": "Modifier le mot de passe",
+            "description": "Choisissez un nouveau mot de passe robuste pour votre compte.",
+            "currentPasswordLabel": "Mot de passe actuel",
+            "newPasswordLabel": "Nouveau mot de passe",
+            "confirmPasswordLabel": "Confirmer le nouveau mot de passe",
+            "submitDefault": "Mettre à jour le mot de passe",
+            "submitPending": "Mise à jour du mot de passe...",
+            "toastUpdated": "Votre mot de passe a été mis à jour.",
+            "invalidCurrentPassword": "Votre mot de passe actuel est incorrect.",
+            "validation": {
+                "currentPasswordRequired": "Veuillez saisir votre mot de passe actuel.",
+                "newPasswordTooShort": "Le mot de passe doit contenir au moins 8 caractères.",
+                "newPasswordTooWeak": "Le mot de passe doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial.",
+                "confirmPasswordRequired": "Veuillez confirmer votre nouveau mot de passe.",
+                "passwordsDoNotMatch": "Les mots de passe ne correspondent pas."
+            }
+        },
         "deleteDialog": {
             "title": "Supprimer le compte",
             "description1": "Cette action désactivera définitivement votre compte. Vous disposez de 30 jours pour le récupérer avant que toutes vos données ne soient effacées.",
