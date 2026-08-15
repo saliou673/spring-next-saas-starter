@@ -270,6 +270,10 @@
             "textSizeLarge": "Large",
             "reduceMotionLabel": "Reduce motion",
             "reduceMotionDescription": "Minimize animations and transitions."
+        },
+        "language": {
+            "description": "Choose the language used throughout the app.",
+            "syncError": "Language changed on this device, but couldn't be saved to your account."
         }
     },
     "errors": {
