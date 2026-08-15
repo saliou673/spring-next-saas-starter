@@ -63,6 +63,9 @@ export default function AppearanceScreen() {
             theme: THEME_TO_API[next],
             font: preferences?.appearance.font ?? appearancePreferencesFontEnum.SYSTEM,
           },
+          // This mutation replaces the whole preferences document, so the
+          // notifications half has to be carried through unchanged here.
+          notifications: preferences?.notifications ?? { productUpdatesEnabled: false },
         },
       });
     } catch {

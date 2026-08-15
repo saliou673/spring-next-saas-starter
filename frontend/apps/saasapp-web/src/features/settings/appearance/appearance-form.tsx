@@ -10,6 +10,7 @@ import {
     appearancePreferencesThemeEnum,
     getCurrentUserPreferencesQueryKey,
     getUserDetailsQueryKey,
+    type NotificationPreferences,
     type UserSummary,
     type UserPreferences,
     useGetCurrentUserPreferences,
@@ -47,13 +48,20 @@ type AppearanceFormValues = z.infer<typeof appearanceFormSchema>;
 
 const defaultValues: AppearanceFormValues = defaultAppearancePreferenceValues;
 
+const defaultNotificationPreferences: NotificationPreferences = {
+    productUpdatesEnabled: false,
+};
+
 function mapApiPreferencesToFormValues(
     preferences?: UserPreferences | null
 ): AppearanceFormValues {
     return mapUserPreferencesToAppearanceValues(preferences);
 }
 
-function toApiPreferences(values: AppearanceFormValues): UserPreferences {
+function toApiPreferences(
+    values: AppearanceFormValues,
+    currentNotifications: NotificationPreferences
+): UserPreferences {
     return {
         appearance: {
             theme: appearancePreferencesThemeEnum[
@@ -63,6 +71,9 @@ function toApiPreferences(values: AppearanceFormValues): UserPreferences {
                 values.font.toUpperCase() as keyof typeof appearancePreferencesFontEnum
             ],
         },
+        // This mutation replaces the whole preferences document, so the
+        // notifications half has to be carried through unchanged here.
+        notifications: currentNotifications,
     };
 }
 
@@ -172,7 +183,12 @@ export function AppearanceForm() {
     }, [form, preferences, setFont, setTheme]);
 
     function onSubmit(data: AppearanceFormValues) {
-        updatePreferences({ data: toApiPreferences(data) });
+        updatePreferences({
+            data: toApiPreferences(
+                data,
+                preferences?.notifications ?? defaultNotificationPreferences
+            ),
+        });
     }
 
     if (isLoadingPreferences) {

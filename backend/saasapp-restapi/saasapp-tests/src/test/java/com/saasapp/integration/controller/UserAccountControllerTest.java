@@ -11,6 +11,7 @@ import com.saasapp.infrastructure.adapter.in.rest.controller.dto.UserPreferences
 import com.saasapp.infrastructure.adapter.in.rest.controller.dto.PermissionDTO;
 import com.saasapp.infrastructure.adapter.in.rest.controller.dto.UserSummaryDTO;
 import com.saasapp.infrastructure.adapter.in.rest.controller.dto.AppearancePreferencesDTO;
+import com.saasapp.infrastructure.adapter.in.rest.controller.dto.NotificationPreferencesDTO;
 import com.saasapp.infrastructure.adapter.in.rest.controller.requests.*;
 import com.saasapp.infrastructure.adapter.out.persistence.entity.PermissionEntity;
 import com.saasapp.infrastructure.adapter.out.persistence.entity.RoleGroupEntity;
@@ -20,6 +21,7 @@ import com.saasapp.infrastructure.adapter.out.persistence.repository.RoleGroupRe
 import com.saasapp.integration.IntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -57,6 +59,9 @@ class UserAccountControllerTest extends IntegrationTest {
 
     @MockitoBean
     private NotificationSenderPort notificationSenderPort;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private RoleGroupRepository roleGroupRepository;
@@ -223,7 +228,8 @@ class UserAccountControllerTest extends IntegrationTest {
     void shouldUpdateCurrentUserPreferencesSuccessfully() throws Exception {
         createUser("test@example.com", Set.of(UserGroupConstants.ADMIN));
         UserPreferencesDTO request = new UserPreferencesDTO(
-                new AppearancePreferencesDTO(ThemePreference.DARK, FontPreference.MANROPE)
+                new AppearancePreferencesDTO(ThemePreference.DARK, FontPreference.MANROPE),
+                new NotificationPreferencesDTO(true)
         );
 
         UserPreferencesDTO updated = put(API_ACCOUNT_PREFERENCES, request, UserPreferencesDTO.class, status().isOk());
@@ -232,10 +238,29 @@ class UserAccountControllerTest extends IntegrationTest {
 
         assertThat(updated.appearance().theme()).isEqualTo(ThemePreference.DARK);
         assertThat(updated.appearance().font()).isEqualTo(FontPreference.MANROPE);
+        assertThat(updated.notifications().productUpdatesEnabled()).isTrue();
         assertThat(currentAccount.preferences().appearance().theme()).isEqualTo(ThemePreference.DARK);
         assertThat(currentAccount.preferences().appearance().font()).isEqualTo(FontPreference.MANROPE);
+        assertThat(currentAccount.preferences().notifications().productUpdatesEnabled()).isTrue();
         assertThat(currentPreferences.appearance().theme()).isEqualTo(ThemePreference.DARK);
         assertThat(currentPreferences.appearance().font()).isEqualTo(FontPreference.MANROPE);
+        assertThat(currentPreferences.notifications().productUpdatesEnabled()).isTrue();
+    }
+
+    @Test
+    @WithMockUser(username = "test@example.com", authorities = "user:read:own")
+    void shouldDefaultNotificationPreferencesForRowsPersistedBeforeThatFieldExisted() throws Exception {
+        UserEntity user = createUser("test@example.com", Set.of(UserGroupConstants.ADMIN));
+        // Simulates a `user_preference` row written before `notifications` was added to the
+        // preferences JSON document - the key is simply absent, not null.
+        jdbcTemplate.update(
+                "UPDATE user_preference SET preferences = '{\"appearance\":{\"theme\":\"SYSTEM\",\"font\":\"INTER\"}}' WHERE user_id = ?",
+                user.getId()
+        );
+
+        UserSummaryDTO result = get(API_ACCOUNT, new TypeReference<>() {}, status().isOk());
+
+        assertThat(result.preferences().notifications().productUpdatesEnabled()).isFalse();
     }
 
     // region UserAccountController.getCurrentUserPermissions

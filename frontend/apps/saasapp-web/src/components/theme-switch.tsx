@@ -4,6 +4,7 @@ import {
     appearancePreferencesFontEnum,
     appearancePreferencesThemeEnum,
     getCurrentUserPreferencesQueryKey,
+    useGetCurrentUserPreferences,
     useUpdateCurrentUserPreferences,
 } from "@api-client";
 import { Check, Moon, Sun } from "lucide-react";
@@ -27,6 +28,9 @@ export function ThemeSwitch() {
     const { status } = useSession();
     const queryClient = useQueryClient();
 
+    const { data: preferences } = useGetCurrentUserPreferences(undefined, {
+        query: { enabled: status === "authenticated" },
+    });
     const { mutate: updatePreferences } = useUpdateCurrentUserPreferences();
 
     const handleSetTheme = (newTheme: ThemeOption) => {
@@ -45,6 +49,12 @@ export function ThemeSwitch() {
                     appearance: {
                         theme: appearancePreferencesThemeEnum[themeKey],
                         font: appearancePreferencesFontEnum[fontKey],
+                    },
+                    // This mutation replaces the whole preferences document,
+                    // so the notifications half has to be carried through
+                    // unchanged here.
+                    notifications: preferences?.notifications ?? {
+                        productUpdatesEnabled: false,
                     },
                 },
             },

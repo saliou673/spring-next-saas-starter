@@ -15,8 +15,13 @@
             },
             "required": ["font", "theme"],
             "x-readme-ref-name": "AppearancePreferences"
+        },
+        "notifications": {
+            "type": "object",
+            "properties": { "productUpdatesEnabled": { "type": "boolean" } },
+            "x-readme-ref-name": "NotificationPreferences"
         }
     },
-    "required": ["appearance"],
+    "required": ["appearance", "notifications"],
     "x-readme-ref-name": "UserPreferences"
 }

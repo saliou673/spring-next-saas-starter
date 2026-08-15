@@ -525,6 +525,7 @@ export type {
     LogoutMutationResponse,
 } from "./types/Logout.ts";
 export type { LongFilter } from "./types/LongFilter.ts";
+export type { NotificationPreferences } from "./types/NotificationPreferences.ts";
 export type { Pageable } from "./types/Pageable.ts";
 export type { PaginatedResultAppConfiguration } from "./types/PaginatedResultAppConfiguration.ts";
 export type { PaginatedResultPermission } from "./types/PaginatedResultPermission.ts";

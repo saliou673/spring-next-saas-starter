@@ -3,10 +3,15 @@
  * Do not edit manually.
  */
 import type { AppearancePreferences } from "./AppearancePreferences.ts";
+import type { NotificationPreferences } from "./NotificationPreferences.ts";
 
 export type UserPreferences = {
     /**
      * @type object
      */
     appearance: AppearancePreferences;
+    /**
+     * @type object
+     */
+    notifications: NotificationPreferences;
 };

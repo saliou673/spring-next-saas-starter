@@ -397,25 +397,13 @@
         "sectionTitle": "Notifications",
         "sectionDescription": "Configurez la façon dont vous recevez les notifications.",
         "form": {
-            "notifyLabel": "M'avertir de...",
-            "typeAll": "Tous les nouveaux messages",
-            "typeMentions": "Messages directs et mentions",
-            "typeNone": "Rien",
             "emailNotificationsTitle": "Notifications par e-mail",
-            "communicationLabel": "E-mails de communication",
-            "communicationDescription": "Recevez des e-mails sur l'activité de votre compte.",
-            "marketingLabel": "E-mails marketing",
-            "marketingDescription": "Recevez des e-mails sur les nouveaux produits, fonctionnalités et plus encore.",
-            "socialLabel": "E-mails sociaux",
-            "socialDescription": "Recevez des e-mails pour les demandes d'ami, les abonnements et plus encore.",
+            "productUpdatesLabel": "Nouveautés produit",
+            "productUpdatesDescription": "Recevez occasionnellement des e-mails sur les nouvelles fonctionnalités et l'actualité du produit.",
             "securityLabel": "E-mails de sécurité",
-            "securityDescription": "Recevez des e-mails sur l'activité et la sécurité de votre compte.",
-            "mobileLabel": "Utiliser des paramètres différents pour mes appareils mobiles",
-            "mobileDescription": "Vous pouvez gérer vos notifications mobiles dans la page <link>paramètres mobiles</link>.",
-            "submit": "Mettre à jour les notifications",
-            "validation": {
-                "typeRequired": "Veuillez sélectionner un type de notification."
-            }
+            "securityDescription": "Recevez des e-mails sur la sécurité de votre compte. Toujours actif.",
+            "toastUpdated": "Préférences de notification mises à jour.",
+            "loadError": "Impossible de charger vos préférences de notification. Veuillez réessayer."
         }
     },
     "SettingsDisplay": {
