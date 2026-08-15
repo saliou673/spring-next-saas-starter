@@ -189,6 +189,20 @@
                 "invalidCurrentPassword": "Votre mot de passe actuel est incorrect.",
                 "submit": "Mettre à jour le mot de passe",
                 "toastUpdated": "Votre mot de passe a été mis à jour."
+            },
+            "twoFactorSetup": {
+                "description": "Ajoutez une application d'authentification pour une sécurité renforcée lors de la connexion.",
+                "enabledDescription": "L'authentification à deux facteurs protège votre compte.",
+                "alreadyEnabled": "L'authentification à deux facteurs est déjà activée sur ce compte.",
+                "startButton": "Activer l'authentification à deux facteurs",
+                "startError": "Impossible de démarrer la configuration. Veuillez réessayer.",
+                "openAuthenticator": "Ouvrir dans l'application d'authentification",
+                "manualEntryHint": "Ou saisissez ce code manuellement dans votre application d'authentification :",
+                "codeLabel": "Code de vérification",
+                "codeRequired": "Veuillez saisir le code de votre application d'authentification",
+                "invalidCode": "Code de vérification invalide",
+                "confirmButton": "Confirmer et activer",
+                "toastEnabled": "L'authentification à deux facteurs est maintenant activée."
             }
         },
         "profile": {

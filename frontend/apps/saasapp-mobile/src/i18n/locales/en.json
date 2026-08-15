@@ -189,6 +189,20 @@
                 "invalidCurrentPassword": "Your current password is incorrect.",
                 "submit": "Update password",
                 "toastUpdated": "Your password has been updated."
+            },
+            "twoFactorSetup": {
+                "description": "Add an authenticator app for an extra layer of security when signing in.",
+                "enabledDescription": "Two-factor authentication is protecting your account.",
+                "alreadyEnabled": "Two-factor authentication is already enabled on this account.",
+                "startButton": "Enable two-factor authentication",
+                "startError": "Couldn't start setup. Please try again.",
+                "openAuthenticator": "Open in authenticator app",
+                "manualEntryHint": "Or enter this code manually in your authenticator app:",
+                "codeLabel": "Verification code",
+                "codeRequired": "Please enter the code from your authenticator app",
+                "invalidCode": "Invalid verification code",
+                "confirmButton": "Confirm and enable",
+                "toastEnabled": "Two-factor authentication is now enabled."
             }
         },
         "profile": {
