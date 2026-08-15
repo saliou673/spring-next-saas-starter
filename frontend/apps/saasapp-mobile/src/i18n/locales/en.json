@@ -261,6 +261,15 @@
             "socialDescription": "Receive emails for friend requests, follows, and more.",
             "securityLabel": "Security emails",
             "securityDescription": "Receive emails about your account security. Always on."
+        },
+        "display": {
+            "textSizeLabel": "Text size",
+            "textSizeDescription": "Adjust how large text appears throughout the app.",
+            "textSizeSmall": "Small",
+            "textSizeDefault": "Default",
+            "textSizeLarge": "Large",
+            "reduceMotionLabel": "Reduce motion",
+            "reduceMotionDescription": "Minimize animations and transitions."
         }
     },
     "errors": {

@@ -261,6 +261,15 @@
             "socialDescription": "Recevez des e-mails pour les demandes d'ami, abonnements, etc.",
             "securityLabel": "E-mails de sécurité",
             "securityDescription": "Recevez des e-mails sur la sécurité de votre compte. Toujours actif."
+        },
+        "display": {
+            "textSizeLabel": "Taille du texte",
+            "textSizeDescription": "Ajustez la taille du texte dans toute l'application.",
+            "textSizeSmall": "Petite",
+            "textSizeDefault": "Par défaut",
+            "textSizeLarge": "Grande",
+            "reduceMotionLabel": "Réduire les animations",
+            "reduceMotionDescription": "Minimise les animations et les transitions."
         }
     },
     "errors": {
