@@ -1,13 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Linking, Pressable, StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useQueryClient } from '@tanstack/react-query';
 import { Stack, useRouter } from 'expo-router';
 import {
+  getUserDetailsQueryKey,
   twoFactorSetupRequestTypeEnum,
   useConfirm2FactorSetup,
   useDisable2Factor,
+  useGetUserDetails,
   useInit2FactorSetup,
 } from '@api-client';
 
@@ -24,31 +26,22 @@ import { Spacing } from '@/constants/theme';
 // TOTP always returns these two fields.
 type TotpSetupResponse = { secret: string; otpAuthUri: string };
 
-// The backend has no field exposing 2FA-enabled status on GET /accounts/me,
-// so this is a best-effort local flag rather than a source of truth - it can
-// drift if 2FA is toggled from another device. See #28 for the disable flow
-// that also maintains it.
-export const TWO_FACTOR_ENABLED_STORAGE_KEY = 'saasapp-mobile-2fa-enabled';
-
 const CODE_LENGTH = 6;
 
 export default function TwoFactorScreen() {
   const { t } = useTranslation();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
-  const [isEnabled, setIsEnabled] = useState<boolean | null>(null);
+  const { data: user } = useGetUserDetails();
+  const isEnabled = user?.twoFactorEnabled ?? false;
+
   const [setup, setSetup] = useState<TotpSetupResponse | null>(null);
   const [code, setCode] = useState('');
   const [codeError, setCodeError] = useState<string | undefined>();
   const [formError, setFormError] = useState<string | null>(null);
   const [disablePassword, setDisablePassword] = useState('');
   const [disablePasswordError, setDisablePasswordError] = useState<string | undefined>();
-
-  useEffect(() => {
-    void AsyncStorage.getItem(TWO_FACTOR_ENABLED_STORAGE_KEY).then((stored) => {
-      setIsEnabled(stored === 'true');
-    });
-  }, []);
 
   const { mutateAsync: initSetup, isPending: isInitiating } = useInit2FactorSetup({
     mutation: { meta: { skipGlobalErrorToast: true } },
@@ -94,7 +87,7 @@ export default function TwoFactorScreen() {
 
     try {
       await confirmSetup({ data: { code: trimmed } });
-      await AsyncStorage.setItem(TWO_FACTOR_ENABLED_STORAGE_KEY, 'true');
+      await queryClient.invalidateQueries({ queryKey: getUserDetailsQueryKey() });
       showToast(t('settings.account.twoFactorSetup.toastEnabled'), 'success');
       router.back();
     } catch (error) {
@@ -118,7 +111,7 @@ export default function TwoFactorScreen() {
 
     try {
       await disable2Factor({ data: { currentPassword: disablePassword } });
-      await AsyncStorage.removeItem(TWO_FACTOR_ENABLED_STORAGE_KEY);
+      await queryClient.invalidateQueries({ queryKey: getUserDetailsQueryKey() });
       showToast(t('settings.account.twoFactorDisable.toastDisabled'), 'success');
       router.back();
     } catch (error) {
@@ -138,10 +131,6 @@ export default function TwoFactorScreen() {
       }
       setFormError(t('errors.generic'));
     }
-  }
-
-  if (isEnabled === null) {
-    return null;
   }
 
   return (

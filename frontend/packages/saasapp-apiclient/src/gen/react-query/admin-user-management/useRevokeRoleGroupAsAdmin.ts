@@ -21,6 +21,7 @@ import type {
     RevokeRoleGroupAsAdmin403,
     RevokeRoleGroupAsAdmin404,
     RevokeRoleGroupAsAdmin409,
+    RevokeRoleGroupAsAdmin500,
 } from "../../types/RevokeRoleGroupAsAdmin.ts";
 
 export const revokeRoleGroupAsAdminMutationKey = () =>
@@ -40,6 +41,7 @@ export function revokeRoleGroupAsAdminMutationOptions<TContext = unknown>(
             | RevokeRoleGroupAsAdmin403
             | RevokeRoleGroupAsAdmin404
             | RevokeRoleGroupAsAdmin409
+            | RevokeRoleGroupAsAdmin500
         >,
         {
             id: RevokeRoleGroupAsAdminPathParams["id"];
@@ -66,6 +68,7 @@ export function useRevokeRoleGroupAsAdmin<TContext>(
                 | RevokeRoleGroupAsAdmin403
                 | RevokeRoleGroupAsAdmin404
                 | RevokeRoleGroupAsAdmin409
+                | RevokeRoleGroupAsAdmin500
             >,
             {
                 id: RevokeRoleGroupAsAdminPathParams["id"];
@@ -90,6 +93,7 @@ export function useRevokeRoleGroupAsAdmin<TContext>(
             | RevokeRoleGroupAsAdmin403
             | RevokeRoleGroupAsAdmin404
             | RevokeRoleGroupAsAdmin409
+            | RevokeRoleGroupAsAdmin500
         >,
         {
             id: RevokeRoleGroupAsAdminPathParams["id"];
@@ -105,6 +109,7 @@ export function useRevokeRoleGroupAsAdmin<TContext>(
             | RevokeRoleGroupAsAdmin403
             | RevokeRoleGroupAsAdmin404
             | RevokeRoleGroupAsAdmin409
+            | RevokeRoleGroupAsAdmin500
         >,
         {
             id: RevokeRoleGroupAsAdminPathParams["id"];
@@ -125,6 +130,7 @@ export function useRevokeRoleGroupAsAdmin<TContext>(
             | RevokeRoleGroupAsAdmin403
             | RevokeRoleGroupAsAdmin404
             | RevokeRoleGroupAsAdmin409
+            | RevokeRoleGroupAsAdmin500
         >,
         {
             id: RevokeRoleGroupAsAdminPathParams["id"];

@@ -40,6 +40,11 @@ export type UpdateCurrentUserPreferences404 = ValidationErrorResponseDTO;
  */
 export type UpdateCurrentUserPreferences409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type UpdateCurrentUserPreferences500 = ValidationErrorResponseDTO;
+
 export type UpdateCurrentUserPreferencesMutationRequest = UserPreferences;
 
 export type UpdateCurrentUserPreferencesMutationResponse =
@@ -52,5 +57,6 @@ export type UpdateCurrentUserPreferencesMutation = {
     Errors:
         | UpdateCurrentUserPreferences403
         | UpdateCurrentUserPreferences404
-        | UpdateCurrentUserPreferences409;
+        | UpdateCurrentUserPreferences409
+        | UpdateCurrentUserPreferences500;
 };

@@ -40,6 +40,11 @@ export type FinishPasswordReset404 = ValidationErrorResponseDTO;
  */
 export type FinishPasswordReset409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type FinishPasswordReset500 = ValidationErrorResponseDTO;
+
 export type FinishPasswordResetMutationRequest = PasswordResetRequest;
 
 export type FinishPasswordResetMutationResponse = FinishPasswordReset200;
@@ -51,5 +56,6 @@ export type FinishPasswordResetMutation = {
     Errors:
         | FinishPasswordReset403
         | FinishPasswordReset404
-        | FinishPasswordReset409;
+        | FinishPasswordReset409
+        | FinishPasswordReset500;
 };

@@ -15,6 +15,7 @@ import type {
     RequestPasswordReset403,
     RequestPasswordReset404,
     RequestPasswordReset409,
+    RequestPasswordReset500,
 } from "../../types/RequestPasswordReset.ts";
 
 function getRequestPasswordResetUrl() {
@@ -45,6 +46,7 @@ export async function requestPasswordReset(
             | RequestPasswordReset403
             | RequestPasswordReset404
             | RequestPasswordReset409
+            | RequestPasswordReset500
         >,
         RequestPasswordResetMutationRequest
     >({

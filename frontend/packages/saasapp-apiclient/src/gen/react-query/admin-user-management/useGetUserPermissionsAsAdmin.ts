@@ -22,6 +22,7 @@ import type {
     GetUserPermissionsAsAdmin403,
     GetUserPermissionsAsAdmin404,
     GetUserPermissionsAsAdmin409,
+    GetUserPermissionsAsAdmin500,
 } from "../../types/GetUserPermissionsAsAdmin.ts";
 
 export const getUserPermissionsAsAdminQueryKey = (
@@ -44,6 +45,7 @@ export function getUserPermissionsAsAdminQueryOptions(
             | GetUserPermissionsAsAdmin403
             | GetUserPermissionsAsAdmin404
             | GetUserPermissionsAsAdmin409
+            | GetUserPermissionsAsAdmin500
         >,
         GetUserPermissionsAsAdminQueryResponse,
         typeof queryKey
@@ -77,6 +79,7 @@ export function useGetUserPermissionsAsAdmin<
                     | GetUserPermissionsAsAdmin403
                     | GetUserPermissionsAsAdmin404
                     | GetUserPermissionsAsAdmin409
+                    | GetUserPermissionsAsAdmin500
                 >,
                 TData,
                 TQueryData,
@@ -104,6 +107,7 @@ export function useGetUserPermissionsAsAdmin<
             | GetUserPermissionsAsAdmin403
             | GetUserPermissionsAsAdmin404
             | GetUserPermissionsAsAdmin409
+            | GetUserPermissionsAsAdmin500
         >
     > & { queryKey: TQueryKey };
 

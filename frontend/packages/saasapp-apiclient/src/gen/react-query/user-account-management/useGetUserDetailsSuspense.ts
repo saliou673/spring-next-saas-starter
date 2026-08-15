@@ -21,6 +21,7 @@ import type {
     GetUserDetails403,
     GetUserDetails404,
     GetUserDetails409,
+    GetUserDetails500,
 } from "../../types/GetUserDetails.ts";
 
 export const getUserDetailsSuspenseQueryKey = () =>
@@ -38,7 +39,10 @@ export function getUserDetailsSuspenseQueryOptions(
     return queryOptions<
         GetUserDetailsQueryResponse,
         ResponseErrorConfig<
-            GetUserDetails403 | GetUserDetails404 | GetUserDetails409
+            | GetUserDetails403
+            | GetUserDetails404
+            | GetUserDetails409
+            | GetUserDetails500
         >,
         GetUserDetailsQueryResponse,
         typeof queryKey
@@ -66,7 +70,10 @@ export function useGetUserDetailsSuspense<
             UseSuspenseQueryOptions<
                 GetUserDetailsQueryResponse,
                 ResponseErrorConfig<
-                    GetUserDetails403 | GetUserDetails404 | GetUserDetails409
+                    | GetUserDetails403
+                    | GetUserDetails404
+                    | GetUserDetails409
+                    | GetUserDetails500
                 >,
                 TData,
                 TQueryKey
@@ -89,7 +96,10 @@ export function useGetUserDetailsSuspense<
     ) as UseSuspenseQueryResult<
         TData,
         ResponseErrorConfig<
-            GetUserDetails403 | GetUserDetails404 | GetUserDetails409
+            | GetUserDetails403
+            | GetUserDetails404
+            | GetUserDetails409
+            | GetUserDetails500
         >
     > & { queryKey: TQueryKey };
 
