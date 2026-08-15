@@ -142,6 +142,26 @@
             "invitationCompleted": "Votre compte est prêt. Connectez-vous avec votre e-mail et votre nouveau mot de passe."
         }
     },
+    "settings": {
+        "nav": {
+            "title": "Paramètres",
+            "description": "Gérez votre profil, votre compte et les préférences de l'application.",
+            "profile": "Profil",
+            "account": "Compte",
+            "appearance": "Apparence",
+            "notifications": "Notifications",
+            "display": "Affichage",
+            "language": "Langue"
+        },
+        "account": {
+            "title": "Compte",
+            "description": "Gérez votre e-mail, votre mot de passe, l'authentification à deux facteurs et la suppression du compte.",
+            "email": "Modifier l'e-mail",
+            "password": "Modifier le mot de passe",
+            "twoFactor": "Authentification à deux facteurs",
+            "delete": "Supprimer le compte"
+        }
+    },
     "errors": {
         "sessionExpired": "Votre session a expiré. Veuillez vous reconnecter.",
         "serverError": "Une erreur est survenue de notre côté. Veuillez réessayer.",

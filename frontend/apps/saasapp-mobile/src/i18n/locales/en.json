@@ -142,6 +142,26 @@
             "invitationCompleted": "Your account is ready. Sign in with your email and new password."
         }
     },
+    "settings": {
+        "nav": {
+            "title": "Settings",
+            "description": "Manage your profile, account, and app preferences.",
+            "profile": "Profile",
+            "account": "Account",
+            "appearance": "Appearance",
+            "notifications": "Notifications",
+            "display": "Display",
+            "language": "Language"
+        },
+        "account": {
+            "title": "Account",
+            "description": "Manage your email, password, two-factor authentication, and account deletion.",
+            "email": "Change email",
+            "password": "Change password",
+            "twoFactor": "Two-factor authentication",
+            "delete": "Delete account"
+        }
+    },
     "errors": {
         "sessionExpired": "Your session has expired. Please sign in again.",
         "serverError": "Something went wrong on our end. Please try again.",
