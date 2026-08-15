@@ -240,6 +240,13 @@
             "submit": "Save changes",
             "toastUpdated": "Profile updated.",
             "loadError": "Couldn't load your profile. Please try again."
+        },
+        "appearance": {
+            "description": "Choose how Saasapp looks on this device.",
+            "system": "System",
+            "light": "Light",
+            "dark": "Dark",
+            "saveError": "Couldn't save your appearance preference. Please try again."
         }
     },
     "errors": {

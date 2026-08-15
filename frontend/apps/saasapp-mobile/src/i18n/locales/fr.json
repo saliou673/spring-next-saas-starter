@@ -240,6 +240,13 @@
             "submit": "Enregistrer les modifications",
             "toastUpdated": "Profil mis à jour.",
             "loadError": "Impossible de charger votre profil. Veuillez réessayer."
+        },
+        "appearance": {
+            "description": "Choisissez l'apparence de Saasapp sur cet appareil.",
+            "system": "Système",
+            "light": "Clair",
+            "dark": "Sombre",
+            "saveError": "Impossible d'enregistrer votre préférence d'apparence. Veuillez réessayer."
         }
     },
     "errors": {
