@@ -247,6 +247,20 @@
             "light": "Light",
             "dark": "Dark",
             "saveError": "Couldn't save your appearance preference. Please try again."
+        },
+        "notifications": {
+            "notifyLabel": "Notify me about",
+            "typeAll": "All new messages",
+            "typeMentions": "Direct messages and mentions",
+            "typeNone": "Nothing",
+            "communicationLabel": "Communication emails",
+            "communicationDescription": "Receive emails about your account activity.",
+            "marketingLabel": "Marketing emails",
+            "marketingDescription": "Receive emails about new products, features, and more.",
+            "socialLabel": "Social emails",
+            "socialDescription": "Receive emails for friend requests, follows, and more.",
+            "securityLabel": "Security emails",
+            "securityDescription": "Receive emails about your account security. Always on."
         }
     },
     "errors": {

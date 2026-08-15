@@ -247,6 +247,20 @@
             "light": "Clair",
             "dark": "Sombre",
             "saveError": "Impossible d'enregistrer votre préférence d'apparence. Veuillez réessayer."
+        },
+        "notifications": {
+            "notifyLabel": "Me notifier pour",
+            "typeAll": "Tous les nouveaux messages",
+            "typeMentions": "Messages directs et mentions",
+            "typeNone": "Rien",
+            "communicationLabel": "E-mails de communication",
+            "communicationDescription": "Recevez des e-mails sur l'activité de votre compte.",
+            "marketingLabel": "E-mails marketing",
+            "marketingDescription": "Recevez des e-mails sur les nouveaux produits, fonctionnalités, etc.",
+            "socialLabel": "E-mails sociaux",
+            "socialDescription": "Recevez des e-mails pour les demandes d'ami, abonnements, etc.",
+            "securityLabel": "E-mails de sécurité",
+            "securityDescription": "Recevez des e-mails sur la sécurité de votre compte. Toujours actif."
         }
     },
     "errors": {
