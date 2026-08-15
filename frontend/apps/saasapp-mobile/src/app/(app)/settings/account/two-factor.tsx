@@ -4,7 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Stack, useRouter } from 'expo-router';
-import { twoFactorSetupRequestTypeEnum, useConfirm2FactorSetup, useInit2FactorSetup } from '@api-client';
+import {
+  twoFactorSetupRequestTypeEnum,
+  useConfirm2FactorSetup,
+  useDisable2Factor,
+  useInit2FactorSetup,
+} from '@api-client';
 
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { FormTextField } from '@/components/form-text-field';
@@ -36,6 +41,8 @@ export default function TwoFactorScreen() {
   const [code, setCode] = useState('');
   const [codeError, setCodeError] = useState<string | undefined>();
   const [formError, setFormError] = useState<string | null>(null);
+  const [disablePassword, setDisablePassword] = useState('');
+  const [disablePasswordError, setDisablePasswordError] = useState<string | undefined>();
 
   useEffect(() => {
     void AsyncStorage.getItem(TWO_FACTOR_ENABLED_STORAGE_KEY).then((stored) => {
@@ -47,6 +54,9 @@ export default function TwoFactorScreen() {
     mutation: { meta: { skipGlobalErrorToast: true } },
   });
   const { mutateAsync: confirmSetup, isPending: isConfirming } = useConfirm2FactorSetup({
+    mutation: { meta: { skipGlobalErrorToast: true } },
+  });
+  const { mutateAsync: disable2Factor, isPending: isDisabling } = useDisable2Factor({
     mutation: { meta: { skipGlobalErrorToast: true } },
   });
 
@@ -97,6 +107,39 @@ export default function TwoFactorScreen() {
     }
   }
 
+  async function onDisableSubmit() {
+    setDisablePasswordError(undefined);
+    setFormError(null);
+
+    if (!disablePassword) {
+      setDisablePasswordError(t('settings.account.twoFactorDisable.passwordRequired'));
+      return;
+    }
+
+    try {
+      await disable2Factor({ data: { currentPassword: disablePassword } });
+      await AsyncStorage.removeItem(TWO_FACTOR_ENABLED_STORAGE_KEY);
+      showToast(t('settings.account.twoFactorDisable.toastDisabled'), 'success');
+      router.back();
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        const data = error.response?.data as { message?: string } | undefined;
+        const status = error.response?.status;
+
+        if (status === 403 || status === 409) {
+          setDisablePasswordError(
+            data?.message ?? t('settings.account.twoFactorDisable.invalidPassword')
+          );
+          return;
+        }
+
+        setFormError(data?.message ?? t('errors.generic'));
+        return;
+      }
+      setFormError(t('errors.generic'));
+    }
+  }
+
   if (isEnabled === null) {
     return null;
   }
@@ -112,7 +155,32 @@ export default function TwoFactorScreen() {
         }>
         {isEnabled ? (
           <ThemedView type="backgroundElement" style={styles.card}>
-            <ThemedText>{t('settings.account.twoFactorSetup.alreadyEnabled')}</ThemedText>
+            <ThemedText>{t('settings.account.twoFactorDisable.description')}</ThemedText>
+
+            <FormTextField
+              label={t('settings.account.twoFactorDisable.currentPasswordLabel')}
+              value={disablePassword}
+              onChangeText={setDisablePassword}
+              error={disablePasswordError}
+              autoCapitalize="none"
+              autoComplete="current-password"
+              autoCorrect={false}
+              secureTextEntry
+              editable={!isDisabling}
+              onSubmitEditing={() => void onDisableSubmit()}
+            />
+
+            {formError && (
+              <ThemedText type="small" themeColor="danger">
+                {formError}
+              </ThemedText>
+            )}
+
+            <SubmitButton
+              label={t('settings.account.twoFactorDisable.submit')}
+              onPress={() => void onDisableSubmit()}
+              isPending={isDisabling}
+            />
           </ThemedView>
         ) : !setup ? (
           <ThemedView type="backgroundElement" style={styles.card}>

@@ -193,7 +193,6 @@
             "twoFactorSetup": {
                 "description": "Ajoutez une application d'authentification pour une sécurité renforcée lors de la connexion.",
                 "enabledDescription": "L'authentification à deux facteurs protège votre compte.",
-                "alreadyEnabled": "L'authentification à deux facteurs est déjà activée sur ce compte.",
                 "startButton": "Activer l'authentification à deux facteurs",
                 "startError": "Impossible de démarrer la configuration. Veuillez réessayer.",
                 "openAuthenticator": "Ouvrir dans l'application d'authentification",
@@ -203,6 +202,14 @@
                 "invalidCode": "Code de vérification invalide",
                 "confirmButton": "Confirmer et activer",
                 "toastEnabled": "L'authentification à deux facteurs est maintenant activée."
+            },
+            "twoFactorDisable": {
+                "description": "Saisissez votre mot de passe actuel pour désactiver l'authentification à deux facteurs.",
+                "currentPasswordLabel": "Mot de passe actuel",
+                "passwordRequired": "Veuillez saisir votre mot de passe actuel",
+                "invalidPassword": "Votre mot de passe actuel est incorrect.",
+                "submit": "Désactiver l'authentification à deux facteurs",
+                "toastDisabled": "L'authentification à deux facteurs est maintenant désactivée."
             }
         },
         "profile": {

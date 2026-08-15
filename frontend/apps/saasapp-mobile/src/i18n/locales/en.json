@@ -193,7 +193,6 @@
             "twoFactorSetup": {
                 "description": "Add an authenticator app for an extra layer of security when signing in.",
                 "enabledDescription": "Two-factor authentication is protecting your account.",
-                "alreadyEnabled": "Two-factor authentication is already enabled on this account.",
                 "startButton": "Enable two-factor authentication",
                 "startError": "Couldn't start setup. Please try again.",
                 "openAuthenticator": "Open in authenticator app",
@@ -203,6 +202,14 @@
                 "invalidCode": "Invalid verification code",
                 "confirmButton": "Confirm and enable",
                 "toastEnabled": "Two-factor authentication is now enabled."
+            },
+            "twoFactorDisable": {
+                "description": "Enter your current password to turn off two-factor authentication.",
+                "currentPasswordLabel": "Current password",
+                "passwordRequired": "Please enter your current password",
+                "invalidPassword": "Your current password is incorrect.",
+                "submit": "Disable two-factor authentication",
+                "toastDisabled": "Two-factor authentication is now disabled."
             }
         },
         "profile": {
