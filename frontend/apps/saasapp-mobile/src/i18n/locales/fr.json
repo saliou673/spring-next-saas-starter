@@ -160,6 +160,26 @@
             "password": "Modifier le mot de passe",
             "twoFactor": "Authentification à deux facteurs",
             "delete": "Supprimer le compte"
+        },
+        "profile": {
+            "fields": {
+                "email": "E-mail",
+                "firstName": "Prénom",
+                "lastName": "Nom",
+                "phoneNumber": "Numéro de téléphone",
+                "birthDate": "Date de naissance",
+                "gender": "Genre",
+                "genderMale": "Homme",
+                "genderFemale": "Femme",
+                "address": "Adresse",
+                "imageUrl": "URL de l'image de profil"
+            },
+            "firstNameRequired": "Veuillez saisir votre prénom",
+            "lastNameRequired": "Veuillez saisir votre nom",
+            "birthDateInvalid": "Utilisez le format AAAA-MM-JJ",
+            "submit": "Enregistrer les modifications",
+            "toastUpdated": "Profil mis à jour.",
+            "loadError": "Impossible de charger votre profil. Veuillez réessayer."
         }
     },
     "errors": {

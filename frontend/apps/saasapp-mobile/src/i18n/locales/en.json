@@ -160,6 +160,26 @@
             "password": "Change password",
             "twoFactor": "Two-factor authentication",
             "delete": "Delete account"
+        },
+        "profile": {
+            "fields": {
+                "email": "Email",
+                "firstName": "First name",
+                "lastName": "Last name",
+                "phoneNumber": "Phone number",
+                "birthDate": "Birth date",
+                "gender": "Gender",
+                "genderMale": "Male",
+                "genderFemale": "Female",
+                "address": "Address",
+                "imageUrl": "Profile image URL"
+            },
+            "firstNameRequired": "Please enter your first name",
+            "lastNameRequired": "Please enter your last name",
+            "birthDateInvalid": "Use the YYYY-MM-DD format",
+            "submit": "Save changes",
+            "toastUpdated": "Profile updated.",
+            "loadError": "Couldn't load your profile. Please try again."
         }
     },
     "errors": {
