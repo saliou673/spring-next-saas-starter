@@ -210,6 +210,15 @@
                 "invalidPassword": "Your current password is incorrect.",
                 "submit": "Disable two-factor authentication",
                 "toastDisabled": "Two-factor authentication is now disabled."
+            },
+            "deleteAccount": {
+                "warningTitle": "This can't be undone",
+                "warningBody": "Deleting your account removes your access immediately. Contact an administrator if you change your mind.",
+                "accountLabel": "Account: {{email}}",
+                "confirmationLabel": "Type {{word}} to confirm",
+                "confirmationRequired": "Type {{word}} to confirm account deletion",
+                "submit": "Delete my account",
+                "toastDeleted": "Your account has been deleted."
             }
         },
         "profile": {

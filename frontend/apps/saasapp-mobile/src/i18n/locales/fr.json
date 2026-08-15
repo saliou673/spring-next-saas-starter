@@ -210,6 +210,15 @@
                 "invalidPassword": "Votre mot de passe actuel est incorrect.",
                 "submit": "Désactiver l'authentification à deux facteurs",
                 "toastDisabled": "L'authentification à deux facteurs est maintenant désactivée."
+            },
+            "deleteAccount": {
+                "warningTitle": "Cette action est irréversible",
+                "warningBody": "La suppression de votre compte retire immédiatement votre accès. Contactez un administrateur si vous changez d'avis.",
+                "accountLabel": "Compte : {{email}}",
+                "confirmationLabel": "Saisissez {{word}} pour confirmer",
+                "confirmationRequired": "Saisissez {{word}} pour confirmer la suppression du compte",
+                "submit": "Supprimer mon compte",
+                "toastDeleted": "Votre compte a été supprimé."
             }
         },
         "profile": {
