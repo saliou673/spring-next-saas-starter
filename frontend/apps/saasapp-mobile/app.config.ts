@@ -11,6 +11,20 @@ const DEFAULT_API_BASE_URLS: Record<AppEnv, string> = {
     production: "https://api.saasapp.dev",
 };
 
+// The saasapp-web origin whose auth email links (password reset, invitation,
+// activation) universal/app links should be verified against, so tapping
+// one on-device opens this app instead of a browser.
+const DEFAULT_WEB_APP_ORIGINS: Record<AppEnv, string> = {
+    development: "http://localhost:3000",
+    staging: "https://staging-app.saasapp.dev",
+    production: "https://app.saasapp.dev",
+};
+
+// Paths saasapp-web serves for the auth email flows, mirrored 1:1 by routes
+// under `src/app/(auth)` so a universal link and the `saasappmobile://`
+// custom scheme resolve to the same screen.
+const AUTH_LINK_PATHS = ["/reset-password", "/account/invitation", "/activate"];
+
 function resolveAppEnv(): AppEnv {
     const raw = process.env.APP_ENV ?? process.env.EAS_BUILD_PROFILE;
 
@@ -25,6 +39,9 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     const appEnv = resolveAppEnv();
     const apiBaseUrl =
         process.env.EXPO_PUBLIC_API_BASE_URL ?? DEFAULT_API_BASE_URLS[appEnv];
+    const webAppOrigin =
+        process.env.EXPO_PUBLIC_WEB_APP_ORIGIN ?? DEFAULT_WEB_APP_ORIGINS[appEnv];
+    const webAppHost = webAppOrigin.replace(/^https?:\/\//, "");
 
     return {
         ...config,
@@ -37,6 +54,10 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         userInterfaceStyle: "automatic",
         ios: {
             icon: "./assets/images/icon.png",
+            // Requires `.well-known/apple-app-site-association` served from
+            // webAppHost, listing this app's team/bundle ID, before iOS will
+            // open links to these paths in the app instead of Safari.
+            associatedDomains: [`applinks:${webAppHost}`],
         },
         android: {
             adaptiveIcon: {
@@ -47,6 +68,21 @@ export default ({ config }: ConfigContext): ExpoConfig => {
             },
             predictiveBackGestureEnabled: false,
             package: "com.saasapp.mobile",
+            // Requires `.well-known/assetlinks.json` served from webAppHost,
+            // listing this app's package/signing cert, before Android will
+            // verify the link and skip the disambiguation prompt.
+            intentFilters: [
+                {
+                    action: "VIEW",
+                    autoVerify: true,
+                    data: AUTH_LINK_PATHS.map((pathPrefix) => ({
+                        scheme: "https",
+                        host: webAppHost,
+                        pathPrefix,
+                    })),
+                    category: ["BROWSABLE", "DEFAULT"],
+                },
+            ],
         },
         web: {
             output: "static",
