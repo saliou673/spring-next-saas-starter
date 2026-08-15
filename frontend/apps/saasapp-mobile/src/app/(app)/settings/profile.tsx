@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Platform, Pressable, StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
 import { Stack } from 'expo-router';
+import DateTimePicker, {
+  DateTimePickerAndroid,
+  type DateTimePickerEvent,
+} from '@react-native-community/datetimepicker';
 import {
   updateUserRequestGenderEnum,
   useGetUserDetails,
@@ -23,6 +27,21 @@ import { useTheme } from '@/hooks/use-theme';
 
 // Mirrors the backend's date-only ISO format for `birthDate`.
 const BIRTH_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+
+function parseDateInput(value: string): Date {
+  const match = BIRTH_DATE_PATTERN.exec(value.trim());
+  if (!match) return new Date();
+
+  const [year, month, day] = value.trim().split('-').map(Number);
+  return new Date(year, month - 1, day);
+}
+
+function formatDateValue(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
 
 type FormValues = {
   firstName: string;
@@ -111,6 +130,104 @@ function GenderToggle({
           );
         })}
       </View>
+    </View>
+  );
+}
+
+function DateField({
+  label,
+  value,
+  onChange,
+  error,
+  editable,
+  placeholder,
+}: {
+  label: string;
+  value: string;
+  onChange: (next: string) => void;
+  error?: string;
+  editable: boolean;
+  placeholder: string;
+}) {
+  const theme = useTheme();
+
+  // No web implementation ships in @react-native-community/datetimepicker
+  // (it renders null with a console warning there), so this app's web
+  // target keeps the plain text field instead of silently losing the
+  // control.
+  if (Platform.OS === 'web') {
+    return (
+      <FormTextField
+        label={label}
+        value={value}
+        onChangeText={onChange}
+        placeholder={placeholder}
+        error={error}
+        autoCapitalize="none"
+        autoCorrect={false}
+        editable={editable}
+      />
+    );
+  }
+
+  function handleChange(event: DateTimePickerEvent, selectedDate?: Date) {
+    if (event.type === 'set' && selectedDate) {
+      onChange(formatDateValue(selectedDate));
+    }
+  }
+
+  if (Platform.OS === 'android') {
+    return (
+      <View style={styles.field}>
+        <ThemedText type="smallBold">{label}</ThemedText>
+        <Pressable
+          accessibilityRole="button"
+          disabled={!editable}
+          onPress={() =>
+            DateTimePickerAndroid.open({
+              value: parseDateInput(value),
+              mode: 'date',
+              maximumDate: new Date(),
+              onChange: handleChange,
+            })
+          }
+          style={[
+            styles.dateTrigger,
+            {
+              backgroundColor: theme.backgroundElement,
+              borderColor: error ? theme.danger : theme.backgroundSelected,
+            },
+          ]}>
+          <ThemedText themeColor={value ? 'text' : 'textSecondary'}>
+            {value || placeholder}
+          </ThemedText>
+        </Pressable>
+        {error && (
+          <ThemedText type="small" themeColor="danger">
+            {error}
+          </ThemedText>
+        )}
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.field}>
+      <ThemedText type="smallBold">{label}</ThemedText>
+      <DateTimePicker
+        value={parseDateInput(value)}
+        mode="date"
+        display="compact"
+        maximumDate={new Date()}
+        disabled={!editable}
+        onChange={handleChange}
+        style={styles.dateTriggerIOS}
+      />
+      {error && (
+        <ThemedText type="small" themeColor="danger">
+          {error}
+        </ThemedText>
+      )}
     </View>
   );
 }
@@ -211,14 +328,12 @@ export default function ProfileScreen() {
               editable={!isPending}
             />
 
-            <FormTextField
+            <DateField
               label={t('settings.profile.fields.birthDate')}
               value={values.birthDate}
-              onChangeText={(text) => updateField('birthDate', text)}
+              onChange={(text) => updateField('birthDate', text)}
               placeholder="YYYY-MM-DD"
               error={fieldErrors.birthDate}
-              autoCapitalize="none"
-              autoCorrect={false}
               editable={!isPending}
             />
 
@@ -296,5 +411,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: Spacing.two,
     paddingVertical: Spacing.two,
+  },
+  dateTrigger: {
+    borderWidth: 1,
+    borderRadius: Spacing.two,
+    paddingHorizontal: Spacing.three,
+    paddingVertical: Spacing.two,
+    minHeight: 44,
+    justifyContent: 'center',
+  },
+  dateTriggerIOS: {
+    alignSelf: 'flex-start',
   },
 });
