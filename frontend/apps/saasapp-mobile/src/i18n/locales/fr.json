@@ -195,6 +195,7 @@
                 "enabledDescription": "L'authentification à deux facteurs protège votre compte.",
                 "startButton": "Activer l'authentification à deux facteurs",
                 "startError": "Impossible de démarrer la configuration. Veuillez réessayer.",
+                "scanHint": "Scannez ce code QR avec votre application d'authentification.",
                 "openAuthenticator": "Ouvrir dans l'application d'authentification",
                 "manualEntryHint": "Ou saisissez ce code manuellement dans votre application d'authentification :",
                 "codeLabel": "Code de vérification",

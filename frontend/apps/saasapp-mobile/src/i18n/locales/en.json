@@ -195,6 +195,7 @@
                 "enabledDescription": "Two-factor authentication is protecting your account.",
                 "startButton": "Enable two-factor authentication",
                 "startError": "Couldn't start setup. Please try again.",
+                "scanHint": "Scan this QR code with your authenticator app.",
                 "openAuthenticator": "Open in authenticator app",
                 "manualEntryHint": "Or enter this code manually in your authenticator app:",
                 "codeLabel": "Verification code",

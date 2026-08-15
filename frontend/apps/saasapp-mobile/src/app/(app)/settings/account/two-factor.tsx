@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
 import { useQueryClient } from '@tanstack/react-query';
 import { Stack, useRouter } from 'expo-router';
+import QRCode from 'react-native-qrcode-svg';
 import {
   getUserDetailsQueryKey,
   twoFactorSetupRequestTypeEnum,
@@ -20,6 +21,8 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
+
+const QR_SIZE = 176;
 
 // The generated client types this response as a bare `object` since its
 // shape depends on the setup `type` (see TwoFactorController#init2FactorSetup);
@@ -186,6 +189,15 @@ export default function TwoFactorScreen() {
           </ThemedView>
         ) : (
           <ThemedView type="backgroundElement" style={styles.card}>
+            <View style={styles.qrBlock}>
+              <ThemedText type="small" themeColor="textSecondary">
+                {t('settings.account.twoFactorSetup.scanHint')}
+              </ThemedText>
+              <View style={styles.qrFrame}>
+                <QRCode value={setup.otpAuthUri} size={QR_SIZE} backgroundColor="#ffffff" />
+              </View>
+            </View>
+
             <Pressable accessibilityRole="button" onPress={() => void onOpenAuthenticator()}>
               <ThemedText type="linkPrimary">
                 {t('settings.account.twoFactorSetup.openAuthenticator')}
@@ -237,6 +249,15 @@ const styles = StyleSheet.create({
     borderRadius: Spacing.three,
     padding: Spacing.three,
     gap: Spacing.three,
+  },
+  qrBlock: {
+    gap: Spacing.two,
+    alignItems: 'flex-start',
+  },
+  qrFrame: {
+    padding: Spacing.two,
+    borderRadius: Spacing.two,
+    backgroundColor: '#ffffff',
   },
   secretBlock: {
     gap: Spacing.one,
