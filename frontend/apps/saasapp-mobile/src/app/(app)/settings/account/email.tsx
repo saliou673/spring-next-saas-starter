@@ -13,6 +13,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { showToast } from '@/components/toast/toast-store';
 import { Fonts, Spacing } from '@/constants/theme';
+import { extractApiErrorMessage } from '@/lib/api-error';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const CODE_LENGTH = 4;
@@ -52,8 +53,7 @@ export default function ChangeEmailScreen() {
       setStep('confirm');
     } catch (error) {
       if (error instanceof AxiosError) {
-        const data = error.response?.data as { message?: string } | undefined;
-        setFormError(data?.message ?? t('errors.generic'));
+        setFormError(extractApiErrorMessage(error, t('errors.generic')));
         return;
       }
       setFormError(t('errors.generic'));
@@ -77,8 +77,7 @@ export default function ChangeEmailScreen() {
       router.back();
     } catch (error) {
       if (error instanceof AxiosError) {
-        const data = error.response?.data as { message?: string } | undefined;
-        setCodeError(data?.message ?? t('settings.account.emailChange.invalidCode'));
+        setCodeError(extractApiErrorMessage(error, t('settings.account.emailChange.invalidCode')));
         return;
       }
       setFormError(t('errors.generic'));

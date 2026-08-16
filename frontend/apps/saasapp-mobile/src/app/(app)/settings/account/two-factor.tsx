@@ -21,6 +21,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
+import { extractApiErrorMessage } from '@/lib/api-error';
 
 const QR_SIZE = 176;
 
@@ -95,8 +96,9 @@ export default function TwoFactorScreen() {
       router.back();
     } catch (error) {
       if (error instanceof AxiosError) {
-        const data = error.response?.data as { message?: string } | undefined;
-        setCodeError(data?.message ?? t('settings.account.twoFactorSetup.invalidCode'));
+        setCodeError(
+          extractApiErrorMessage(error, t('settings.account.twoFactorSetup.invalidCode'))
+        );
         return;
       }
       setFormError(t('errors.generic'));
@@ -119,17 +121,16 @@ export default function TwoFactorScreen() {
       router.back();
     } catch (error) {
       if (error instanceof AxiosError) {
-        const data = error.response?.data as { message?: string } | undefined;
         const status = error.response?.status;
 
         if (status === 403 || status === 409) {
           setDisablePasswordError(
-            data?.message ?? t('settings.account.twoFactorDisable.invalidPassword')
+            extractApiErrorMessage(error, t('settings.account.twoFactorDisable.invalidPassword'))
           );
           return;
         }
 
-        setFormError(data?.message ?? t('errors.generic'));
+        setFormError(extractApiErrorMessage(error, t('errors.generic')));
         return;
       }
       setFormError(t('errors.generic'));

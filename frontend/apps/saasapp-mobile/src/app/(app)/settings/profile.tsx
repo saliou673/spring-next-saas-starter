@@ -24,6 +24,7 @@ import { ThemedView } from '@/components/themed-view';
 import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
+import { extractApiErrorMessage } from '@/lib/api-error';
 
 // Mirrors the backend's date-only ISO format for `birthDate`.
 const BIRTH_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
@@ -284,8 +285,7 @@ export default function ProfileScreen() {
       showToast(t('settings.profile.toastUpdated'), 'success');
     } catch (error) {
       if (error instanceof AxiosError) {
-        const data = error.response?.data as { message?: string } | undefined;
-        setFormError(data?.message ?? t('errors.generic'));
+        setFormError(extractApiErrorMessage(error, t('errors.generic')));
         return;
       }
       setFormError(t('errors.generic'));
