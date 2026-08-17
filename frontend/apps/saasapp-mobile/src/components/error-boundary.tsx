@@ -25,7 +25,6 @@ export class AppErrorBoundary extends Component<
 
     componentDidCatch(error: unknown) {
         if (__DEV__) {
-            // eslint-disable-next-line no-console
             console.error(error);
         }
     }
