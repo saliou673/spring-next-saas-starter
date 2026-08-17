@@ -5,7 +5,8 @@
         "cancel": "Annuler",
         "confirm": "Confirmer",
         "save": "Enregistrer",
-        "ok": "OK"
+        "ok": "OK",
+        "offlineBanner": "Vous êtes hors ligne. Certaines fonctionnalités peuvent être indisponibles."
     },
     "languageSwitch": {
         "toggleLabel": "Changer de langue",
@@ -683,6 +684,10 @@
         "notFound": {
             "title": "Oups ! Page introuvable !",
             "description": "Il semble que la page que vous recherchez\nn'existe pas ou a peut-être été supprimée."
+        },
+        "unauthorized": {
+            "title": "Accès non autorisé",
+            "description": "Votre session a pris fin.\nVeuillez vous reconnecter pour continuer."
         }
     }
 }
