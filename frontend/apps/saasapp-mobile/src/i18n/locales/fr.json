@@ -156,7 +156,8 @@
             "display": "Affichage",
             "language": "Langue",
             "users": "Utilisateurs",
-            "roleGroups": "Groupes de rôles"
+            "roleGroups": "Groupes de rôles",
+            "configurations": "Configuration"
         },
         "account": {
             "title": "Compte",
@@ -434,6 +435,17 @@
             "empty": "Aucune permission disponible.",
             "submit": "Enregistrer les modifications",
             "toastUpdated": "Permissions mises à jour."
+        }
+    },
+    "configurations": {
+        "nav": {
+            "title": "Configuration",
+            "description": "Gérez la configuration globale de l'application.",
+            "referenceData": "Données de référence",
+            "fileStorage": "Stockage de fichiers",
+            "taxRates": "Taux de taxe",
+            "companyProfile": "Profil de l'entreprise",
+            "security": "Sécurité"
         }
     },
     "errors": {

@@ -16,6 +16,9 @@ export default function SettingsHomeScreen() {
   const canReadRoleGroups = (permissions ?? []).some(
     (permission) => permission.code === 'role-group:read'
   );
+  const canManageConfigurations = (permissions ?? []).some(
+    (permission) => permission.code === 'config:manage'
+  );
 
   return (
     <>
@@ -59,7 +62,7 @@ export default function SettingsHomeScreen() {
           />
         </SettingsSection>
 
-        {(canReadUsers || canReadRoleGroups) && (
+        {(canReadUsers || canReadRoleGroups || canManageConfigurations) && (
           <SettingsSection title={t('settings.nav.sectionAdmin')}>
             {canReadUsers && (
               <SettingsRow
@@ -73,6 +76,13 @@ export default function SettingsHomeScreen() {
                 href="/role-groups"
                 title={t('settings.nav.roleGroups')}
                 icon={{ ios: 'checkmark.shield', android: 'verified_user', web: 'verified_user' }}
+              />
+            )}
+            {canManageConfigurations && (
+              <SettingsRow
+                href="/configurations"
+                title={t('settings.nav.configurations')}
+                icon={{ ios: 'slider.horizontal.3', android: 'tune', web: 'tune' }}
               />
             )}
           </SettingsSection>

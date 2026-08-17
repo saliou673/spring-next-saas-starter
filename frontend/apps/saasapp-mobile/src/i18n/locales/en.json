@@ -156,7 +156,8 @@
             "display": "Display",
             "language": "Language",
             "users": "Users",
-            "roleGroups": "Role groups"
+            "roleGroups": "Role groups",
+            "configurations": "Configuration"
         },
         "account": {
             "title": "Account",
@@ -434,6 +435,17 @@
             "empty": "No permissions available.",
             "submit": "Save changes",
             "toastUpdated": "Permissions updated."
+        }
+    },
+    "configurations": {
+        "nav": {
+            "title": "Configuration",
+            "description": "Manage application-wide configuration.",
+            "referenceData": "Reference data",
+            "fileStorage": "File storage",
+            "taxRates": "Tax rates",
+            "companyProfile": "Company profile",
+            "security": "Security"
         }
     },
     "errors": {
