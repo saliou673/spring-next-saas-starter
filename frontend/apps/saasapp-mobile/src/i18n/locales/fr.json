@@ -409,6 +409,23 @@
             "permissionsLabel": "Permissions",
             "noPermissions": "Aucune permission assignée.",
             "managePermissions": "Gérer les permissions"
+        },
+        "create": {
+            "title": "Ajouter un groupe de rôles",
+            "description": "Créez un groupe de rôles et assignez-lui au moins une permission.",
+            "fields": {
+                "name": "Nom",
+                "description": "Description",
+                "permissions": "Permissions"
+            },
+            "permissionsEmpty": "Aucune permission disponible.",
+            "validation": {
+                "nameRequired": "Le nom est requis.",
+                "descriptionRequired": "La description est requise.",
+                "permissionRequired": "Au moins une permission est requise."
+            },
+            "submit": "Créer le groupe de rôles",
+            "toastCreated": "Groupe de rôles créé."
         }
     },
     "errors": {
