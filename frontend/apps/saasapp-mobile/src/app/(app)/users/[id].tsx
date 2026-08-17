@@ -1,7 +1,12 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Alert, Pressable, StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { AxiosError } from 'axios';
+import { useQueryClient } from '@tanstack/react-query';
 import { Stack, useLocalSearchParams, useRouter, type Href } from 'expo-router';
 import {
+  getUserAsAdminQueryKey,
+  getUsersAsAdminQueryKey,
+  useDeleteUserAsAdmin,
   useGetUserAsAdmin,
   useGetUserPermissionsAsAdmin,
   userDetailsGenderEnum,
@@ -14,8 +19,10 @@ import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
+import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
+import { extractApiErrorMessage } from '@/lib/api-error';
 
 function ReadOnlyRow({ label, value }: { label: string; value: string }) {
   return (
@@ -28,10 +35,43 @@ function ReadOnlyRow({ label, value }: { label: string; value: string }) {
   );
 }
 
+function DeactivateButton({
+  label,
+  onPress,
+  isPending,
+}: {
+  label: string;
+  onPress: () => void;
+  isPending: boolean;
+}) {
+  const theme = useTheme();
+
+  return (
+    <Pressable
+      accessibilityRole="button"
+      disabled={isPending}
+      onPress={onPress}
+      style={({ pressed }) => [
+        styles.deactivateButton,
+        { backgroundColor: theme.danger },
+        (pressed || isPending) && styles.pressedButton,
+      ]}>
+      {isPending ? (
+        <ActivityIndicator color={theme.background} />
+      ) : (
+        <ThemedText type="smallBold" style={{ color: theme.background }}>
+          {label}
+        </ThemedText>
+      )}
+    </Pressable>
+  );
+}
+
 export default function UserDetailScreen() {
   const { t } = useTranslation();
   const theme = useTheme();
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { id } = useLocalSearchParams<{ id: string }>();
   const userId = Number(id);
 
@@ -42,6 +82,44 @@ export default function UserDetailScreen() {
   } = useGetUserAsAdmin(userId);
   const { data: permissions, isLoading: isPermissionsLoading } =
     useGetUserPermissionsAsAdmin(userId);
+
+  const { mutate: deactivateUser, isPending: isDeactivating } = useDeleteUserAsAdmin({
+    mutation: {
+      meta: { skipGlobalErrorToast: true },
+      onSuccess: async () => {
+        await Promise.all([
+          queryClient.invalidateQueries({ queryKey: getUserAsAdminQueryKey(userId) }),
+          queryClient.invalidateQueries({
+            queryKey: getUsersAsAdminQueryKey({ filter: {}, pageable: {} }),
+          }),
+        ]);
+        showToast(t('users.detail.deactivateSuccess'), 'success');
+      },
+      onError: (error) => {
+        showToast(
+          error instanceof AxiosError ? extractApiErrorMessage(error, t('errors.generic')) : t('errors.generic'),
+          'error'
+        );
+      },
+    },
+  });
+
+  function handleDeactivate() {
+    if (!user) return;
+
+    Alert.alert(
+      t('users.detail.deactivateConfirmTitle'),
+      t('users.detail.deactivateConfirmMessage', { email: user.email }),
+      [
+        { text: t('common.cancel'), style: 'cancel' },
+        {
+          text: t('users.detail.deactivate'),
+          style: 'destructive',
+          onPress: () => deactivateUser({ id: userId }),
+        },
+      ]
+    );
+  }
 
   const genderLabels: Record<UserDetailsGenderEnumKey, string> = {
     [userDetailsGenderEnum.MALE]: t('users.gender.MALE'),
@@ -99,6 +177,14 @@ export default function UserDetailScreen() {
               label={t('users.detail.edit')}
               onPress={() => router.push(`/users/edit/${userId}` as Href)}
             />
+
+            {user.status !== userDetailsStatusEnum.DEACTIVATED && (
+              <DeactivateButton
+                label={t('users.detail.deactivate')}
+                onPress={handleDeactivate}
+                isPending={isDeactivating}
+              />
+            )}
 
             <SettingsCard>
               <ThemedText type="smallBold">{t('users.detail.roleGroupsLabel')}</ThemedText>
@@ -167,5 +253,16 @@ const styles = StyleSheet.create({
   },
   permissionRow: {
     gap: Spacing.half,
+  },
+  deactivateButton: {
+    marginTop: Spacing.two,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: Spacing.two,
+    paddingVertical: Spacing.three,
+    minHeight: 48,
+  },
+  pressedButton: {
+    opacity: 0.7,
   },
 });

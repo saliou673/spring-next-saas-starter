@@ -288,7 +288,11 @@
             "noResults": "Aucun utilisateur trouvé.",
             "previous": "Précédent",
             "next": "Suivant",
-            "pageIndicator": "Page {{page}} sur {{totalPages}}"
+            "pageIndicator": "Page {{page}} sur {{totalPages}}",
+            "deactivate": "Désactiver",
+            "deactivateConfirmTitle": "Désactiver l'utilisateur",
+            "deactivateConfirmMessage": "Êtes-vous sûr de vouloir désactiver {{email}} ? Cette personne ne pourra plus se connecter.",
+            "deactivateSuccess": "Utilisateur désactivé."
         },
         "create": {
             "title": "Ajouter un utilisateur",
@@ -348,7 +352,11 @@
             "roleGroupsLabel": "Groupes de rôles",
             "noRoleGroups": "Aucun groupe de rôles assigné.",
             "permissionsLabel": "Permissions effectives",
-            "noPermissions": "Aucune permission."
+            "noPermissions": "Aucune permission.",
+            "deactivate": "Désactiver l'utilisateur",
+            "deactivateConfirmTitle": "Désactiver l'utilisateur",
+            "deactivateConfirmMessage": "Êtes-vous sûr de vouloir désactiver {{email}} ? Cette personne ne pourra plus se connecter.",
+            "deactivateSuccess": "Utilisateur désactivé."
         },
         "status": {
             "NOT_ACTIVATED": "Non activé",

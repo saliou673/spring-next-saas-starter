@@ -1,9 +1,22 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, FlatList, Pressable, RefreshControl, StyleSheet, TextInput, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  FlatList,
+  Pressable,
+  RefreshControl,
+  StyleSheet,
+  TextInput,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
+import { AxiosError } from 'axios';
+import { useQueryClient } from '@tanstack/react-query';
 import { Stack, useRouter, type Href } from 'expo-router';
 import {
+  getUsersAsAdminQueryKey,
+  useDeleteUserAsAdmin,
   useGetUsersAsAdmin,
   userDetailsStatusEnum,
   type UserDetails,
@@ -12,10 +25,12 @@ import {
 } from '@api-client';
 
 import { SettingsCard } from '@/components/settings-card';
+import { showToast } from '@/components/toast/toast-store';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
+import { extractApiErrorMessage } from '@/lib/api-error';
 
 const PAGE_SIZE = 20;
 
@@ -23,11 +38,14 @@ function UserListItem({
   user,
   statusLabel,
   onPress,
+  onDeactivate,
 }: {
   user: UserDetails;
   statusLabel: string;
   onPress: () => void;
+  onDeactivate: () => void;
 }) {
+  const { t } = useTranslation();
   const theme = useTheme();
   const fullName = `${user.firstName} ${user.lastName}`.trim();
   const status = user.status ?? userDetailsStatusEnum.NOT_ACTIVATED;
@@ -39,11 +57,8 @@ function UserListItem({
     .sort();
 
   return (
-    <Pressable
-      accessibilityRole="button"
-      onPress={onPress}
-      style={({ pressed }) => pressed && styles.pressed}>
-      <SettingsCard style={styles.card}>
+    <SettingsCard style={styles.card}>
+      <Pressable accessibilityRole="button" onPress={onPress} style={({ pressed }) => pressed && styles.pressed}>
         <View style={styles.cardHeader}>
           <ThemedText type="smallBold" style={styles.name} numberOfLines={1}>
             {fullName}
@@ -70,8 +85,19 @@ function UserListItem({
             ))}
           </View>
         )}
-      </SettingsCard>
-    </Pressable>
+      </Pressable>
+
+      {status !== userDetailsStatusEnum.DEACTIVATED && (
+        <Pressable
+          accessibilityRole="button"
+          onPress={onDeactivate}
+          style={({ pressed }) => [styles.deactivateButton, pressed && styles.pressed]}>
+          <ThemedText type="small" themeColor="danger">
+            {t('users.list.deactivate')}
+          </ThemedText>
+        </Pressable>
+      )}
+    </SettingsCard>
   );
 }
 
@@ -79,6 +105,7 @@ export default function UsersListScreen() {
   const { t } = useTranslation();
   const router = useRouter();
   const theme = useTheme();
+  const queryClient = useQueryClient();
 
   const [emailInput, setEmailInput] = useState('');
   const [debouncedEmail, setDebouncedEmail] = useState('');
@@ -123,6 +150,39 @@ export default function UsersListScreen() {
       return;
     }
     setPage(0);
+  }
+
+  const { mutate: deactivateUser } = useDeleteUserAsAdmin({
+    mutation: {
+      meta: { skipGlobalErrorToast: true },
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({
+          queryKey: getUsersAsAdminQueryKey({ filter: {}, pageable: {} }),
+        });
+        showToast(t('users.list.deactivateSuccess'), 'success');
+      },
+      onError: (error) => {
+        showToast(
+          error instanceof AxiosError ? extractApiErrorMessage(error, t('errors.generic')) : t('errors.generic'),
+          'error'
+        );
+      },
+    },
+  });
+
+  function handleDeactivate(user: UserDetails) {
+    Alert.alert(
+      t('users.list.deactivateConfirmTitle'),
+      t('users.list.deactivateConfirmMessage', { email: user.email }),
+      [
+        { text: t('common.cancel'), style: 'cancel' },
+        {
+          text: t('users.list.deactivate'),
+          style: 'destructive',
+          onPress: () => deactivateUser({ id: user.id ?? 0 }),
+        },
+      ]
+    );
   }
 
   return (
@@ -183,6 +243,7 @@ export default function UsersListScreen() {
                     user={item}
                     statusLabel={statusLabels[item.status ?? userDetailsStatusEnum.NOT_ACTIVATED]}
                     onPress={() => router.push(`/users/${item.id ?? 0}` as Href)}
+                    onDeactivate={() => handleDeactivate(item)}
                   />
                 )}
                 style={styles.list}
@@ -314,6 +375,9 @@ const styles = StyleSheet.create({
     borderRadius: Spacing.two,
     paddingHorizontal: Spacing.two,
     paddingVertical: Spacing.half,
+  },
+  deactivateButton: {
+    alignSelf: 'flex-start',
   },
   pressed: {
     opacity: 0.7,

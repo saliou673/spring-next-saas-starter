@@ -288,7 +288,11 @@
             "noResults": "No users found.",
             "previous": "Previous",
             "next": "Next",
-            "pageIndicator": "Page {{page}} of {{totalPages}}"
+            "pageIndicator": "Page {{page}} of {{totalPages}}",
+            "deactivate": "Deactivate",
+            "deactivateConfirmTitle": "Deactivate user",
+            "deactivateConfirmMessage": "Are you sure you want to deactivate {{email}}? They will no longer be able to sign in.",
+            "deactivateSuccess": "User deactivated."
         },
         "create": {
             "title": "Add user",
@@ -348,7 +352,11 @@
             "roleGroupsLabel": "Role groups",
             "noRoleGroups": "No role groups assigned.",
             "permissionsLabel": "Effective permissions",
-            "noPermissions": "No permissions."
+            "noPermissions": "No permissions.",
+            "deactivate": "Deactivate user",
+            "deactivateConfirmTitle": "Deactivate user",
+            "deactivateConfirmMessage": "Are you sure you want to deactivate {{email}}? They will no longer be able to sign in.",
+            "deactivateSuccess": "User deactivated."
         },
         "status": {
             "NOT_ACTIVATED": "Not activated",
