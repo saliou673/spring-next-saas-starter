@@ -289,12 +289,33 @@
             "next": "Next",
             "pageIndicator": "Page {{page}} of {{totalPages}}"
         },
+        "detail": {
+            "title": "User details",
+            "loadError": "Unable to load this user.",
+            "fields": {
+                "email": "Email",
+                "name": "Name",
+                "phoneNumber": "Phone number",
+                "birthDate": "Birth date",
+                "gender": "Gender",
+                "address": "Address",
+                "status": "Status"
+            },
+            "roleGroupsLabel": "Role groups",
+            "noRoleGroups": "No role groups assigned.",
+            "permissionsLabel": "Effective permissions",
+            "noPermissions": "No permissions."
+        },
         "status": {
             "NOT_ACTIVATED": "Not activated",
             "ACTIVATED": "Activated",
             "DEACTIVATED": "Deactivated",
             "LOCKED": "Locked",
             "BANNED": "Banned"
+        },
+        "gender": {
+            "MALE": "Male",
+            "FEMALE": "Female"
         }
     },
     "errors": {

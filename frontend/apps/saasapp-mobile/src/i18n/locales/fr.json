@@ -289,12 +289,33 @@
             "next": "Suivant",
             "pageIndicator": "Page {{page}} sur {{totalPages}}"
         },
+        "detail": {
+            "title": "Détails de l'utilisateur",
+            "loadError": "Impossible de charger cet utilisateur.",
+            "fields": {
+                "email": "E-mail",
+                "name": "Nom",
+                "phoneNumber": "Numéro de téléphone",
+                "birthDate": "Date de naissance",
+                "gender": "Genre",
+                "address": "Adresse",
+                "status": "Statut"
+            },
+            "roleGroupsLabel": "Groupes de rôles",
+            "noRoleGroups": "Aucun groupe de rôles assigné.",
+            "permissionsLabel": "Permissions effectives",
+            "noPermissions": "Aucune permission."
+        },
         "status": {
             "NOT_ACTIVATED": "Non activé",
             "ACTIVATED": "Activé",
             "DEACTIVATED": "Désactivé",
             "LOCKED": "Verrouillé",
             "BANNED": "Banni"
+        },
+        "gender": {
+            "MALE": "Homme",
+            "FEMALE": "Femme"
         }
     },
     "errors": {
