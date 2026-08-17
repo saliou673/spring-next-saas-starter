@@ -15,6 +15,7 @@ import type {
     CreateUserAsAdmin403,
     CreateUserAsAdmin404,
     CreateUserAsAdmin409,
+    CreateUserAsAdmin500,
 } from "../../types/CreateUserAsAdmin.ts";
 
 function getCreateUserAsAdminUrl() {
@@ -39,7 +40,10 @@ export async function createUserAsAdmin(
     const res = await request<
         CreateUserAsAdminMutationResponse,
         ResponseErrorConfig<
-            CreateUserAsAdmin403 | CreateUserAsAdmin404 | CreateUserAsAdmin409
+            | CreateUserAsAdmin403
+            | CreateUserAsAdmin404
+            | CreateUserAsAdmin409
+            | CreateUserAsAdmin500
         >,
         CreateUserAsAdminMutationRequest
     >({

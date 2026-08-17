@@ -15,6 +15,7 @@ import type {
     CompleteInvitation403,
     CompleteInvitation404,
     CompleteInvitation409,
+    CompleteInvitation500,
 } from "../../types/CompleteInvitation.ts";
 
 function getCompleteInvitationUrl() {
@@ -45,6 +46,7 @@ export async function completeInvitation(
             | CompleteInvitation403
             | CompleteInvitation404
             | CompleteInvitation409
+            | CompleteInvitation500
         >,
         CompleteInvitationMutationRequest
     >({

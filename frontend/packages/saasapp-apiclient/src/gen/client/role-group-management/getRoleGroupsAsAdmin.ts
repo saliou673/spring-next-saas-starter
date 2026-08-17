@@ -15,6 +15,7 @@ import type {
     GetRoleGroupsAsAdmin403,
     GetRoleGroupsAsAdmin404,
     GetRoleGroupsAsAdmin409,
+    GetRoleGroupsAsAdmin500,
 } from "../../types/GetRoleGroupsAsAdmin.ts";
 
 function getGetRoleGroupsAsAdminUrl() {
@@ -38,6 +39,7 @@ export async function getRoleGroupsAsAdmin(
             | GetRoleGroupsAsAdmin403
             | GetRoleGroupsAsAdmin404
             | GetRoleGroupsAsAdmin409
+            | GetRoleGroupsAsAdmin500
         >,
         unknown
     >({

@@ -15,6 +15,7 @@ import type {
     SendContactForm403,
     SendContactForm404,
     SendContactForm409,
+    SendContactForm500,
 } from "../../types/SendContactForm.ts";
 
 function getSendContactFormUrl() {
@@ -39,7 +40,10 @@ export async function sendContactForm(
     const res = await request<
         SendContactFormMutationResponse,
         ResponseErrorConfig<
-            SendContactForm403 | SendContactForm404 | SendContactForm409
+            | SendContactForm403
+            | SendContactForm404
+            | SendContactForm409
+            | SendContactForm500
         >,
         SendContactFormMutationRequest
     >({

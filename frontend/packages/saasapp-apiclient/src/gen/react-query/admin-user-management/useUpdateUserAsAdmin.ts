@@ -22,6 +22,7 @@ import type {
     UpdateUserAsAdmin403,
     UpdateUserAsAdmin404,
     UpdateUserAsAdmin409,
+    UpdateUserAsAdmin500,
 } from "../../types/UpdateUserAsAdmin.ts";
 
 export const updateUserAsAdminMutationKey = () =>
@@ -40,7 +41,10 @@ export function updateUserAsAdminMutationOptions<TContext = unknown>(
     return mutationOptions<
         UpdateUserAsAdminMutationResponse,
         ResponseErrorConfig<
-            UpdateUserAsAdmin403 | UpdateUserAsAdmin404 | UpdateUserAsAdmin409
+            | UpdateUserAsAdmin403
+            | UpdateUserAsAdmin404
+            | UpdateUserAsAdmin409
+            | UpdateUserAsAdmin500
         >,
         {
             id: UpdateUserAsAdminPathParams["id"];
@@ -67,6 +71,7 @@ export function useUpdateUserAsAdmin<TContext>(
                 | UpdateUserAsAdmin403
                 | UpdateUserAsAdmin404
                 | UpdateUserAsAdmin409
+                | UpdateUserAsAdmin500
             >,
             {
                 id: UpdateUserAsAdminPathParams["id"];
@@ -90,7 +95,10 @@ export function useUpdateUserAsAdmin<TContext>(
     ) as UseMutationOptions<
         UpdateUserAsAdminMutationResponse,
         ResponseErrorConfig<
-            UpdateUserAsAdmin403 | UpdateUserAsAdmin404 | UpdateUserAsAdmin409
+            | UpdateUserAsAdmin403
+            | UpdateUserAsAdmin404
+            | UpdateUserAsAdmin409
+            | UpdateUserAsAdmin500
         >,
         {
             id: UpdateUserAsAdminPathParams["id"];
@@ -103,7 +111,10 @@ export function useUpdateUserAsAdmin<TContext>(
     return useMutation<
         UpdateUserAsAdminMutationResponse,
         ResponseErrorConfig<
-            UpdateUserAsAdmin403 | UpdateUserAsAdmin404 | UpdateUserAsAdmin409
+            | UpdateUserAsAdmin403
+            | UpdateUserAsAdmin404
+            | UpdateUserAsAdmin409
+            | UpdateUserAsAdmin500
         >,
         {
             id: UpdateUserAsAdminPathParams["id"];
@@ -121,7 +132,10 @@ export function useUpdateUserAsAdmin<TContext>(
     ) as UseMutationResult<
         UpdateUserAsAdminMutationResponse,
         ResponseErrorConfig<
-            UpdateUserAsAdmin403 | UpdateUserAsAdmin404 | UpdateUserAsAdmin409
+            | UpdateUserAsAdmin403
+            | UpdateUserAsAdmin404
+            | UpdateUserAsAdmin409
+            | UpdateUserAsAdmin500
         >,
         {
             id: UpdateUserAsAdminPathParams["id"];

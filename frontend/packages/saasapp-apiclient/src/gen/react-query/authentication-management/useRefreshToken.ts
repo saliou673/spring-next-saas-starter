@@ -21,6 +21,7 @@ import type {
     RefreshToken403,
     RefreshToken404,
     RefreshToken409,
+    RefreshToken500,
 } from "../../types/RefreshToken.ts";
 
 export const refreshTokenMutationKey = () =>
@@ -39,7 +40,10 @@ export function refreshTokenMutationOptions<TContext = unknown>(
     return mutationOptions<
         RefreshTokenMutationResponse,
         ResponseErrorConfig<
-            RefreshToken403 | RefreshToken404 | RefreshToken409
+            | RefreshToken403
+            | RefreshToken404
+            | RefreshToken409
+            | RefreshToken500
         >,
         {
             data: RefreshTokenMutationRequest;
@@ -62,7 +66,10 @@ export function useRefreshToken<TContext>(
         mutation?: UseMutationOptions<
             RefreshTokenMutationResponse,
             ResponseErrorConfig<
-                RefreshToken403 | RefreshToken404 | RefreshToken409
+                | RefreshToken403
+                | RefreshToken404
+                | RefreshToken409
+                | RefreshToken500
             >,
             {
                 data: RefreshTokenMutationRequest;
@@ -85,7 +92,10 @@ export function useRefreshToken<TContext>(
     ) as UseMutationOptions<
         RefreshTokenMutationResponse,
         ResponseErrorConfig<
-            RefreshToken403 | RefreshToken404 | RefreshToken409
+            | RefreshToken403
+            | RefreshToken404
+            | RefreshToken409
+            | RefreshToken500
         >,
         {
             data: RefreshTokenMutationRequest;
@@ -97,7 +107,10 @@ export function useRefreshToken<TContext>(
     return useMutation<
         RefreshTokenMutationResponse,
         ResponseErrorConfig<
-            RefreshToken403 | RefreshToken404 | RefreshToken409
+            | RefreshToken403
+            | RefreshToken404
+            | RefreshToken409
+            | RefreshToken500
         >,
         {
             data: RefreshTokenMutationRequest;
@@ -114,7 +127,10 @@ export function useRefreshToken<TContext>(
     ) as UseMutationResult<
         RefreshTokenMutationResponse,
         ResponseErrorConfig<
-            RefreshToken403 | RefreshToken404 | RefreshToken409
+            | RefreshToken403
+            | RefreshToken404
+            | RefreshToken409
+            | RefreshToken500
         >,
         {
             data: RefreshTokenMutationRequest;

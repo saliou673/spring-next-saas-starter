@@ -41,6 +41,11 @@ export type CreateUserAsAdmin404 = ValidationErrorResponseDTO;
  */
 export type CreateUserAsAdmin409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type CreateUserAsAdmin500 = ValidationErrorResponseDTO;
+
 export type CreateUserAsAdminMutationRequest = CreateAdminUserRequest;
 
 export type CreateUserAsAdminMutationResponse = CreateUserAsAdmin201;
@@ -49,5 +54,9 @@ export type CreateUserAsAdminMutation = {
     Response: CreateUserAsAdmin201;
     Request: CreateUserAsAdminMutationRequest;
     HeaderParams: CreateUserAsAdminHeaderParams;
-    Errors: CreateUserAsAdmin403 | CreateUserAsAdmin404 | CreateUserAsAdmin409;
+    Errors:
+        | CreateUserAsAdmin403
+        | CreateUserAsAdmin404
+        | CreateUserAsAdmin409
+        | CreateUserAsAdmin500;
 };

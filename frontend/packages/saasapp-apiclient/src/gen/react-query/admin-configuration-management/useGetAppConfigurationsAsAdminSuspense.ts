@@ -22,6 +22,7 @@ import type {
     GetAppConfigurationsAsAdmin403,
     GetAppConfigurationsAsAdmin404,
     GetAppConfigurationsAsAdmin409,
+    GetAppConfigurationsAsAdmin500,
 } from "../../types/GetAppConfigurationsAsAdmin.ts";
 
 export const getAppConfigurationsAsAdminSuspenseQueryKey = (
@@ -48,6 +49,7 @@ export function getAppConfigurationsAsAdminSuspenseQueryOptions(
             | GetAppConfigurationsAsAdmin403
             | GetAppConfigurationsAsAdmin404
             | GetAppConfigurationsAsAdmin409
+            | GetAppConfigurationsAsAdmin500
         >,
         GetAppConfigurationsAsAdminQueryResponse,
         typeof queryKey
@@ -80,6 +82,7 @@ export function useGetAppConfigurationsAsAdminSuspense<
                     | GetAppConfigurationsAsAdmin403
                     | GetAppConfigurationsAsAdmin404
                     | GetAppConfigurationsAsAdmin409
+                    | GetAppConfigurationsAsAdmin500
                 >,
                 TData,
                 TQueryKey
@@ -111,6 +114,7 @@ export function useGetAppConfigurationsAsAdminSuspense<
             | GetAppConfigurationsAsAdmin403
             | GetAppConfigurationsAsAdmin404
             | GetAppConfigurationsAsAdmin409
+            | GetAppConfigurationsAsAdmin500
         >
     > & { queryKey: TQueryKey };
 

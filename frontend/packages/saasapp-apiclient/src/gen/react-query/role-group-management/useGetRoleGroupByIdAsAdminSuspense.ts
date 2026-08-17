@@ -22,6 +22,7 @@ import type {
     GetRoleGroupByIdAsAdmin403,
     GetRoleGroupByIdAsAdmin404,
     GetRoleGroupByIdAsAdmin409,
+    GetRoleGroupByIdAsAdmin500,
 } from "../../types/GetRoleGroupByIdAsAdmin.ts";
 
 export const getRoleGroupByIdAsAdminSuspenseQueryKey = (
@@ -44,6 +45,7 @@ export function getRoleGroupByIdAsAdminSuspenseQueryOptions(
             | GetRoleGroupByIdAsAdmin403
             | GetRoleGroupByIdAsAdmin404
             | GetRoleGroupByIdAsAdmin409
+            | GetRoleGroupByIdAsAdmin500
         >,
         GetRoleGroupByIdAsAdminQueryResponse,
         typeof queryKey
@@ -76,6 +78,7 @@ export function useGetRoleGroupByIdAsAdminSuspense<
                     | GetRoleGroupByIdAsAdmin403
                     | GetRoleGroupByIdAsAdmin404
                     | GetRoleGroupByIdAsAdmin409
+                    | GetRoleGroupByIdAsAdmin500
                 >,
                 TData,
                 TQueryKey
@@ -102,6 +105,7 @@ export function useGetRoleGroupByIdAsAdminSuspense<
             | GetRoleGroupByIdAsAdmin403
             | GetRoleGroupByIdAsAdmin404
             | GetRoleGroupByIdAsAdmin409
+            | GetRoleGroupByIdAsAdmin500
         >
     > & { queryKey: TQueryKey };
 

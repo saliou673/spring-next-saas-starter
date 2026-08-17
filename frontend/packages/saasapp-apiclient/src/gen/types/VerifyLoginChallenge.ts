@@ -41,6 +41,11 @@ export type VerifyLoginChallenge404 = ValidationErrorResponseDTO;
  */
 export type VerifyLoginChallenge409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type VerifyLoginChallenge500 = ValidationErrorResponseDTO;
+
 export type VerifyLoginChallengeMutationRequest = TwoFactorLoginVerifyRequest;
 
 export type VerifyLoginChallengeMutationResponse = VerifyLoginChallenge200;
@@ -52,5 +57,6 @@ export type VerifyLoginChallengeMutation = {
     Errors:
         | VerifyLoginChallenge403
         | VerifyLoginChallenge404
-        | VerifyLoginChallenge409;
+        | VerifyLoginChallenge409
+        | VerifyLoginChallenge500;
 };
