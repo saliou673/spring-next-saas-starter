@@ -15,6 +15,7 @@ import type {
     GetUserPermissionsAsAdmin403,
     GetUserPermissionsAsAdmin404,
     GetUserPermissionsAsAdmin409,
+    GetUserPermissionsAsAdmin500,
 } from "../../types/GetUserPermissionsAsAdmin.ts";
 
 function getGetUserPermissionsAsAdminUrl(
@@ -43,6 +44,7 @@ export async function getUserPermissionsAsAdmin(
             | GetUserPermissionsAsAdmin403
             | GetUserPermissionsAsAdmin404
             | GetUserPermissionsAsAdmin409
+            | GetUserPermissionsAsAdmin500
         >,
         unknown
     >({

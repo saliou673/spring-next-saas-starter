@@ -8,6 +8,8 @@ import { AuthScreen } from '@/components/auth-screen';
 import { FormTextField } from '@/components/form-text-field';
 import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
+import { showToast } from '@/components/toast/toast-store';
+import { extractApiErrorMessage } from '@/lib/api-error';
 
 const MIN_PASSWORD_LENGTH = 8;
 // Mirrors the backend's PasswordResetRequest constraint.
@@ -65,18 +67,20 @@ export default function ResetPasswordScreen() {
 
     try {
       await mutateAsync({ data: { code, newPassword } });
-      router.replace({ pathname: '/sign-in', params: { notice: 'passwordReset' } });
+      showToast(t('auth.toasts.passwordReset'), 'success');
+      router.replace('/sign-in');
     } catch (error) {
       if (error instanceof AxiosError) {
-        const data = error.response?.data as { message?: string } | undefined;
         const status = error.response?.status;
 
         if (status === 403 || status === 404 || status === 409) {
-          setFieldErrors({ code: data?.message ?? t('auth.resetPassword.invalidCode') });
+          setFieldErrors({
+            code: extractApiErrorMessage(error, t('auth.resetPassword.invalidCode')),
+          });
           return;
         }
 
-        setFormError(data?.message ?? t('errors.generic'));
+        setFormError(extractApiErrorMessage(error, t('errors.generic')));
         return;
       }
 

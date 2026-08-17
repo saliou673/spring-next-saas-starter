@@ -15,6 +15,7 @@ import type {
     RecoverAccount403,
     RecoverAccount404,
     RecoverAccount409,
+    RecoverAccount500,
 } from "../../types/RecoverAccount.ts";
 
 function getRecoverAccountUrl() {
@@ -39,7 +40,10 @@ export async function recoverAccount(
     const res = await request<
         RecoverAccountMutationResponse,
         ResponseErrorConfig<
-            RecoverAccount403 | RecoverAccount404 | RecoverAccount409
+            | RecoverAccount403
+            | RecoverAccount404
+            | RecoverAccount409
+            | RecoverAccount500
         >,
         RecoverAccountMutationRequest
     >({

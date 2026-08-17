@@ -2,36 +2,20 @@ import { useState } from 'react';
 import { StyleSheet, Switch, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
-import { Link, useLocalSearchParams, useRouter } from 'expo-router';
-import { useAuthenticate } from '@api-client';
+import { Link, useRouter } from 'expo-router';
+import { useAuthenticate, type ValidationErrorResponseDTO } from '@api-client';
 
 import { AuthScreen } from '@/components/auth-screen';
 import { FormTextField } from '@/components/form-text-field';
 import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
+import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/use-auth';
+import { extractApiErrorMessage } from '@/lib/api-error';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MIN_PASSWORD_LENGTH = 7;
-
-/**
- * Notices other screens may hand to sign-in via search params, mapped to how
- * they should read. Allowlisted so an arbitrary param can't render as a notice.
- */
-const NOTICES = {
-  accountCreated: 'info',
-  accountActivated: 'info',
-  activationFailed: 'error',
-  twoFactorExpired: 'error',
-  passwordReset: 'info',
-} as const;
-
-type NoticeKey = keyof typeof NOTICES;
-
-function isNoticeKey(value: string | undefined): value is NoticeKey {
-  return value !== undefined && value in NOTICES;
-}
 
 type FieldErrors = {
   email?: string;
@@ -62,7 +46,6 @@ export default function SignInScreen() {
   const { signIn } = useAuth();
   const { t } = useTranslation();
   const router = useRouter();
-  const { notice } = useLocalSearchParams<{ notice?: string }>();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -73,8 +56,6 @@ export default function SignInScreen() {
   const { mutateAsync, isPending } = useAuthenticate({
     mutation: { meta: { skipGlobalErrorToast: true } },
   });
-
-  const noticeKey = isNoticeKey(notice) ? notice : undefined;
 
   function validate(): FieldErrors {
     const errors: FieldErrors = {};
@@ -100,9 +81,7 @@ export default function SignInScreen() {
       return;
     }
 
-    const data = error.response?.data as
-      | { message?: string; errors?: Record<string, string> }
-      | undefined;
+    const data = error.response?.data as ValidationErrorResponseDTO | undefined;
 
     if (data?.errors) {
       setFieldErrors({ email: data.errors.email, password: data.errors.password });
@@ -111,11 +90,11 @@ export default function SignInScreen() {
     if (data?.errors?.email || data?.errors?.password) return;
 
     if (error.response?.status === 401) {
-      setFormError(data?.message ?? t('auth.signIn.invalidCredentials'));
+      setFormError(extractApiErrorMessage(error, t('auth.signIn.invalidCredentials')));
       return;
     }
 
-    setFormError(data?.message ?? t('errors.generic'));
+    setFormError(extractApiErrorMessage(error, t('errors.generic')));
   }
 
   async function onSubmit() {
@@ -143,6 +122,7 @@ export default function SignInScreen() {
         accessToken: response.accessToken,
         refreshToken: response.refreshToken,
       });
+      showToast(t('auth.toasts.signedIn'), 'success');
       router.replace('/');
     } catch (error) {
       applyApiError(error);
@@ -151,14 +131,6 @@ export default function SignInScreen() {
 
   return (
     <AuthScreen title={t('auth.signIn.title')} subtitle={t('auth.signIn.subtitle')}>
-      {noticeKey && (
-        <ThemedText
-          type="small"
-          themeColor={NOTICES[noticeKey] === 'error' ? 'danger' : 'textSecondary'}>
-          {t(`auth.notices.${noticeKey}`)}
-        </ThemedText>
-      )}
-
       <FormTextField
         label={t('auth.signIn.emailLabel')}
         value={email}

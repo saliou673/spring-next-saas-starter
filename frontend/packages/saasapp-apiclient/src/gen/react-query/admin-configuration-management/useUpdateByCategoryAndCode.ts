@@ -22,6 +22,7 @@ import type {
     UpdateByCategoryAndCode403,
     UpdateByCategoryAndCode404,
     UpdateByCategoryAndCode409,
+    UpdateByCategoryAndCode500,
 } from "../../types/UpdateByCategoryAndCode.ts";
 
 export const updateByCategoryAndCodeMutationKey = () =>
@@ -43,6 +44,7 @@ export function updateByCategoryAndCodeMutationOptions<TContext = unknown>(
             | UpdateByCategoryAndCode403
             | UpdateByCategoryAndCode404
             | UpdateByCategoryAndCode409
+            | UpdateByCategoryAndCode500
         >,
         {
             category: UpdateByCategoryAndCodePathParams["category"];
@@ -76,6 +78,7 @@ export function useUpdateByCategoryAndCode<TContext>(
                 | UpdateByCategoryAndCode403
                 | UpdateByCategoryAndCode404
                 | UpdateByCategoryAndCode409
+                | UpdateByCategoryAndCode500
             >,
             {
                 category: UpdateByCategoryAndCodePathParams["category"];
@@ -103,6 +106,7 @@ export function useUpdateByCategoryAndCode<TContext>(
             | UpdateByCategoryAndCode403
             | UpdateByCategoryAndCode404
             | UpdateByCategoryAndCode409
+            | UpdateByCategoryAndCode500
         >,
         {
             category: UpdateByCategoryAndCodePathParams["category"];
@@ -119,6 +123,7 @@ export function useUpdateByCategoryAndCode<TContext>(
             | UpdateByCategoryAndCode403
             | UpdateByCategoryAndCode404
             | UpdateByCategoryAndCode409
+            | UpdateByCategoryAndCode500
         >,
         {
             category: UpdateByCategoryAndCodePathParams["category"];
@@ -140,6 +145,7 @@ export function useUpdateByCategoryAndCode<TContext>(
             | UpdateByCategoryAndCode403
             | UpdateByCategoryAndCode404
             | UpdateByCategoryAndCode409
+            | UpdateByCategoryAndCode500
         >,
         {
             category: UpdateByCategoryAndCodePathParams["category"];

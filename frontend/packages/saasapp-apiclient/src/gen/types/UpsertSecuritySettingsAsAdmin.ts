@@ -41,6 +41,11 @@ export type UpsertSecuritySettingsAsAdmin404 = ValidationErrorResponseDTO;
  */
 export type UpsertSecuritySettingsAsAdmin409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type UpsertSecuritySettingsAsAdmin500 = ValidationErrorResponseDTO;
+
 export type UpsertSecuritySettingsAsAdminMutationRequest =
     UpsertSecuritySettingsRequest;
 
@@ -54,5 +59,6 @@ export type UpsertSecuritySettingsAsAdminMutation = {
     Errors:
         | UpsertSecuritySettingsAsAdmin403
         | UpsertSecuritySettingsAsAdmin404
-        | UpsertSecuritySettingsAsAdmin409;
+        | UpsertSecuritySettingsAsAdmin409
+        | UpsertSecuritySettingsAsAdmin500;
 };

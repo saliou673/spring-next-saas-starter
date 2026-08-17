@@ -21,6 +21,7 @@ import type {
     DeleteUserAsAdmin403,
     DeleteUserAsAdmin404,
     DeleteUserAsAdmin409,
+    DeleteUserAsAdmin500,
 } from "../../types/DeleteUserAsAdmin.ts";
 
 export const deleteUserAsAdminMutationKey = () =>
@@ -37,7 +38,10 @@ export function deleteUserAsAdminMutationOptions<TContext = unknown>(
     return mutationOptions<
         DeleteUserAsAdminMutationResponse,
         ResponseErrorConfig<
-            DeleteUserAsAdmin403 | DeleteUserAsAdmin404 | DeleteUserAsAdmin409
+            | DeleteUserAsAdmin403
+            | DeleteUserAsAdmin404
+            | DeleteUserAsAdmin409
+            | DeleteUserAsAdmin500
         >,
         {
             id: DeleteUserAsAdminPathParams["id"];
@@ -63,6 +67,7 @@ export function useDeleteUserAsAdmin<TContext>(
                 | DeleteUserAsAdmin403
                 | DeleteUserAsAdmin404
                 | DeleteUserAsAdmin409
+                | DeleteUserAsAdmin500
             >,
             {
                 id: DeleteUserAsAdminPathParams["id"];
@@ -83,7 +88,10 @@ export function useDeleteUserAsAdmin<TContext>(
     ) as UseMutationOptions<
         DeleteUserAsAdminMutationResponse,
         ResponseErrorConfig<
-            DeleteUserAsAdmin403 | DeleteUserAsAdmin404 | DeleteUserAsAdmin409
+            | DeleteUserAsAdmin403
+            | DeleteUserAsAdmin404
+            | DeleteUserAsAdmin409
+            | DeleteUserAsAdmin500
         >,
         {
             id: DeleteUserAsAdminPathParams["id"];
@@ -95,7 +103,10 @@ export function useDeleteUserAsAdmin<TContext>(
     return useMutation<
         DeleteUserAsAdminMutationResponse,
         ResponseErrorConfig<
-            DeleteUserAsAdmin403 | DeleteUserAsAdmin404 | DeleteUserAsAdmin409
+            | DeleteUserAsAdmin403
+            | DeleteUserAsAdmin404
+            | DeleteUserAsAdmin409
+            | DeleteUserAsAdmin500
         >,
         {
             id: DeleteUserAsAdminPathParams["id"];
@@ -112,7 +123,10 @@ export function useDeleteUserAsAdmin<TContext>(
     ) as UseMutationResult<
         DeleteUserAsAdminMutationResponse,
         ResponseErrorConfig<
-            DeleteUserAsAdmin403 | DeleteUserAsAdmin404 | DeleteUserAsAdmin409
+            | DeleteUserAsAdmin403
+            | DeleteUserAsAdmin404
+            | DeleteUserAsAdmin409
+            | DeleteUserAsAdmin500
         >,
         {
             id: DeleteUserAsAdminPathParams["id"];

@@ -22,6 +22,7 @@ import type {
     AssignRoleGroupAsAdmin403,
     AssignRoleGroupAsAdmin404,
     AssignRoleGroupAsAdmin409,
+    AssignRoleGroupAsAdmin500,
 } from "../../types/AssignRoleGroupAsAdmin.ts";
 
 export const assignRoleGroupAsAdminMutationKey = () =>
@@ -43,6 +44,7 @@ export function assignRoleGroupAsAdminMutationOptions<TContext = unknown>(
             | AssignRoleGroupAsAdmin403
             | AssignRoleGroupAsAdmin404
             | AssignRoleGroupAsAdmin409
+            | AssignRoleGroupAsAdmin500
         >,
         {
             id: AssignRoleGroupAsAdminPathParams["id"];
@@ -69,6 +71,7 @@ export function useAssignRoleGroupAsAdmin<TContext>(
                 | AssignRoleGroupAsAdmin403
                 | AssignRoleGroupAsAdmin404
                 | AssignRoleGroupAsAdmin409
+                | AssignRoleGroupAsAdmin500
             >,
             {
                 id: AssignRoleGroupAsAdminPathParams["id"];
@@ -95,6 +98,7 @@ export function useAssignRoleGroupAsAdmin<TContext>(
             | AssignRoleGroupAsAdmin403
             | AssignRoleGroupAsAdmin404
             | AssignRoleGroupAsAdmin409
+            | AssignRoleGroupAsAdmin500
         >,
         {
             id: AssignRoleGroupAsAdminPathParams["id"];
@@ -110,6 +114,7 @@ export function useAssignRoleGroupAsAdmin<TContext>(
             | AssignRoleGroupAsAdmin403
             | AssignRoleGroupAsAdmin404
             | AssignRoleGroupAsAdmin409
+            | AssignRoleGroupAsAdmin500
         >,
         {
             id: AssignRoleGroupAsAdminPathParams["id"];
@@ -130,6 +135,7 @@ export function useAssignRoleGroupAsAdmin<TContext>(
             | AssignRoleGroupAsAdmin403
             | AssignRoleGroupAsAdmin404
             | AssignRoleGroupAsAdmin409
+            | AssignRoleGroupAsAdmin500
         >,
         {
             id: AssignRoleGroupAsAdminPathParams["id"];

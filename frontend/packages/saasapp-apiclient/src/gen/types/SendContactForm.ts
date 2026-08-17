@@ -40,6 +40,11 @@ export type SendContactForm404 = ValidationErrorResponseDTO;
  */
 export type SendContactForm409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type SendContactForm500 = ValidationErrorResponseDTO;
+
 export type SendContactFormMutationRequest = ContactFormRequest;
 
 export type SendContactFormMutationResponse = SendContactForm204;
@@ -48,5 +53,9 @@ export type SendContactFormMutation = {
     Response: SendContactForm204;
     Request: SendContactFormMutationRequest;
     HeaderParams: SendContactFormHeaderParams;
-    Errors: SendContactForm403 | SendContactForm404 | SendContactForm409;
+    Errors:
+        | SendContactForm403
+        | SendContactForm404
+        | SendContactForm409
+        | SendContactForm500;
 };

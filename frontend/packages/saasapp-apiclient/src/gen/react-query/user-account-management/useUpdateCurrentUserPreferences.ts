@@ -21,6 +21,7 @@ import type {
     UpdateCurrentUserPreferences403,
     UpdateCurrentUserPreferences404,
     UpdateCurrentUserPreferences409,
+    UpdateCurrentUserPreferences500,
 } from "../../types/UpdateCurrentUserPreferences.ts";
 
 export const updateCurrentUserPreferencesMutationKey = () =>
@@ -42,6 +43,7 @@ export function updateCurrentUserPreferencesMutationOptions<TContext = unknown>(
             | UpdateCurrentUserPreferences403
             | UpdateCurrentUserPreferences404
             | UpdateCurrentUserPreferences409
+            | UpdateCurrentUserPreferences500
         >,
         {
             data: UpdateCurrentUserPreferencesMutationRequest;
@@ -67,6 +69,7 @@ export function useUpdateCurrentUserPreferences<TContext>(
                 | UpdateCurrentUserPreferences403
                 | UpdateCurrentUserPreferences404
                 | UpdateCurrentUserPreferences409
+                | UpdateCurrentUserPreferences500
             >,
             {
                 data: UpdateCurrentUserPreferencesMutationRequest;
@@ -93,6 +96,7 @@ export function useUpdateCurrentUserPreferences<TContext>(
             | UpdateCurrentUserPreferences403
             | UpdateCurrentUserPreferences404
             | UpdateCurrentUserPreferences409
+            | UpdateCurrentUserPreferences500
         >,
         {
             data: UpdateCurrentUserPreferencesMutationRequest;
@@ -107,6 +111,7 @@ export function useUpdateCurrentUserPreferences<TContext>(
             | UpdateCurrentUserPreferences403
             | UpdateCurrentUserPreferences404
             | UpdateCurrentUserPreferences409
+            | UpdateCurrentUserPreferences500
         >,
         {
             data: UpdateCurrentUserPreferencesMutationRequest;
@@ -126,6 +131,7 @@ export function useUpdateCurrentUserPreferences<TContext>(
             | UpdateCurrentUserPreferences403
             | UpdateCurrentUserPreferences404
             | UpdateCurrentUserPreferences409
+            | UpdateCurrentUserPreferences500
         >,
         {
             data: UpdateCurrentUserPreferencesMutationRequest;
