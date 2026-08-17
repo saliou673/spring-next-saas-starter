@@ -333,6 +333,35 @@
                 "passwordsDoNotMatch": "Passwords don't match."
             }
         },
+        "twoFactor": {
+            "title": "Two-factor authentication",
+            "description": "Add an authenticator app for an extra layer of security when signing in.",
+            "setup": {
+                "startButton": "Enable two-factor authentication",
+                "startingButton": "Starting setup...",
+                "scanHint": "Scan this QR code with your authenticator app.",
+                "manualEntryHint": "Or enter this code manually:",
+                "codeLabel": "Verification code",
+                "confirmButton": "Confirm and enable",
+                "confirmingButton": "Confirming...",
+                "invalidCode": "Invalid verification code",
+                "toastEnabled": "Two-factor authentication is now enabled.",
+                "validation": {
+                    "codeRequired": "Please enter the code from your authenticator app."
+                }
+            },
+            "disable": {
+                "description": "Enter your current password to turn off two-factor authentication.",
+                "currentPasswordLabel": "Current password",
+                "disableButton": "Disable two-factor authentication",
+                "disablingButton": "Disabling...",
+                "invalidPassword": "Your current password is incorrect.",
+                "toastDisabled": "Two-factor authentication is now disabled.",
+                "validation": {
+                    "passwordRequired": "Please enter your current password."
+                }
+            }
+        },
         "deleteDialog": {
             "title": "Delete account",
             "description1": "This will permanently deactivate your account. You have 30 days to recover it before all your data is erased.",
@@ -368,44 +397,29 @@
         "sectionTitle": "Notifications",
         "sectionDescription": "Configure how you receive notifications.",
         "form": {
-            "notifyLabel": "Notify me about...",
-            "typeAll": "All new messages",
-            "typeMentions": "Direct messages and mentions",
-            "typeNone": "Nothing",
-            "emailNotificationsTitle": "Email Notifications",
-            "communicationLabel": "Communication emails",
-            "communicationDescription": "Receive emails about your account activity.",
-            "marketingLabel": "Marketing emails",
-            "marketingDescription": "Receive emails about new products, features, and more.",
-            "socialLabel": "Social emails",
-            "socialDescription": "Receive emails for friend requests, follows, and more.",
+            "emailNotificationsTitle": "Email notifications",
+            "productUpdatesLabel": "Product updates",
+            "productUpdatesDescription": "Receive occasional emails about new features and product news.",
             "securityLabel": "Security emails",
-            "securityDescription": "Receive emails about your account activity and security.",
-            "mobileLabel": "Use different settings for my mobile devices",
-            "mobileDescription": "You can manage your mobile notifications in the <link>mobile settings</link> page.",
-            "submit": "Update notifications",
-            "validation": {
-                "typeRequired": "Please select a notification type."
-            }
+            "securityDescription": "Receive emails about your account security. Always on.",
+            "toastUpdated": "Notification preferences updated.",
+            "loadError": "Couldn't load your notification preferences. Please try again."
         }
     },
     "SettingsDisplay": {
         "metadataTitle": "Display Settings",
         "sectionTitle": "Display",
-        "sectionDescription": "Turn items on or off to control what's displayed in the app.",
+        "sectionDescription": "Adjust text size and motion.",
         "form": {
-            "sidebarLabel": "Sidebar",
-            "sidebarDescription": "Select the items you want to display in the sidebar.",
-            "items": {
-                "recents": "Recents",
-                "home": "Home",
-                "applications": "Applications",
-                "desktop": "Desktop",
-                "downloads": "Downloads",
-                "documents": "Documents"
-            },
-            "atLeastOneError": "You have to select at least one item.",
-            "submit": "Update display"
+            "textSizeLabel": "Text size",
+            "textSizeDescription": "Adjust how large text appears throughout the app.",
+            "textSizeSMALL": "Small",
+            "textSizeDEFAULT": "Default",
+            "textSizeLARGE": "Large",
+            "reduceMotionLabel": "Reduce motion",
+            "reduceMotionDescription": "Minimize animations and transitions.",
+            "toastUpdated": "Display preferences updated.",
+            "loadError": "Couldn't load your display preferences. Please try again."
         }
     }
 }

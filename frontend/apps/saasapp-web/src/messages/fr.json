@@ -333,6 +333,35 @@
                 "passwordsDoNotMatch": "Les mots de passe ne correspondent pas."
             }
         },
+        "twoFactor": {
+            "title": "Authentification à deux facteurs",
+            "description": "Ajoutez une application d'authentification pour une sécurité renforcée lors de la connexion.",
+            "setup": {
+                "startButton": "Activer l'authentification à deux facteurs",
+                "startingButton": "Démarrage de la configuration...",
+                "scanHint": "Scannez ce code QR avec votre application d'authentification.",
+                "manualEntryHint": "Ou saisissez ce code manuellement :",
+                "codeLabel": "Code de vérification",
+                "confirmButton": "Confirmer et activer",
+                "confirmingButton": "Confirmation...",
+                "invalidCode": "Code de vérification invalide",
+                "toastEnabled": "L'authentification à deux facteurs est maintenant activée.",
+                "validation": {
+                    "codeRequired": "Veuillez saisir le code de votre application d'authentification."
+                }
+            },
+            "disable": {
+                "description": "Saisissez votre mot de passe actuel pour désactiver l'authentification à deux facteurs.",
+                "currentPasswordLabel": "Mot de passe actuel",
+                "disableButton": "Désactiver l'authentification à deux facteurs",
+                "disablingButton": "Désactivation...",
+                "invalidPassword": "Votre mot de passe actuel est incorrect.",
+                "toastDisabled": "L'authentification à deux facteurs est maintenant désactivée.",
+                "validation": {
+                    "passwordRequired": "Veuillez saisir votre mot de passe actuel."
+                }
+            }
+        },
         "deleteDialog": {
             "title": "Supprimer le compte",
             "description1": "Cette action désactivera définitivement votre compte. Vous disposez de 30 jours pour le récupérer avant que toutes vos données ne soient effacées.",
@@ -368,44 +397,29 @@
         "sectionTitle": "Notifications",
         "sectionDescription": "Configurez la façon dont vous recevez les notifications.",
         "form": {
-            "notifyLabel": "M'avertir de...",
-            "typeAll": "Tous les nouveaux messages",
-            "typeMentions": "Messages directs et mentions",
-            "typeNone": "Rien",
             "emailNotificationsTitle": "Notifications par e-mail",
-            "communicationLabel": "E-mails de communication",
-            "communicationDescription": "Recevez des e-mails sur l'activité de votre compte.",
-            "marketingLabel": "E-mails marketing",
-            "marketingDescription": "Recevez des e-mails sur les nouveaux produits, fonctionnalités et plus encore.",
-            "socialLabel": "E-mails sociaux",
-            "socialDescription": "Recevez des e-mails pour les demandes d'ami, les abonnements et plus encore.",
+            "productUpdatesLabel": "Nouveautés produit",
+            "productUpdatesDescription": "Recevez occasionnellement des e-mails sur les nouvelles fonctionnalités et l'actualité du produit.",
             "securityLabel": "E-mails de sécurité",
-            "securityDescription": "Recevez des e-mails sur l'activité et la sécurité de votre compte.",
-            "mobileLabel": "Utiliser des paramètres différents pour mes appareils mobiles",
-            "mobileDescription": "Vous pouvez gérer vos notifications mobiles dans la page <link>paramètres mobiles</link>.",
-            "submit": "Mettre à jour les notifications",
-            "validation": {
-                "typeRequired": "Veuillez sélectionner un type de notification."
-            }
+            "securityDescription": "Recevez des e-mails sur la sécurité de votre compte. Toujours actif.",
+            "toastUpdated": "Préférences de notification mises à jour.",
+            "loadError": "Impossible de charger vos préférences de notification. Veuillez réessayer."
         }
     },
     "SettingsDisplay": {
         "metadataTitle": "Paramètres d'affichage",
         "sectionTitle": "Affichage",
-        "sectionDescription": "Activez ou désactivez des éléments pour contrôler ce qui est affiché dans l'application.",
+        "sectionDescription": "Ajustez la taille du texte et les animations.",
         "form": {
-            "sidebarLabel": "Barre latérale",
-            "sidebarDescription": "Sélectionnez les éléments que vous souhaitez afficher dans la barre latérale.",
-            "items": {
-                "recents": "Récents",
-                "home": "Accueil",
-                "applications": "Applications",
-                "desktop": "Bureau",
-                "downloads": "Téléchargements",
-                "documents": "Documents"
-            },
-            "atLeastOneError": "Vous devez sélectionner au moins un élément.",
-            "submit": "Mettre à jour l'affichage"
+            "textSizeLabel": "Taille du texte",
+            "textSizeDescription": "Ajustez la taille du texte dans toute l'application.",
+            "textSizeSMALL": "Petite",
+            "textSizeDEFAULT": "Par défaut",
+            "textSizeLARGE": "Grande",
+            "reduceMotionLabel": "Réduire les animations",
+            "reduceMotionDescription": "Minimise les animations et les transitions.",
+            "toastUpdated": "Préférences d'affichage mises à jour.",
+            "loadError": "Impossible de charger vos préférences d'affichage. Veuillez réessayer."
         }
     }
 }

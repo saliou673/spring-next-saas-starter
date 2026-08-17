@@ -9,6 +9,7 @@ import { AccountForm } from "./account-form";
 import { ChangePasswordSection } from "./change-password-section";
 import { DeleteAccountDialog } from "./delete-account-dialog";
 import { EmailChangeSection } from "./email-change-section";
+import { TwoFactorSection } from "./two-factor-section";
 
 export function SettingsAccount() {
     const t = useTranslations("SettingsAccount");
@@ -24,6 +25,10 @@ export function SettingsAccount() {
                 <div className="space-y-4">
                     <Separator />
                     <ChangePasswordSection />
+                </div>
+                <div className="space-y-4">
+                    <Separator />
+                    <TwoFactorSection />
                 </div>
                 <div className="space-y-4">
                     <Separator />
