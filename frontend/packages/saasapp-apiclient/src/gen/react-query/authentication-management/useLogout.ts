@@ -20,6 +20,7 @@ import type {
     Logout403,
     Logout404,
     Logout409,
+    Logout500,
 } from "../../types/Logout.ts";
 
 export const logoutMutationKey = () => [{ url: "/api/auth/logout" }] as const;
@@ -32,7 +33,7 @@ export function logoutMutationOptions<TContext = unknown>(
     const mutationKey = logoutMutationKey();
     return mutationOptions<
         LogoutMutationResponse,
-        ResponseErrorConfig<Logout403 | Logout404 | Logout409>,
+        ResponseErrorConfig<Logout403 | Logout404 | Logout409 | Logout500>,
         { headers?: LogoutHeaderParams },
         TContext
     >({
@@ -50,7 +51,7 @@ export function useLogout<TContext>(
     options: {
         mutation?: UseMutationOptions<
             LogoutMutationResponse,
-            ResponseErrorConfig<Logout403 | Logout404 | Logout409>,
+            ResponseErrorConfig<Logout403 | Logout404 | Logout409 | Logout500>,
             { headers?: LogoutHeaderParams },
             TContext
         > & { client?: QueryClient };
@@ -63,14 +64,14 @@ export function useLogout<TContext>(
 
     const baseOptions = logoutMutationOptions(config) as UseMutationOptions<
         LogoutMutationResponse,
-        ResponseErrorConfig<Logout403 | Logout404 | Logout409>,
+        ResponseErrorConfig<Logout403 | Logout404 | Logout409 | Logout500>,
         { headers?: LogoutHeaderParams },
         TContext
     >;
 
     return useMutation<
         LogoutMutationResponse,
-        ResponseErrorConfig<Logout403 | Logout404 | Logout409>,
+        ResponseErrorConfig<Logout403 | Logout404 | Logout409 | Logout500>,
         { headers?: LogoutHeaderParams },
         TContext
     >(
@@ -82,7 +83,7 @@ export function useLogout<TContext>(
         queryClient
     ) as UseMutationResult<
         LogoutMutationResponse,
-        ResponseErrorConfig<Logout403 | Logout404 | Logout409>,
+        ResponseErrorConfig<Logout403 | Logout404 | Logout409 | Logout500>,
         { headers?: LogoutHeaderParams },
         TContext
     >;

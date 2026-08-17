@@ -21,6 +21,7 @@ import type {
     UpdateAccount403,
     UpdateAccount404,
     UpdateAccount409,
+    UpdateAccount500,
 } from "../../types/UpdateAccount.ts";
 
 export const updateAccountMutationKey = () =>
@@ -39,7 +40,10 @@ export function updateAccountMutationOptions<TContext = unknown>(
     return mutationOptions<
         UpdateAccountMutationResponse,
         ResponseErrorConfig<
-            UpdateAccount403 | UpdateAccount404 | UpdateAccount409
+            | UpdateAccount403
+            | UpdateAccount404
+            | UpdateAccount409
+            | UpdateAccount500
         >,
         {
             data: UpdateAccountMutationRequest;
@@ -62,7 +66,10 @@ export function useUpdateAccount<TContext>(
         mutation?: UseMutationOptions<
             UpdateAccountMutationResponse,
             ResponseErrorConfig<
-                UpdateAccount403 | UpdateAccount404 | UpdateAccount409
+                | UpdateAccount403
+                | UpdateAccount404
+                | UpdateAccount409
+                | UpdateAccount500
             >,
             {
                 data: UpdateAccountMutationRequest;
@@ -85,7 +92,10 @@ export function useUpdateAccount<TContext>(
     ) as UseMutationOptions<
         UpdateAccountMutationResponse,
         ResponseErrorConfig<
-            UpdateAccount403 | UpdateAccount404 | UpdateAccount409
+            | UpdateAccount403
+            | UpdateAccount404
+            | UpdateAccount409
+            | UpdateAccount500
         >,
         {
             data: UpdateAccountMutationRequest;
@@ -97,7 +107,10 @@ export function useUpdateAccount<TContext>(
     return useMutation<
         UpdateAccountMutationResponse,
         ResponseErrorConfig<
-            UpdateAccount403 | UpdateAccount404 | UpdateAccount409
+            | UpdateAccount403
+            | UpdateAccount404
+            | UpdateAccount409
+            | UpdateAccount500
         >,
         {
             data: UpdateAccountMutationRequest;
@@ -114,7 +127,10 @@ export function useUpdateAccount<TContext>(
     ) as UseMutationResult<
         UpdateAccountMutationResponse,
         ResponseErrorConfig<
-            UpdateAccount403 | UpdateAccount404 | UpdateAccount409
+            | UpdateAccount403
+            | UpdateAccount404
+            | UpdateAccount409
+            | UpdateAccount500
         >,
         {
             data: UpdateAccountMutationRequest;

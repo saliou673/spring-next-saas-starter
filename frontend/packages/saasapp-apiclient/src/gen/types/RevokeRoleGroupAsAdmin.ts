@@ -50,6 +50,11 @@ export type RevokeRoleGroupAsAdmin404 = ValidationErrorResponseDTO;
  */
 export type RevokeRoleGroupAsAdmin409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type RevokeRoleGroupAsAdmin500 = ValidationErrorResponseDTO;
+
 export type RevokeRoleGroupAsAdminMutationResponse = RevokeRoleGroupAsAdmin204;
 
 export type RevokeRoleGroupAsAdminMutation = {
@@ -59,5 +64,6 @@ export type RevokeRoleGroupAsAdminMutation = {
     Errors:
         | RevokeRoleGroupAsAdmin403
         | RevokeRoleGroupAsAdmin404
-        | RevokeRoleGroupAsAdmin409;
+        | RevokeRoleGroupAsAdmin409
+        | RevokeRoleGroupAsAdmin500;
 };

@@ -46,11 +46,16 @@ export type Delete404 = ValidationErrorResponseDTO;
  */
 export type Delete409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type Delete500 = ValidationErrorResponseDTO;
+
 export type DeleteMutationResponse = Delete204;
 
 export type DeleteMutation = {
     Response: Delete204;
     PathParams: DeletePathParams;
     HeaderParams: DeleteHeaderParams;
-    Errors: Delete403 | Delete404 | Delete409;
+    Errors: Delete403 | Delete404 | Delete409 | Delete500;
 };

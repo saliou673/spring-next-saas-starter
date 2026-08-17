@@ -16,6 +16,7 @@ import type {
     UpdateAppConfigurationAsAdmin403,
     UpdateAppConfigurationAsAdmin404,
     UpdateAppConfigurationAsAdmin409,
+    UpdateAppConfigurationAsAdmin500,
 } from "../../types/UpdateAppConfigurationAsAdmin.ts";
 
 function getUpdateAppConfigurationAsAdminUrl(
@@ -49,6 +50,7 @@ export async function updateAppConfigurationAsAdmin(
             | UpdateAppConfigurationAsAdmin403
             | UpdateAppConfigurationAsAdmin404
             | UpdateAppConfigurationAsAdmin409
+            | UpdateAppConfigurationAsAdmin500
         >,
         UpdateAppConfigurationAsAdminMutationRequest
     >({

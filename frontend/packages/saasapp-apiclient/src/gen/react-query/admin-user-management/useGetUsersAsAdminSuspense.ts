@@ -22,6 +22,7 @@ import type {
     GetUsersAsAdmin403,
     GetUsersAsAdmin404,
     GetUsersAsAdmin409,
+    GetUsersAsAdmin500,
 } from "../../types/GetUsersAsAdmin.ts";
 
 export const getUsersAsAdminSuspenseQueryKey = (
@@ -41,7 +42,10 @@ export function getUsersAsAdminSuspenseQueryOptions(
     return queryOptions<
         GetUsersAsAdminQueryResponse,
         ResponseErrorConfig<
-            GetUsersAsAdmin403 | GetUsersAsAdmin404 | GetUsersAsAdmin409
+            | GetUsersAsAdmin403
+            | GetUsersAsAdmin404
+            | GetUsersAsAdmin409
+            | GetUsersAsAdmin500
         >,
         GetUsersAsAdminQueryResponse,
         typeof queryKey
@@ -71,7 +75,10 @@ export function useGetUsersAsAdminSuspense<
             UseSuspenseQueryOptions<
                 GetUsersAsAdminQueryResponse,
                 ResponseErrorConfig<
-                    GetUsersAsAdmin403 | GetUsersAsAdmin404 | GetUsersAsAdmin409
+                    | GetUsersAsAdmin403
+                    | GetUsersAsAdmin404
+                    | GetUsersAsAdmin409
+                    | GetUsersAsAdmin500
                 >,
                 TData,
                 TQueryKey
@@ -95,7 +102,10 @@ export function useGetUsersAsAdminSuspense<
     ) as UseSuspenseQueryResult<
         TData,
         ResponseErrorConfig<
-            GetUsersAsAdmin403 | GetUsersAsAdmin404 | GetUsersAsAdmin409
+            | GetUsersAsAdmin403
+            | GetUsersAsAdmin404
+            | GetUsersAsAdmin409
+            | GetUsersAsAdmin500
         >
     > & { queryKey: TQueryKey };
 

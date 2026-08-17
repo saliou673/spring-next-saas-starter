@@ -40,6 +40,11 @@ export type CompleteInvitation404 = ValidationErrorResponseDTO;
  */
 export type CompleteInvitation409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type CompleteInvitation500 = ValidationErrorResponseDTO;
+
 export type CompleteInvitationMutationRequest = InvitationCompleteRequest;
 
 export type CompleteInvitationMutationResponse = CompleteInvitation200;
@@ -51,5 +56,6 @@ export type CompleteInvitationMutation = {
     Errors:
         | CompleteInvitation403
         | CompleteInvitation404
-        | CompleteInvitation409;
+        | CompleteInvitation409
+        | CompleteInvitation500;
 };
