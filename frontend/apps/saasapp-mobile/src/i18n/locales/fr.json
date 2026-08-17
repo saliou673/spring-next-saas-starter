@@ -664,6 +664,12 @@
         "generic": "Une erreur est survenue.",
         "boundaryTitle": "Une erreur est survenue",
         "boundaryHint": "Une erreur inattendue s'est produite. Vous pouvez réessayer.",
-        "boundaryRetry": "Réessayer"
+        "boundaryRetry": "Réessayer",
+        "goBack": "Retour",
+        "backToHome": "Retour à l'accueil",
+        "forbidden": {
+            "title": "Accès interdit",
+            "description": "Vous n'avez pas les autorisations nécessaires\npour accéder à cette ressource."
+        }
     }
 }

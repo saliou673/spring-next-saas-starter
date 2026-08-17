@@ -58,7 +58,7 @@ export default function RootLayout() {
         queryCache: new QueryCache({
           onError: (error, query) => {
             if (query.meta?.skipGlobalErrorToast) return;
-            handleQueryError(error);
+            handleQueryError(error, { navigateOnForbidden: true });
           },
         }),
         mutationCache: new MutationCache({
