@@ -393,6 +393,22 @@
             "previous": "Previous",
             "next": "Next",
             "pageIndicator": "Page {{page}} of {{totalPages}}"
+        },
+        "detail": {
+            "title": "Role group",
+            "loadError": "Unable to load this role group.",
+            "fields": {
+                "name": "Name",
+                "description": "Description"
+            },
+            "validation": {
+                "nameRequired": "Name is required."
+            },
+            "submit": "Save changes",
+            "toastUpdated": "Role group updated.",
+            "permissionsLabel": "Permissions",
+            "noPermissions": "No permissions assigned.",
+            "managePermissions": "Manage permissions"
         }
     },
     "errors": {

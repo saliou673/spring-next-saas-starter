@@ -393,6 +393,22 @@
             "previous": "Précédent",
             "next": "Suivant",
             "pageIndicator": "Page {{page}} sur {{totalPages}}"
+        },
+        "detail": {
+            "title": "Groupe de rôles",
+            "loadError": "Impossible de charger ce groupe de rôles.",
+            "fields": {
+                "name": "Nom",
+                "description": "Description"
+            },
+            "validation": {
+                "nameRequired": "Le nom est requis."
+            },
+            "submit": "Enregistrer les modifications",
+            "toastUpdated": "Groupe de rôles mis à jour.",
+            "permissionsLabel": "Permissions",
+            "noPermissions": "Aucune permission assignée.",
+            "managePermissions": "Gérer les permissions"
         }
     },
     "errors": {
