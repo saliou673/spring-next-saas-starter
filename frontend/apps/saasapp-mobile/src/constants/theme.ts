@@ -14,6 +14,7 @@ export const Colors = {
     backgroundElement: '#F0F0F3',
     backgroundSelected: '#E0E1E6',
     textSecondary: '#60646C',
+    danger: '#DC2626',
   },
   dark: {
     text: '#ffffff',
@@ -21,6 +22,7 @@ export const Colors = {
     backgroundElement: '#212225',
     backgroundSelected: '#2E3135',
     textSecondary: '#B0B4BA',
+    danger: '#F87171',
   },
 } as const;
 
@@ -63,3 +65,21 @@ export const Spacing = {
 
 export const BottomTabInset = Platform.select({ ios: 50, android: 80 }) ?? 0;
 export const MaxContentWidth = 800;
+
+export const Radius = {
+  card: 20,
+  bubble: 999,
+} as const;
+
+export const CardShadow = Platform.select({
+  ios: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.06,
+    shadowRadius: 16,
+  },
+  android: { elevation: 3 },
+  // React Native Web deprecated the shadow* props in favor of the CSS
+  // `boxShadow` shorthand - passing shadow* here logs a warning on every render.
+  web: { boxShadow: '0px 6px 16px rgba(0, 0, 0, 0.06)' },
+}) ?? {};

@@ -21,6 +21,7 @@ import type {
     RequestEmailChange403,
     RequestEmailChange404,
     RequestEmailChange409,
+    RequestEmailChange500,
 } from "../../types/RequestEmailChange.ts";
 
 export const requestEmailChangeMutationKey = () =>
@@ -42,6 +43,7 @@ export function requestEmailChangeMutationOptions<TContext = unknown>(
             | RequestEmailChange403
             | RequestEmailChange404
             | RequestEmailChange409
+            | RequestEmailChange500
         >,
         {
             data: RequestEmailChangeMutationRequest;
@@ -67,6 +69,7 @@ export function useRequestEmailChange<TContext>(
                 | RequestEmailChange403
                 | RequestEmailChange404
                 | RequestEmailChange409
+                | RequestEmailChange500
             >,
             {
                 data: RequestEmailChangeMutationRequest;
@@ -92,6 +95,7 @@ export function useRequestEmailChange<TContext>(
             | RequestEmailChange403
             | RequestEmailChange404
             | RequestEmailChange409
+            | RequestEmailChange500
         >,
         {
             data: RequestEmailChangeMutationRequest;
@@ -106,6 +110,7 @@ export function useRequestEmailChange<TContext>(
             | RequestEmailChange403
             | RequestEmailChange404
             | RequestEmailChange409
+            | RequestEmailChange500
         >,
         {
             data: RequestEmailChangeMutationRequest;
@@ -125,6 +130,7 @@ export function useRequestEmailChange<TContext>(
             | RequestEmailChange403
             | RequestEmailChange404
             | RequestEmailChange409
+            | RequestEmailChange500
         >,
         {
             data: RequestEmailChangeMutationRequest;

@@ -15,6 +15,7 @@ import type {
     RefreshToken403,
     RefreshToken404,
     RefreshToken409,
+    RefreshToken500,
 } from "../../types/RefreshToken.ts";
 
 function getRefreshTokenUrl() {
@@ -39,7 +40,10 @@ export async function refreshToken(
     const res = await request<
         RefreshTokenMutationResponse,
         ResponseErrorConfig<
-            RefreshToken403 | RefreshToken404 | RefreshToken409
+            | RefreshToken403
+            | RefreshToken404
+            | RefreshToken409
+            | RefreshToken500
         >,
         RefreshTokenMutationRequest
     >({

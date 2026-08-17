@@ -41,6 +41,11 @@ export type CreateAppConfigurationAsAdmin404 = ValidationErrorResponseDTO;
  */
 export type CreateAppConfigurationAsAdmin409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type CreateAppConfigurationAsAdmin500 = ValidationErrorResponseDTO;
+
 export type CreateAppConfigurationAsAdminMutationRequest =
     CreateAppConfigurationRequest;
 
@@ -54,5 +59,6 @@ export type CreateAppConfigurationAsAdminMutation = {
     Errors:
         | CreateAppConfigurationAsAdmin403
         | CreateAppConfigurationAsAdmin404
-        | CreateAppConfigurationAsAdmin409;
+        | CreateAppConfigurationAsAdmin409
+        | CreateAppConfigurationAsAdmin500;
 };

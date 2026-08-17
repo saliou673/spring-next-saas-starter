@@ -23,6 +23,7 @@ import type {
     CheckUserPermissionAsAdmin403,
     CheckUserPermissionAsAdmin404,
     CheckUserPermissionAsAdmin409,
+    CheckUserPermissionAsAdmin500,
 } from "../../types/CheckUserPermissionAsAdmin.ts";
 
 export const checkUserPermissionAsAdminSuspenseQueryKey = (
@@ -51,6 +52,7 @@ export function checkUserPermissionAsAdminSuspenseQueryOptions(
             | CheckUserPermissionAsAdmin403
             | CheckUserPermissionAsAdmin404
             | CheckUserPermissionAsAdmin409
+            | CheckUserPermissionAsAdmin500
         >,
         CheckUserPermissionAsAdminQueryResponse,
         typeof queryKey
@@ -84,6 +86,7 @@ export function useCheckUserPermissionAsAdminSuspense<
                     | CheckUserPermissionAsAdmin403
                     | CheckUserPermissionAsAdmin404
                     | CheckUserPermissionAsAdmin409
+                    | CheckUserPermissionAsAdmin500
                 >,
                 TData,
                 TQueryKey
@@ -116,6 +119,7 @@ export function useCheckUserPermissionAsAdminSuspense<
             | CheckUserPermissionAsAdmin403
             | CheckUserPermissionAsAdmin404
             | CheckUserPermissionAsAdmin409
+            | CheckUserPermissionAsAdmin500
         >
     > & { queryKey: TQueryKey };
 

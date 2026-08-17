@@ -9,6 +9,7 @@ import { AppErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/toast/toaster';
 import { apiBaseUrl } from '@/constants/env';
 import { AppThemeProvider, useAppTheme } from '@/context/theme-provider';
+import { AppTextSizeProvider } from '@/context/text-size-provider';
 import { AuthProvider, useAuth } from '@/hooks/use-auth';
 import i18n, { hydrateStoredLanguage } from '@/i18n';
 import { hydrateAccessToken, setupAuthInterceptor } from '@/lib/auth-interceptor';
@@ -51,8 +52,21 @@ export default function RootLayout() {
   const [queryClient] = useState(
     () =>
       new QueryClient({
-        queryCache: new QueryCache({ onError: handleQueryError }),
-        mutationCache: new MutationCache({ onError: handleQueryError }),
+        // Screens that render API errors themselves opt out via
+        // `meta: { skipGlobalErrorToast: true }` so the user doesn't get the
+        // same failure twice, once inline and once as a toast.
+        queryCache: new QueryCache({
+          onError: (error, query) => {
+            if (query.meta?.skipGlobalErrorToast) return;
+            handleQueryError(error);
+          },
+        }),
+        mutationCache: new MutationCache({
+          onError: (error, _variables, _context, mutation) => {
+            if (mutation.meta?.skipGlobalErrorToast) return;
+            handleQueryError(error);
+          },
+        }),
       })
   );
 
@@ -67,11 +81,13 @@ export default function RootLayout() {
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <AppThemeProvider>
-              <NavigationThemeSync>
-                <AnimatedSplashOverlay />
-                <RootNavigator />
-                <Toaster />
-              </NavigationThemeSync>
+              <AppTextSizeProvider>
+                <NavigationThemeSync>
+                  <AnimatedSplashOverlay />
+                  <RootNavigator />
+                  <Toaster />
+                </NavigationThemeSync>
+              </AppTextSizeProvider>
             </AppThemeProvider>
           </AuthProvider>
         </QueryClientProvider>

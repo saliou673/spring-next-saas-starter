@@ -40,6 +40,11 @@ export type RequestEmailChange404 = ValidationErrorResponseDTO;
  */
 export type RequestEmailChange409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type RequestEmailChange500 = ValidationErrorResponseDTO;
+
 export type RequestEmailChangeMutationRequest = EmailChangeRequest;
 
 export type RequestEmailChangeMutationResponse = RequestEmailChange204;
@@ -51,5 +56,6 @@ export type RequestEmailChangeMutation = {
     Errors:
         | RequestEmailChange403
         | RequestEmailChange404
-        | RequestEmailChange409;
+        | RequestEmailChange409
+        | RequestEmailChange500;
 };
