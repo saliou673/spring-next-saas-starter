@@ -16,6 +16,7 @@ import type {
     CheckUserPermissionAsAdmin403,
     CheckUserPermissionAsAdmin404,
     CheckUserPermissionAsAdmin409,
+    CheckUserPermissionAsAdmin500,
 } from "../../types/CheckUserPermissionAsAdmin.ts";
 
 function getCheckUserPermissionAsAdminUrl(
@@ -45,6 +46,7 @@ export async function checkUserPermissionAsAdmin(
             | CheckUserPermissionAsAdmin403
             | CheckUserPermissionAsAdmin404
             | CheckUserPermissionAsAdmin409
+            | CheckUserPermissionAsAdmin500
         >,
         unknown
     >({

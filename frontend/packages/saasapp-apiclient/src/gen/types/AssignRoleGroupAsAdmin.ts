@@ -47,6 +47,11 @@ export type AssignRoleGroupAsAdmin404 = ValidationErrorResponseDTO;
  */
 export type AssignRoleGroupAsAdmin409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type AssignRoleGroupAsAdmin500 = ValidationErrorResponseDTO;
+
 export type AssignRoleGroupAsAdminMutationRequest = AssignRoleGroupRequest;
 
 export type AssignRoleGroupAsAdminMutationResponse = AssignRoleGroupAsAdmin204;
@@ -59,5 +64,6 @@ export type AssignRoleGroupAsAdminMutation = {
     Errors:
         | AssignRoleGroupAsAdmin403
         | AssignRoleGroupAsAdmin404
-        | AssignRoleGroupAsAdmin409;
+        | AssignRoleGroupAsAdmin409
+        | AssignRoleGroupAsAdmin500;
 };

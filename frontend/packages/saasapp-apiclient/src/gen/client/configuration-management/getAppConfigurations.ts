@@ -15,6 +15,7 @@ import type {
     GetAppConfigurations403,
     GetAppConfigurations404,
     GetAppConfigurations409,
+    GetAppConfigurations500,
 } from "../../types/GetAppConfigurations.ts";
 
 function getGetAppConfigurationsUrl() {
@@ -38,6 +39,7 @@ export async function getAppConfigurations(
             | GetAppConfigurations403
             | GetAppConfigurations404
             | GetAppConfigurations409
+            | GetAppConfigurations500
         >,
         unknown
     >({

@@ -15,6 +15,7 @@ import type {
     GetAppConfigurationsAsAdmin403,
     GetAppConfigurationsAsAdmin404,
     GetAppConfigurationsAsAdmin409,
+    GetAppConfigurationsAsAdmin500,
 } from "../../types/GetAppConfigurationsAsAdmin.ts";
 
 function getGetAppConfigurationsAsAdminUrl() {
@@ -38,6 +39,7 @@ export async function getAppConfigurationsAsAdmin(
             | GetAppConfigurationsAsAdmin403
             | GetAppConfigurationsAsAdmin404
             | GetAppConfigurationsAsAdmin409
+            | GetAppConfigurationsAsAdmin500
         >,
         unknown
     >({

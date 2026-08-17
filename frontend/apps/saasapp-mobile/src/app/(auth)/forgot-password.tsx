@@ -9,7 +9,9 @@ import { AuthScreen } from '@/components/auth-screen';
 import { FormTextField } from '@/components/form-text-field';
 import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
+import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
+import { extractApiErrorMessage } from '@/lib/api-error';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -41,17 +43,16 @@ export default function ForgotPasswordScreen() {
 
     try {
       await mutateAsync({ data: email });
+      showToast(t('auth.toasts.resetCodeSent', { email }), 'success');
       setIsSent(true);
     } catch (error) {
       if (error instanceof AxiosError) {
-        const data = error.response?.data as { message?: string } | undefined;
-
         if (error.response?.status === 404) {
           setEmailError(t('auth.forgotPassword.noAccount'));
           return;
         }
 
-        setFormError(data?.message ?? t('errors.generic'));
+        setFormError(extractApiErrorMessage(error, t('errors.generic')));
         return;
       }
 
@@ -64,6 +65,9 @@ export default function ForgotPasswordScreen() {
       <AuthScreen
         title={t('auth.forgotPassword.sentTitle')}
         subtitle={t('auth.forgotPassword.sentSubtitle', { email })}>
+        <Link href="/reset-password" replace>
+          <ThemedText type="linkPrimary">{t('auth.forgotPassword.enterCodeLink')}</ThemedText>
+        </Link>
         <Link href="/sign-in" replace>
           <ThemedText type="linkPrimary">{t('auth.forgotPassword.backToSignIn')}</ThemedText>
         </Link>

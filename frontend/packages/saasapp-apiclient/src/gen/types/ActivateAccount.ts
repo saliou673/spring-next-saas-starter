@@ -46,11 +46,20 @@ export type ActivateAccount404 = ValidationErrorResponseDTO;
  */
 export type ActivateAccount409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type ActivateAccount500 = ValidationErrorResponseDTO;
+
 export type ActivateAccountQueryResponse = ActivateAccount200;
 
 export type ActivateAccountQuery = {
     Response: ActivateAccount200;
     QueryParams: ActivateAccountQueryParams;
     HeaderParams: ActivateAccountHeaderParams;
-    Errors: ActivateAccount403 | ActivateAccount404 | ActivateAccount409;
+    Errors:
+        | ActivateAccount403
+        | ActivateAccount404
+        | ActivateAccount409
+        | ActivateAccount500;
 };

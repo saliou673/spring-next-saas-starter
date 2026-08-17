@@ -76,4 +76,8 @@ export type UserSummary = {
      * @type object
      */
     preferences: UserPreferences;
+    /**
+     * @type boolean | undefined
+     */
+    twoFactorEnabled?: boolean;
 };
