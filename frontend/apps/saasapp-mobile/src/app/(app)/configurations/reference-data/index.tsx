@@ -1,131 +1,103 @@
 import { useEffect, useMemo, useState } from 'react';
-import {
-  ActivityIndicator,
-  Alert,
-  FlatList,
-  Pressable,
-  RefreshControl,
-  StyleSheet,
-  TextInput,
-  View,
-} from 'react-native';
+import { ActivityIndicator, FlatList, Pressable, RefreshControl, StyleSheet, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
-import { AxiosError } from 'axios';
-import { useQueryClient } from '@tanstack/react-query';
 import { Stack, useRouter, type Href } from 'expo-router';
 import {
-  getUsersAsAdminQueryKey,
-  useDeleteUserAsAdmin,
-  useGetUsersAsAdmin,
-  userDetailsStatusEnum,
-  type UserDetails,
-  type UserDetailsStatusEnumKey,
-  type UserFilter,
+  useGetAppConfigurationsAsAdmin,
+  useGetCategoriesAsAdmin,
+  type AppConfiguration,
+  type AppConfigurationCategoryEnumKey,
+  type AppConfigurationFilter,
 } from '@api-client';
 
 import { SettingsCard } from '@/components/settings-card';
-import { showToast } from '@/components/toast/toast-store';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
-import { extractApiErrorMessage } from '@/lib/api-error';
 
 const PAGE_SIZE = 20;
 
-function UserListItem({
-  user,
-  statusLabel,
+function ConfigurationListItem({
+  configuration,
   onPress,
-  onDeactivate,
 }: {
-  user: UserDetails;
-  statusLabel: string;
+  configuration: AppConfiguration;
   onPress: () => void;
-  onDeactivate: () => void;
 }) {
   const { t } = useTranslation();
   const theme = useTheme();
-  const fullName = `${user.firstName} ${user.lastName}`.trim();
-  const status = user.status ?? userDetailsStatusEnum.NOT_ACTIVATED;
-  const isAlertStatus =
-    status === userDetailsStatusEnum.LOCKED || status === userDetailsStatusEnum.BANNED;
-  const roleGroupNames = (user.roleGroups ?? [])
-    .map((roleGroup) => roleGroup.name)
-    .filter((name): name is string => !!name)
-    .sort();
 
   return (
-    <SettingsCard style={styles.card}>
-      <Pressable accessibilityRole="button" onPress={onPress} style={({ pressed }) => pressed && styles.pressed}>
+    <Pressable
+      accessibilityRole="button"
+      onPress={onPress}
+      style={({ pressed }) => pressed && styles.pressed}>
+      <SettingsCard style={styles.card}>
         <View style={styles.cardHeader}>
-          <ThemedText type="smallBold" style={styles.name} numberOfLines={1}>
-            {fullName}
+          <ThemedText type="code" numberOfLines={1} style={styles.code}>
+            {configuration.code}
           </ThemedText>
           <View style={[styles.badge, { backgroundColor: theme.backgroundElement }]}>
-            <ThemedText type="small" themeColor={isAlertStatus ? 'danger' : 'textSecondary'}>
-              {statusLabel}
+            <ThemedText
+              type="small"
+              themeColor={configuration.active ? 'text' : 'textSecondary'}>
+              {configuration.active
+                ? t('configurations.referenceData.active')
+                : t('configurations.referenceData.inactive')}
             </ThemedText>
           </View>
         </View>
 
-        <ThemedText type="small" themeColor="textSecondary" numberOfLines={1}>
-          {user.email}
+        <ThemedText type="small" numberOfLines={1}>
+          {configuration.label}
         </ThemedText>
 
-        {roleGroupNames.length > 0 && (
-          <View style={styles.chipRow}>
-            {roleGroupNames.map((name) => (
-              <View key={name} style={[styles.chip, { borderColor: theme.backgroundSelected }]}>
-                <ThemedText type="small" themeColor="textSecondary">
-                  {name}
-                </ThemedText>
-              </View>
-            ))}
-          </View>
-        )}
-      </Pressable>
-
-      {status !== userDetailsStatusEnum.DEACTIVATED && (
-        <Pressable
-          accessibilityRole="button"
-          onPress={onDeactivate}
-          style={({ pressed }) => [styles.deactivateButton, pressed && styles.pressed]}>
-          <ThemedText type="small" themeColor="danger">
-            {t('users.list.deactivate')}
+        {configuration.description && (
+          <ThemedText type="small" themeColor="textSecondary" numberOfLines={2}>
+            {configuration.description}
           </ThemedText>
-        </Pressable>
-      )}
-    </SettingsCard>
+        )}
+      </SettingsCard>
+    </Pressable>
   );
 }
 
-export default function UsersListScreen() {
+export default function ReferenceDataScreen() {
   const { t } = useTranslation();
   const router = useRouter();
   const theme = useTheme();
-  const queryClient = useQueryClient();
 
-  const [emailInput, setEmailInput] = useState('');
-  const [debouncedEmail, setDebouncedEmail] = useState('');
+  const [codeInput, setCodeInput] = useState('');
+  const [debouncedCode, setDebouncedCode] = useState('');
+  const [category, setCategory] = useState<AppConfigurationCategoryEnumKey | undefined>(undefined);
   const [page, setPage] = useState(0);
 
   useEffect(() => {
-    const timeout = setTimeout(() => setDebouncedEmail(emailInput.trim()), 300);
+    const timeout = setTimeout(() => setDebouncedCode(codeInput.trim()), 300);
     return () => clearTimeout(timeout);
-  }, [emailInput]);
+  }, [codeInput]);
 
   useEffect(() => {
     setPage(0);
-  }, [debouncedEmail]);
+  }, [debouncedCode, category]);
 
-  const filter = useMemo<UserFilter>(
-    () => (debouncedEmail ? { email: { contains: debouncedEmail } } : {}),
-    [debouncedEmail]
-  );
+  const { data: categoriesData } = useGetCategoriesAsAdmin();
+  const categoryOptions = categoriesData ?? [];
 
-  const { data, isLoading, isFetching, isError, refetch } = useGetUsersAsAdmin(
+  const filter = useMemo<AppConfigurationFilter>(() => {
+    const nextFilter: AppConfigurationFilter = {};
+    if (debouncedCode) {
+      nextFilter.code = { contains: debouncedCode };
+    }
+    if (category) {
+      nextFilter.category = { equals: category };
+    }
+    return nextFilter;
+  }, [category, debouncedCode]);
+
+  const { data, isLoading, isFetching, isError, refetch } = useGetAppConfigurationsAsAdmin(
     { filter, pageable: { page, size: PAGE_SIZE } },
     undefined,
     { query: { placeholderData: (previous) => previous } }
@@ -136,14 +108,6 @@ export default function UsersListScreen() {
   const canGoPrevious = page > 0;
   const canGoNext = page + 1 < totalPages;
 
-  const statusLabels: Record<UserDetailsStatusEnumKey, string> = {
-    [userDetailsStatusEnum.NOT_ACTIVATED]: t('users.status.NOT_ACTIVATED'),
-    [userDetailsStatusEnum.ACTIVATED]: t('users.status.ACTIVATED'),
-    [userDetailsStatusEnum.DEACTIVATED]: t('users.status.DEACTIVATED'),
-    [userDetailsStatusEnum.LOCKED]: t('users.status.LOCKED'),
-    [userDetailsStatusEnum.BANNED]: t('users.status.BANNED'),
-  };
-
   function handleRefresh() {
     if (page === 0) {
       void refetch();
@@ -152,67 +116,34 @@ export default function UsersListScreen() {
     setPage(0);
   }
 
-  const { mutate: deactivateUser } = useDeleteUserAsAdmin({
-    mutation: {
-      meta: { skipGlobalErrorToast: true },
-      onSuccess: async () => {
-        await queryClient.invalidateQueries({
-          queryKey: getUsersAsAdminQueryKey({ filter: {}, pageable: {} }),
-        });
-        showToast(t('users.list.deactivateSuccess'), 'success');
-      },
-      onError: (error) => {
-        showToast(
-          error instanceof AxiosError ? extractApiErrorMessage(error, t('errors.generic')) : t('errors.generic'),
-          'error'
-        );
-      },
-    },
-  });
-
-  function handleDeactivate(user: UserDetails) {
-    Alert.alert(
-      t('users.list.deactivateConfirmTitle'),
-      t('users.list.deactivateConfirmMessage', { email: user.email }),
-      [
-        { text: t('common.cancel'), style: 'cancel' },
-        {
-          text: t('users.list.deactivate'),
-          style: 'destructive',
-          onPress: () => deactivateUser({ id: user.id ?? 0 }),
-        },
-      ]
-    );
-  }
-
   return (
     <>
-      <Stack.Screen options={{ title: t('users.list.title') }} />
+      <Stack.Screen options={{ title: t('configurations.referenceData.title') }} />
       <ThemedView style={styles.container}>
         <SafeAreaView style={styles.container} edges={['bottom']}>
           <View style={styles.content}>
             <View style={styles.headerRow}>
               <ThemedText type="small" themeColor="textSecondary" style={styles.headerDescription}>
-                {t('users.list.description')}
+                {t('configurations.referenceData.description')}
               </ThemedText>
               <Pressable
                 accessibilityRole="button"
-                onPress={() => router.push('/users/create' as Href)}
+                onPress={() => router.push('/configurations/reference-data/create' as Href)}
                 style={({ pressed }) => [
                   styles.addButton,
                   { backgroundColor: theme.text },
                   pressed && styles.pressed,
                 ]}>
                 <ThemedText type="smallBold" style={{ color: theme.background }}>
-                  {t('users.list.addUser')}
+                  {t('configurations.referenceData.addConfiguration')}
                 </ThemedText>
               </Pressable>
             </View>
 
             <TextInput
-              value={emailInput}
-              onChangeText={setEmailInput}
-              placeholder={t('users.list.searchPlaceholder')}
+              value={codeInput}
+              onChangeText={setCodeInput}
+              placeholder={t('configurations.referenceData.searchPlaceholder')}
               placeholderTextColor={theme.textSecondary}
               autoCapitalize="none"
               autoCorrect={false}
@@ -226,9 +157,48 @@ export default function UsersListScreen() {
               ]}
             />
 
+            <View style={styles.categoryRow}>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => setCategory(undefined)}
+                style={[
+                  styles.categoryChip,
+                  {
+                    borderColor: theme.backgroundSelected,
+                    backgroundColor: !category ? theme.text : 'transparent',
+                  },
+                ]}>
+                <ThemedText type="small" style={{ color: !category ? theme.background : theme.text }}>
+                  {t('configurations.referenceData.allCategories')}
+                </ThemedText>
+              </Pressable>
+              {categoryOptions.map((option) => {
+                const selected = category === option.value;
+                return (
+                  <Pressable
+                    key={option.value}
+                    accessibilityRole="button"
+                    onPress={() => setCategory(option.value)}
+                    style={[
+                      styles.categoryChip,
+                      {
+                        borderColor: theme.backgroundSelected,
+                        backgroundColor: selected ? theme.text : 'transparent',
+                      },
+                    ]}>
+                    <ThemedText
+                      type="small"
+                      style={{ color: selected ? theme.background : theme.text }}>
+                      {option.description ?? option.value}
+                    </ThemedText>
+                  </Pressable>
+                );
+              })}
+            </View>
+
             {isError && (
               <ThemedText themeColor="danger" type="small">
-                {t('users.list.errorFallback')}
+                {t('configurations.referenceData.errorFallback')}
               </ThemedText>
             )}
 
@@ -237,13 +207,13 @@ export default function UsersListScreen() {
             ) : (
               <FlatList
                 data={items}
-                keyExtractor={(user) => String(user.id ?? 0)}
+                keyExtractor={(configuration) => String(configuration.id ?? 0)}
                 renderItem={({ item }) => (
-                  <UserListItem
-                    user={item}
-                    statusLabel={statusLabels[item.status ?? userDetailsStatusEnum.NOT_ACTIVATED]}
-                    onPress={() => router.push(`/users/${item.id ?? 0}` as Href)}
-                    onDeactivate={() => handleDeactivate(item)}
+                  <ConfigurationListItem
+                    configuration={item}
+                    onPress={() =>
+                      router.push(`/configurations/reference-data/${item.id ?? 0}` as Href)
+                    }
                   />
                 )}
                 style={styles.list}
@@ -252,7 +222,7 @@ export default function UsersListScreen() {
                 refreshControl={<RefreshControl refreshing={isFetching} onRefresh={handleRefresh} />}
                 ListEmptyComponent={
                   <ThemedText themeColor="textSecondary" style={styles.emptyText}>
-                    {t('users.list.noResults')}
+                    {t('configurations.referenceData.noResults')}
                   </ThemedText>
                 }
                 ListFooterComponent={
@@ -266,11 +236,11 @@ export default function UsersListScreen() {
                           styles.pagerButton,
                           (!canGoPrevious || pressed) && styles.pagerButtonDisabled,
                         ]}>
-                        <ThemedText type="small">{t('users.list.previous')}</ThemedText>
+                        <ThemedText type="small">{t('configurations.referenceData.previous')}</ThemedText>
                       </Pressable>
 
                       <ThemedText type="small" themeColor="textSecondary">
-                        {t('users.list.pageIndicator', {
+                        {t('configurations.referenceData.pageIndicator', {
                           page: page + 1,
                           totalPages: Math.max(totalPages, 1),
                         })}
@@ -284,7 +254,7 @@ export default function UsersListScreen() {
                           styles.pagerButton,
                           (!canGoNext || pressed) && styles.pagerButtonDisabled,
                         ]}>
-                        <ThemedText type="small">{t('users.list.next')}</ThemedText>
+                        <ThemedText type="small">{t('configurations.referenceData.next')}</ThemedText>
                       </Pressable>
                     </View>
                   ) : null
@@ -332,6 +302,17 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.two,
     fontSize: 16,
   },
+  categoryRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: Spacing.one,
+  },
+  categoryChip: {
+    borderWidth: 1,
+    borderRadius: Spacing.two,
+    paddingHorizontal: Spacing.three,
+    paddingVertical: Spacing.one,
+  },
   loadingIndicator: {
     marginTop: Spacing.five,
   },
@@ -357,27 +338,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     gap: Spacing.two,
   },
-  name: {
+  code: {
     flex: 1,
   },
   badge: {
     borderRadius: Spacing.two,
     paddingHorizontal: Spacing.two,
     paddingVertical: Spacing.half,
-  },
-  chipRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: Spacing.one,
-  },
-  chip: {
-    borderWidth: 1,
-    borderRadius: Spacing.two,
-    paddingHorizontal: Spacing.two,
-    paddingVertical: Spacing.half,
-  },
-  deactivateButton: {
-    alignSelf: 'flex-start',
   },
   pressed: {
     opacity: 0.7,
