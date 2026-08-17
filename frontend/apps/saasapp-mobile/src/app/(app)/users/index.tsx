@@ -131,9 +131,23 @@ export default function UsersListScreen() {
       <ThemedView style={styles.container}>
         <SafeAreaView style={styles.container} edges={['bottom']}>
           <View style={styles.content}>
-            <ThemedText type="small" themeColor="textSecondary">
-              {t('users.list.description')}
-            </ThemedText>
+            <View style={styles.headerRow}>
+              <ThemedText type="small" themeColor="textSecondary" style={styles.headerDescription}>
+                {t('users.list.description')}
+              </ThemedText>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => router.push('/users/create' as Href)}
+                style={({ pressed }) => [
+                  styles.addButton,
+                  { backgroundColor: theme.text },
+                  pressed && styles.pressed,
+                ]}>
+                <ThemedText type="smallBold" style={{ color: theme.background }}>
+                  {t('users.list.addUser')}
+                </ThemedText>
+              </Pressable>
+            </View>
 
             <TextInput
               value={emailInput}
@@ -235,6 +249,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.four,
     paddingTop: Spacing.four,
     gap: Spacing.three,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: Spacing.two,
+  },
+  headerDescription: {
+    flex: 1,
+  },
+  addButton: {
+    borderRadius: Spacing.two,
+    paddingHorizontal: Spacing.three,
+    paddingVertical: Spacing.two,
   },
   searchInput: {
     borderWidth: 1,

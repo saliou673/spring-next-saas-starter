@@ -282,12 +282,37 @@
         "list": {
             "title": "Utilisateurs",
             "description": "Parcourez et recherchez les utilisateurs de votre organisation.",
+            "addUser": "Ajouter un utilisateur",
             "searchPlaceholder": "Rechercher par e-mail",
             "errorFallback": "Impossible de charger les utilisateurs.",
             "noResults": "Aucun utilisateur trouvé.",
             "previous": "Précédent",
             "next": "Suivant",
             "pageIndicator": "Page {{page}} sur {{totalPages}}"
+        },
+        "create": {
+            "title": "Ajouter un utilisateur",
+            "description": "Créez un utilisateur géré et assignez-lui au moins un groupe de rôles.",
+            "fields": {
+                "email": "E-mail",
+                "firstName": "Prénom",
+                "lastName": "Nom",
+                "phoneNumber": "Numéro de téléphone",
+                "birthDate": "Date de naissance",
+                "gender": "Genre",
+                "address": "Adresse",
+                "roleGroups": "Groupes de rôles"
+            },
+            "roleGroupsEmpty": "Aucun groupe de rôles disponible.",
+            "validation": {
+                "emailRequired": "L'e-mail est requis.",
+                "emailInvalid": "Saisissez une adresse e-mail valide.",
+                "firstNameRequired": "Le prénom est requis.",
+                "lastNameRequired": "Le nom est requis.",
+                "roleGroupRequired": "Au moins un groupe de rôles est requis."
+            },
+            "submit": "Créer l'utilisateur",
+            "toastCreated": "Utilisateur créé."
         },
         "detail": {
             "title": "Détails de l'utilisateur",

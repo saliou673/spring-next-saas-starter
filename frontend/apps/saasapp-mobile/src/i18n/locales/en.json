@@ -282,12 +282,37 @@
         "list": {
             "title": "Users",
             "description": "Browse and search your organization's users.",
+            "addUser": "Add user",
             "searchPlaceholder": "Search by email",
             "errorFallback": "Unable to load users.",
             "noResults": "No users found.",
             "previous": "Previous",
             "next": "Next",
             "pageIndicator": "Page {{page}} of {{totalPages}}"
+        },
+        "create": {
+            "title": "Add user",
+            "description": "Create a managed user and assign at least one role group.",
+            "fields": {
+                "email": "Email",
+                "firstName": "First name",
+                "lastName": "Last name",
+                "phoneNumber": "Phone number",
+                "birthDate": "Birth date",
+                "gender": "Gender",
+                "address": "Address",
+                "roleGroups": "Role groups"
+            },
+            "roleGroupsEmpty": "No role groups available.",
+            "validation": {
+                "emailRequired": "Email is required.",
+                "emailInvalid": "Enter a valid email address.",
+                "firstNameRequired": "First name is required.",
+                "lastNameRequired": "Last name is required.",
+                "roleGroupRequired": "At least one role group is required."
+            },
+            "submit": "Create user",
+            "toastCreated": "User created."
         },
         "detail": {
             "title": "User details",
