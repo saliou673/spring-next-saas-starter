@@ -501,6 +501,16 @@
                 "deleteConfirmMessage": "Supprimer la configuration {{code}} ? Cette action retire définitivement l'entrée de configuration du système. Les règles du serveur s'appliquent toujours - la suppression peut échouer si elle est référencée ailleurs.",
                 "toastDeleted": "Configuration supprimée."
             }
+        },
+        "security": {
+            "title": "Paramètres de sécurité",
+            "description": "Configurez les politiques de sécurité globales de l'application.",
+            "loadError": "Impossible de charger les paramètres de sécurité.",
+            "saveError": "Impossible d'enregistrer les paramètres de sécurité. Veuillez réessayer.",
+            "toastUpdated": "Paramètres de sécurité enregistrés.",
+            "twoFactorSectionTitle": "Authentification à deux facteurs",
+            "twoFactorRequiredLabel": "Exiger la 2FA pour tous les utilisateurs",
+            "twoFactorRequiredDescription": "Lorsque cette option est activée, tous les utilisateurs doivent configurer l'authentification à deux facteurs avant de pouvoir se connecter."
         }
     },
     "errors": {

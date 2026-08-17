@@ -501,6 +501,16 @@
                 "deleteConfirmMessage": "Delete configuration {{code}}? This action permanently removes the configuration entry from the system. Backend rules still apply - deletion can fail if it's referenced elsewhere.",
                 "toastDeleted": "Configuration deleted."
             }
+        },
+        "security": {
+            "title": "Security settings",
+            "description": "Configure application-wide security policies.",
+            "loadError": "Unable to load security settings.",
+            "saveError": "Couldn't save security settings. Please try again.",
+            "toastUpdated": "Security settings saved.",
+            "twoFactorSectionTitle": "Two-factor authentication",
+            "twoFactorRequiredLabel": "Require 2FA for all users",
+            "twoFactorRequiredDescription": "When enabled, all users must configure two-factor authentication before they can log in."
         }
     },
     "errors": {
