@@ -1,98 +1,124 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Image } from 'expo-image';
+import { Platform, ScrollView, StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useGetCurrentUserPermissions, useGetUserDetails } from '@api-client';
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
+import { SettingsRow } from '@/components/settings-row';
+import { SettingsSection } from '@/components/settings-section';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+import { BottomTabInset, MaxContentWidth, Radius, Spacing } from '@/constants/theme';
+import { useTheme } from '@/hooks/use-theme';
 
 export default function HomeScreen() {
+  const safeAreaInsets = useSafeAreaInsets();
+  const insets = {
+    ...safeAreaInsets,
+    bottom: safeAreaInsets.bottom + BottomTabInset + Spacing.three,
+  };
+  const theme = useTheme();
+  const { data: user } = useGetUserDetails();
+  const { data: permissions } = useGetCurrentUserPermissions();
+
+  const canReadUsers = (permissions ?? []).some((permission) => permission.code === 'user:read');
+  const canReadRoleGroups = (permissions ?? []).some(
+    (permission) => permission.code === 'role-group:read'
+  );
+
+  const contentPlatformStyle = Platform.select({
+    android: {
+      paddingTop: insets.top,
+      paddingLeft: insets.left,
+      paddingRight: insets.right,
+      paddingBottom: insets.bottom,
+    },
+    web: {
+      paddingTop: Spacing.six,
+      paddingBottom: Spacing.four,
+    },
+  });
+
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
+    <ScrollView
+      style={[styles.scrollView, { backgroundColor: theme.background }]}
+      contentInset={insets}
+      contentContainerStyle={[styles.contentContainer, contentPlatformStyle]}>
+      <ThemedView style={styles.container}>
         <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
+          <Image source={require('@/assets/images/icon.png')} style={styles.appIcon} />
+          <ThemedText type="title" style={styles.centerText}>
+            Welcome back{user?.firstName ? `, ${user.firstName}` : ''}
+          </ThemedText>
+          <ThemedText themeColor="textSecondary" style={styles.centerText}>
+            Auth, role-based permissions, and admin tooling are already wired up. This starter kit
+            is ready for you to build your product&apos;s actual domain on top of it.
           </ThemedText>
         </ThemedView>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
-
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
+        <ThemedView style={styles.sectionsWrapper}>
+          <SettingsSection title="Quick links">
+            <SettingsRow
+              href="/settings/profile"
+              title="Profile"
+              icon={{ ios: 'person.crop.circle', android: 'account_circle', web: 'account_circle' }}
+            />
+            <SettingsRow
+              href="/settings/account"
+              title="Account & security"
+              icon={{ ios: 'lock.shield', android: 'shield', web: 'shield' }}
+            />
+            {canReadUsers && (
+              <SettingsRow
+                href="/users"
+                title="Users"
+                icon={{ ios: 'person.2', android: 'group', web: 'group' }}
+              />
+            )}
+            {canReadRoleGroups && (
+              <SettingsRow
+                href="/role-groups"
+                title="Role groups"
+                icon={{ ios: 'checkmark.shield', android: 'verified_user', web: 'verified_user' }}
+              />
+            )}
+          </SettingsSection>
         </ThemedView>
-
         {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+      </ThemedView>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  scrollView: {
     flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
   },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
+  contentContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  container: {
     maxWidth: MaxContentWidth,
+    flexGrow: 1,
   },
   heroSection: {
+    gap: Spacing.three,
     alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
     paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
+    paddingVertical: Spacing.six,
   },
-  title: {
+  appIcon: {
+    width: 64,
+    height: 64,
+    borderRadius: Radius.card / 2,
+  },
+  centerText: {
     textAlign: 'center',
   },
-  code: {
-    textTransform: 'uppercase',
-  },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+  sectionsWrapper: {
+    gap: Spacing.five,
+    paddingHorizontal: Spacing.four,
+    paddingTop: Spacing.three,
   },
 });
