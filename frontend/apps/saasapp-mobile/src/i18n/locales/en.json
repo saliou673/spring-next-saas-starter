@@ -278,6 +278,25 @@
             "syncError": "Language changed on this device, but couldn't be saved to your account."
         }
     },
+    "users": {
+        "list": {
+            "title": "Users",
+            "description": "Browse and search your organization's users.",
+            "searchPlaceholder": "Search by email",
+            "errorFallback": "Unable to load users.",
+            "noResults": "No users found.",
+            "previous": "Previous",
+            "next": "Next",
+            "pageIndicator": "Page {{page}} of {{totalPages}}"
+        },
+        "status": {
+            "NOT_ACTIVATED": "Not activated",
+            "ACTIVATED": "Activated",
+            "DEACTIVATED": "Deactivated",
+            "LOCKED": "Locked",
+            "BANNED": "Banned"
+        }
+    },
     "errors": {
         "sessionExpired": "Your session has expired. Please sign in again.",
         "serverError": "Something went wrong on our end. Please try again.",

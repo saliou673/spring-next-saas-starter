@@ -278,6 +278,25 @@
             "syncError": "Langue modifiée sur cet appareil, mais impossible de l'enregistrer sur votre compte."
         }
     },
+    "users": {
+        "list": {
+            "title": "Utilisateurs",
+            "description": "Parcourez et recherchez les utilisateurs de votre organisation.",
+            "searchPlaceholder": "Rechercher par e-mail",
+            "errorFallback": "Impossible de charger les utilisateurs.",
+            "noResults": "Aucun utilisateur trouvé.",
+            "previous": "Précédent",
+            "next": "Suivant",
+            "pageIndicator": "Page {{page}} sur {{totalPages}}"
+        },
+        "status": {
+            "NOT_ACTIVATED": "Non activé",
+            "ACTIVATED": "Activé",
+            "DEACTIVATED": "Désactivé",
+            "LOCKED": "Verrouillé",
+            "BANNED": "Banni"
+        }
+    },
     "errors": {
         "sessionExpired": "Votre session a expiré. Veuillez vous reconnecter.",
         "serverError": "Une erreur est survenue de notre côté. Veuillez réessayer.",
