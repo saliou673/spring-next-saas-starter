@@ -5,7 +5,8 @@
         "cancel": "Cancel",
         "confirm": "Confirm",
         "save": "Save",
-        "ok": "OK"
+        "ok": "OK",
+        "offlineBanner": "You're offline. Some features may be unavailable."
     },
     "languageSwitch": {
         "toggleLabel": "Toggle language",
@@ -679,6 +680,14 @@
             "title": "Website is under maintenance!",
             "description": "The site is not available at the moment.\nWe'll be back online shortly.",
             "learnMore": "Learn more"
+        },
+        "notFound": {
+            "title": "Oops! Page Not Found!",
+            "description": "It seems like the page you're looking for\ndoes not exist or might have been removed."
+        },
+        "unauthorized": {
+            "title": "Unauthorized Access",
+            "description": "Your session has ended.\nPlease log in again to continue."
         }
     }
 }
