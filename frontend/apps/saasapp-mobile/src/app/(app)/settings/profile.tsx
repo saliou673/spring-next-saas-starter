@@ -16,11 +16,11 @@ import {
   type UserSummary,
 } from '@api-client';
 
+import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { SubmitButton } from '@/components/submit-button';
 import { FormTextField } from '@/components/form-text-field';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
 import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
@@ -301,7 +301,7 @@ export default function ProfileScreen() {
         ) : isError || !user ? (
           <ThemedText themeColor="danger">{t('settings.profile.loadError')}</ThemedText>
         ) : (
-          <ThemedView type="backgroundElement" style={styles.card}>
+          <SettingsCard>
             <ReadOnlyRow label={t('settings.profile.fields.email')} value={user.email} />
 
             <FormTextField
@@ -381,7 +381,7 @@ export default function ProfileScreen() {
               onPress={() => void onSubmit()}
               isPending={isPending}
             />
-          </ThemedView>
+          </SettingsCard>
         )}
       </SettingsListScreen>
     </>
@@ -389,11 +389,6 @@ export default function ProfileScreen() {
 }
 
 const styles = StyleSheet.create({
-  card: {
-    borderRadius: Spacing.three,
-    padding: Spacing.three,
-    gap: Spacing.three,
-  },
   field: {
     gap: Spacing.one,
   },

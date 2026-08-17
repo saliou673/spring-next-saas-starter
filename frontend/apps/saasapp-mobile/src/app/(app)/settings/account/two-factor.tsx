@@ -14,11 +14,11 @@ import {
   useInit2FactorSetup,
 } from '@api-client';
 
+import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { FormTextField } from '@/components/form-text-field';
 import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
 import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
 import { extractApiErrorMessage } from '@/lib/api-error';
@@ -147,7 +147,7 @@ export default function TwoFactorScreen() {
             : t('settings.account.twoFactorSetup.description')
         }>
         {isEnabled ? (
-          <ThemedView type="backgroundElement" style={styles.card}>
+          <SettingsCard>
             <ThemedText>{t('settings.account.twoFactorDisable.description')}</ThemedText>
 
             <FormTextField
@@ -174,9 +174,9 @@ export default function TwoFactorScreen() {
               onPress={() => void onDisableSubmit()}
               isPending={isDisabling}
             />
-          </ThemedView>
+          </SettingsCard>
         ) : !setup ? (
-          <ThemedView type="backgroundElement" style={styles.card}>
+          <SettingsCard>
             {formError && (
               <ThemedText type="small" themeColor="danger">
                 {formError}
@@ -187,9 +187,9 @@ export default function TwoFactorScreen() {
               onPress={() => void onStartSetup()}
               isPending={isInitiating}
             />
-          </ThemedView>
+          </SettingsCard>
         ) : (
-          <ThemedView type="backgroundElement" style={styles.card}>
+          <SettingsCard>
             <View style={styles.qrBlock}>
               <ThemedText type="small" themeColor="textSecondary">
                 {t('settings.account.twoFactorSetup.scanHint')}
@@ -238,7 +238,7 @@ export default function TwoFactorScreen() {
               onPress={() => void onConfirmSubmit()}
               isPending={isConfirming}
             />
-          </ThemedView>
+          </SettingsCard>
         )}
       </SettingsListScreen>
     </>
@@ -246,11 +246,6 @@ export default function TwoFactorScreen() {
 }
 
 const styles = StyleSheet.create({
-  card: {
-    borderRadius: Spacing.three,
-    padding: Spacing.three,
-    gap: Spacing.three,
-  },
   qrBlock: {
     gap: Spacing.two,
     alignItems: 'flex-start',

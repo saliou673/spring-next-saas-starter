@@ -1,6 +1,7 @@
 import { ActivityIndicator, Pressable, StyleSheet, Switch, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { Stack } from 'expo-router';
+import { SymbolView, type SymbolViewProps } from 'expo-symbols';
 import {
   displayPreferencesTextSizeEnum,
   useGetCurrentUserPreferences,
@@ -8,12 +9,18 @@ import {
   type DisplayPreferencesTextSizeEnumKey,
 } from '@api-client';
 
+import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
 import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
+
+const TEXT_SIZE_ICONS: Record<DisplayPreferencesTextSizeEnumKey, SymbolViewProps['name']> = {
+  SMALL: { ios: 'textformat.size.smaller', android: 'text_decrease', web: 'text_decrease' },
+  DEFAULT: { ios: 'textformat.size', android: 'format_size', web: 'format_size' },
+  LARGE: { ios: 'textformat.size.larger', android: 'text_increase', web: 'text_increase' },
+};
 
 // Web's display-form.tsx used to be about which items show in a desktop
 // sidebar (recents/home/applications/desktop/...), which has no mobile
@@ -80,7 +87,7 @@ export default function DisplayScreen() {
         ) : isError || !preferences ? (
           <ThemedText themeColor="danger">{t('settings.display.loadError')}</ThemedText>
         ) : (
-          <ThemedView type="backgroundElement" style={styles.card}>
+          <SettingsCard style={styles.card}>
             <View style={styles.field}>
               <ThemedText type="smallBold">{t('settings.display.textSizeLabel')}</ThemedText>
               <ThemedText type="small" themeColor="textSecondary">
@@ -102,6 +109,12 @@ export default function DisplayScreen() {
                           borderColor: theme.backgroundSelected,
                         },
                       ]}>
+                      <SymbolView
+                        name={TEXT_SIZE_ICONS[option.value]}
+                        size={18}
+                        weight="medium"
+                        tintColor={selected ? theme.background : theme.text}
+                      />
                       <ThemedText
                         type="small"
                         style={{ color: selected ? theme.background : theme.text }}>
@@ -126,7 +139,7 @@ export default function DisplayScreen() {
                 onValueChange={onReduceMotionChange}
               />
             </View>
-          </ThemedView>
+          </SettingsCard>
         )}
       </SettingsListScreen>
     </>
@@ -135,8 +148,6 @@ export default function DisplayScreen() {
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: Spacing.three,
-    padding: Spacing.three,
     gap: Spacing.four,
   },
   field: {
@@ -150,8 +161,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    gap: Spacing.two,
     borderWidth: 1,
-    borderRadius: Spacing.two,
+    borderRadius: Spacing.three,
     paddingVertical: Spacing.two,
   },
   switchRow: {

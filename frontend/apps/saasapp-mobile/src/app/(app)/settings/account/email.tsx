@@ -6,11 +6,11 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Stack, useRouter } from 'expo-router';
 import { getUserDetailsQueryKey, useConfirmEmailChange, useRequestEmailChange } from '@api-client';
 
+import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { FormTextField } from '@/components/form-text-field';
 import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
 import { showToast } from '@/components/toast/toast-store';
 import { Fonts, Spacing } from '@/constants/theme';
 import { extractApiErrorMessage } from '@/lib/api-error';
@@ -99,7 +99,7 @@ export default function ChangeEmailScreen() {
             ? t('settings.account.emailChange.description')
             : t('settings.account.emailChange.confirmDescription', { email: newEmail.trim() })
         }>
-        <ThemedView type="backgroundElement" style={styles.card}>
+        <SettingsCard>
           {step === 'request' ? (
             <>
               <FormTextField
@@ -166,18 +166,13 @@ export default function ChangeEmailScreen() {
               </Pressable>
             </>
           )}
-        </ThemedView>
+        </SettingsCard>
       </SettingsListScreen>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    borderRadius: Spacing.three,
-    padding: Spacing.three,
-    gap: Spacing.three,
-  },
   codeInput: {
     fontFamily: Fonts.mono,
     fontSize: 28,

@@ -146,6 +146,8 @@
         "nav": {
             "title": "Settings",
             "description": "Manage your profile, account, and app preferences.",
+            "sectionAccount": "Account",
+            "sectionPreferences": "Preferences",
             "profile": "Profile",
             "account": "Account",
             "appearance": "Appearance",
@@ -156,6 +158,8 @@
         "account": {
             "title": "Account",
             "description": "Manage your email, password, two-factor authentication, and account deletion.",
+            "sectionSecurity": "Security",
+            "sectionDanger": "Danger zone",
             "email": "Change email",
             "password": "Change password",
             "twoFactor": "Two-factor authentication",

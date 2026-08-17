@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { Stack } from 'expo-router';
 import { useGetCurrentUserPreferences, useUpdateCurrentUserPreferences } from '@api-client';
 
+import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
 import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
 
@@ -47,7 +47,7 @@ export default function NotificationsScreen() {
         ) : isError || !preferences ? (
           <ThemedText themeColor="danger">{t('settings.notifications.loadError')}</ThemedText>
         ) : (
-          <ThemedView type="backgroundElement" style={styles.card}>
+          <SettingsCard style={styles.card}>
             <View style={styles.switchRow}>
               <View style={styles.switchLabel}>
                 <ThemedText>{t('settings.notifications.productUpdatesLabel')}</ThemedText>
@@ -71,7 +71,7 @@ export default function NotificationsScreen() {
               </View>
               <Switch value disabled />
             </View>
-          </ThemedView>
+          </SettingsCard>
         )}
       </SettingsListScreen>
     </>
@@ -80,8 +80,6 @@ export default function NotificationsScreen() {
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: Spacing.three,
-    padding: Spacing.three,
     gap: Spacing.four,
   },
   switchRow: {

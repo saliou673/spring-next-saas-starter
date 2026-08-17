@@ -146,6 +146,8 @@
         "nav": {
             "title": "Paramètres",
             "description": "Gérez votre profil, votre compte et les préférences de l'application.",
+            "sectionAccount": "Compte",
+            "sectionPreferences": "Préférences",
             "profile": "Profil",
             "account": "Compte",
             "appearance": "Apparence",
@@ -156,6 +158,8 @@
         "account": {
             "title": "Compte",
             "description": "Gérez votre e-mail, votre mot de passe, l'authentification à deux facteurs et la suppression du compte.",
+            "sectionSecurity": "Sécurité",
+            "sectionDanger": "Zone de danger",
             "email": "Modifier l'e-mail",
             "password": "Modifier le mot de passe",
             "twoFactor": "Authentification à deux facteurs",
