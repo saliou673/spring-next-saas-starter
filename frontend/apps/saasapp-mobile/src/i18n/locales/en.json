@@ -683,6 +683,10 @@
         "notFound": {
             "title": "Oops! Page Not Found!",
             "description": "It seems like the page you're looking for\ndoes not exist or might have been removed."
+        },
+        "unauthorized": {
+            "title": "Unauthorized Access",
+            "description": "Your session has ended.\nPlease log in again to continue."
         }
     }
 }

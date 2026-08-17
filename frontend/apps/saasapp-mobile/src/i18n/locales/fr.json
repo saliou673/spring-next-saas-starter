@@ -683,6 +683,10 @@
         "notFound": {
             "title": "Oups ! Page introuvable !",
             "description": "Il semble que la page que vous recherchez\nn'existe pas ou a peut-être été supprimée."
+        },
+        "unauthorized": {
+            "title": "Accès non autorisé",
+            "description": "Votre session a pris fin.\nVeuillez vous reconnecter pour continuer."
         }
     }
 }
