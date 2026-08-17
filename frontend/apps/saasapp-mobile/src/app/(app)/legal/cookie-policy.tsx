@@ -3,17 +3,17 @@ import { Stack } from 'expo-router';
 
 import { LegalDocumentScreen, type LegalSection } from '@/components/legal-document-screen';
 
-const CONTACT_EMAIL = 'legal@saasapp.com';
+const CONTACT_EMAIL = 'privacy@saasapp.com';
 
-export default function TermsScreen() {
+export default function CookiePolicyScreen() {
   const { t } = useTranslation();
-  const sections = t('legal.terms.sections', { returnObjects: true }) as LegalSection[];
+  const sections = t('legal.cookiePolicy.sections', { returnObjects: true }) as LegalSection[];
 
   return (
     <>
-      <Stack.Screen options={{ title: t('legal.terms.title') }} />
+      <Stack.Screen options={{ title: t('legal.cookiePolicy.title') }} />
       <LegalDocumentScreen
-        description={t('legal.terms.lastUpdated')}
+        description={t('legal.cookiePolicy.lastUpdated')}
         sections={sections}
         contactEmail={CONTACT_EMAIL}
       />
