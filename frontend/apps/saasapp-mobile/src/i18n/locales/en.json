@@ -674,6 +674,11 @@
         "serverErrorScreen": {
             "title": "Oops! Something went wrong :')",
             "description": "We apologize for the inconvenience.\nPlease try again later."
+        },
+        "maintenance": {
+            "title": "Website is under maintenance!",
+            "description": "The site is not available at the moment.\nWe'll be back online shortly.",
+            "learnMore": "Learn more"
         }
     }
 }
