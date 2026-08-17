@@ -1,6 +1,6 @@
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { Stack, useLocalSearchParams, useRouter, type Href } from 'expo-router';
 import {
   useGetUserAsAdmin,
   useGetUserPermissionsAsAdmin,
@@ -12,6 +12,7 @@ import {
 
 import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
+import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
@@ -30,6 +31,7 @@ function ReadOnlyRow({ label, value }: { label: string; value: string }) {
 export default function UserDetailScreen() {
   const { t } = useTranslation();
   const theme = useTheme();
+  const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
   const userId = Number(id);
 
@@ -92,6 +94,11 @@ export default function UserDetailScreen() {
                 value={statusLabels[user.status ?? userDetailsStatusEnum.NOT_ACTIVATED]}
               />
             </SettingsCard>
+
+            <SubmitButton
+              label={t('users.detail.edit')}
+              onPress={() => router.push(`/users/edit/${userId}` as Href)}
+            />
 
             <SettingsCard>
               <ThemedText type="smallBold">{t('users.detail.roleGroupsLabel')}</ThemedText>
