@@ -7,6 +7,7 @@ import {
     useState,
     type ReactNode,
 } from "react";
+import { router, type Href } from "expo-router";
 
 import {
     clearTokens,
@@ -28,6 +29,7 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [isLoading, setIsLoading] = useState(true);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [sessionExpired, setSessionExpired] = useState(false);
 
     useEffect(() => {
         let cancelled = false;
@@ -45,13 +47,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }, []);
 
     useEffect(() => {
-        setOnForceLogout(() => setIsAuthenticated(false));
+        setOnForceLogout(() => {
+            setSessionExpired(true);
+            setIsAuthenticated(false);
+        });
         return () => setOnForceLogout(undefined);
     }, []);
+
+    // Waits for the isAuthenticated flip above to commit and mount the
+    // (auth) group before navigating, rather than calling router.replace
+    // synchronously from the force-logout callback where that group may not
+    // exist in the navigation tree yet. sessionExpired is cleared on the
+    // next successful sign-in (not here), so a later deliberate signOut()
+    // doesn't re-trigger this navigation.
+    useEffect(() => {
+        if (sessionExpired && !isAuthenticated) {
+            router.replace("/session-expired" as Href);
+        }
+    }, [sessionExpired, isAuthenticated]);
 
     const signIn = useCallback(async (tokens: AuthTokens) => {
         await setTokens(tokens);
         setApiAccessToken(tokens.accessToken);
+        setSessionExpired(false);
         setIsAuthenticated(true);
     }, []);
 
