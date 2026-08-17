@@ -651,6 +651,11 @@
             },
             "submit": "Envoyer le message",
             "toastSent": "Message envoyé ! Nous vous répondrons rapidement."
+        },
+        "helpCenter": {
+            "title": "Centre d'aide",
+            "comingSoonTitle": "Bientôt disponible !",
+            "comingSoonBody": "Cette page n'a pas encore été créée.\nRestez à l'écoute !"
         }
     },
     "errors": {
