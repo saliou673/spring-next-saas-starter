@@ -1,52 +1,59 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Linking, Pressable, StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useQueryClient } from '@tanstack/react-query';
 import { Stack, useRouter } from 'expo-router';
-import { twoFactorSetupRequestTypeEnum, useConfirm2FactorSetup, useInit2FactorSetup } from '@api-client';
+import QRCode from 'react-native-qrcode-svg';
+import {
+  getUserDetailsQueryKey,
+  twoFactorSetupRequestTypeEnum,
+  useConfirm2FactorSetup,
+  useDisable2Factor,
+  useGetUserDetails,
+  useInit2FactorSetup,
+} from '@api-client';
 
+import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { FormTextField } from '@/components/form-text-field';
 import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
 import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
+import { extractApiErrorMessage } from '@/lib/api-error';
+
+const QR_SIZE = 176;
 
 // The generated client types this response as a bare `object` since its
 // shape depends on the setup `type` (see TwoFactorController#init2FactorSetup);
 // TOTP always returns these two fields.
 type TotpSetupResponse = { secret: string; otpAuthUri: string };
 
-// The backend has no field exposing 2FA-enabled status on GET /accounts/me,
-// so this is a best-effort local flag rather than a source of truth - it can
-// drift if 2FA is toggled from another device. See #28 for the disable flow
-// that also maintains it.
-export const TWO_FACTOR_ENABLED_STORAGE_KEY = 'saasapp-mobile-2fa-enabled';
-
 const CODE_LENGTH = 6;
 
 export default function TwoFactorScreen() {
   const { t } = useTranslation();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
-  const [isEnabled, setIsEnabled] = useState<boolean | null>(null);
+  const { data: user } = useGetUserDetails();
+  const isEnabled = user?.twoFactorEnabled ?? false;
+
   const [setup, setSetup] = useState<TotpSetupResponse | null>(null);
   const [code, setCode] = useState('');
   const [codeError, setCodeError] = useState<string | undefined>();
   const [formError, setFormError] = useState<string | null>(null);
-
-  useEffect(() => {
-    void AsyncStorage.getItem(TWO_FACTOR_ENABLED_STORAGE_KEY).then((stored) => {
-      setIsEnabled(stored === 'true');
-    });
-  }, []);
+  const [disablePassword, setDisablePassword] = useState('');
+  const [disablePasswordError, setDisablePasswordError] = useState<string | undefined>();
 
   const { mutateAsync: initSetup, isPending: isInitiating } = useInit2FactorSetup({
     mutation: { meta: { skipGlobalErrorToast: true } },
   });
   const { mutateAsync: confirmSetup, isPending: isConfirming } = useConfirm2FactorSetup({
+    mutation: { meta: { skipGlobalErrorToast: true } },
+  });
+  const { mutateAsync: disable2Factor, isPending: isDisabling } = useDisable2Factor({
     mutation: { meta: { skipGlobalErrorToast: true } },
   });
 
@@ -84,21 +91,60 @@ export default function TwoFactorScreen() {
 
     try {
       await confirmSetup({ data: { code: trimmed } });
-      await AsyncStorage.setItem(TWO_FACTOR_ENABLED_STORAGE_KEY, 'true');
+      await queryClient.invalidateQueries({ queryKey: getUserDetailsQueryKey() });
       showToast(t('settings.account.twoFactorSetup.toastEnabled'), 'success');
-      router.back();
+      // The user details refetch above can 401 and force a logout (e.g. a
+      // stale session), which tears down this screen's navigator before we
+      // get here - going back at that point has nothing to go back to.
+      if (router.canGoBack()) {
+        router.back();
+      }
     } catch (error) {
       if (error instanceof AxiosError) {
-        const data = error.response?.data as { message?: string } | undefined;
-        setCodeError(data?.message ?? t('settings.account.twoFactorSetup.invalidCode'));
+        setCodeError(
+          extractApiErrorMessage(error, t('settings.account.twoFactorSetup.invalidCode'))
+        );
         return;
       }
       setFormError(t('errors.generic'));
     }
   }
 
-  if (isEnabled === null) {
-    return null;
+  async function onDisableSubmit() {
+    setDisablePasswordError(undefined);
+    setFormError(null);
+
+    if (!disablePassword) {
+      setDisablePasswordError(t('settings.account.twoFactorDisable.passwordRequired'));
+      return;
+    }
+
+    try {
+      await disable2Factor({ data: { currentPassword: disablePassword } });
+      await queryClient.invalidateQueries({ queryKey: getUserDetailsQueryKey() });
+      showToast(t('settings.account.twoFactorDisable.toastDisabled'), 'success');
+      // The user details refetch above can 401 and force a logout (e.g. a
+      // stale session), which tears down this screen's navigator before we
+      // get here - going back at that point has nothing to go back to.
+      if (router.canGoBack()) {
+        router.back();
+      }
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        const status = error.response?.status;
+
+        if (status === 403 || status === 409) {
+          setDisablePasswordError(
+            extractApiErrorMessage(error, t('settings.account.twoFactorDisable.invalidPassword'))
+          );
+          return;
+        }
+
+        setFormError(extractApiErrorMessage(error, t('errors.generic')));
+        return;
+      }
+      setFormError(t('errors.generic'));
+    }
   }
 
   return (
@@ -111,11 +157,36 @@ export default function TwoFactorScreen() {
             : t('settings.account.twoFactorSetup.description')
         }>
         {isEnabled ? (
-          <ThemedView type="backgroundElement" style={styles.card}>
-            <ThemedText>{t('settings.account.twoFactorSetup.alreadyEnabled')}</ThemedText>
-          </ThemedView>
+          <SettingsCard>
+            <ThemedText>{t('settings.account.twoFactorDisable.description')}</ThemedText>
+
+            <FormTextField
+              label={t('settings.account.twoFactorDisable.currentPasswordLabel')}
+              value={disablePassword}
+              onChangeText={setDisablePassword}
+              error={disablePasswordError}
+              autoCapitalize="none"
+              autoComplete="current-password"
+              autoCorrect={false}
+              secureTextEntry
+              editable={!isDisabling}
+              onSubmitEditing={() => void onDisableSubmit()}
+            />
+
+            {formError && (
+              <ThemedText type="small" themeColor="danger">
+                {formError}
+              </ThemedText>
+            )}
+
+            <SubmitButton
+              label={t('settings.account.twoFactorDisable.submit')}
+              onPress={() => void onDisableSubmit()}
+              isPending={isDisabling}
+            />
+          </SettingsCard>
         ) : !setup ? (
-          <ThemedView type="backgroundElement" style={styles.card}>
+          <SettingsCard>
             {formError && (
               <ThemedText type="small" themeColor="danger">
                 {formError}
@@ -126,9 +197,18 @@ export default function TwoFactorScreen() {
               onPress={() => void onStartSetup()}
               isPending={isInitiating}
             />
-          </ThemedView>
+          </SettingsCard>
         ) : (
-          <ThemedView type="backgroundElement" style={styles.card}>
+          <SettingsCard>
+            <View style={styles.qrBlock}>
+              <ThemedText type="small" themeColor="textSecondary">
+                {t('settings.account.twoFactorSetup.scanHint')}
+              </ThemedText>
+              <View style={styles.qrFrame}>
+                <QRCode value={setup.otpAuthUri} size={QR_SIZE} backgroundColor="#ffffff" />
+              </View>
+            </View>
+
             <Pressable accessibilityRole="button" onPress={() => void onOpenAuthenticator()}>
               <ThemedText type="linkPrimary">
                 {t('settings.account.twoFactorSetup.openAuthenticator')}
@@ -168,7 +248,7 @@ export default function TwoFactorScreen() {
               onPress={() => void onConfirmSubmit()}
               isPending={isConfirming}
             />
-          </ThemedView>
+          </SettingsCard>
         )}
       </SettingsListScreen>
     </>
@@ -176,10 +256,14 @@ export default function TwoFactorScreen() {
 }
 
 const styles = StyleSheet.create({
-  card: {
-    borderRadius: Spacing.three,
-    padding: Spacing.three,
-    gap: Spacing.three,
+  qrBlock: {
+    gap: Spacing.two,
+    alignItems: 'flex-start',
+  },
+  qrFrame: {
+    padding: Spacing.two,
+    borderRadius: Spacing.two,
+    backgroundColor: '#ffffff',
   },
   secretBlock: {
     gap: Spacing.one,

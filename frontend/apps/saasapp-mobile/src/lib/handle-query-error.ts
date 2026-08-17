@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import i18n from "@/i18n";
 import { showToast } from "@/components/toast/toast-store";
+import { extractApiErrorMessage } from "@/lib/api-error";
 
 /**
  * Issue #5's interceptor already retries once on 401 and force-logs-out on
@@ -26,8 +27,7 @@ export function handleQueryError(error: unknown): void {
             return;
         }
 
-        const message = error.response?.data?.message as string | undefined;
-        showToast(message ?? i18n.t("errors.generic"), "error");
+        showToast(extractApiErrorMessage(error, i18n.t("errors.generic")), "error");
         return;
     }
 

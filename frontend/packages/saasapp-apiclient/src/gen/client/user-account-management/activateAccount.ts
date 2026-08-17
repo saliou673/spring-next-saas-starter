@@ -15,6 +15,7 @@ import type {
     ActivateAccount403,
     ActivateAccount404,
     ActivateAccount409,
+    ActivateAccount500,
 } from "../../types/ActivateAccount.ts";
 
 function getActivateAccountUrl() {
@@ -35,7 +36,10 @@ export async function activateAccount(
     const res = await request<
         ActivateAccountQueryResponse,
         ResponseErrorConfig<
-            ActivateAccount403 | ActivateAccount404 | ActivateAccount409
+            | ActivateAccount403
+            | ActivateAccount404
+            | ActivateAccount409
+            | ActivateAccount500
         >,
         unknown
     >({

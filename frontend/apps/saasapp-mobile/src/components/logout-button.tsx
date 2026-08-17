@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { ActivityIndicator, Pressable, StyleSheet } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
+import { SymbolView } from 'expo-symbols';
 import { useLogout } from '@api-client';
 
 import { ThemedText } from '@/components/themed-text';
@@ -47,31 +48,36 @@ export function LogoutButton() {
       accessibilityRole="button"
       disabled={isLoggingOut}
       onPress={() => void onLogout()}
-      style={({ pressed }) => [
-        styles.button,
-        { borderColor: theme.backgroundSelected },
-        (pressed || isLoggingOut) && styles.pressed,
-      ]}>
-      {isLoggingOut ? (
-        <ActivityIndicator color={theme.text} />
-      ) : (
-        <ThemedText type="smallBold">{t('auth.logout.action')}</ThemedText>
-      )}
+      style={({ pressed }) => [styles.row, pressed && styles.pressed]}>
+      <SymbolView
+        name={{ ios: 'rectangle.portrait.and.arrow.right', android: 'logout', web: 'logout' }}
+        size={20}
+        weight="regular"
+        tintColor={theme.danger}
+      />
+
+      <View style={styles.textColumn}>
+        <ThemedText themeColor="danger">{t('auth.logout.action')}</ThemedText>
+      </View>
+
+      {isLoggingOut && <ActivityIndicator color={theme.danger} />}
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  button: {
+  row: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderRadius: Spacing.two,
-    paddingVertical: Spacing.two,
+    justifyContent: 'space-between',
+    paddingVertical: Spacing.three,
     paddingHorizontal: Spacing.four,
-    minHeight: 44,
+    gap: Spacing.three,
+  },
+  textColumn: {
+    flex: 1,
   },
   pressed: {
-    opacity: 0.7,
+    opacity: 0.6,
   },
 });

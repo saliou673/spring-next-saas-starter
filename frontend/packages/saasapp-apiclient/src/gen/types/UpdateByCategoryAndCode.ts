@@ -61,6 +61,11 @@ export type UpdateByCategoryAndCode404 = ValidationErrorResponseDTO;
  */
 export type UpdateByCategoryAndCode409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type UpdateByCategoryAndCode500 = ValidationErrorResponseDTO;
+
 export type UpdateByCategoryAndCodeMutationRequest =
     UpdateAppConfigurationRequest;
 
@@ -75,5 +80,6 @@ export type UpdateByCategoryAndCodeMutation = {
     Errors:
         | UpdateByCategoryAndCode403
         | UpdateByCategoryAndCode404
-        | UpdateByCategoryAndCode409;
+        | UpdateByCategoryAndCode409
+        | UpdateByCategoryAndCode500;
 };
