@@ -40,6 +40,11 @@ export type ChangePassword404 = ValidationErrorResponseDTO;
  */
 export type ChangePassword409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type ChangePassword500 = ValidationErrorResponseDTO;
+
 export type ChangePasswordMutationRequest = PasswordChangeRequest;
 
 export type ChangePasswordMutationResponse = ChangePassword200;
@@ -48,5 +53,9 @@ export type ChangePasswordMutation = {
     Response: ChangePassword200;
     Request: ChangePasswordMutationRequest;
     HeaderParams: ChangePasswordHeaderParams;
-    Errors: ChangePassword403 | ChangePassword404 | ChangePassword409;
+    Errors:
+        | ChangePassword403
+        | ChangePassword404
+        | ChangePassword409
+        | ChangePassword500;
 };

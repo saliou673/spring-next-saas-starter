@@ -15,6 +15,7 @@ import type {
     CreateAppConfigurationAsAdmin403,
     CreateAppConfigurationAsAdmin404,
     CreateAppConfigurationAsAdmin409,
+    CreateAppConfigurationAsAdmin500,
 } from "../../types/CreateAppConfigurationAsAdmin.ts";
 
 function getCreateAppConfigurationAsAdminUrl() {
@@ -42,6 +43,7 @@ export async function createAppConfigurationAsAdmin(
             | CreateAppConfigurationAsAdmin403
             | CreateAppConfigurationAsAdmin404
             | CreateAppConfigurationAsAdmin409
+            | CreateAppConfigurationAsAdmin500
         >,
         CreateAppConfigurationAsAdminMutationRequest
     >({

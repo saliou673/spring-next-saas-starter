@@ -22,6 +22,7 @@ import type {
     UpdateAppConfigurationAsAdmin403,
     UpdateAppConfigurationAsAdmin404,
     UpdateAppConfigurationAsAdmin409,
+    UpdateAppConfigurationAsAdmin500,
 } from "../../types/UpdateAppConfigurationAsAdmin.ts";
 
 export const updateAppConfigurationAsAdminMutationKey = () =>
@@ -45,6 +46,7 @@ export function updateAppConfigurationAsAdminMutationOptions<
             | UpdateAppConfigurationAsAdmin403
             | UpdateAppConfigurationAsAdmin404
             | UpdateAppConfigurationAsAdmin409
+            | UpdateAppConfigurationAsAdmin500
         >,
         {
             id: UpdateAppConfigurationAsAdminPathParams["id"];
@@ -71,6 +73,7 @@ export function useUpdateAppConfigurationAsAdmin<TContext>(
                 | UpdateAppConfigurationAsAdmin403
                 | UpdateAppConfigurationAsAdmin404
                 | UpdateAppConfigurationAsAdmin409
+                | UpdateAppConfigurationAsAdmin500
             >,
             {
                 id: UpdateAppConfigurationAsAdminPathParams["id"];
@@ -98,6 +101,7 @@ export function useUpdateAppConfigurationAsAdmin<TContext>(
             | UpdateAppConfigurationAsAdmin403
             | UpdateAppConfigurationAsAdmin404
             | UpdateAppConfigurationAsAdmin409
+            | UpdateAppConfigurationAsAdmin500
         >,
         {
             id: UpdateAppConfigurationAsAdminPathParams["id"];
@@ -113,6 +117,7 @@ export function useUpdateAppConfigurationAsAdmin<TContext>(
             | UpdateAppConfigurationAsAdmin403
             | UpdateAppConfigurationAsAdmin404
             | UpdateAppConfigurationAsAdmin409
+            | UpdateAppConfigurationAsAdmin500
         >,
         {
             id: UpdateAppConfigurationAsAdminPathParams["id"];
@@ -133,6 +138,7 @@ export function useUpdateAppConfigurationAsAdmin<TContext>(
             | UpdateAppConfigurationAsAdmin403
             | UpdateAppConfigurationAsAdmin404
             | UpdateAppConfigurationAsAdmin409
+            | UpdateAppConfigurationAsAdmin500
         >,
         {
             id: UpdateAppConfigurationAsAdminPathParams["id"];

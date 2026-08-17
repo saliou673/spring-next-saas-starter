@@ -15,6 +15,7 @@ import type {
     RequestEmailChange403,
     RequestEmailChange404,
     RequestEmailChange409,
+    RequestEmailChange500,
 } from "../../types/RequestEmailChange.ts";
 
 function getRequestEmailChangeUrl() {
@@ -45,6 +46,7 @@ export async function requestEmailChange(
             | RequestEmailChange403
             | RequestEmailChange404
             | RequestEmailChange409
+            | RequestEmailChange500
         >,
         RequestEmailChangeMutationRequest
     >({

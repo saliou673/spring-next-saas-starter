@@ -48,6 +48,11 @@ export type UpdateUserAsAdmin404 = ValidationErrorResponseDTO;
  */
 export type UpdateUserAsAdmin409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type UpdateUserAsAdmin500 = ValidationErrorResponseDTO;
+
 export type UpdateUserAsAdminMutationRequest = UpdateUserRequest;
 
 export type UpdateUserAsAdminMutationResponse = UpdateUserAsAdmin200;
@@ -57,5 +62,9 @@ export type UpdateUserAsAdminMutation = {
     Request: UpdateUserAsAdminMutationRequest;
     PathParams: UpdateUserAsAdminPathParams;
     HeaderParams: UpdateUserAsAdminHeaderParams;
-    Errors: UpdateUserAsAdmin403 | UpdateUserAsAdmin404 | UpdateUserAsAdmin409;
+    Errors:
+        | UpdateUserAsAdmin403
+        | UpdateUserAsAdmin404
+        | UpdateUserAsAdmin409
+        | UpdateUserAsAdmin500;
 };
