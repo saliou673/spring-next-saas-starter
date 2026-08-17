@@ -307,6 +307,10 @@ export type {
     Disable2FactorMutationRequest,
     Disable2FactorMutationResponse,
 } from "./types/Disable2Factor.ts";
+export type {
+    DisplayPreferences,
+    DisplayPreferencesTextSizeEnumKey,
+} from "./types/DisplayPreferences.ts";
 export type { EmailChangeConfirmRequest } from "./types/EmailChangeConfirmRequest.ts";
 export type { EmailChangeRequest } from "./types/EmailChangeRequest.ts";
 export type {
@@ -525,6 +529,7 @@ export type {
     LogoutMutationResponse,
 } from "./types/Logout.ts";
 export type { LongFilter } from "./types/LongFilter.ts";
+export type { NotificationPreferences } from "./types/NotificationPreferences.ts";
 export type { Pageable } from "./types/Pageable.ts";
 export type { PaginatedResultAppConfiguration } from "./types/PaginatedResultAppConfiguration.ts";
 export type { PaginatedResultPermission } from "./types/PaginatedResultPermission.ts";
@@ -1052,6 +1057,7 @@ export { deleteCurrentAccountHeaderParamsXAPIVersionEnum } from "./types/DeleteC
 export { deleteRoleGroupAsAdminHeaderParamsXAPIVersionEnum } from "./types/DeleteRoleGroupAsAdmin.ts";
 export { deleteUserAsAdminHeaderParamsXAPIVersionEnum } from "./types/DeleteUserAsAdmin.ts";
 export { disable2FactorHeaderParamsXAPIVersionEnum } from "./types/Disable2Factor.ts";
+export { displayPreferencesTextSizeEnum } from "./types/DisplayPreferences.ts";
 export { finishPasswordResetHeaderParamsXAPIVersionEnum } from "./types/FinishPasswordReset.ts";
 export { getAppConfigurationByCategoryAndCodeHeaderParamsXAPIVersionEnum } from "./types/GetAppConfigurationByCategoryAndCode.ts";
 export { getAppConfigurationByCategoryAndCodePathParamsCategoryEnum } from "./types/GetAppConfigurationByCategoryAndCode.ts";
