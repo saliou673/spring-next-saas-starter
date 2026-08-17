@@ -15,6 +15,7 @@ import type {
     UpdateAccount403,
     UpdateAccount404,
     UpdateAccount409,
+    UpdateAccount500,
 } from "../../types/UpdateAccount.ts";
 
 function getUpdateAccountUrl() {
@@ -39,7 +40,10 @@ export async function updateAccount(
     const res = await request<
         UpdateAccountMutationResponse,
         ResponseErrorConfig<
-            UpdateAccount403 | UpdateAccount404 | UpdateAccount409
+            | UpdateAccount403
+            | UpdateAccount404
+            | UpdateAccount409
+            | UpdateAccount500
         >,
         UpdateAccountMutationRequest
     >({

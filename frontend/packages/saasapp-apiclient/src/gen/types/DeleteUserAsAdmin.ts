@@ -46,11 +46,20 @@ export type DeleteUserAsAdmin404 = ValidationErrorResponseDTO;
  */
 export type DeleteUserAsAdmin409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type DeleteUserAsAdmin500 = ValidationErrorResponseDTO;
+
 export type DeleteUserAsAdminMutationResponse = DeleteUserAsAdmin204;
 
 export type DeleteUserAsAdminMutation = {
     Response: DeleteUserAsAdmin204;
     PathParams: DeleteUserAsAdminPathParams;
     HeaderParams: DeleteUserAsAdminHeaderParams;
-    Errors: DeleteUserAsAdmin403 | DeleteUserAsAdmin404 | DeleteUserAsAdmin409;
+    Errors:
+        | DeleteUserAsAdmin403
+        | DeleteUserAsAdmin404
+        | DeleteUserAsAdmin409
+        | DeleteUserAsAdmin500;
 };

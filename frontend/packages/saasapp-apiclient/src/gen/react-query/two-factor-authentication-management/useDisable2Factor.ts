@@ -21,6 +21,7 @@ import type {
     Disable2Factor403,
     Disable2Factor404,
     Disable2Factor409,
+    Disable2Factor500,
 } from "../../types/Disable2Factor.ts";
 
 export const disable2FactorMutationKey = () =>
@@ -39,7 +40,10 @@ export function disable2FactorMutationOptions<TContext = unknown>(
     return mutationOptions<
         Disable2FactorMutationResponse,
         ResponseErrorConfig<
-            Disable2Factor403 | Disable2Factor404 | Disable2Factor409
+            | Disable2Factor403
+            | Disable2Factor404
+            | Disable2Factor409
+            | Disable2Factor500
         >,
         {
             data: Disable2FactorMutationRequest;
@@ -62,7 +66,10 @@ export function useDisable2Factor<TContext>(
         mutation?: UseMutationOptions<
             Disable2FactorMutationResponse,
             ResponseErrorConfig<
-                Disable2Factor403 | Disable2Factor404 | Disable2Factor409
+                | Disable2Factor403
+                | Disable2Factor404
+                | Disable2Factor409
+                | Disable2Factor500
             >,
             {
                 data: Disable2FactorMutationRequest;
@@ -85,7 +92,10 @@ export function useDisable2Factor<TContext>(
     ) as UseMutationOptions<
         Disable2FactorMutationResponse,
         ResponseErrorConfig<
-            Disable2Factor403 | Disable2Factor404 | Disable2Factor409
+            | Disable2Factor403
+            | Disable2Factor404
+            | Disable2Factor409
+            | Disable2Factor500
         >,
         {
             data: Disable2FactorMutationRequest;
@@ -97,7 +107,10 @@ export function useDisable2Factor<TContext>(
     return useMutation<
         Disable2FactorMutationResponse,
         ResponseErrorConfig<
-            Disable2Factor403 | Disable2Factor404 | Disable2Factor409
+            | Disable2Factor403
+            | Disable2Factor404
+            | Disable2Factor409
+            | Disable2Factor500
         >,
         {
             data: Disable2FactorMutationRequest;
@@ -114,7 +127,10 @@ export function useDisable2Factor<TContext>(
     ) as UseMutationResult<
         Disable2FactorMutationResponse,
         ResponseErrorConfig<
-            Disable2Factor403 | Disable2Factor404 | Disable2Factor409
+            | Disable2Factor403
+            | Disable2Factor404
+            | Disable2Factor409
+            | Disable2Factor500
         >,
         {
             data: Disable2FactorMutationRequest;

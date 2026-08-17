@@ -40,6 +40,11 @@ export type Disable2Factor404 = ValidationErrorResponseDTO;
  */
 export type Disable2Factor409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type Disable2Factor500 = ValidationErrorResponseDTO;
+
 export type Disable2FactorMutationRequest = TwoFactorDisableRequest;
 
 export type Disable2FactorMutationResponse = Disable2Factor204;
@@ -48,5 +53,9 @@ export type Disable2FactorMutation = {
     Response: Disable2Factor204;
     Request: Disable2FactorMutationRequest;
     HeaderParams: Disable2FactorHeaderParams;
-    Errors: Disable2Factor403 | Disable2Factor404 | Disable2Factor409;
+    Errors:
+        | Disable2Factor403
+        | Disable2Factor404
+        | Disable2Factor409
+        | Disable2Factor500;
 };

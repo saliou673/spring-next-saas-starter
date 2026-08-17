@@ -41,6 +41,11 @@ export type UpdateAccount404 = ValidationErrorResponseDTO;
  */
 export type UpdateAccount409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type UpdateAccount500 = ValidationErrorResponseDTO;
+
 export type UpdateAccountMutationRequest = UpdateUserRequest;
 
 export type UpdateAccountMutationResponse = UpdateAccount200;
@@ -49,5 +54,9 @@ export type UpdateAccountMutation = {
     Response: UpdateAccount200;
     Request: UpdateAccountMutationRequest;
     HeaderParams: UpdateAccountHeaderParams;
-    Errors: UpdateAccount403 | UpdateAccount404 | UpdateAccount409;
+    Errors:
+        | UpdateAccount403
+        | UpdateAccount404
+        | UpdateAccount409
+        | UpdateAccount500;
 };

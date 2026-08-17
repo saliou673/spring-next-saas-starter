@@ -14,6 +14,7 @@ import type {
     GetUserDetails403,
     GetUserDetails404,
     GetUserDetails409,
+    GetUserDetails500,
 } from "../../types/GetUserDetails.ts";
 
 function getGetUserDetailsUrl() {
@@ -33,7 +34,10 @@ export async function getUserDetails(
     const res = await request<
         GetUserDetailsQueryResponse,
         ResponseErrorConfig<
-            GetUserDetails403 | GetUserDetails404 | GetUserDetails409
+            | GetUserDetails403
+            | GetUserDetails404
+            | GetUserDetails409
+            | GetUserDetails500
         >,
         unknown
     >({

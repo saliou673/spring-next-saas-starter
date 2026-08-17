@@ -40,10 +40,19 @@ export type GetUserDetails404 = ValidationErrorResponseDTO;
  */
 export type GetUserDetails409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type GetUserDetails500 = ValidationErrorResponseDTO;
+
 export type GetUserDetailsQueryResponse = GetUserDetails200;
 
 export type GetUserDetailsQuery = {
     Response: GetUserDetails200;
     HeaderParams: GetUserDetailsHeaderParams;
-    Errors: GetUserDetails403 | GetUserDetails404 | GetUserDetails409;
+    Errors:
+        | GetUserDetails403
+        | GetUserDetails404
+        | GetUserDetails409
+        | GetUserDetails500;
 };

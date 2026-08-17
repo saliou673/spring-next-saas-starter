@@ -20,6 +20,7 @@ import type {
     DeleteCurrentAccount403,
     DeleteCurrentAccount404,
     DeleteCurrentAccount409,
+    DeleteCurrentAccount500,
 } from "../../types/DeleteCurrentAccount.ts";
 
 export const deleteCurrentAccountMutationKey = () =>
@@ -39,6 +40,7 @@ export function deleteCurrentAccountMutationOptions<TContext = unknown>(
             | DeleteCurrentAccount403
             | DeleteCurrentAccount404
             | DeleteCurrentAccount409
+            | DeleteCurrentAccount500
         >,
         { headers?: DeleteCurrentAccountHeaderParams },
         TContext
@@ -61,6 +63,7 @@ export function useDeleteCurrentAccount<TContext>(
                 | DeleteCurrentAccount403
                 | DeleteCurrentAccount404
                 | DeleteCurrentAccount409
+                | DeleteCurrentAccount500
             >,
             { headers?: DeleteCurrentAccountHeaderParams },
             TContext
@@ -81,6 +84,7 @@ export function useDeleteCurrentAccount<TContext>(
             | DeleteCurrentAccount403
             | DeleteCurrentAccount404
             | DeleteCurrentAccount409
+            | DeleteCurrentAccount500
         >,
         { headers?: DeleteCurrentAccountHeaderParams },
         TContext
@@ -92,6 +96,7 @@ export function useDeleteCurrentAccount<TContext>(
             | DeleteCurrentAccount403
             | DeleteCurrentAccount404
             | DeleteCurrentAccount409
+            | DeleteCurrentAccount500
         >,
         { headers?: DeleteCurrentAccountHeaderParams },
         TContext
@@ -108,6 +113,7 @@ export function useDeleteCurrentAccount<TContext>(
             | DeleteCurrentAccount403
             | DeleteCurrentAccount404
             | DeleteCurrentAccount409
+            | DeleteCurrentAccount500
         >,
         { headers?: DeleteCurrentAccountHeaderParams },
         TContext
