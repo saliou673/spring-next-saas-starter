@@ -7,7 +7,11 @@ import { defineConfig } from "eslint/config";
 import tseslint from "typescript-eslint";
 
 export default defineConfig(
-    { ignores: ["dist", "src/components/ui"] },
+    // ".next" holds Next.js's own generated build/type-check output (e.g.
+    // route validators under ".next/types") - it isn't source we own, and
+    // linting it produces thousands of false-positive errors whenever a
+    // local `next build`/`next dev` has been run before `eslint .`.
+    { ignores: ["dist", ".next", "src/components/ui"] },
     {
         extends: [
             js.configs.recommended,

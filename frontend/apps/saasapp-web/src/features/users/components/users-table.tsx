@@ -122,6 +122,7 @@ export function UsersTable({ canDeleteUsers, canUpdateUsers }: DataTableProps) {
     });
     const { data: roleGroupsData } = useGetRoleGroupsAsAdmin(
         { pageable: { page: 0, size: 100 } },
+        undefined,
         { query: { enabled: true } }
     );
     const roleGroupOptions = useMemo(
@@ -238,6 +239,7 @@ export function UsersTable({ canDeleteUsers, canUpdateUsers }: DataTableProps) {
 
     const { data, isLoading, isFetching, isError, error } = useGetUsersAsAdmin(
         usersQueryParams,
+        undefined,
         {
             query: {
                 placeholderData: (previousData) => previousData,

@@ -11,7 +11,6 @@ import {
     useCreateAppConfigurationAsAdmin,
     useGetCategoriesAsAdmin,
     useUpdateAppConfigurationAsAdmin,
-    getAppConfigurationsAsAdminQueryKey,
 } from "@api-client";
 import { toast } from "sonner";
 import { handleServerError } from "@/lib/handle-server-error";
@@ -95,8 +94,11 @@ export function ConfigurationsFormDialog({
     }, [currentRow, form, open]);
 
     const invalidateConfigurations = async () => {
+        // getAppConfigurationsAsAdminQueryKey() requires a filter/pageable
+        // params argument, so invalidate by the shared URL prefix instead of
+        // reconstructing whatever params the list view happened to use.
         await queryClient.invalidateQueries({
-            queryKey: getAppConfigurationsAsAdminQueryKey(),
+            queryKey: [{ url: "/api/admin/configurations" }],
         });
     };
 

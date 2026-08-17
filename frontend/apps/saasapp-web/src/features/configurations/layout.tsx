@@ -1,6 +1,6 @@
 "use client";
 
-import { HardDrive, Percent, Building2, ShieldAlert, Tag } from "lucide-react";
+import { ShieldAlert, Tag } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Main } from "@/components/layout/main";
 import { SidebarNav } from "@/features/settings/components/sidebar-nav";
@@ -10,21 +10,6 @@ const sidebarNavItems = [
         title: "Reference Data",
         href: "/configurations",
         icon: <Tag size={18} />,
-    },
-    {
-        title: "File Storage",
-        href: "/configurations/storage-settings",
-        icon: <HardDrive size={18} />,
-    },
-    {
-        title: "Tax Rates",
-        href: "/configurations/tax-configurations",
-        icon: <Percent size={18} />,
-    },
-    {
-        title: "Company Profile",
-        href: "/configurations/enterprise-profile",
-        icon: <Building2 size={18} />,
     },
     {
         title: "Security",

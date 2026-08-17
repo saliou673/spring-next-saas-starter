@@ -30,7 +30,7 @@ export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
         },
     });
 
-    const handleSignOut = async () => await logout();
+    const handleSignOut = async () => await logout({});
 
     return (
         <ConfirmDialog

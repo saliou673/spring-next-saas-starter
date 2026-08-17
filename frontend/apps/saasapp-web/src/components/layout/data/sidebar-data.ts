@@ -13,9 +13,6 @@ import {
     Command,
     GalleryVerticalEnd,
     SlidersHorizontal,
-    HardDrive,
-    Percent,
-    Building2,
     Tag,
     ShieldAlert,
 } from "lucide-react";
@@ -74,21 +71,6 @@ export function getSidebarNavGroups(
                             title: t("nav.referenceData"),
                             url: "/configurations",
                             icon: Tag,
-                        },
-                        {
-                            title: t("nav.fileStorage"),
-                            url: "/configurations/storage-settings",
-                            icon: HardDrive,
-                        },
-                        {
-                            title: t("nav.taxRates"),
-                            url: "/configurations/tax-configurations",
-                            icon: Percent,
-                        },
-                        {
-                            title: t("nav.companyProfile"),
-                            url: "/configurations/enterprise-profile",
-                            icon: Building2,
                         },
                         {
                             title: t("nav.security"),

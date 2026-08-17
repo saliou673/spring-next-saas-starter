@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import {
-    getRoleGroupsAsAdminQueryKey,
     useCreateRoleGroupAsAdmin,
     useGetPermissionsAsAdmin,
     useUpdateRoleGroupAsAdmin,
@@ -86,6 +85,7 @@ export function RoleGroupsActionDialog({
     const { data: permissionsData, isLoading: isPermissionsLoading } =
         useGetPermissionsAsAdmin(
             { pageable: { page: 0, size: 1000 } },
+            undefined,
             { query: { enabled: open } }
         );
 
@@ -104,8 +104,11 @@ export function RoleGroupsActionDialog({
     }, [currentRow, form, open]);
 
     const invalidateRoleGroups = async () => {
+        // getRoleGroupsAsAdminQueryKey() requires a pageable params argument,
+        // so invalidate by the shared URL prefix instead of reconstructing
+        // whatever params the list view happened to use.
         await queryClient.invalidateQueries({
-            queryKey: getRoleGroupsAsAdminQueryKey(),
+            queryKey: [{ url: "/api/admin/role-groups" }],
         });
     };
 

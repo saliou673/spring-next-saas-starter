@@ -40,7 +40,7 @@ export function DataTableToolbar<TData>({
     const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (onSearchChange) {
             onSearchChange(event.target.value);
-        } else {
+        } else if (searchKey) {
             table.getColumn(searchKey)?.setFilterValue(event.target.value);
         }
     };
