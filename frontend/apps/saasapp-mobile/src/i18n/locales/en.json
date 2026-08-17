@@ -146,6 +146,8 @@
         "nav": {
             "title": "Settings",
             "description": "Manage your profile, account, and app preferences.",
+            "sectionAccount": "Account",
+            "sectionPreferences": "Preferences",
             "profile": "Profile",
             "account": "Account",
             "appearance": "Appearance",
@@ -156,6 +158,8 @@
         "account": {
             "title": "Account",
             "description": "Manage your email, password, two-factor authentication, and account deletion.",
+            "sectionSecurity": "Security",
+            "sectionDanger": "Danger zone",
             "email": "Change email",
             "password": "Change password",
             "twoFactor": "Two-factor authentication",
@@ -216,6 +220,7 @@
                 "warningTitle": "This can't be undone",
                 "warningBody": "Deleting your account removes your access immediately. Contact an administrator if you change your mind.",
                 "accountLabel": "Account: {{email}}",
+                "confirmationWord": "DELETE",
                 "confirmationLabel": "Type {{word}} to confirm",
                 "confirmationRequired": "Type {{word}} to confirm account deletion",
                 "submit": "Delete my account",
@@ -250,18 +255,12 @@
             "saveError": "Couldn't save your appearance preference. Please try again."
         },
         "notifications": {
-            "notifyLabel": "Notify me about",
-            "typeAll": "All new messages",
-            "typeMentions": "Direct messages and mentions",
-            "typeNone": "Nothing",
-            "communicationLabel": "Communication emails",
-            "communicationDescription": "Receive emails about your account activity.",
-            "marketingLabel": "Marketing emails",
-            "marketingDescription": "Receive emails about new products, features, and more.",
-            "socialLabel": "Social emails",
-            "socialDescription": "Receive emails for friend requests, follows, and more.",
+            "productUpdatesLabel": "Product updates",
+            "productUpdatesDescription": "Receive occasional emails about new features and product news.",
             "securityLabel": "Security emails",
-            "securityDescription": "Receive emails about your account security. Always on."
+            "securityDescription": "Receive emails about your account security. Always on.",
+            "saveError": "Couldn't save your notification preference. Please try again.",
+            "loadError": "Couldn't load your notification preferences. Please try again."
         },
         "display": {
             "textSizeLabel": "Text size",
@@ -270,7 +269,9 @@
             "textSizeDefault": "Default",
             "textSizeLarge": "Large",
             "reduceMotionLabel": "Reduce motion",
-            "reduceMotionDescription": "Minimize animations and transitions."
+            "reduceMotionDescription": "Minimize animations and transitions.",
+            "saveError": "Couldn't save your display preference. Please try again.",
+            "loadError": "Couldn't load your display preferences. Please try again."
         },
         "language": {
             "description": "Choose the language used throughout the app.",
