@@ -21,6 +21,7 @@ import type {
     ConfirmEmailChange403,
     ConfirmEmailChange404,
     ConfirmEmailChange409,
+    ConfirmEmailChange500,
 } from "../../types/ConfirmEmailChange.ts";
 
 export const confirmEmailChangeMutationKey = () =>
@@ -42,6 +43,7 @@ export function confirmEmailChangeMutationOptions<TContext = unknown>(
             | ConfirmEmailChange403
             | ConfirmEmailChange404
             | ConfirmEmailChange409
+            | ConfirmEmailChange500
         >,
         {
             data: ConfirmEmailChangeMutationRequest;
@@ -67,6 +69,7 @@ export function useConfirmEmailChange<TContext>(
                 | ConfirmEmailChange403
                 | ConfirmEmailChange404
                 | ConfirmEmailChange409
+                | ConfirmEmailChange500
             >,
             {
                 data: ConfirmEmailChangeMutationRequest;
@@ -92,6 +95,7 @@ export function useConfirmEmailChange<TContext>(
             | ConfirmEmailChange403
             | ConfirmEmailChange404
             | ConfirmEmailChange409
+            | ConfirmEmailChange500
         >,
         {
             data: ConfirmEmailChangeMutationRequest;
@@ -106,6 +110,7 @@ export function useConfirmEmailChange<TContext>(
             | ConfirmEmailChange403
             | ConfirmEmailChange404
             | ConfirmEmailChange409
+            | ConfirmEmailChange500
         >,
         {
             data: ConfirmEmailChangeMutationRequest;
@@ -125,6 +130,7 @@ export function useConfirmEmailChange<TContext>(
             | ConfirmEmailChange403
             | ConfirmEmailChange404
             | ConfirmEmailChange409
+            | ConfirmEmailChange500
         >,
         {
             data: ConfirmEmailChangeMutationRequest;

@@ -16,6 +16,7 @@ import type {
     UpdateByCategoryAndCode403,
     UpdateByCategoryAndCode404,
     UpdateByCategoryAndCode409,
+    UpdateByCategoryAndCode500,
 } from "../../types/UpdateByCategoryAndCode.ts";
 
 function getUpdateByCategoryAndCodeUrl(
@@ -51,6 +52,7 @@ export async function updateByCategoryAndCode(
             | UpdateByCategoryAndCode403
             | UpdateByCategoryAndCode404
             | UpdateByCategoryAndCode409
+            | UpdateByCategoryAndCode500
         >,
         UpdateByCategoryAndCodeMutationRequest
     >({

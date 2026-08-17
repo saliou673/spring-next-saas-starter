@@ -14,6 +14,7 @@ import type {
     DeleteCurrentAccount403,
     DeleteCurrentAccount404,
     DeleteCurrentAccount409,
+    DeleteCurrentAccount500,
 } from "../../types/DeleteCurrentAccount.ts";
 
 function getDeleteCurrentAccountUrl() {
@@ -36,6 +37,7 @@ export async function deleteCurrentAccount(
             | DeleteCurrentAccount403
             | DeleteCurrentAccount404
             | DeleteCurrentAccount409
+            | DeleteCurrentAccount500
         >,
         unknown
     >({

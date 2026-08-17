@@ -51,6 +51,8 @@ public record UserSummaryDTO(
         String imageUrl,
 
         @NotNull
-        UserPreferencesDTO preferences) {
+        UserPreferencesDTO preferences,
+
+        boolean twoFactorEnabled) {
 
 }

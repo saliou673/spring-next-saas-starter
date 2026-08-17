@@ -21,6 +21,7 @@ import type {
     ChangePassword403,
     ChangePassword404,
     ChangePassword409,
+    ChangePassword500,
 } from "../../types/ChangePassword.ts";
 
 export const changePasswordMutationKey = () =>
@@ -39,7 +40,10 @@ export function changePasswordMutationOptions<TContext = unknown>(
     return mutationOptions<
         ChangePasswordMutationResponse,
         ResponseErrorConfig<
-            ChangePassword403 | ChangePassword404 | ChangePassword409
+            | ChangePassword403
+            | ChangePassword404
+            | ChangePassword409
+            | ChangePassword500
         >,
         {
             data: ChangePasswordMutationRequest;
@@ -62,7 +66,10 @@ export function useChangePassword<TContext>(
         mutation?: UseMutationOptions<
             ChangePasswordMutationResponse,
             ResponseErrorConfig<
-                ChangePassword403 | ChangePassword404 | ChangePassword409
+                | ChangePassword403
+                | ChangePassword404
+                | ChangePassword409
+                | ChangePassword500
             >,
             {
                 data: ChangePasswordMutationRequest;
@@ -85,7 +92,10 @@ export function useChangePassword<TContext>(
     ) as UseMutationOptions<
         ChangePasswordMutationResponse,
         ResponseErrorConfig<
-            ChangePassword403 | ChangePassword404 | ChangePassword409
+            | ChangePassword403
+            | ChangePassword404
+            | ChangePassword409
+            | ChangePassword500
         >,
         {
             data: ChangePasswordMutationRequest;
@@ -97,7 +107,10 @@ export function useChangePassword<TContext>(
     return useMutation<
         ChangePasswordMutationResponse,
         ResponseErrorConfig<
-            ChangePassword403 | ChangePassword404 | ChangePassword409
+            | ChangePassword403
+            | ChangePassword404
+            | ChangePassword409
+            | ChangePassword500
         >,
         {
             data: ChangePasswordMutationRequest;
@@ -114,7 +127,10 @@ export function useChangePassword<TContext>(
     ) as UseMutationResult<
         ChangePasswordMutationResponse,
         ResponseErrorConfig<
-            ChangePassword403 | ChangePassword404 | ChangePassword409
+            | ChangePassword403
+            | ChangePassword404
+            | ChangePassword409
+            | ChangePassword500
         >,
         {
             data: ChangePasswordMutationRequest;

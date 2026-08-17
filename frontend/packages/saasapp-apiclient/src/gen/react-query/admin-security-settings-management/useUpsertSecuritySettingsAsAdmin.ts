@@ -21,6 +21,7 @@ import type {
     UpsertSecuritySettingsAsAdmin403,
     UpsertSecuritySettingsAsAdmin404,
     UpsertSecuritySettingsAsAdmin409,
+    UpsertSecuritySettingsAsAdmin500,
 } from "../../types/UpsertSecuritySettingsAsAdmin.ts";
 
 export const upsertSecuritySettingsAsAdminMutationKey = () =>
@@ -44,6 +45,7 @@ export function upsertSecuritySettingsAsAdminMutationOptions<
             | UpsertSecuritySettingsAsAdmin403
             | UpsertSecuritySettingsAsAdmin404
             | UpsertSecuritySettingsAsAdmin409
+            | UpsertSecuritySettingsAsAdmin500
         >,
         {
             data: UpsertSecuritySettingsAsAdminMutationRequest;
@@ -69,6 +71,7 @@ export function useUpsertSecuritySettingsAsAdmin<TContext>(
                 | UpsertSecuritySettingsAsAdmin403
                 | UpsertSecuritySettingsAsAdmin404
                 | UpsertSecuritySettingsAsAdmin409
+                | UpsertSecuritySettingsAsAdmin500
             >,
             {
                 data: UpsertSecuritySettingsAsAdminMutationRequest;
@@ -95,6 +98,7 @@ export function useUpsertSecuritySettingsAsAdmin<TContext>(
             | UpsertSecuritySettingsAsAdmin403
             | UpsertSecuritySettingsAsAdmin404
             | UpsertSecuritySettingsAsAdmin409
+            | UpsertSecuritySettingsAsAdmin500
         >,
         {
             data: UpsertSecuritySettingsAsAdminMutationRequest;
@@ -109,6 +113,7 @@ export function useUpsertSecuritySettingsAsAdmin<TContext>(
             | UpsertSecuritySettingsAsAdmin403
             | UpsertSecuritySettingsAsAdmin404
             | UpsertSecuritySettingsAsAdmin409
+            | UpsertSecuritySettingsAsAdmin500
         >,
         {
             data: UpsertSecuritySettingsAsAdminMutationRequest;
@@ -128,6 +133,7 @@ export function useUpsertSecuritySettingsAsAdmin<TContext>(
             | UpsertSecuritySettingsAsAdmin403
             | UpsertSecuritySettingsAsAdmin404
             | UpsertSecuritySettingsAsAdmin409
+            | UpsertSecuritySettingsAsAdmin500
         >,
         {
             data: UpsertSecuritySettingsAsAdminMutationRequest;
