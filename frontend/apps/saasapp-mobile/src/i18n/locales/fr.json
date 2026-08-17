@@ -5,7 +5,8 @@
         "cancel": "Annuler",
         "confirm": "Confirmer",
         "save": "Enregistrer",
-        "ok": "OK"
+        "ok": "OK",
+        "offlineBanner": "Vous êtes hors ligne. Certaines fonctionnalités peuvent être indisponibles."
     },
     "languageSwitch": {
         "toggleLabel": "Changer de langue",
@@ -501,6 +502,161 @@
                 "deleteConfirmMessage": "Supprimer la configuration {{code}} ? Cette action retire définitivement l'entrée de configuration du système. Les règles du serveur s'appliquent toujours - la suppression peut échouer si elle est référencée ailleurs.",
                 "toastDeleted": "Configuration supprimée."
             }
+        },
+        "security": {
+            "title": "Paramètres de sécurité",
+            "description": "Configurez les politiques de sécurité globales de l'application.",
+            "loadError": "Impossible de charger les paramètres de sécurité.",
+            "saveError": "Impossible d'enregistrer les paramètres de sécurité. Veuillez réessayer.",
+            "toastUpdated": "Paramètres de sécurité enregistrés.",
+            "twoFactorSectionTitle": "Authentification à deux facteurs",
+            "twoFactorRequiredLabel": "Exiger la 2FA pour tous les utilisateurs",
+            "twoFactorRequiredDescription": "Lorsque cette option est activée, tous les utilisateurs doivent configurer l'authentification à deux facteurs avant de pouvoir se connecter."
+        }
+    },
+    "legal": {
+        "nav": {
+            "sectionTitle": "Mentions légales",
+            "terms": "Conditions d'utilisation",
+            "privacy": "Politique de confidentialité",
+            "cookiePolicy": "Politique de cookies",
+            "contact": "Nous contacter",
+            "helpCenter": "Centre d'aide"
+        },
+        "terms": {
+            "title": "Conditions d'utilisation",
+            "lastUpdated": "Dernière mise à jour : 20 mars 2026",
+            "sections": [
+                {
+                    "heading": "1. Acceptation des conditions",
+                    "body": "En accédant à Saasapp ou en l'utilisant, vous acceptez d'être lié par les présentes conditions d'utilisation. Si vous n'acceptez pas ces conditions, veuillez ne pas utiliser nos services."
+                },
+                {
+                    "heading": "2. Utilisation des services",
+                    "body": "Vous vous engagez à utiliser nos services uniquement à des fins légales et conformément aux présentes conditions. Vous ne devez pas utiliser nos services pour :",
+                    "list": [
+                        "Enfreindre les lois ou réglementations applicables",
+                        "Porter atteinte aux droits d'autrui",
+                        "Transmettre du contenu nuisible, offensant ou perturbateur",
+                        "Tenter d'accéder sans autorisation à nos systèmes"
+                    ]
+                },
+                {
+                    "heading": "3. Comptes",
+                    "body": "Vous êtes responsable de la sécurité des identifiants de votre compte et de toute activité qui se produit sous votre compte. Signalez-nous immédiatement toute utilisation non autorisée."
+                },
+                {
+                    "heading": "4. Propriété intellectuelle",
+                    "body": "Saasapp ainsi que son contenu original, ses fonctionnalités et ses caractéristiques sont la propriété de Saasapp et sont protégés par les lois internationales sur le droit d'auteur, les marques et autres droits de propriété intellectuelle."
+                },
+                {
+                    "heading": "5. Résiliation",
+                    "body": "Nous nous réservons le droit de suspendre ou de résilier votre compte à notre seule discrétion, sans préavis, pour tout comportement que nous estimons contraire aux présentes conditions ou préjudiciable aux autres utilisateurs, à nous-mêmes ou à des tiers."
+                },
+                {
+                    "heading": "6. Limitation de responsabilité",
+                    "body": "Dans toute la mesure permise par la loi, Saasapp ne pourra être tenu responsable des dommages indirects, accessoires, spéciaux, consécutifs ou punitifs résultant de votre utilisation ou de votre incapacité à utiliser nos services."
+                },
+                {
+                    "heading": "7. Nous contacter",
+                    "body": "Si vous avez des questions concernant ces conditions, veuillez nous contacter à :"
+                }
+            ]
+        },
+        "privacy": {
+            "title": "Politique de confidentialité",
+            "lastUpdated": "Dernière mise à jour : 20 mars 2026",
+            "sections": [
+                {
+                    "heading": "1. Informations que nous collectons",
+                    "body": "Nous collectons les informations que vous nous fournissez directement, par exemple lorsque vous créez un compte, utilisez nos services ou nous contactez pour obtenir de l'aide. Cela inclut :",
+                    "list": [
+                        "Nom et adresse e-mail",
+                        "Identifiants du compte",
+                        "Informations de facturation et de paiement",
+                        "Données d'utilisation et journaux d'activité sur notre plateforme"
+                    ]
+                },
+                {
+                    "heading": "2. Comment nous utilisons vos informations",
+                    "body": "Nous utilisons les informations collectées pour exploiter, maintenir et améliorer nos services, traiter les transactions, envoyer des communications transactionnelles et promotionnelles, et respecter nos obligations légales."
+                },
+                {
+                    "heading": "3. Partage des informations",
+                    "body": "Nous ne vendons, n'échangeons ni ne louons vos informations personnelles à des tiers. Nous pouvons partager vos informations avec des prestataires de confiance qui nous aident à exploiter notre plateforme, dans le cadre d'accords de confidentialité."
+                },
+                {
+                    "heading": "4. Conservation des données",
+                    "body": "Nous conservons vos informations personnelles aussi longtemps que votre compte est actif ou que cela est nécessaire pour vous fournir nos services. Vous pouvez demander la suppression de vos données à tout moment en nous contactant."
+                },
+                {
+                    "heading": "5. Sécurité",
+                    "body": "Nous mettons en œuvre des mesures de sécurité conformes aux standards du secteur pour protéger vos informations personnelles contre tout accès non autorisé, altération, divulgation ou destruction."
+                },
+                {
+                    "heading": "6. Nous contacter",
+                    "body": "Si vous avez des questions concernant cette politique de confidentialité, veuillez nous contacter à :"
+                }
+            ]
+        },
+        "cookiePolicy": {
+            "title": "Politique de cookies",
+            "lastUpdated": "Dernière mise à jour : 20 mars 2026",
+            "sections": [
+                {
+                    "heading": "1. Qu'est-ce qu'un cookie",
+                    "body": "Les cookies sont de petits fichiers texte stockés sur votre appareil lorsque vous visitez un site web. Ils nous permettent de reconnaître votre navigateur, de mémoriser vos préférences et d'améliorer votre expérience sur notre plateforme."
+                },
+                {
+                    "heading": "2. Types de cookies que nous utilisons",
+                    "body": "Nous utilisons les catégories de cookies suivantes :",
+                    "list": [
+                        "Cookies strictement nécessaires — Indispensables au fonctionnement de la plateforme. Cela inclut les cookies de session et d'authentification.",
+                        "Cookies de préférence — Enregistrent vos paramètres tels que la langue, le thème et les préférences d'affichage.",
+                        "Cookies analytiques — Nous aident à comprendre comment les visiteurs interagissent avec notre plateforme afin de l'améliorer."
+                    ]
+                },
+                {
+                    "heading": "3. Comment nous utilisons les cookies",
+                    "body": "Nous utilisons les cookies pour vous maintenir connecté, mémoriser vos préférences d'une session à l'autre, analyser les habitudes d'utilisation afin d'améliorer nos services, et garantir la sécurité et l'intégrité de votre compte."
+                },
+                {
+                    "heading": "4. Cookies tiers",
+                    "body": "Certains cookies peuvent être déposés par des services tiers présents sur nos pages. Nous ne contrôlons pas ces cookies et vous recommandons de consulter les politiques de confidentialité de ces tiers."
+                },
+                {
+                    "heading": "5. Gestion des cookies",
+                    "body": "Vous pouvez contrôler et supprimer les cookies via les paramètres de votre navigateur. Notez que la désactivation de certains cookies peut affecter le fonctionnement de notre plateforme. Consultez la documentation d'aide de votre navigateur pour savoir comment gérer les cookies."
+                },
+                {
+                    "heading": "6. Nous contacter",
+                    "body": "Si vous avez des questions concernant notre utilisation des cookies, veuillez nous contacter à :"
+                }
+            ]
+        },
+        "contact": {
+            "title": "Nous contacter",
+            "description": "Une question, un commentaire, ou besoin d'aide ? Envoyez-nous un message et nous vous répondrons dans les plus brefs délais.",
+            "fields": {
+                "name": "Nom",
+                "email": "E-mail",
+                "subject": "Sujet",
+                "message": "Message"
+            },
+            "validation": {
+                "nameRequired": "Veuillez saisir votre nom.",
+                "emailRequired": "Veuillez saisir votre e-mail.",
+                "emailInvalid": "Saisissez une adresse e-mail valide.",
+                "subjectRequired": "Veuillez saisir un sujet.",
+                "messageRequired": "Veuillez saisir votre message."
+            },
+            "submit": "Envoyer le message",
+            "toastSent": "Message envoyé ! Nous vous répondrons rapidement."
+        },
+        "helpCenter": {
+            "title": "Centre d'aide",
+            "comingSoonTitle": "Bientôt disponible !",
+            "comingSoonBody": "Cette page n'a pas encore été créée.\nRestez à l'écoute !"
         }
     },
     "errors": {
@@ -509,6 +665,29 @@
         "generic": "Une erreur est survenue.",
         "boundaryTitle": "Une erreur est survenue",
         "boundaryHint": "Une erreur inattendue s'est produite. Vous pouvez réessayer.",
-        "boundaryRetry": "Réessayer"
+        "boundaryRetry": "Réessayer",
+        "goBack": "Retour",
+        "backToHome": "Retour à l'accueil",
+        "forbidden": {
+            "title": "Accès interdit",
+            "description": "Vous n'avez pas les autorisations nécessaires\npour accéder à cette ressource."
+        },
+        "serverErrorScreen": {
+            "title": "Oups ! Une erreur est survenue :')",
+            "description": "Nous sommes désolés pour la gêne occasionnée.\nVeuillez réessayer plus tard."
+        },
+        "maintenance": {
+            "title": "Le site est en maintenance !",
+            "description": "Le site n'est pas disponible pour le moment.\nNous serons bientôt de retour.",
+            "learnMore": "En savoir plus"
+        },
+        "notFound": {
+            "title": "Oups ! Page introuvable !",
+            "description": "Il semble que la page que vous recherchez\nn'existe pas ou a peut-être été supprimée."
+        },
+        "unauthorized": {
+            "title": "Accès non autorisé",
+            "description": "Votre session a pris fin.\nVeuillez vous reconnecter pour continuer."
+        }
     }
 }
