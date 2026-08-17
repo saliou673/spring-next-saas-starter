@@ -15,6 +15,7 @@ import type {
     Delete403,
     Delete404,
     Delete409,
+    Delete500,
 } from "../../types/Delete.ts";
 
 function getDeleteUrl(id: DeletePathParams["id"]) {
@@ -37,7 +38,7 @@ export async function _delete(
 
     const res = await request<
         DeleteMutationResponse,
-        ResponseErrorConfig<Delete403 | Delete404 | Delete409>,
+        ResponseErrorConfig<Delete403 | Delete404 | Delete409 | Delete500>,
         unknown
     >({
         method: "DELETE",

@@ -22,6 +22,7 @@ import type {
     ActivateAccount403,
     ActivateAccount404,
     ActivateAccount409,
+    ActivateAccount500,
 } from "../../types/ActivateAccount.ts";
 
 export const activateAccountSuspenseQueryKey = (
@@ -42,7 +43,10 @@ export function activateAccountSuspenseQueryOptions(
     return queryOptions<
         ActivateAccountQueryResponse,
         ResponseErrorConfig<
-            ActivateAccount403 | ActivateAccount404 | ActivateAccount409
+            | ActivateAccount403
+            | ActivateAccount404
+            | ActivateAccount409
+            | ActivateAccount500
         >,
         ActivateAccountQueryResponse,
         typeof queryKey
@@ -72,7 +76,10 @@ export function useActivateAccountSuspense<
             UseSuspenseQueryOptions<
                 ActivateAccountQueryResponse,
                 ResponseErrorConfig<
-                    ActivateAccount403 | ActivateAccount404 | ActivateAccount409
+                    | ActivateAccount403
+                    | ActivateAccount404
+                    | ActivateAccount409
+                    | ActivateAccount500
                 >,
                 TData,
                 TQueryKey
@@ -96,7 +103,10 @@ export function useActivateAccountSuspense<
     ) as UseSuspenseQueryResult<
         TData,
         ResponseErrorConfig<
-            ActivateAccount403 | ActivateAccount404 | ActivateAccount409
+            | ActivateAccount403
+            | ActivateAccount404
+            | ActivateAccount409
+            | ActivateAccount500
         >
     > & { queryKey: TQueryKey };
 

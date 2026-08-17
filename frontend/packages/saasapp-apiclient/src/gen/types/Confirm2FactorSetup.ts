@@ -40,6 +40,11 @@ export type Confirm2FactorSetup404 = ValidationErrorResponseDTO;
  */
 export type Confirm2FactorSetup409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type Confirm2FactorSetup500 = ValidationErrorResponseDTO;
+
 export type Confirm2FactorSetupMutationRequest = TwoFactorSetupConfirmRequest;
 
 export type Confirm2FactorSetupMutationResponse = Confirm2FactorSetup204;
@@ -51,5 +56,6 @@ export type Confirm2FactorSetupMutation = {
     Errors:
         | Confirm2FactorSetup403
         | Confirm2FactorSetup404
-        | Confirm2FactorSetup409;
+        | Confirm2FactorSetup409
+        | Confirm2FactorSetup500;
 };

@@ -14,6 +14,7 @@ import type {
     GetCategoriesAsAdmin403,
     GetCategoriesAsAdmin404,
     GetCategoriesAsAdmin409,
+    GetCategoriesAsAdmin500,
 } from "../../types/GetCategoriesAsAdmin.ts";
 
 function getGetCategoriesAsAdminUrl() {
@@ -39,6 +40,7 @@ export async function getCategoriesAsAdmin(
             | GetCategoriesAsAdmin403
             | GetCategoriesAsAdmin404
             | GetCategoriesAsAdmin409
+            | GetCategoriesAsAdmin500
         >,
         unknown
     >({

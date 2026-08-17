@@ -53,11 +53,20 @@ export type GetUsersAsAdmin404 = ValidationErrorResponseDTO;
  */
 export type GetUsersAsAdmin409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type GetUsersAsAdmin500 = ValidationErrorResponseDTO;
+
 export type GetUsersAsAdminQueryResponse = GetUsersAsAdmin200;
 
 export type GetUsersAsAdminQuery = {
     Response: GetUsersAsAdmin200;
     QueryParams: GetUsersAsAdminQueryParams;
     HeaderParams: GetUsersAsAdminHeaderParams;
-    Errors: GetUsersAsAdmin403 | GetUsersAsAdmin404 | GetUsersAsAdmin409;
+    Errors:
+        | GetUsersAsAdmin403
+        | GetUsersAsAdmin404
+        | GetUsersAsAdmin409
+        | GetUsersAsAdmin500;
 };

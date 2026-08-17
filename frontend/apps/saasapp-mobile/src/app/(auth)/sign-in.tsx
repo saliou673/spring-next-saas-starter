@@ -1,26 +1,18 @@
 import { useState } from 'react';
-import {
-  ActivityIndicator,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Switch,
-  TextInput,
-  View,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet, Switch, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
-import { useRouter } from 'expo-router';
-import { useAuthenticate } from '@api-client';
+import { Link, useRouter } from 'expo-router';
+import { useAuthenticate, type ValidationErrorResponseDTO } from '@api-client';
 
+import { AuthScreen } from '@/components/auth-screen';
+import { FormTextField } from '@/components/form-text-field';
+import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { MaxContentWidth, Spacing } from '@/constants/theme';
+import { showToast } from '@/components/toast/toast-store';
+import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/use-auth';
-import { useTheme } from '@/hooks/use-theme';
+import { extractApiErrorMessage } from '@/lib/api-error';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MIN_PASSWORD_LENGTH = 7;
@@ -38,8 +30,10 @@ type FieldErrors = {
  */
 type LoginTokens = { accessToken: string; refreshToken: string };
 
-function isTwoFactorChallenge(response: unknown): boolean {
-  return typeof response === 'object' && response !== null && 'challengeId' in response;
+function getChallengeId(response: unknown): string | null {
+  if (typeof response !== 'object' || response === null) return null;
+  const candidate = response as { challengeId?: unknown };
+  return typeof candidate.challengeId === 'string' ? candidate.challengeId : null;
 }
 
 function isLoginTokens(response: unknown): response is LoginTokens {
@@ -51,7 +45,6 @@ function isLoginTokens(response: unknown): response is LoginTokens {
 export default function SignInScreen() {
   const { signIn } = useAuth();
   const { t } = useTranslation();
-  const theme = useTheme();
   const router = useRouter();
 
   const [email, setEmail] = useState('');
@@ -88,23 +81,20 @@ export default function SignInScreen() {
       return;
     }
 
-    const data = error.response?.data as
-      | { message?: string; errors?: Record<string, string> }
-      | undefined;
+    const data = error.response?.data as ValidationErrorResponseDTO | undefined;
 
     if (data?.errors) {
       setFieldErrors({ email: data.errors.email, password: data.errors.password });
     }
 
-    const hasFieldErrors = Boolean(data?.errors?.email || data?.errors?.password);
-    if (hasFieldErrors) return;
+    if (data?.errors?.email || data?.errors?.password) return;
 
     if (error.response?.status === 401) {
-      setFormError(data?.message ?? t('auth.signIn.invalidCredentials'));
+      setFormError(extractApiErrorMessage(error, t('auth.signIn.invalidCredentials')));
       return;
     }
 
-    setFormError(data?.message ?? t('errors.generic'));
+    setFormError(extractApiErrorMessage(error, t('errors.generic')));
   }
 
   async function onSubmit() {
@@ -117,8 +107,9 @@ export default function SignInScreen() {
     try {
       const response = await mutateAsync({ data: { email, password, rememberMe } });
 
-      if (isTwoFactorChallenge(response)) {
-        setFormError(t('auth.signIn.twoFactorNotSupported'));
+      const challengeId = getChallengeId(response);
+      if (challengeId) {
+        router.push({ pathname: '/two-factor', params: { challengeId } });
         return;
       }
 
@@ -131,6 +122,7 @@ export default function SignInScreen() {
         accessToken: response.accessToken,
         refreshToken: response.refreshToken,
       });
+      showToast(t('auth.toasts.signedIn'), 'success');
       router.replace('/');
     } catch (error) {
       applyApiError(error);
@@ -138,167 +130,85 @@ export default function SignInScreen() {
   }
 
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <KeyboardAvoidingView
-          style={styles.flex}
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-          <ScrollView
-            contentContainerStyle={styles.scrollContent}
-            keyboardShouldPersistTaps="handled">
-            <View style={styles.form}>
-              <ThemedText type="subtitle">{t('auth.signIn.title')}</ThemedText>
-              <ThemedText type="small" themeColor="textSecondary" style={styles.subtitle}>
-                {t('auth.signIn.subtitle')}
-              </ThemedText>
+    <AuthScreen title={t('auth.signIn.title')} subtitle={t('auth.signIn.subtitle')}>
+      <FormTextField
+        label={t('auth.signIn.emailLabel')}
+        value={email}
+        onChangeText={setEmail}
+        placeholder={t('auth.signIn.emailPlaceholder')}
+        error={fieldErrors.email}
+        autoCapitalize="none"
+        autoComplete="email"
+        autoCorrect={false}
+        keyboardType="email-address"
+        editable={!isPending}
+      />
 
-              <View style={styles.field}>
-                <ThemedText type="smallBold">{t('auth.signIn.emailLabel')}</ThemedText>
-                <TextInput
-                  value={email}
-                  onChangeText={setEmail}
-                  placeholder={t('auth.signIn.emailPlaceholder')}
-                  placeholderTextColor={theme.textSecondary}
-                  autoCapitalize="none"
-                  autoComplete="email"
-                  autoCorrect={false}
-                  keyboardType="email-address"
-                  editable={!isPending}
-                  style={[
-                    styles.input,
-                    {
-                      backgroundColor: theme.backgroundElement,
-                      borderColor: fieldErrors.email ? theme.danger : theme.backgroundSelected,
-                      color: theme.text,
-                    },
-                  ]}
-                />
-                {fieldErrors.email && (
-                  <ThemedText type="small" themeColor="danger">
-                    {fieldErrors.email}
-                  </ThemedText>
-                )}
-              </View>
+      <FormTextField
+        label={t('auth.signIn.passwordLabel')}
+        value={password}
+        onChangeText={setPassword}
+        placeholder={t('auth.signIn.passwordPlaceholder')}
+        error={fieldErrors.password}
+        autoCapitalize="none"
+        autoComplete="current-password"
+        autoCorrect={false}
+        secureTextEntry
+        editable={!isPending}
+        onSubmitEditing={() => void onSubmit()}
+      />
 
-              <View style={styles.field}>
-                <ThemedText type="smallBold">{t('auth.signIn.passwordLabel')}</ThemedText>
-                <TextInput
-                  value={password}
-                  onChangeText={setPassword}
-                  placeholder={t('auth.signIn.passwordPlaceholder')}
-                  placeholderTextColor={theme.textSecondary}
-                  autoCapitalize="none"
-                  autoComplete="current-password"
-                  autoCorrect={false}
-                  secureTextEntry
-                  editable={!isPending}
-                  onSubmitEditing={() => void onSubmit()}
-                  style={[
-                    styles.input,
-                    {
-                      backgroundColor: theme.backgroundElement,
-                      borderColor: fieldErrors.password ? theme.danger : theme.backgroundSelected,
-                      color: theme.text,
-                    },
-                  ]}
-                />
-                {fieldErrors.password && (
-                  <ThemedText type="small" themeColor="danger">
-                    {fieldErrors.password}
-                  </ThemedText>
-                )}
-              </View>
+      <Link href="/forgot-password" style={styles.forgotPassword}>
+        <ThemedText type="linkPrimary">{t('auth.signIn.forgotPassword')}</ThemedText>
+      </Link>
 
-              <View style={styles.rememberMeRow}>
-                <ThemedText type="small">{t('auth.signIn.rememberMe')}</ThemedText>
-                <Switch
-                  value={rememberMe}
-                  onValueChange={setRememberMe}
-                  disabled={isPending}
-                  accessibilityLabel={t('auth.signIn.rememberMe')}
-                />
-              </View>
+      <View style={styles.rememberMeRow}>
+        <ThemedText type="small">{t('auth.signIn.rememberMe')}</ThemedText>
+        <Switch
+          value={rememberMe}
+          onValueChange={setRememberMe}
+          disabled={isPending}
+          accessibilityLabel={t('auth.signIn.rememberMe')}
+        />
+      </View>
 
-              {formError && (
-                <ThemedText type="small" themeColor="danger">
-                  {formError}
-                </ThemedText>
-              )}
+      {formError && (
+        <ThemedText type="small" themeColor="danger">
+          {formError}
+        </ThemedText>
+      )}
 
-              <Pressable
-                accessibilityRole="button"
-                disabled={isPending}
-                onPress={() => void onSubmit()}
-                style={({ pressed }) => [
-                  styles.submit,
-                  { backgroundColor: theme.text },
-                  (pressed || isPending) && styles.submitPressed,
-                ]}>
-                {isPending ? (
-                  <ActivityIndicator color={theme.background} />
-                ) : (
-                  <ThemedText type="smallBold" style={{ color: theme.background }}>
-                    {t('auth.signIn.submit')}
-                  </ThemedText>
-                )}
-              </Pressable>
-            </View>
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </SafeAreaView>
-    </ThemedView>
+      <SubmitButton
+        label={t('auth.signIn.submit')}
+        onPress={() => void onSubmit()}
+        isPending={isPending}
+      />
+
+      <View style={styles.footer}>
+        <ThemedText type="small" themeColor="textSecondary">
+          {t('auth.signIn.noAccount')}
+        </ThemedText>
+        <Link href="/sign-up" replace>
+          <ThemedText type="linkPrimary">{t('auth.signIn.signUpLink')}</ThemedText>
+        </Link>
+      </View>
+    </AuthScreen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  safeArea: {
-    flex: 1,
-  },
-  flex: {
-    flex: 1,
-  },
-  scrollContent: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    paddingHorizontal: Spacing.four,
-    paddingVertical: Spacing.five,
-  },
-  form: {
-    width: '100%',
-    maxWidth: MaxContentWidth,
-    alignSelf: 'center',
-    gap: Spacing.three,
-  },
-  subtitle: {
-    marginTop: -Spacing.two,
-  },
-  field: {
-    gap: Spacing.one,
+  forgotPassword: {
+    alignSelf: 'flex-end',
   },
   rememberMeRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  input: {
-    borderWidth: 1,
-    borderRadius: Spacing.two,
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.two,
-    fontSize: 16,
-  },
-  submit: {
-    marginTop: Spacing.two,
+  footer: {
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: Spacing.two,
-    paddingVertical: Spacing.three,
-    minHeight: 48,
-  },
-  submitPressed: {
-    opacity: 0.7,
+    gap: Spacing.two,
   },
 });

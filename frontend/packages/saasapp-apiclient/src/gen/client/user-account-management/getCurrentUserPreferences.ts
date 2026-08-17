@@ -14,6 +14,7 @@ import type {
     GetCurrentUserPreferences403,
     GetCurrentUserPreferences404,
     GetCurrentUserPreferences409,
+    GetCurrentUserPreferences500,
 } from "../../types/GetCurrentUserPreferences.ts";
 
 function getGetCurrentUserPreferencesUrl() {
@@ -36,6 +37,7 @@ export async function getCurrentUserPreferences(
             | GetCurrentUserPreferences403
             | GetCurrentUserPreferences404
             | GetCurrentUserPreferences409
+            | GetCurrentUserPreferences500
         >,
         unknown
     >({

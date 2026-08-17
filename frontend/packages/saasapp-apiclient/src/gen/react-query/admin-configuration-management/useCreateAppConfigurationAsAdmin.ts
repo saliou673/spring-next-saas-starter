@@ -21,6 +21,7 @@ import type {
     CreateAppConfigurationAsAdmin403,
     CreateAppConfigurationAsAdmin404,
     CreateAppConfigurationAsAdmin409,
+    CreateAppConfigurationAsAdmin500,
 } from "../../types/CreateAppConfigurationAsAdmin.ts";
 
 export const createAppConfigurationAsAdminMutationKey = () =>
@@ -44,6 +45,7 @@ export function createAppConfigurationAsAdminMutationOptions<
             | CreateAppConfigurationAsAdmin403
             | CreateAppConfigurationAsAdmin404
             | CreateAppConfigurationAsAdmin409
+            | CreateAppConfigurationAsAdmin500
         >,
         {
             data: CreateAppConfigurationAsAdminMutationRequest;
@@ -69,6 +71,7 @@ export function useCreateAppConfigurationAsAdmin<TContext>(
                 | CreateAppConfigurationAsAdmin403
                 | CreateAppConfigurationAsAdmin404
                 | CreateAppConfigurationAsAdmin409
+                | CreateAppConfigurationAsAdmin500
             >,
             {
                 data: CreateAppConfigurationAsAdminMutationRequest;
@@ -95,6 +98,7 @@ export function useCreateAppConfigurationAsAdmin<TContext>(
             | CreateAppConfigurationAsAdmin403
             | CreateAppConfigurationAsAdmin404
             | CreateAppConfigurationAsAdmin409
+            | CreateAppConfigurationAsAdmin500
         >,
         {
             data: CreateAppConfigurationAsAdminMutationRequest;
@@ -109,6 +113,7 @@ export function useCreateAppConfigurationAsAdmin<TContext>(
             | CreateAppConfigurationAsAdmin403
             | CreateAppConfigurationAsAdmin404
             | CreateAppConfigurationAsAdmin409
+            | CreateAppConfigurationAsAdmin500
         >,
         {
             data: CreateAppConfigurationAsAdminMutationRequest;
@@ -128,6 +133,7 @@ export function useCreateAppConfigurationAsAdmin<TContext>(
             | CreateAppConfigurationAsAdmin403
             | CreateAppConfigurationAsAdmin404
             | CreateAppConfigurationAsAdmin409
+            | CreateAppConfigurationAsAdmin500
         >,
         {
             data: CreateAppConfigurationAsAdminMutationRequest;

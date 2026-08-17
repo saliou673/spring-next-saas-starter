@@ -53,6 +53,11 @@ export type GetAppConfigurations404 = ValidationErrorResponseDTO;
  */
 export type GetAppConfigurations409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type GetAppConfigurations500 = ValidationErrorResponseDTO;
+
 export type GetAppConfigurationsQueryResponse = GetAppConfigurations200;
 
 export type GetAppConfigurationsQuery = {
@@ -62,5 +67,6 @@ export type GetAppConfigurationsQuery = {
     Errors:
         | GetAppConfigurations403
         | GetAppConfigurations404
-        | GetAppConfigurations409;
+        | GetAppConfigurations409
+        | GetAppConfigurations500;
 };

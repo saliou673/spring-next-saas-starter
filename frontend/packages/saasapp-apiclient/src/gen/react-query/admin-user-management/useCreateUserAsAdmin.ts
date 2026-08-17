@@ -21,6 +21,7 @@ import type {
     CreateUserAsAdmin403,
     CreateUserAsAdmin404,
     CreateUserAsAdmin409,
+    CreateUserAsAdmin500,
 } from "../../types/CreateUserAsAdmin.ts";
 
 export const createUserAsAdminMutationKey = () =>
@@ -39,7 +40,10 @@ export function createUserAsAdminMutationOptions<TContext = unknown>(
     return mutationOptions<
         CreateUserAsAdminMutationResponse,
         ResponseErrorConfig<
-            CreateUserAsAdmin403 | CreateUserAsAdmin404 | CreateUserAsAdmin409
+            | CreateUserAsAdmin403
+            | CreateUserAsAdmin404
+            | CreateUserAsAdmin409
+            | CreateUserAsAdmin500
         >,
         {
             data: CreateUserAsAdminMutationRequest;
@@ -65,6 +69,7 @@ export function useCreateUserAsAdmin<TContext>(
                 | CreateUserAsAdmin403
                 | CreateUserAsAdmin404
                 | CreateUserAsAdmin409
+                | CreateUserAsAdmin500
             >,
             {
                 data: CreateUserAsAdminMutationRequest;
@@ -87,7 +92,10 @@ export function useCreateUserAsAdmin<TContext>(
     ) as UseMutationOptions<
         CreateUserAsAdminMutationResponse,
         ResponseErrorConfig<
-            CreateUserAsAdmin403 | CreateUserAsAdmin404 | CreateUserAsAdmin409
+            | CreateUserAsAdmin403
+            | CreateUserAsAdmin404
+            | CreateUserAsAdmin409
+            | CreateUserAsAdmin500
         >,
         {
             data: CreateUserAsAdminMutationRequest;
@@ -99,7 +107,10 @@ export function useCreateUserAsAdmin<TContext>(
     return useMutation<
         CreateUserAsAdminMutationResponse,
         ResponseErrorConfig<
-            CreateUserAsAdmin403 | CreateUserAsAdmin404 | CreateUserAsAdmin409
+            | CreateUserAsAdmin403
+            | CreateUserAsAdmin404
+            | CreateUserAsAdmin409
+            | CreateUserAsAdmin500
         >,
         {
             data: CreateUserAsAdminMutationRequest;
@@ -116,7 +127,10 @@ export function useCreateUserAsAdmin<TContext>(
     ) as UseMutationResult<
         CreateUserAsAdminMutationResponse,
         ResponseErrorConfig<
-            CreateUserAsAdmin403 | CreateUserAsAdmin404 | CreateUserAsAdmin409
+            | CreateUserAsAdmin403
+            | CreateUserAsAdmin404
+            | CreateUserAsAdmin409
+            | CreateUserAsAdmin500
         >,
         {
             data: CreateUserAsAdminMutationRequest;
