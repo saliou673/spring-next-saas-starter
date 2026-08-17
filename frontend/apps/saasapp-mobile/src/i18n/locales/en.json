@@ -446,6 +446,61 @@
             "taxRates": "Tax rates",
             "companyProfile": "Company profile",
             "security": "Security"
+        },
+        "referenceData": {
+            "title": "Reference data",
+            "description": "Configurable option lists used across the application, such as currencies, payment modes, and 2FA methods.",
+            "addConfiguration": "Add configuration",
+            "searchPlaceholder": "Search by code",
+            "allCategories": "All",
+            "active": "Active",
+            "inactive": "Inactive",
+            "errorFallback": "Unable to load configurations.",
+            "noResults": "No configurations found.",
+            "previous": "Previous",
+            "next": "Next",
+            "pageIndicator": "Page {{page}} of {{totalPages}}",
+            "create": {
+                "title": "Add configuration",
+                "description": "Create a new configuration entry.",
+                "fields": {
+                    "category": "Category",
+                    "code": "Code",
+                    "label": "Label",
+                    "description": "Description"
+                },
+                "activeHint": "New configurations are created as active by default. You can change the status afterward.",
+                "validation": {
+                    "categoryRequired": "Category is required.",
+                    "codeRequired": "Code is required.",
+                    "codeTooLong": "Code must be 50 characters or fewer.",
+                    "labelRequired": "Label is required."
+                },
+                "submit": "Create configuration",
+                "toastCreated": "Configuration created."
+            },
+            "detail": {
+                "title": "Configuration",
+                "loadError": "Unable to load this configuration.",
+                "fields": {
+                    "category": "Category",
+                    "code": "Code",
+                    "label": "Label",
+                    "description": "Description",
+                    "active": "Active"
+                },
+                "validation": {
+                    "codeRequired": "Code is required.",
+                    "codeTooLong": "Code must be 50 characters or fewer.",
+                    "labelRequired": "Label is required."
+                },
+                "submit": "Save changes",
+                "toastUpdated": "Configuration updated.",
+                "delete": "Delete configuration",
+                "deleteConfirmTitle": "Delete configuration",
+                "deleteConfirmMessage": "Delete configuration {{code}}? This action permanently removes the configuration entry from the system. Backend rules still apply - deletion can fail if it's referenced elsewhere.",
+                "toastDeleted": "Configuration deleted."
+            }
         }
     },
     "errors": {

@@ -446,6 +446,61 @@
             "taxRates": "Taux de taxe",
             "companyProfile": "Profil de l'entreprise",
             "security": "Sécurité"
+        },
+        "referenceData": {
+            "title": "Données de référence",
+            "description": "Listes d'options configurables utilisées dans toute l'application, comme les devises, les modes de paiement et les méthodes de 2FA.",
+            "addConfiguration": "Ajouter une configuration",
+            "searchPlaceholder": "Rechercher par code",
+            "allCategories": "Toutes",
+            "active": "Actif",
+            "inactive": "Inactif",
+            "errorFallback": "Impossible de charger les configurations.",
+            "noResults": "Aucune configuration trouvée.",
+            "previous": "Précédent",
+            "next": "Suivant",
+            "pageIndicator": "Page {{page}} sur {{totalPages}}",
+            "create": {
+                "title": "Ajouter une configuration",
+                "description": "Créez une nouvelle entrée de configuration.",
+                "fields": {
+                    "category": "Catégorie",
+                    "code": "Code",
+                    "label": "Libellé",
+                    "description": "Description"
+                },
+                "activeHint": "Les nouvelles configurations sont créées actives par défaut. Vous pouvez modifier le statut ultérieurement.",
+                "validation": {
+                    "categoryRequired": "La catégorie est requise.",
+                    "codeRequired": "Le code est requis.",
+                    "codeTooLong": "Le code doit comporter 50 caractères maximum.",
+                    "labelRequired": "Le libellé est requis."
+                },
+                "submit": "Créer la configuration",
+                "toastCreated": "Configuration créée."
+            },
+            "detail": {
+                "title": "Configuration",
+                "loadError": "Impossible de charger cette configuration.",
+                "fields": {
+                    "category": "Catégorie",
+                    "code": "Code",
+                    "label": "Libellé",
+                    "description": "Description",
+                    "active": "Actif"
+                },
+                "validation": {
+                    "codeRequired": "Le code est requis.",
+                    "codeTooLong": "Le code doit comporter 50 caractères maximum.",
+                    "labelRequired": "Le libellé est requis."
+                },
+                "submit": "Enregistrer les modifications",
+                "toastUpdated": "Configuration mise à jour.",
+                "delete": "Supprimer la configuration",
+                "deleteConfirmTitle": "Supprimer la configuration",
+                "deleteConfirmMessage": "Supprimer la configuration {{code}} ? Cette action retire définitivement l'entrée de configuration du système. Les règles du serveur s'appliquent toujours - la suppression peut échouer si elle est référencée ailleurs.",
+                "toastDeleted": "Configuration supprimée."
+            }
         }
     },
     "errors": {
