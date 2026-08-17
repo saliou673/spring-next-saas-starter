@@ -632,6 +632,25 @@
                     "body": "If you have any questions about our use of cookies, please contact us at:"
                 }
             ]
+        },
+        "contact": {
+            "title": "Contact us",
+            "description": "Have a question, feedback, or need support? Send us a message and we'll get back to you as soon as possible.",
+            "fields": {
+                "name": "Name",
+                "email": "Email",
+                "subject": "Subject",
+                "message": "Message"
+            },
+            "validation": {
+                "nameRequired": "Please enter your name.",
+                "emailRequired": "Please enter your email.",
+                "emailInvalid": "Enter a valid email address.",
+                "subjectRequired": "Please enter a subject.",
+                "messageRequired": "Please enter your message."
+            },
+            "submit": "Send message",
+            "toastSent": "Message sent! We'll get back to you shortly."
         }
     },
     "errors": {
