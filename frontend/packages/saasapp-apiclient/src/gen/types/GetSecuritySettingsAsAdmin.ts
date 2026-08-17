@@ -40,6 +40,11 @@ export type GetSecuritySettingsAsAdmin404 = ValidationErrorResponseDTO;
  */
 export type GetSecuritySettingsAsAdmin409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type GetSecuritySettingsAsAdmin500 = ValidationErrorResponseDTO;
+
 export type GetSecuritySettingsAsAdminQueryResponse =
     GetSecuritySettingsAsAdmin200;
 
@@ -49,5 +54,6 @@ export type GetSecuritySettingsAsAdminQuery = {
     Errors:
         | GetSecuritySettingsAsAdmin403
         | GetSecuritySettingsAsAdmin404
-        | GetSecuritySettingsAsAdmin409;
+        | GetSecuritySettingsAsAdmin409
+        | GetSecuritySettingsAsAdmin500;
 };

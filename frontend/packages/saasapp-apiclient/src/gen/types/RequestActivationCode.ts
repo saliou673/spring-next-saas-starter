@@ -39,6 +39,11 @@ export type RequestActivationCode404 = ValidationErrorResponseDTO;
  */
 export type RequestActivationCode409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type RequestActivationCode500 = ValidationErrorResponseDTO;
+
 export type RequestActivationCodeMutationRequest = string;
 
 export type RequestActivationCodeMutationResponse = RequestActivationCode200;
@@ -50,5 +55,6 @@ export type RequestActivationCodeMutation = {
     Errors:
         | RequestActivationCode403
         | RequestActivationCode404
-        | RequestActivationCode409;
+        | RequestActivationCode409
+        | RequestActivationCode500;
 };

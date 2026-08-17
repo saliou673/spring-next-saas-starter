@@ -22,6 +22,7 @@ import type {
     GetAppConfigurationByCategoryAndCode403,
     GetAppConfigurationByCategoryAndCode404,
     GetAppConfigurationByCategoryAndCode409,
+    GetAppConfigurationByCategoryAndCode500,
 } from "../../types/GetAppConfigurationByCategoryAndCode.ts";
 
 export const getAppConfigurationByCategoryAndCodeSuspenseQueryKey = (
@@ -55,6 +56,7 @@ export function getAppConfigurationByCategoryAndCodeSuspenseQueryOptions(
             | GetAppConfigurationByCategoryAndCode403
             | GetAppConfigurationByCategoryAndCode404
             | GetAppConfigurationByCategoryAndCode409
+            | GetAppConfigurationByCategoryAndCode500
         >,
         GetAppConfigurationByCategoryAndCodeQueryResponse,
         typeof queryKey
@@ -91,6 +93,7 @@ export function useGetAppConfigurationByCategoryAndCodeSuspense<
                     | GetAppConfigurationByCategoryAndCode403
                     | GetAppConfigurationByCategoryAndCode404
                     | GetAppConfigurationByCategoryAndCode409
+                    | GetAppConfigurationByCategoryAndCode500
                 >,
                 TData,
                 TQueryKey
@@ -123,6 +126,7 @@ export function useGetAppConfigurationByCategoryAndCodeSuspense<
             | GetAppConfigurationByCategoryAndCode403
             | GetAppConfigurationByCategoryAndCode404
             | GetAppConfigurationByCategoryAndCode409
+            | GetAppConfigurationByCategoryAndCode500
         >
     > & { queryKey: TQueryKey };
 

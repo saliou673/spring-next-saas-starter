@@ -15,6 +15,7 @@ import type {
     Confirm2FactorSetup403,
     Confirm2FactorSetup404,
     Confirm2FactorSetup409,
+    Confirm2FactorSetup500,
 } from "../../types/Confirm2FactorSetup.ts";
 
 function getConfirm2FactorSetupUrl() {
@@ -45,6 +46,7 @@ export async function confirm2FactorSetup(
             | Confirm2FactorSetup403
             | Confirm2FactorSetup404
             | Confirm2FactorSetup409
+            | Confirm2FactorSetup500
         >,
         Confirm2FactorSetupMutationRequest
     >({

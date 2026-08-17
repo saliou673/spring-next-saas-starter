@@ -21,6 +21,7 @@ import type {
     VerifyLoginChallenge403,
     VerifyLoginChallenge404,
     VerifyLoginChallenge409,
+    VerifyLoginChallenge500,
 } from "../../types/VerifyLoginChallenge.ts";
 
 export const verifyLoginChallengeMutationKey = () =>
@@ -42,6 +43,7 @@ export function verifyLoginChallengeMutationOptions<TContext = unknown>(
             | VerifyLoginChallenge403
             | VerifyLoginChallenge404
             | VerifyLoginChallenge409
+            | VerifyLoginChallenge500
         >,
         {
             data: VerifyLoginChallengeMutationRequest;
@@ -67,6 +69,7 @@ export function useVerifyLoginChallenge<TContext>(
                 | VerifyLoginChallenge403
                 | VerifyLoginChallenge404
                 | VerifyLoginChallenge409
+                | VerifyLoginChallenge500
             >,
             {
                 data: VerifyLoginChallengeMutationRequest;
@@ -92,6 +95,7 @@ export function useVerifyLoginChallenge<TContext>(
             | VerifyLoginChallenge403
             | VerifyLoginChallenge404
             | VerifyLoginChallenge409
+            | VerifyLoginChallenge500
         >,
         {
             data: VerifyLoginChallengeMutationRequest;
@@ -106,6 +110,7 @@ export function useVerifyLoginChallenge<TContext>(
             | VerifyLoginChallenge403
             | VerifyLoginChallenge404
             | VerifyLoginChallenge409
+            | VerifyLoginChallenge500
         >,
         {
             data: VerifyLoginChallengeMutationRequest;
@@ -125,6 +130,7 @@ export function useVerifyLoginChallenge<TContext>(
             | VerifyLoginChallenge403
             | VerifyLoginChallenge404
             | VerifyLoginChallenge409
+            | VerifyLoginChallenge500
         >,
         {
             data: VerifyLoginChallengeMutationRequest;

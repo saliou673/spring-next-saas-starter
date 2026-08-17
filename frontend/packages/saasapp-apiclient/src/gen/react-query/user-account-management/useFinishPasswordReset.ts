@@ -21,6 +21,7 @@ import type {
     FinishPasswordReset403,
     FinishPasswordReset404,
     FinishPasswordReset409,
+    FinishPasswordReset500,
 } from "../../types/FinishPasswordReset.ts";
 
 export const finishPasswordResetMutationKey = () =>
@@ -42,6 +43,7 @@ export function finishPasswordResetMutationOptions<TContext = unknown>(
             | FinishPasswordReset403
             | FinishPasswordReset404
             | FinishPasswordReset409
+            | FinishPasswordReset500
         >,
         {
             data: FinishPasswordResetMutationRequest;
@@ -67,6 +69,7 @@ export function useFinishPasswordReset<TContext>(
                 | FinishPasswordReset403
                 | FinishPasswordReset404
                 | FinishPasswordReset409
+                | FinishPasswordReset500
             >,
             {
                 data: FinishPasswordResetMutationRequest;
@@ -92,6 +95,7 @@ export function useFinishPasswordReset<TContext>(
             | FinishPasswordReset403
             | FinishPasswordReset404
             | FinishPasswordReset409
+            | FinishPasswordReset500
         >,
         {
             data: FinishPasswordResetMutationRequest;
@@ -106,6 +110,7 @@ export function useFinishPasswordReset<TContext>(
             | FinishPasswordReset403
             | FinishPasswordReset404
             | FinishPasswordReset409
+            | FinishPasswordReset500
         >,
         {
             data: FinishPasswordResetMutationRequest;
@@ -125,6 +130,7 @@ export function useFinishPasswordReset<TContext>(
             | FinishPasswordReset403
             | FinishPasswordReset404
             | FinishPasswordReset409
+            | FinishPasswordReset500
         >,
         {
             data: FinishPasswordResetMutationRequest;

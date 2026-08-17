@@ -1,84 +1,177 @@
-import { useState } from 'react';
-import { Pressable, StyleSheet, Switch, View } from 'react-native';
+import { useEffect } from 'react';
+import { ActivityIndicator, Pressable, StyleSheet, Switch, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
+import { SymbolView, type SymbolViewProps } from 'expo-symbols';
+import {
+  displayPreferencesTextSizeEnum,
+  getCurrentUserPreferencesQueryKey,
+  useGetCurrentUserPreferences,
+  useUpdateCurrentUserPreferences,
+  type DisplayPreferencesTextSizeEnumKey,
+} from '@api-client';
 
+import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
+import { useTextSize } from '@/context/text-size-provider';
 
-type TextSize = 'small' | 'default' | 'large';
+const TEXT_SIZE_ICONS: Record<DisplayPreferencesTextSizeEnumKey, SymbolViewProps['name']> = {
+  SMALL: { ios: 'textformat.size.smaller', android: 'text_decrease', web: 'text_decrease' },
+  DEFAULT: { ios: 'textformat.size', android: 'format_size', web: 'format_size' },
+  LARGE: { ios: 'textformat.size.larger', android: 'text_increase', web: 'text_increase' },
+};
 
-// Web's display-form.tsx is about which items show in a desktop sidebar
-// (recents/home/applications/desktop/...), which has no mobile equivalent -
-// there's no sidebar. Adapted here to settings that are actually meaningful
-// on a phone: text size and reduced motion.
-//
-// Like #31, there's no backend field for this (UserPreferences only has
-// `appearance`), and web's own display screen is likewise local form state
-// wired to a `showSubmittedData` stub rather than a real endpoint - so this
-// mirrors that same local-only, non-persisted behavior.
+// Web's display-form.tsx used to be about which items show in a desktop
+// sidebar (recents/home/applications/desktop/...), which has no mobile
+// equivalent - there's no sidebar. Both platforms now share this schema
+// instead: text size and reduced motion, meaningful everywhere.
 export default function DisplayScreen() {
   const { t } = useTranslation();
   const theme = useTheme();
+  const queryClient = useQueryClient();
+  const { textSize, setTextSize } = useTextSize();
+  const { data: preferences, isLoading, isError } = useGetCurrentUserPreferences();
 
-  const [textSize, setTextSize] = useState<TextSize>('default');
-  const [reduceMotion, setReduceMotion] = useState(false);
+  // Separate mutation instances so toggling one control's `isPending` (which
+  // drives its `disabled` prop) doesn't also flip the other control's -
+  // sharing one mutation made the reduce-motion Switch flash disabled/enabled
+  // every time a text size button was pressed, and vice versa.
+  const { mutate: updateTextSize, isPending: isTextSizePending } =
+    useUpdateCurrentUserPreferences({
+      mutation: { meta: { skipGlobalErrorToast: true } },
+    });
+  const { mutate: updateReduceMotion, isPending: isReduceMotionPending } =
+    useUpdateCurrentUserPreferences({
+      mutation: { meta: { skipGlobalErrorToast: true } },
+    });
 
-  const textSizeOptions: { value: TextSize; label: string }[] = [
-    { value: 'small', label: t('settings.display.textSizeSmall') },
-    { value: 'default', label: t('settings.display.textSizeDefault') },
-    { value: 'large', label: t('settings.display.textSizeLarge') },
+  // Keep the local text size in sync with the account's stored preference,
+  // e.g. after a reinstall or on a second device - same as AppThemeProvider
+  // does for theme in appearance.tsx.
+  useEffect(() => {
+    if (!preferences) return;
+    if (preferences.display.textSize !== textSize) {
+      setTextSize(preferences.display.textSize);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [preferences]);
+
+  function onSaveError() {
+    showToast(t('settings.display.saveError'), 'error');
+  }
+
+  function onSaveSuccess() {
+    void queryClient.invalidateQueries({ queryKey: getCurrentUserPreferencesQueryKey() });
+  }
+
+  function onTextSizeChange(textSize: DisplayPreferencesTextSizeEnumKey) {
+    if (!preferences) return;
+
+    setTextSize(textSize);
+    updateTextSize(
+      {
+        data: {
+          appearance: preferences.appearance,
+          notifications: preferences.notifications,
+          display: { ...preferences.display, textSize },
+        },
+      },
+      { onError: onSaveError, onSuccess: onSaveSuccess }
+    );
+  }
+
+  function onReduceMotionChange(reduceMotion: boolean) {
+    if (!preferences) return;
+
+    updateReduceMotion(
+      {
+        data: {
+          appearance: preferences.appearance,
+          notifications: preferences.notifications,
+          display: { ...preferences.display, reduceMotion },
+        },
+      },
+      { onError: onSaveError, onSuccess: onSaveSuccess }
+    );
+  }
+
+  const textSizeOptions: { value: DisplayPreferencesTextSizeEnumKey; label: string }[] = [
+    { value: displayPreferencesTextSizeEnum.SMALL, label: t('settings.display.textSizeSmall') },
+    {
+      value: displayPreferencesTextSizeEnum.DEFAULT,
+      label: t('settings.display.textSizeDefault'),
+    },
+    { value: displayPreferencesTextSizeEnum.LARGE, label: t('settings.display.textSizeLarge') },
   ];
 
   return (
     <>
       <Stack.Screen options={{ title: t('settings.nav.display') }} />
       <SettingsListScreen>
-        <ThemedView type="backgroundElement" style={styles.card}>
-          <View style={styles.field}>
-            <ThemedText type="smallBold">{t('settings.display.textSizeLabel')}</ThemedText>
-            <ThemedText type="small" themeColor="textSecondary">
-              {t('settings.display.textSizeDescription')}
-            </ThemedText>
-            <View style={styles.optionRow}>
-              {textSizeOptions.map((option) => {
-                const selected = option.value === textSize;
-                return (
-                  <Pressable
-                    key={option.value}
-                    accessibilityRole="button"
-                    onPress={() => setTextSize(option.value)}
-                    style={[
-                      styles.option,
-                      {
-                        backgroundColor: selected ? theme.text : theme.backgroundSelected,
-                        borderColor: theme.backgroundSelected,
-                      },
-                    ]}>
-                    <ThemedText
-                      type="small"
-                      style={{ color: selected ? theme.background : theme.text }}>
-                      {option.label}
-                    </ThemedText>
-                  </Pressable>
-                );
-              })}
-            </View>
-          </View>
-
-          <View style={styles.switchRow}>
-            <View style={styles.switchLabel}>
-              <ThemedText>{t('settings.display.reduceMotionLabel')}</ThemedText>
+        {isLoading ? (
+          <ActivityIndicator />
+        ) : isError || !preferences ? (
+          <ThemedText themeColor="danger">{t('settings.display.loadError')}</ThemedText>
+        ) : (
+          <SettingsCard style={styles.card}>
+            <View style={styles.field}>
+              <ThemedText type="smallBold">{t('settings.display.textSizeLabel')}</ThemedText>
               <ThemedText type="small" themeColor="textSecondary">
-                {t('settings.display.reduceMotionDescription')}
+                {t('settings.display.textSizeDescription')}
               </ThemedText>
+              <View style={styles.optionRow}>
+                {textSizeOptions.map((option) => {
+                  const selected = option.value === textSize;
+                  return (
+                    <Pressable
+                      key={option.value}
+                      accessibilityRole="button"
+                      disabled={isTextSizePending}
+                      onPress={() => onTextSizeChange(option.value)}
+                      style={[
+                        styles.option,
+                        {
+                          backgroundColor: selected ? theme.text : theme.backgroundSelected,
+                          borderColor: theme.backgroundSelected,
+                        },
+                      ]}>
+                      <SymbolView
+                        name={TEXT_SIZE_ICONS[option.value]}
+                        size={18}
+                        weight="medium"
+                        tintColor={selected ? theme.background : theme.text}
+                      />
+                      <ThemedText
+                        type="small"
+                        style={{ color: selected ? theme.background : theme.text }}>
+                        {option.label}
+                      </ThemedText>
+                    </Pressable>
+                  );
+                })}
+              </View>
             </View>
-            <Switch value={reduceMotion} onValueChange={setReduceMotion} />
-          </View>
-        </ThemedView>
+
+            <View style={styles.switchRow}>
+              <View style={styles.switchLabel}>
+                <ThemedText>{t('settings.display.reduceMotionLabel')}</ThemedText>
+                <ThemedText type="small" themeColor="textSecondary">
+                  {t('settings.display.reduceMotionDescription')}
+                </ThemedText>
+              </View>
+              <Switch
+                value={preferences.display.reduceMotion}
+                disabled={isReduceMotionPending}
+                onValueChange={onReduceMotionChange}
+              />
+            </View>
+          </SettingsCard>
+        )}
       </SettingsListScreen>
     </>
   );
@@ -86,8 +179,6 @@ export default function DisplayScreen() {
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: Spacing.three,
-    padding: Spacing.three,
     gap: Spacing.four,
   },
   field: {
@@ -101,8 +192,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    gap: Spacing.two,
     borderWidth: 1,
-    borderRadius: Spacing.two,
+    borderRadius: Spacing.three,
     paddingVertical: Spacing.two,
   },
   switchRow: {

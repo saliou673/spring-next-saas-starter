@@ -40,6 +40,11 @@ export type GetCurrentUserPreferences404 = ValidationErrorResponseDTO;
  */
 export type GetCurrentUserPreferences409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type GetCurrentUserPreferences500 = ValidationErrorResponseDTO;
+
 export type GetCurrentUserPreferencesQueryResponse =
     GetCurrentUserPreferences200;
 
@@ -49,5 +54,6 @@ export type GetCurrentUserPreferencesQuery = {
     Errors:
         | GetCurrentUserPreferences403
         | GetCurrentUserPreferences404
-        | GetCurrentUserPreferences409;
+        | GetCurrentUserPreferences409
+        | GetCurrentUserPreferences500;
 };
