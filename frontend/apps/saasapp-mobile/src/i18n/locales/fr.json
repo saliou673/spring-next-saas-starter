@@ -513,6 +513,56 @@
             "twoFactorRequiredDescription": "Lorsque cette option est activée, tous les utilisateurs doivent configurer l'authentification à deux facteurs avant de pouvoir se connecter."
         }
     },
+    "legal": {
+        "nav": {
+            "sectionTitle": "Mentions légales",
+            "terms": "Conditions d'utilisation",
+            "privacy": "Politique de confidentialité",
+            "cookiePolicy": "Politique de cookies",
+            "contact": "Nous contacter",
+            "helpCenter": "Centre d'aide"
+        },
+        "terms": {
+            "title": "Conditions d'utilisation",
+            "lastUpdated": "Dernière mise à jour : 20 mars 2026",
+            "sections": [
+                {
+                    "heading": "1. Acceptation des conditions",
+                    "body": "En accédant à Saasapp ou en l'utilisant, vous acceptez d'être lié par les présentes conditions d'utilisation. Si vous n'acceptez pas ces conditions, veuillez ne pas utiliser nos services."
+                },
+                {
+                    "heading": "2. Utilisation des services",
+                    "body": "Vous vous engagez à utiliser nos services uniquement à des fins légales et conformément aux présentes conditions. Vous ne devez pas utiliser nos services pour :",
+                    "list": [
+                        "Enfreindre les lois ou réglementations applicables",
+                        "Porter atteinte aux droits d'autrui",
+                        "Transmettre du contenu nuisible, offensant ou perturbateur",
+                        "Tenter d'accéder sans autorisation à nos systèmes"
+                    ]
+                },
+                {
+                    "heading": "3. Comptes",
+                    "body": "Vous êtes responsable de la sécurité des identifiants de votre compte et de toute activité qui se produit sous votre compte. Signalez-nous immédiatement toute utilisation non autorisée."
+                },
+                {
+                    "heading": "4. Propriété intellectuelle",
+                    "body": "Saasapp ainsi que son contenu original, ses fonctionnalités et ses caractéristiques sont la propriété de Saasapp et sont protégés par les lois internationales sur le droit d'auteur, les marques et autres droits de propriété intellectuelle."
+                },
+                {
+                    "heading": "5. Résiliation",
+                    "body": "Nous nous réservons le droit de suspendre ou de résilier votre compte à notre seule discrétion, sans préavis, pour tout comportement que nous estimons contraire aux présentes conditions ou préjudiciable aux autres utilisateurs, à nous-mêmes ou à des tiers."
+                },
+                {
+                    "heading": "6. Limitation de responsabilité",
+                    "body": "Dans toute la mesure permise par la loi, Saasapp ne pourra être tenu responsable des dommages indirects, accessoires, spéciaux, consécutifs ou punitifs résultant de votre utilisation ou de votre incapacité à utiliser nos services."
+                },
+                {
+                    "heading": "7. Nous contacter",
+                    "body": "Si vous avez des questions concernant ces conditions, veuillez nous contacter à :"
+                }
+            ]
+        }
+    },
     "errors": {
         "sessionExpired": "Votre session a expiré. Veuillez vous reconnecter.",
         "serverError": "Une erreur est survenue de notre côté. Veuillez réessayer.",

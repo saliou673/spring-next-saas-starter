@@ -513,6 +513,56 @@
             "twoFactorRequiredDescription": "When enabled, all users must configure two-factor authentication before they can log in."
         }
     },
+    "legal": {
+        "nav": {
+            "sectionTitle": "Legal",
+            "terms": "Terms of Service",
+            "privacy": "Privacy Policy",
+            "cookiePolicy": "Cookie Policy",
+            "contact": "Contact Us",
+            "helpCenter": "Help Center"
+        },
+        "terms": {
+            "title": "Terms of Service",
+            "lastUpdated": "Last updated: March 20, 2026",
+            "sections": [
+                {
+                    "heading": "1. Acceptance of Terms",
+                    "body": "By accessing or using Saasapp, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services."
+                },
+                {
+                    "heading": "2. Use of Services",
+                    "body": "You agree to use our services only for lawful purposes and in accordance with these Terms. You must not use our services to:",
+                    "list": [
+                        "Violate any applicable laws or regulations",
+                        "Infringe on the rights of others",
+                        "Transmit harmful, offensive, or disruptive content",
+                        "Attempt to gain unauthorized access to our systems"
+                    ]
+                },
+                {
+                    "heading": "3. Accounts",
+                    "body": "You are responsible for maintaining the security of your account credentials and for all activity that occurs under your account. Notify us immediately of any unauthorized use."
+                },
+                {
+                    "heading": "4. Intellectual Property",
+                    "body": "Saasapp and its original content, features, and functionality are owned by Saasapp and are protected by international copyright, trademark, and other intellectual property laws."
+                },
+                {
+                    "heading": "5. Termination",
+                    "body": "We reserve the right to suspend or terminate your account at our sole discretion, without notice, for conduct that we believe violates these Terms or is harmful to other users, us, or third parties."
+                },
+                {
+                    "heading": "6. Limitation of Liability",
+                    "body": "To the maximum extent permitted by law, Saasapp shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of or inability to use our services."
+                },
+                {
+                    "heading": "7. Contact Us",
+                    "body": "If you have any questions about these Terms, please contact us at:"
+                }
+            ]
+        }
+    },
     "errors": {
         "sessionExpired": "Your session has expired. Please sign in again.",
         "serverError": "Something went wrong on our end. Please try again.",
