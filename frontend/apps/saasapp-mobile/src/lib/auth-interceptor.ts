@@ -8,6 +8,12 @@ import { clearTokens, getTokens, setTokens } from "@/lib/auth-storage";
 
 type RetriableConfig = InternalAxiosRequestConfig & { _retry?: boolean };
 
+const REFRESH_TOKEN_PATH = "/api/auth/refresh";
+
+function isRefreshTokenRequest(config: { url?: string } | undefined): boolean {
+    return Boolean(config?.url?.includes(REFRESH_TOKEN_PATH));
+}
+
 let currentAccessToken: string | undefined;
 let interceptorsInstalled = false;
 let refreshPromise: Promise<string | undefined> | null = null;
@@ -86,7 +92,12 @@ export function setupAuthInterceptor() {
         const nextConfig = config;
         const headers = AxiosHeaders.from(nextConfig.headers);
 
-        if (currentAccessToken) {
+        // The refresh endpoint takes the refresh token in its body and is
+        // public - it doesn't need the (possibly expired) access token as a
+        // Bearer header. Sending it anyway lets Spring's resource-server
+        // filter reject the request with 401 before the refresh logic runs,
+        // which would recurse back into this same refresh flow and deadlock.
+        if (currentAccessToken && !isRefreshTokenRequest(nextConfig)) {
             headers.set("Authorization", `Bearer ${currentAccessToken}`);
         } else {
             headers.delete("Authorization");
@@ -102,7 +113,16 @@ export function setupAuthInterceptor() {
             const status = error.response?.status;
             const originalRequest = error.config as RetriableConfig | undefined;
 
-            if (status !== 401 || !originalRequest || originalRequest._retry) {
+            // A 401 from the refresh call itself must not trigger another
+            // refresh attempt - refreshAccessToken() below is already
+            // awaiting this exact request, so recursing here would await
+            // that same in-flight promise and deadlock forever.
+            if (
+                status !== 401 ||
+                !originalRequest ||
+                originalRequest._retry ||
+                isRefreshTokenRequest(originalRequest)
+            ) {
                 return Promise.reject(error);
             }
 

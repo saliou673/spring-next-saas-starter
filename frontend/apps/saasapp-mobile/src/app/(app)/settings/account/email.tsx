@@ -74,7 +74,12 @@ export default function ChangeEmailScreen() {
       await confirmChange({ data: { code: trimmedCode } });
       await queryClient.invalidateQueries({ queryKey: getUserDetailsQueryKey() });
       showToast(t('settings.account.emailChange.toastChanged'), 'success');
-      router.back();
+      // The user details refetch above can 401 and force a logout (e.g. a
+      // stale session), which tears down this screen's navigator before we
+      // get here - going back at that point has nothing to go back to.
+      if (router.canGoBack()) {
+        router.back();
+      }
     } catch (error) {
       if (error instanceof AxiosError) {
         setCodeError(extractApiErrorMessage(error, t('settings.account.emailChange.invalidCode')));

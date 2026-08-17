@@ -93,7 +93,12 @@ export default function TwoFactorScreen() {
       await confirmSetup({ data: { code: trimmed } });
       await queryClient.invalidateQueries({ queryKey: getUserDetailsQueryKey() });
       showToast(t('settings.account.twoFactorSetup.toastEnabled'), 'success');
-      router.back();
+      // The user details refetch above can 401 and force a logout (e.g. a
+      // stale session), which tears down this screen's navigator before we
+      // get here - going back at that point has nothing to go back to.
+      if (router.canGoBack()) {
+        router.back();
+      }
     } catch (error) {
       if (error instanceof AxiosError) {
         setCodeError(
@@ -118,7 +123,12 @@ export default function TwoFactorScreen() {
       await disable2Factor({ data: { currentPassword: disablePassword } });
       await queryClient.invalidateQueries({ queryKey: getUserDetailsQueryKey() });
       showToast(t('settings.account.twoFactorDisable.toastDisabled'), 'success');
-      router.back();
+      // The user details refetch above can 401 and force a logout (e.g. a
+      // stale session), which tears down this screen's navigator before we
+      // get here - going back at that point has nothing to go back to.
+      if (router.canGoBack()) {
+        router.back();
+      }
     } catch (error) {
       if (error instanceof AxiosError) {
         const status = error.response?.status;
