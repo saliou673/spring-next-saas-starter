@@ -6,6 +6,7 @@ import { I18nextProvider } from 'react-i18next';
 
 import { AnimatedSplashOverlay } from '@/components/animated-icon';
 import { AppErrorBoundary } from '@/components/error-boundary';
+import { OfflineBanner } from '@/components/offline-banner';
 import { Toaster } from '@/components/toast/toaster';
 import { apiBaseUrl } from '@/constants/env';
 import { AppThemeProvider, useAppTheme } from '@/context/theme-provider';
@@ -14,9 +15,11 @@ import { AuthProvider, useAuth } from '@/hooks/use-auth';
 import i18n, { hydrateStoredLanguage } from '@/i18n';
 import { hydrateAccessToken, setupAuthInterceptor } from '@/lib/auth-interceptor';
 import { handleQueryError } from '@/lib/handle-query-error';
+import { setupNetworkStatusListener } from '@/lib/network-status';
 
 configureApiClient({ baseURL: apiBaseUrl });
 setupAuthInterceptor();
+setupNetworkStatusListener();
 
 function RootNavigator() {
   const { isLoading, isAuthenticated } = useAuth();
@@ -85,6 +88,7 @@ export default function RootLayout() {
                 <NavigationThemeSync>
                   <AnimatedSplashOverlay />
                   <RootNavigator />
+                  <OfflineBanner />
                   <Toaster />
                 </NavigationThemeSync>
               </AppTextSizeProvider>
