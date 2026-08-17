@@ -21,6 +21,7 @@ import type {
     Init2FactorSetup403,
     Init2FactorSetup404,
     Init2FactorSetup409,
+    Init2FactorSetup500,
 } from "../../types/Init2FactorSetup.ts";
 
 export const init2FactorSetupMutationKey = () =>
@@ -39,7 +40,10 @@ export function init2FactorSetupMutationOptions<TContext = unknown>(
     return mutationOptions<
         Init2FactorSetupMutationResponse,
         ResponseErrorConfig<
-            Init2FactorSetup403 | Init2FactorSetup404 | Init2FactorSetup409
+            | Init2FactorSetup403
+            | Init2FactorSetup404
+            | Init2FactorSetup409
+            | Init2FactorSetup500
         >,
         {
             data: Init2FactorSetupMutationRequest;
@@ -62,7 +66,10 @@ export function useInit2FactorSetup<TContext>(
         mutation?: UseMutationOptions<
             Init2FactorSetupMutationResponse,
             ResponseErrorConfig<
-                Init2FactorSetup403 | Init2FactorSetup404 | Init2FactorSetup409
+                | Init2FactorSetup403
+                | Init2FactorSetup404
+                | Init2FactorSetup409
+                | Init2FactorSetup500
             >,
             {
                 data: Init2FactorSetupMutationRequest;
@@ -85,7 +92,10 @@ export function useInit2FactorSetup<TContext>(
     ) as UseMutationOptions<
         Init2FactorSetupMutationResponse,
         ResponseErrorConfig<
-            Init2FactorSetup403 | Init2FactorSetup404 | Init2FactorSetup409
+            | Init2FactorSetup403
+            | Init2FactorSetup404
+            | Init2FactorSetup409
+            | Init2FactorSetup500
         >,
         {
             data: Init2FactorSetupMutationRequest;
@@ -97,7 +107,10 @@ export function useInit2FactorSetup<TContext>(
     return useMutation<
         Init2FactorSetupMutationResponse,
         ResponseErrorConfig<
-            Init2FactorSetup403 | Init2FactorSetup404 | Init2FactorSetup409
+            | Init2FactorSetup403
+            | Init2FactorSetup404
+            | Init2FactorSetup409
+            | Init2FactorSetup500
         >,
         {
             data: Init2FactorSetupMutationRequest;
@@ -114,7 +127,10 @@ export function useInit2FactorSetup<TContext>(
     ) as UseMutationResult<
         Init2FactorSetupMutationResponse,
         ResponseErrorConfig<
-            Init2FactorSetup403 | Init2FactorSetup404 | Init2FactorSetup409
+            | Init2FactorSetup403
+            | Init2FactorSetup404
+            | Init2FactorSetup409
+            | Init2FactorSetup500
         >,
         {
             data: Init2FactorSetupMutationRequest;

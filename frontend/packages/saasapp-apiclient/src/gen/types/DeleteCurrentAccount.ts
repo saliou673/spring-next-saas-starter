@@ -39,6 +39,11 @@ export type DeleteCurrentAccount404 = ValidationErrorResponseDTO;
  */
 export type DeleteCurrentAccount409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type DeleteCurrentAccount500 = ValidationErrorResponseDTO;
+
 export type DeleteCurrentAccountMutationResponse = DeleteCurrentAccount204;
 
 export type DeleteCurrentAccountMutation = {
@@ -47,5 +52,6 @@ export type DeleteCurrentAccountMutation = {
     Errors:
         | DeleteCurrentAccount403
         | DeleteCurrentAccount404
-        | DeleteCurrentAccount409;
+        | DeleteCurrentAccount409
+        | DeleteCurrentAccount500;
 };

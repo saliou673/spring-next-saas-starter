@@ -46,6 +46,11 @@ export type DeleteRoleGroupAsAdmin404 = ValidationErrorResponseDTO;
  */
 export type DeleteRoleGroupAsAdmin409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type DeleteRoleGroupAsAdmin500 = ValidationErrorResponseDTO;
+
 export type DeleteRoleGroupAsAdminMutationResponse = DeleteRoleGroupAsAdmin204;
 
 export type DeleteRoleGroupAsAdminMutation = {
@@ -55,5 +60,6 @@ export type DeleteRoleGroupAsAdminMutation = {
     Errors:
         | DeleteRoleGroupAsAdmin403
         | DeleteRoleGroupAsAdmin404
-        | DeleteRoleGroupAsAdmin409;
+        | DeleteRoleGroupAsAdmin409
+        | DeleteRoleGroupAsAdmin500;
 };

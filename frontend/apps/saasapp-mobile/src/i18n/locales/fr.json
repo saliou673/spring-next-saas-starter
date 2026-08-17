@@ -146,6 +146,8 @@
         "nav": {
             "title": "Paramètres",
             "description": "Gérez votre profil, votre compte et les préférences de l'application.",
+            "sectionAccount": "Compte",
+            "sectionPreferences": "Préférences",
             "profile": "Profil",
             "account": "Compte",
             "appearance": "Apparence",
@@ -156,6 +158,8 @@
         "account": {
             "title": "Compte",
             "description": "Gérez votre e-mail, votre mot de passe, l'authentification à deux facteurs et la suppression du compte.",
+            "sectionSecurity": "Sécurité",
+            "sectionDanger": "Zone de danger",
             "email": "Modifier l'e-mail",
             "password": "Modifier le mot de passe",
             "twoFactor": "Authentification à deux facteurs",
@@ -195,6 +199,7 @@
                 "enabledDescription": "L'authentification à deux facteurs protège votre compte.",
                 "startButton": "Activer l'authentification à deux facteurs",
                 "startError": "Impossible de démarrer la configuration. Veuillez réessayer.",
+                "scanHint": "Scannez ce code QR avec votre application d'authentification.",
                 "openAuthenticator": "Ouvrir dans l'application d'authentification",
                 "manualEntryHint": "Ou saisissez ce code manuellement dans votre application d'authentification :",
                 "codeLabel": "Code de vérification",
@@ -215,6 +220,7 @@
                 "warningTitle": "Cette action est irréversible",
                 "warningBody": "La suppression de votre compte retire immédiatement votre accès. Contactez un administrateur si vous changez d'avis.",
                 "accountLabel": "Compte : {{email}}",
+                "confirmationWord": "SUPPRIMER",
                 "confirmationLabel": "Saisissez {{word}} pour confirmer",
                 "confirmationRequired": "Saisissez {{word}} pour confirmer la suppression du compte",
                 "submit": "Supprimer mon compte",
@@ -247,6 +253,29 @@
             "light": "Clair",
             "dark": "Sombre",
             "saveError": "Impossible d'enregistrer votre préférence d'apparence. Veuillez réessayer."
+        },
+        "notifications": {
+            "productUpdatesLabel": "Nouveautés produit",
+            "productUpdatesDescription": "Recevez occasionnellement des e-mails sur les nouvelles fonctionnalités et l'actualité du produit.",
+            "securityLabel": "E-mails de sécurité",
+            "securityDescription": "Recevez des e-mails sur la sécurité de votre compte. Toujours actif.",
+            "saveError": "Impossible d'enregistrer votre préférence de notification. Veuillez réessayer.",
+            "loadError": "Impossible de charger vos préférences de notification. Veuillez réessayer."
+        },
+        "display": {
+            "textSizeLabel": "Taille du texte",
+            "textSizeDescription": "Ajustez la taille du texte dans toute l'application.",
+            "textSizeSmall": "Petite",
+            "textSizeDefault": "Par défaut",
+            "textSizeLarge": "Grande",
+            "reduceMotionLabel": "Réduire les animations",
+            "reduceMotionDescription": "Minimise les animations et les transitions.",
+            "saveError": "Impossible d'enregistrer votre préférence d'affichage. Veuillez réessayer.",
+            "loadError": "Impossible de charger vos préférences d'affichage. Veuillez réessayer."
+        },
+        "language": {
+            "description": "Choisissez la langue utilisée dans l'application.",
+            "syncError": "Langue modifiée sur cet appareil, mais impossible de l'enregistrer sur votre compte."
         }
     },
     "errors": {

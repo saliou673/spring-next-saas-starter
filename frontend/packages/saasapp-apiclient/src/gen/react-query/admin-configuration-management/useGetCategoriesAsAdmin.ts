@@ -21,6 +21,7 @@ import type {
     GetCategoriesAsAdmin403,
     GetCategoriesAsAdmin404,
     GetCategoriesAsAdmin409,
+    GetCategoriesAsAdmin500,
 } from "../../types/GetCategoriesAsAdmin.ts";
 
 export const getCategoriesAsAdminQueryKey = () =>
@@ -41,6 +42,7 @@ export function getCategoriesAsAdminQueryOptions(
             | GetCategoriesAsAdmin403
             | GetCategoriesAsAdmin404
             | GetCategoriesAsAdmin409
+            | GetCategoriesAsAdmin500
         >,
         GetCategoriesAsAdminQueryResponse,
         typeof queryKey
@@ -72,6 +74,7 @@ export function useGetCategoriesAsAdmin<
                     | GetCategoriesAsAdmin403
                     | GetCategoriesAsAdmin404
                     | GetCategoriesAsAdmin409
+                    | GetCategoriesAsAdmin500
                 >,
                 TData,
                 TQueryData,
@@ -98,6 +101,7 @@ export function useGetCategoriesAsAdmin<
             | GetCategoriesAsAdmin403
             | GetCategoriesAsAdmin404
             | GetCategoriesAsAdmin409
+            | GetCategoriesAsAdmin500
         >
     > & { queryKey: TQueryKey };
 

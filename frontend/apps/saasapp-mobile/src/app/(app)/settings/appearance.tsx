@@ -2,17 +2,19 @@ import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { Stack } from 'expo-router';
+import { SymbolView, type SymbolViewProps } from 'expo-symbols';
 import {
   appearancePreferencesFontEnum,
   appearancePreferencesThemeEnum,
+  displayPreferencesTextSizeEnum,
   useGetCurrentUserPreferences,
   useUpdateCurrentUserPreferences,
   type AppearancePreferencesThemeEnumKey,
 } from '@api-client';
 
+import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { useAppTheme, type Theme } from '@/context/theme-provider';
@@ -21,6 +23,12 @@ const THEME_TO_API: Record<Theme, AppearancePreferencesThemeEnumKey> = {
   light: appearancePreferencesThemeEnum.LIGHT,
   dark: appearancePreferencesThemeEnum.DARK,
   system: appearancePreferencesThemeEnum.SYSTEM,
+};
+
+const THEME_ICONS: Record<Theme, SymbolViewProps['name']> = {
+  system: { ios: 'circle.lefthalf.filled', android: 'contrast', web: 'contrast' },
+  light: { ios: 'sun.max', android: 'light_mode', web: 'light_mode' },
+  dark: { ios: 'moon.stars', android: 'dark_mode', web: 'dark_mode' },
 };
 
 const API_TO_THEME: Record<AppearancePreferencesThemeEnumKey, Theme> = {
@@ -63,6 +71,13 @@ export default function AppearanceScreen() {
             theme: THEME_TO_API[next],
             font: preferences?.appearance.font ?? appearancePreferencesFontEnum.SYSTEM,
           },
+          // This mutation replaces the whole preferences document, so the
+          // rest has to be carried through unchanged here.
+          notifications: preferences?.notifications ?? { productUpdatesEnabled: false },
+          display: preferences?.display ?? {
+            textSize: displayPreferencesTextSizeEnum.DEFAULT,
+            reduceMotion: false,
+          },
         },
       });
     } catch {
@@ -80,7 +95,7 @@ export default function AppearanceScreen() {
     <>
       <Stack.Screen options={{ title: t('settings.nav.appearance') }} />
       <SettingsListScreen description={t('settings.appearance.description')}>
-        <ThemedView type="backgroundElement" style={styles.card}>
+        <SettingsCard>
           <View style={styles.optionRow}>
             {options.map((option) => {
               const selected = option.value === theme;
@@ -97,6 +112,12 @@ export default function AppearanceScreen() {
                       borderColor: uiColors.backgroundSelected,
                     },
                   ]}>
+                  <SymbolView
+                    name={THEME_ICONS[option.value]}
+                    size={18}
+                    weight="medium"
+                    tintColor={selected ? uiColors.background : uiColors.text}
+                  />
                   <ThemedText
                     type="smallBold"
                     style={{ color: selected ? uiColors.background : uiColors.text }}>
@@ -112,18 +133,13 @@ export default function AppearanceScreen() {
               {formError}
             </ThemedText>
           )}
-        </ThemedView>
+        </SettingsCard>
       </SettingsListScreen>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    borderRadius: Spacing.three,
-    padding: Spacing.three,
-    gap: Spacing.three,
-  },
   optionRow: {
     flexDirection: 'row',
     gap: Spacing.two,
@@ -132,8 +148,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    gap: Spacing.two,
     borderWidth: 1,
-    borderRadius: Spacing.two,
+    borderRadius: Spacing.three,
     paddingVertical: Spacing.three,
   },
 });

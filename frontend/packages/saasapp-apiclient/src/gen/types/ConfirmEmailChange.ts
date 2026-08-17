@@ -40,6 +40,11 @@ export type ConfirmEmailChange404 = ValidationErrorResponseDTO;
  */
 export type ConfirmEmailChange409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type ConfirmEmailChange500 = ValidationErrorResponseDTO;
+
 export type ConfirmEmailChangeMutationRequest = EmailChangeConfirmRequest;
 
 export type ConfirmEmailChangeMutationResponse = ConfirmEmailChange204;
@@ -51,5 +56,6 @@ export type ConfirmEmailChangeMutation = {
     Errors:
         | ConfirmEmailChange403
         | ConfirmEmailChange404
-        | ConfirmEmailChange409;
+        | ConfirmEmailChange409
+        | ConfirmEmailChange500;
 };
