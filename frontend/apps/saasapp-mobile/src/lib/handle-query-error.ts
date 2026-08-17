@@ -23,7 +23,6 @@ type HandleQueryErrorOptions = {
  */
 export function handleQueryError(error: unknown, options: HandleQueryErrorOptions = {}): void {
     if (__DEV__) {
-        // eslint-disable-next-line no-console
         console.log(error);
     }
 
