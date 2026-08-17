@@ -670,6 +670,10 @@
         "forbidden": {
             "title": "Access Forbidden",
             "description": "You don't have necessary permission\nto view this resource."
+        },
+        "serverErrorScreen": {
+            "title": "Oops! Something went wrong :')",
+            "description": "We apologize for the inconvenience.\nPlease try again later."
         }
     }
 }
