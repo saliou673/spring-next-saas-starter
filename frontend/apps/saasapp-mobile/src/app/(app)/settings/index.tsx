@@ -1,6 +1,7 @@
 import { Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
+import { LogoutButton } from '@/components/logout-button';
 import { ProfileSummaryCard } from '@/components/profile-summary-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { SettingsRow } from '@/components/settings-row';
@@ -49,6 +50,10 @@ export default function SettingsHomeScreen() {
             title={t('settings.nav.language')}
             icon={{ ios: 'globe', android: 'language', web: 'language' }}
           />
+        </SettingsSection>
+
+        <SettingsSection>
+          <LogoutButton />
         </SettingsSection>
       </SettingsListScreen>
     </>
