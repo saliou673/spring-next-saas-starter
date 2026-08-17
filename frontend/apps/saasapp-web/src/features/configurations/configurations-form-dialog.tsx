@@ -11,6 +11,7 @@ import {
     useCreateAppConfigurationAsAdmin,
     useGetCategoriesAsAdmin,
     useUpdateAppConfigurationAsAdmin,
+    getAppConfigurationsAsAdminQueryKey,
 } from "@api-client";
 import { toast } from "sonner";
 import { handleServerError } from "@/lib/handle-server-error";
@@ -37,7 +38,6 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { SelectDropdown } from "@/components/select-dropdown";
-import { getAppConfigurationsAsAdminQueryKey } from "@api-client";
 
 const formSchema = z.object({
     category: z.string().min(1, "Category is required."),

@@ -8,13 +8,11 @@ import {
     useCreatePublicUserAccount,
     useGetSubscriptionPlans,
     useGetAppConfigurations,
+    axiosInstance,
+    type SubscriptionPlan,
+    type SubscribeRequestBillingFrequencyEnumKey,
+    type AppConfiguration,
 } from "@api-client";
-import type {
-    SubscriptionPlan,
-    SubscribeRequestBillingFrequencyEnumKey,
-    AppConfiguration,
-} from "@api-client";
-import { axiosInstance } from "@api-client";
 import {
     Elements,
     PaymentElement,

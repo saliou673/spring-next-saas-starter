@@ -15,8 +15,8 @@ import {
     useGetUserAsAdmin,
     useRevokeRoleGroupAsAdmin,
     useUpdateUserAsAdmin,
+    getUsersAsAdminQueryKey,
 } from "@api-client";
-import { getUsersAsAdminQueryKey } from "@api-client";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { handleServerError } from "@/lib/handle-server-error";
