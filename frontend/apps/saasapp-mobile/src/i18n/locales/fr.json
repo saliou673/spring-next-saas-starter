@@ -148,12 +148,14 @@
             "description": "Gérez votre profil, votre compte et les préférences de l'application.",
             "sectionAccount": "Compte",
             "sectionPreferences": "Préférences",
+            "sectionAdmin": "Administration",
             "profile": "Profil",
             "account": "Compte",
             "appearance": "Apparence",
             "notifications": "Notifications",
             "display": "Affichage",
-            "language": "Langue"
+            "language": "Langue",
+            "users": "Utilisateurs"
         },
         "account": {
             "title": "Compte",

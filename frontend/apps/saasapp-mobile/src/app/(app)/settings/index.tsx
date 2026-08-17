@@ -1,5 +1,6 @@
 import { Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import { useGetCurrentUserPermissions } from '@api-client';
 
 import { LogoutButton } from '@/components/logout-button';
 import { ProfileSummaryCard } from '@/components/profile-summary-card';
@@ -9,6 +10,9 @@ import { SettingsSection } from '@/components/settings-section';
 
 export default function SettingsHomeScreen() {
   const { t } = useTranslation();
+  const { data: permissions } = useGetCurrentUserPermissions();
+
+  const canReadUsers = (permissions ?? []).some((permission) => permission.code === 'user:read');
 
   return (
     <>
@@ -51,6 +55,16 @@ export default function SettingsHomeScreen() {
             icon={{ ios: 'globe', android: 'language', web: 'language' }}
           />
         </SettingsSection>
+
+        {canReadUsers && (
+          <SettingsSection title={t('settings.nav.sectionAdmin')}>
+            <SettingsRow
+              href="/users"
+              title={t('settings.nav.users')}
+              icon={{ ios: 'person.2', android: 'group', web: 'group' }}
+            />
+          </SettingsSection>
+        )}
 
         <SettingsSection>
           <LogoutButton />

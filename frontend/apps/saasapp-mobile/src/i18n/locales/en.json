@@ -148,12 +148,14 @@
             "description": "Manage your profile, account, and app preferences.",
             "sectionAccount": "Account",
             "sectionPreferences": "Preferences",
+            "sectionAdmin": "Admin",
             "profile": "Profile",
             "account": "Account",
             "appearance": "Appearance",
             "notifications": "Notifications",
             "display": "Display",
-            "language": "Language"
+            "language": "Language",
+            "users": "Users"
         },
         "account": {
             "title": "Account",
