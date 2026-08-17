@@ -3,6 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import {
     appearancePreferencesFontEnum,
     appearancePreferencesThemeEnum,
+    displayPreferencesTextSizeEnum,
     getCurrentUserPreferencesQueryKey,
     useGetCurrentUserPreferences,
     useUpdateCurrentUserPreferences,
@@ -51,10 +52,13 @@ export function ThemeSwitch() {
                         font: appearancePreferencesFontEnum[fontKey],
                     },
                     // This mutation replaces the whole preferences document,
-                    // so the notifications half has to be carried through
-                    // unchanged here.
+                    // so the rest has to be carried through unchanged here.
                     notifications: preferences?.notifications ?? {
                         productUpdatesEnabled: false,
+                    },
+                    display: preferences?.display ?? {
+                        textSize: displayPreferencesTextSizeEnum.DEFAULT,
+                        reduceMotion: false,
                     },
                 },
             },

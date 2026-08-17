@@ -61,6 +61,7 @@ export function NotificationsForm() {
             data: {
                 appearance: preferences.appearance,
                 notifications: { productUpdatesEnabled },
+                display: preferences.display,
             },
         });
     }

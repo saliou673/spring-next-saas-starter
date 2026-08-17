@@ -1,9 +1,11 @@
 package com.saasapp.infrastructure.adapter.in.rest.controller.mapper;
 
 import com.saasapp.domain.models.userpreference.AppearancePreferences;
+import com.saasapp.domain.models.userpreference.DisplayPreferences;
 import com.saasapp.domain.models.userpreference.NotificationPreferences;
 import com.saasapp.domain.models.userpreference.UserPreferences;
 import com.saasapp.infrastructure.adapter.in.rest.controller.dto.AppearancePreferencesDTO;
+import com.saasapp.infrastructure.adapter.in.rest.controller.dto.DisplayPreferencesDTO;
 import com.saasapp.infrastructure.adapter.in.rest.controller.dto.NotificationPreferencesDTO;
 import com.saasapp.infrastructure.adapter.in.rest.controller.dto.UserPreferencesDTO;
 import org.mapstruct.Mapper;
@@ -23,14 +25,22 @@ public interface UserPreferencesDtoMapper {
         if (preferences == null) {
             return null;
         }
-        return new UserPreferencesDTO(toDTO(preferences.appearance()), toDTO(preferences.notifications()));
+        return new UserPreferencesDTO(
+                toDTO(preferences.appearance()),
+                toDTO(preferences.notifications()),
+                toDTO(preferences.display())
+        );
     }
 
     default UserPreferences toDomain(UserPreferencesDTO preferences) {
         if (preferences == null) {
             return null;
         }
-        return UserPreferences.of(toDomain(preferences.appearance()), toDomain(preferences.notifications()));
+        return UserPreferences.of(
+                toDomain(preferences.appearance()),
+                toDomain(preferences.notifications()),
+                toDomain(preferences.display())
+        );
     }
 
     default AppearancePreferencesDTO toDTO(AppearancePreferences appearance) {
@@ -59,5 +69,19 @@ public interface UserPreferencesDtoMapper {
             return null;
         }
         return new NotificationPreferences(notifications.productUpdatesEnabled());
+    }
+
+    default DisplayPreferencesDTO toDTO(DisplayPreferences display) {
+        if (display == null) {
+            return null;
+        }
+        return new DisplayPreferencesDTO(display.textSize(), display.reduceMotion());
+    }
+
+    default DisplayPreferences toDomain(DisplayPreferencesDTO display) {
+        if (display == null) {
+            return null;
+        }
+        return new DisplayPreferences(display.textSize(), display.reduceMotion());
     }
 }

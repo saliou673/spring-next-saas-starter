@@ -409,20 +409,17 @@
     "SettingsDisplay": {
         "metadataTitle": "Display Settings",
         "sectionTitle": "Display",
-        "sectionDescription": "Turn items on or off to control what's displayed in the app.",
+        "sectionDescription": "Adjust text size and motion.",
         "form": {
-            "sidebarLabel": "Sidebar",
-            "sidebarDescription": "Select the items you want to display in the sidebar.",
-            "items": {
-                "recents": "Recents",
-                "home": "Home",
-                "applications": "Applications",
-                "desktop": "Desktop",
-                "downloads": "Downloads",
-                "documents": "Documents"
-            },
-            "atLeastOneError": "You have to select at least one item.",
-            "submit": "Update display"
+            "textSizeLabel": "Text size",
+            "textSizeDescription": "Adjust how large text appears throughout the app.",
+            "textSizeSMALL": "Small",
+            "textSizeDEFAULT": "Default",
+            "textSizeLARGE": "Large",
+            "reduceMotionLabel": "Reduce motion",
+            "reduceMotionDescription": "Minimize animations and transitions.",
+            "toastUpdated": "Display preferences updated.",
+            "loadError": "Couldn't load your display preferences. Please try again."
         }
     }
 }

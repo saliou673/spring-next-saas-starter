@@ -8,8 +8,10 @@ import { fonts } from "@/config/fonts";
 import {
     appearancePreferencesFontEnum,
     appearancePreferencesThemeEnum,
+    displayPreferencesTextSizeEnum,
     getCurrentUserPreferencesQueryKey,
     getUserDetailsQueryKey,
+    type DisplayPreferences,
     type NotificationPreferences,
     type UserSummary,
     type UserPreferences,
@@ -52,6 +54,11 @@ const defaultNotificationPreferences: NotificationPreferences = {
     productUpdatesEnabled: false,
 };
 
+const defaultDisplayPreferences: DisplayPreferences = {
+    textSize: displayPreferencesTextSizeEnum.DEFAULT,
+    reduceMotion: false,
+};
+
 function mapApiPreferencesToFormValues(
     preferences?: UserPreferences | null
 ): AppearanceFormValues {
@@ -60,7 +67,8 @@ function mapApiPreferencesToFormValues(
 
 function toApiPreferences(
     values: AppearanceFormValues,
-    currentNotifications: NotificationPreferences
+    currentNotifications: NotificationPreferences,
+    currentDisplay: DisplayPreferences
 ): UserPreferences {
     return {
         appearance: {
@@ -72,8 +80,9 @@ function toApiPreferences(
             ],
         },
         // This mutation replaces the whole preferences document, so the
-        // notifications half has to be carried through unchanged here.
+        // rest has to be carried through unchanged here.
         notifications: currentNotifications,
+        display: currentDisplay,
     };
 }
 
@@ -186,7 +195,8 @@ export function AppearanceForm() {
         updatePreferences({
             data: toApiPreferences(
                 data,
-                preferences?.notifications ?? defaultNotificationPreferences
+                preferences?.notifications ?? defaultNotificationPreferences,
+                preferences?.display ?? defaultDisplayPreferences
             ),
         });
     }

@@ -5,6 +5,7 @@ import { Stack } from 'expo-router';
 import {
   appearancePreferencesFontEnum,
   appearancePreferencesThemeEnum,
+  displayPreferencesTextSizeEnum,
   useGetCurrentUserPreferences,
   useUpdateCurrentUserPreferences,
   type AppearancePreferencesThemeEnumKey,
@@ -64,8 +65,12 @@ export default function AppearanceScreen() {
             font: preferences?.appearance.font ?? appearancePreferencesFontEnum.SYSTEM,
           },
           // This mutation replaces the whole preferences document, so the
-          // notifications half has to be carried through unchanged here.
+          // rest has to be carried through unchanged here.
           notifications: preferences?.notifications ?? { productUpdatesEnabled: false },
+          display: preferences?.display ?? {
+            textSize: displayPreferencesTextSizeEnum.DEFAULT,
+            reduceMotion: false,
+          },
         },
       });
     } catch {

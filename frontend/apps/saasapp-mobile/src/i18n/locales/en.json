@@ -264,7 +264,9 @@
             "textSizeDefault": "Default",
             "textSizeLarge": "Large",
             "reduceMotionLabel": "Reduce motion",
-            "reduceMotionDescription": "Minimize animations and transitions."
+            "reduceMotionDescription": "Minimize animations and transitions.",
+            "saveError": "Couldn't save your display preference. Please try again.",
+            "loadError": "Couldn't load your display preferences. Please try again."
         },
         "language": {
             "description": "Choose the language used throughout the app.",
