@@ -3,7 +3,7 @@ import { StyleSheet, Switch, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
 import { Link, useRouter } from 'expo-router';
-import { useAuthenticate } from '@api-client';
+import { useAuthenticate, type ValidationErrorResponseDTO } from '@api-client';
 
 import { AuthScreen } from '@/components/auth-screen';
 import { FormTextField } from '@/components/form-text-field';
@@ -12,6 +12,7 @@ import { ThemedText } from '@/components/themed-text';
 import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/use-auth';
+import { extractApiErrorMessage } from '@/lib/api-error';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MIN_PASSWORD_LENGTH = 7;
@@ -80,9 +81,7 @@ export default function SignInScreen() {
       return;
     }
 
-    const data = error.response?.data as
-      | { message?: string; errors?: Record<string, string> }
-      | undefined;
+    const data = error.response?.data as ValidationErrorResponseDTO | undefined;
 
     if (data?.errors) {
       setFieldErrors({ email: data.errors.email, password: data.errors.password });
@@ -91,11 +90,11 @@ export default function SignInScreen() {
     if (data?.errors?.email || data?.errors?.password) return;
 
     if (error.response?.status === 401) {
-      setFormError(data?.message ?? t('auth.signIn.invalidCredentials'));
+      setFormError(extractApiErrorMessage(error, t('auth.signIn.invalidCredentials')));
       return;
     }
 
-    setFormError(data?.message ?? t('errors.generic'));
+    setFormError(extractApiErrorMessage(error, t('errors.generic')));
   }
 
   async function onSubmit() {
