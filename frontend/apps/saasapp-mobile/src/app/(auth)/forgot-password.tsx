@@ -11,6 +11,7 @@ import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
 import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
+import { extractApiErrorMessage } from '@/lib/api-error';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -46,14 +47,12 @@ export default function ForgotPasswordScreen() {
       setIsSent(true);
     } catch (error) {
       if (error instanceof AxiosError) {
-        const data = error.response?.data as { message?: string } | undefined;
-
         if (error.response?.status === 404) {
           setEmailError(t('auth.forgotPassword.noAccount'));
           return;
         }
 
-        setFormError(data?.message ?? t('errors.generic'));
+        setFormError(extractApiErrorMessage(error, t('errors.generic')));
         return;
       }
 

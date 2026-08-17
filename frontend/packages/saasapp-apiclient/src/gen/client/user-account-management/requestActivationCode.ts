@@ -15,6 +15,7 @@ import type {
     RequestActivationCode403,
     RequestActivationCode404,
     RequestActivationCode409,
+    RequestActivationCode500,
 } from "../../types/RequestActivationCode.ts";
 
 function getRequestActivationCodeUrl() {
@@ -45,6 +46,7 @@ export async function requestActivationCode(
             | RequestActivationCode403
             | RequestActivationCode404
             | RequestActivationCode409
+            | RequestActivationCode500
         >,
         RequestActivationCodeMutationRequest
     >({

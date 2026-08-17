@@ -14,6 +14,7 @@ import type {
     Logout403,
     Logout404,
     Logout409,
+    Logout500,
 } from "../../types/Logout.ts";
 
 function getLogoutUrl() {
@@ -32,7 +33,7 @@ export async function logout(
 
     const res = await request<
         LogoutMutationResponse,
-        ResponseErrorConfig<Logout403 | Logout404 | Logout409>,
+        ResponseErrorConfig<Logout403 | Logout404 | Logout409 | Logout500>,
         unknown
     >({
         method: "POST",

@@ -21,6 +21,7 @@ import type {
     Authenticate403,
     Authenticate404,
     Authenticate409,
+    Authenticate500,
 } from "../../types/Authenticate.ts";
 
 export const authenticateMutationKey = () =>
@@ -39,7 +40,10 @@ export function authenticateMutationOptions<TContext = unknown>(
     return mutationOptions<
         AuthenticateMutationResponse,
         ResponseErrorConfig<
-            Authenticate403 | Authenticate404 | Authenticate409
+            | Authenticate403
+            | Authenticate404
+            | Authenticate409
+            | Authenticate500
         >,
         {
             data: AuthenticateMutationRequest;
@@ -62,7 +66,10 @@ export function useAuthenticate<TContext>(
         mutation?: UseMutationOptions<
             AuthenticateMutationResponse,
             ResponseErrorConfig<
-                Authenticate403 | Authenticate404 | Authenticate409
+                | Authenticate403
+                | Authenticate404
+                | Authenticate409
+                | Authenticate500
             >,
             {
                 data: AuthenticateMutationRequest;
@@ -85,7 +92,10 @@ export function useAuthenticate<TContext>(
     ) as UseMutationOptions<
         AuthenticateMutationResponse,
         ResponseErrorConfig<
-            Authenticate403 | Authenticate404 | Authenticate409
+            | Authenticate403
+            | Authenticate404
+            | Authenticate409
+            | Authenticate500
         >,
         {
             data: AuthenticateMutationRequest;
@@ -97,7 +107,10 @@ export function useAuthenticate<TContext>(
     return useMutation<
         AuthenticateMutationResponse,
         ResponseErrorConfig<
-            Authenticate403 | Authenticate404 | Authenticate409
+            | Authenticate403
+            | Authenticate404
+            | Authenticate409
+            | Authenticate500
         >,
         {
             data: AuthenticateMutationRequest;
@@ -114,7 +127,10 @@ export function useAuthenticate<TContext>(
     ) as UseMutationResult<
         AuthenticateMutationResponse,
         ResponseErrorConfig<
-            Authenticate403 | Authenticate404 | Authenticate409
+            | Authenticate403
+            | Authenticate404
+            | Authenticate409
+            | Authenticate500
         >,
         {
             data: AuthenticateMutationRequest;

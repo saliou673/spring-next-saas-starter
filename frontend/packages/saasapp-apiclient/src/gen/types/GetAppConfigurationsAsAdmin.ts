@@ -53,6 +53,11 @@ export type GetAppConfigurationsAsAdmin404 = ValidationErrorResponseDTO;
  */
 export type GetAppConfigurationsAsAdmin409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type GetAppConfigurationsAsAdmin500 = ValidationErrorResponseDTO;
+
 export type GetAppConfigurationsAsAdminQueryResponse =
     GetAppConfigurationsAsAdmin200;
 
@@ -63,5 +68,6 @@ export type GetAppConfigurationsAsAdminQuery = {
     Errors:
         | GetAppConfigurationsAsAdmin403
         | GetAppConfigurationsAsAdmin404
-        | GetAppConfigurationsAsAdmin409;
+        | GetAppConfigurationsAsAdmin409
+        | GetAppConfigurationsAsAdmin500;
 };

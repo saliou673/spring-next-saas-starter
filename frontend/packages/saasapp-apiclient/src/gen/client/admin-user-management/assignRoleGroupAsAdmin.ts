@@ -16,6 +16,7 @@ import type {
     AssignRoleGroupAsAdmin403,
     AssignRoleGroupAsAdmin404,
     AssignRoleGroupAsAdmin409,
+    AssignRoleGroupAsAdmin500,
 } from "../../types/AssignRoleGroupAsAdmin.ts";
 
 function getAssignRoleGroupAsAdminUrl(
@@ -49,6 +50,7 @@ export async function assignRoleGroupAsAdmin(
             | AssignRoleGroupAsAdmin403
             | AssignRoleGroupAsAdmin404
             | AssignRoleGroupAsAdmin409
+            | AssignRoleGroupAsAdmin500
         >,
         AssignRoleGroupAsAdminMutationRequest
     >({

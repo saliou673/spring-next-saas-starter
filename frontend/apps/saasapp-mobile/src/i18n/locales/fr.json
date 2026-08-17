@@ -146,6 +146,8 @@
         "nav": {
             "title": "Paramètres",
             "description": "Gérez votre profil, votre compte et les préférences de l'application.",
+            "sectionAccount": "Compte",
+            "sectionPreferences": "Préférences",
             "profile": "Profil",
             "account": "Compte",
             "appearance": "Apparence",
@@ -156,6 +158,8 @@
         "account": {
             "title": "Compte",
             "description": "Gérez votre e-mail, votre mot de passe, l'authentification à deux facteurs et la suppression du compte.",
+            "sectionSecurity": "Sécurité",
+            "sectionDanger": "Zone de danger",
             "email": "Modifier l'e-mail",
             "password": "Modifier le mot de passe",
             "twoFactor": "Authentification à deux facteurs",
@@ -195,6 +199,7 @@
                 "enabledDescription": "L'authentification à deux facteurs protège votre compte.",
                 "startButton": "Activer l'authentification à deux facteurs",
                 "startError": "Impossible de démarrer la configuration. Veuillez réessayer.",
+                "scanHint": "Scannez ce code QR avec votre application d'authentification.",
                 "openAuthenticator": "Ouvrir dans l'application d'authentification",
                 "manualEntryHint": "Ou saisissez ce code manuellement dans votre application d'authentification :",
                 "codeLabel": "Code de vérification",
@@ -215,6 +220,7 @@
                 "warningTitle": "Cette action est irréversible",
                 "warningBody": "La suppression de votre compte retire immédiatement votre accès. Contactez un administrateur si vous changez d'avis.",
                 "accountLabel": "Compte : {{email}}",
+                "confirmationWord": "SUPPRIMER",
                 "confirmationLabel": "Saisissez {{word}} pour confirmer",
                 "confirmationRequired": "Saisissez {{word}} pour confirmer la suppression du compte",
                 "submit": "Supprimer mon compte",
@@ -249,18 +255,12 @@
             "saveError": "Impossible d'enregistrer votre préférence d'apparence. Veuillez réessayer."
         },
         "notifications": {
-            "notifyLabel": "Me notifier pour",
-            "typeAll": "Tous les nouveaux messages",
-            "typeMentions": "Messages directs et mentions",
-            "typeNone": "Rien",
-            "communicationLabel": "E-mails de communication",
-            "communicationDescription": "Recevez des e-mails sur l'activité de votre compte.",
-            "marketingLabel": "E-mails marketing",
-            "marketingDescription": "Recevez des e-mails sur les nouveaux produits, fonctionnalités, etc.",
-            "socialLabel": "E-mails sociaux",
-            "socialDescription": "Recevez des e-mails pour les demandes d'ami, abonnements, etc.",
+            "productUpdatesLabel": "Nouveautés produit",
+            "productUpdatesDescription": "Recevez occasionnellement des e-mails sur les nouvelles fonctionnalités et l'actualité du produit.",
             "securityLabel": "E-mails de sécurité",
-            "securityDescription": "Recevez des e-mails sur la sécurité de votre compte. Toujours actif."
+            "securityDescription": "Recevez des e-mails sur la sécurité de votre compte. Toujours actif.",
+            "saveError": "Impossible d'enregistrer votre préférence de notification. Veuillez réessayer.",
+            "loadError": "Impossible de charger vos préférences de notification. Veuillez réessayer."
         },
         "display": {
             "textSizeLabel": "Taille du texte",
@@ -269,7 +269,9 @@
             "textSizeDefault": "Par défaut",
             "textSizeLarge": "Grande",
             "reduceMotionLabel": "Réduire les animations",
-            "reduceMotionDescription": "Minimise les animations et les transitions."
+            "reduceMotionDescription": "Minimise les animations et les transitions.",
+            "saveError": "Impossible d'enregistrer votre préférence d'affichage. Veuillez réessayer.",
+            "loadError": "Impossible de charger vos préférences d'affichage. Veuillez réessayer."
         },
         "language": {
             "description": "Choisissez la langue utilisée dans l'application.",

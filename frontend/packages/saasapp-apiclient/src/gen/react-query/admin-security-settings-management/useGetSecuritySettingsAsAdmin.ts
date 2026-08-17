@@ -21,6 +21,7 @@ import type {
     GetSecuritySettingsAsAdmin403,
     GetSecuritySettingsAsAdmin404,
     GetSecuritySettingsAsAdmin409,
+    GetSecuritySettingsAsAdmin500,
 } from "../../types/GetSecuritySettingsAsAdmin.ts";
 
 export const getSecuritySettingsAsAdminQueryKey = () =>
@@ -41,6 +42,7 @@ export function getSecuritySettingsAsAdminQueryOptions(
             | GetSecuritySettingsAsAdmin403
             | GetSecuritySettingsAsAdmin404
             | GetSecuritySettingsAsAdmin409
+            | GetSecuritySettingsAsAdmin500
         >,
         GetSecuritySettingsAsAdminQueryResponse,
         typeof queryKey
@@ -72,6 +74,7 @@ export function useGetSecuritySettingsAsAdmin<
                     | GetSecuritySettingsAsAdmin403
                     | GetSecuritySettingsAsAdmin404
                     | GetSecuritySettingsAsAdmin409
+                    | GetSecuritySettingsAsAdmin500
                 >,
                 TData,
                 TQueryData,
@@ -99,6 +102,7 @@ export function useGetSecuritySettingsAsAdmin<
             | GetSecuritySettingsAsAdmin403
             | GetSecuritySettingsAsAdmin404
             | GetSecuritySettingsAsAdmin409
+            | GetSecuritySettingsAsAdmin500
         >
     > & { queryKey: TQueryKey };
 

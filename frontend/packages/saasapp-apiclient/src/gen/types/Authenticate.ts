@@ -40,6 +40,11 @@ export type Authenticate404 = ValidationErrorResponseDTO;
  */
 export type Authenticate409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type Authenticate500 = ValidationErrorResponseDTO;
+
 export type AuthenticateMutationRequest = LoginRequest;
 
 export type AuthenticateMutationResponse = Authenticate200;
@@ -48,5 +53,9 @@ export type AuthenticateMutation = {
     Response: Authenticate200;
     Request: AuthenticateMutationRequest;
     HeaderParams: AuthenticateHeaderParams;
-    Errors: Authenticate403 | Authenticate404 | Authenticate409;
+    Errors:
+        | Authenticate403
+        | Authenticate404
+        | Authenticate409
+        | Authenticate500;
 };

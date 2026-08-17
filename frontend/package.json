@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "scripts": {
     "web": "pnpm --filter saasapp-webapp dev",
-    "mobile": "pnpm --filter saasapp-mobile android",
+    "mobile": "pnpm --filter saasapp-mobile start",
     "build": "pnpm -r build",
     "generate:api": "pnpm --filter saasapp-apiclient generate",
     "format:check": "prettier --check .",
