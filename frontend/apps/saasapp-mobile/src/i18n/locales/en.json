@@ -5,7 +5,8 @@
         "cancel": "Cancel",
         "confirm": "Confirm",
         "save": "Save",
-        "ok": "OK"
+        "ok": "OK",
+        "offlineBanner": "You're offline. Some features may be unavailable."
     },
     "languageSwitch": {
         "toggleLabel": "Toggle language",
@@ -156,7 +157,8 @@
             "display": "Display",
             "language": "Language",
             "users": "Users",
-            "roleGroups": "Role groups"
+            "roleGroups": "Role groups",
+            "configurations": "Configuration"
         },
         "account": {
             "title": "Account",
@@ -409,6 +411,252 @@
             "permissionsLabel": "Permissions",
             "noPermissions": "No permissions assigned.",
             "managePermissions": "Manage permissions"
+        },
+        "create": {
+            "title": "Add role group",
+            "description": "Create a role group and assign at least one permission.",
+            "fields": {
+                "name": "Name",
+                "description": "Description",
+                "permissions": "Permissions"
+            },
+            "permissionsEmpty": "No permissions available.",
+            "validation": {
+                "nameRequired": "Name is required.",
+                "descriptionRequired": "Description is required.",
+                "permissionRequired": "At least one permission is required."
+            },
+            "submit": "Create role group",
+            "toastCreated": "Role group created."
+        },
+        "permissions": {
+            "title": "Permissions",
+            "description": "Toggle the permissions granted to this role group.",
+            "loadError": "Unable to load this role group.",
+            "empty": "No permissions available.",
+            "submit": "Save changes",
+            "toastUpdated": "Permissions updated."
+        }
+    },
+    "configurations": {
+        "nav": {
+            "title": "Configuration",
+            "description": "Manage application-wide configuration.",
+            "referenceData": "Reference data",
+            "fileStorage": "File storage",
+            "taxRates": "Tax rates",
+            "companyProfile": "Company profile",
+            "security": "Security"
+        },
+        "referenceData": {
+            "title": "Reference data",
+            "description": "Configurable option lists used across the application, such as currencies, payment modes, and 2FA methods.",
+            "addConfiguration": "Add configuration",
+            "searchPlaceholder": "Search by code",
+            "allCategories": "All",
+            "active": "Active",
+            "inactive": "Inactive",
+            "errorFallback": "Unable to load configurations.",
+            "noResults": "No configurations found.",
+            "previous": "Previous",
+            "next": "Next",
+            "pageIndicator": "Page {{page}} of {{totalPages}}",
+            "create": {
+                "title": "Add configuration",
+                "description": "Create a new configuration entry.",
+                "fields": {
+                    "category": "Category",
+                    "code": "Code",
+                    "label": "Label",
+                    "description": "Description"
+                },
+                "activeHint": "New configurations are created as active by default. You can change the status afterward.",
+                "validation": {
+                    "categoryRequired": "Category is required.",
+                    "codeRequired": "Code is required.",
+                    "codeTooLong": "Code must be 50 characters or fewer.",
+                    "labelRequired": "Label is required."
+                },
+                "submit": "Create configuration",
+                "toastCreated": "Configuration created."
+            },
+            "detail": {
+                "title": "Configuration",
+                "loadError": "Unable to load this configuration.",
+                "fields": {
+                    "category": "Category",
+                    "code": "Code",
+                    "label": "Label",
+                    "description": "Description",
+                    "active": "Active"
+                },
+                "validation": {
+                    "codeRequired": "Code is required.",
+                    "codeTooLong": "Code must be 50 characters or fewer.",
+                    "labelRequired": "Label is required."
+                },
+                "submit": "Save changes",
+                "toastUpdated": "Configuration updated.",
+                "delete": "Delete configuration",
+                "deleteConfirmTitle": "Delete configuration",
+                "deleteConfirmMessage": "Delete configuration {{code}}? This action permanently removes the configuration entry from the system. Backend rules still apply - deletion can fail if it's referenced elsewhere.",
+                "toastDeleted": "Configuration deleted."
+            }
+        },
+        "security": {
+            "title": "Security settings",
+            "description": "Configure application-wide security policies.",
+            "loadError": "Unable to load security settings.",
+            "saveError": "Couldn't save security settings. Please try again.",
+            "toastUpdated": "Security settings saved.",
+            "twoFactorSectionTitle": "Two-factor authentication",
+            "twoFactorRequiredLabel": "Require 2FA for all users",
+            "twoFactorRequiredDescription": "When enabled, all users must configure two-factor authentication before they can log in."
+        }
+    },
+    "legal": {
+        "nav": {
+            "sectionTitle": "Legal",
+            "terms": "Terms of Service",
+            "privacy": "Privacy Policy",
+            "cookiePolicy": "Cookie Policy",
+            "contact": "Contact Us",
+            "helpCenter": "Help Center"
+        },
+        "terms": {
+            "title": "Terms of Service",
+            "lastUpdated": "Last updated: March 20, 2026",
+            "sections": [
+                {
+                    "heading": "1. Acceptance of Terms",
+                    "body": "By accessing or using Saasapp, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services."
+                },
+                {
+                    "heading": "2. Use of Services",
+                    "body": "You agree to use our services only for lawful purposes and in accordance with these Terms. You must not use our services to:",
+                    "list": [
+                        "Violate any applicable laws or regulations",
+                        "Infringe on the rights of others",
+                        "Transmit harmful, offensive, or disruptive content",
+                        "Attempt to gain unauthorized access to our systems"
+                    ]
+                },
+                {
+                    "heading": "3. Accounts",
+                    "body": "You are responsible for maintaining the security of your account credentials and for all activity that occurs under your account. Notify us immediately of any unauthorized use."
+                },
+                {
+                    "heading": "4. Intellectual Property",
+                    "body": "Saasapp and its original content, features, and functionality are owned by Saasapp and are protected by international copyright, trademark, and other intellectual property laws."
+                },
+                {
+                    "heading": "5. Termination",
+                    "body": "We reserve the right to suspend or terminate your account at our sole discretion, without notice, for conduct that we believe violates these Terms or is harmful to other users, us, or third parties."
+                },
+                {
+                    "heading": "6. Limitation of Liability",
+                    "body": "To the maximum extent permitted by law, Saasapp shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of or inability to use our services."
+                },
+                {
+                    "heading": "7. Contact Us",
+                    "body": "If you have any questions about these Terms, please contact us at:"
+                }
+            ]
+        },
+        "privacy": {
+            "title": "Privacy Policy",
+            "lastUpdated": "Last updated: March 20, 2026",
+            "sections": [
+                {
+                    "heading": "1. Information We Collect",
+                    "body": "We collect information you provide directly to us, such as when you create an account, use our services, or contact us for support. This includes:",
+                    "list": [
+                        "Name and email address",
+                        "Account credentials",
+                        "Billing and payment information",
+                        "Usage data and activity logs within our platform"
+                    ]
+                },
+                {
+                    "heading": "2. How We Use Your Information",
+                    "body": "We use the information we collect to operate, maintain, and improve our services, process transactions, send transactional and promotional communications, and comply with legal obligations."
+                },
+                {
+                    "heading": "3. Information Sharing",
+                    "body": "We do not sell, trade, or rent your personal information to third parties. We may share your information with trusted service providers who assist us in operating our platform, subject to confidentiality agreements."
+                },
+                {
+                    "heading": "4. Data Retention",
+                    "body": "We retain your personal information for as long as your account is active or as needed to provide you services. You may request deletion of your data at any time by contacting us."
+                },
+                {
+                    "heading": "5. Security",
+                    "body": "We implement industry-standard security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction."
+                },
+                {
+                    "heading": "6. Contact Us",
+                    "body": "If you have any questions about this Privacy Policy, please contact us at:"
+                }
+            ]
+        },
+        "cookiePolicy": {
+            "title": "Cookie Policy",
+            "lastUpdated": "Last updated: March 20, 2026",
+            "sections": [
+                {
+                    "heading": "1. What Are Cookies",
+                    "body": "Cookies are small text files stored on your device when you visit a website. They help us recognize your browser, remember your preferences, and improve your experience on our platform."
+                },
+                {
+                    "heading": "2. Types of Cookies We Use",
+                    "body": "We use the following categories of cookies:",
+                    "list": [
+                        "Strictly necessary cookies — Required for the platform to function. These include session and authentication cookies.",
+                        "Preference cookies — Store your settings such as language, theme, and display preferences.",
+                        "Analytics cookies — Help us understand how visitors interact with our platform so we can improve it."
+                    ]
+                },
+                {
+                    "heading": "3. How We Use Cookies",
+                    "body": "We use cookies to keep you signed in, remember your preferences across sessions, analyze usage patterns to improve our services, and ensure the security and integrity of your account."
+                },
+                {
+                    "heading": "4. Third-Party Cookies",
+                    "body": "Some cookies may be set by third-party services that appear on our pages. We do not control these cookies and recommend reviewing the privacy policies of those third parties."
+                },
+                {
+                    "heading": "5. Managing Cookies",
+                    "body": "You can control and delete cookies through your browser settings. Please note that disabling certain cookies may affect the functionality of our platform. Refer to your browser's help documentation for instructions on managing cookies."
+                },
+                {
+                    "heading": "6. Contact Us",
+                    "body": "If you have any questions about our use of cookies, please contact us at:"
+                }
+            ]
+        },
+        "contact": {
+            "title": "Contact us",
+            "description": "Have a question, feedback, or need support? Send us a message and we'll get back to you as soon as possible.",
+            "fields": {
+                "name": "Name",
+                "email": "Email",
+                "subject": "Subject",
+                "message": "Message"
+            },
+            "validation": {
+                "nameRequired": "Please enter your name.",
+                "emailRequired": "Please enter your email.",
+                "emailInvalid": "Enter a valid email address.",
+                "subjectRequired": "Please enter a subject.",
+                "messageRequired": "Please enter your message."
+            },
+            "submit": "Send message",
+            "toastSent": "Message sent! We'll get back to you shortly."
+        },
+        "helpCenter": {
+            "title": "Help Center",
+            "comingSoonTitle": "Coming Soon!",
+            "comingSoonBody": "This page has not been created yet.\nStay tuned though!"
         }
     },
     "errors": {
@@ -417,6 +665,29 @@
         "generic": "Something went wrong.",
         "boundaryTitle": "Something went wrong",
         "boundaryHint": "An unexpected error occurred. You can try again.",
-        "boundaryRetry": "Try again"
+        "boundaryRetry": "Try again",
+        "goBack": "Go Back",
+        "backToHome": "Back to Home",
+        "forbidden": {
+            "title": "Access Forbidden",
+            "description": "You don't have necessary permission\nto view this resource."
+        },
+        "serverErrorScreen": {
+            "title": "Oops! Something went wrong :')",
+            "description": "We apologize for the inconvenience.\nPlease try again later."
+        },
+        "maintenance": {
+            "title": "Website is under maintenance!",
+            "description": "The site is not available at the moment.\nWe'll be back online shortly.",
+            "learnMore": "Learn more"
+        },
+        "notFound": {
+            "title": "Oops! Page Not Found!",
+            "description": "It seems like the page you're looking for\ndoes not exist or might have been removed."
+        },
+        "unauthorized": {
+            "title": "Unauthorized Access",
+            "description": "Your session has ended.\nPlease log in again to continue."
+        }
     }
 }
