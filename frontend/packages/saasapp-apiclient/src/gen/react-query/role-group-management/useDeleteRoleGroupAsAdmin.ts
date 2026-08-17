@@ -21,6 +21,7 @@ import type {
     DeleteRoleGroupAsAdmin403,
     DeleteRoleGroupAsAdmin404,
     DeleteRoleGroupAsAdmin409,
+    DeleteRoleGroupAsAdmin500,
 } from "../../types/DeleteRoleGroupAsAdmin.ts";
 
 export const deleteRoleGroupAsAdminMutationKey = () =>
@@ -40,6 +41,7 @@ export function deleteRoleGroupAsAdminMutationOptions<TContext = unknown>(
             | DeleteRoleGroupAsAdmin403
             | DeleteRoleGroupAsAdmin404
             | DeleteRoleGroupAsAdmin409
+            | DeleteRoleGroupAsAdmin500
         >,
         {
             id: DeleteRoleGroupAsAdminPathParams["id"];
@@ -65,6 +67,7 @@ export function useDeleteRoleGroupAsAdmin<TContext>(
                 | DeleteRoleGroupAsAdmin403
                 | DeleteRoleGroupAsAdmin404
                 | DeleteRoleGroupAsAdmin409
+                | DeleteRoleGroupAsAdmin500
             >,
             {
                 id: DeleteRoleGroupAsAdminPathParams["id"];
@@ -88,6 +91,7 @@ export function useDeleteRoleGroupAsAdmin<TContext>(
             | DeleteRoleGroupAsAdmin403
             | DeleteRoleGroupAsAdmin404
             | DeleteRoleGroupAsAdmin409
+            | DeleteRoleGroupAsAdmin500
         >,
         {
             id: DeleteRoleGroupAsAdminPathParams["id"];
@@ -102,6 +106,7 @@ export function useDeleteRoleGroupAsAdmin<TContext>(
             | DeleteRoleGroupAsAdmin403
             | DeleteRoleGroupAsAdmin404
             | DeleteRoleGroupAsAdmin409
+            | DeleteRoleGroupAsAdmin500
         >,
         {
             id: DeleteRoleGroupAsAdminPathParams["id"];
@@ -121,6 +126,7 @@ export function useDeleteRoleGroupAsAdmin<TContext>(
             | DeleteRoleGroupAsAdmin403
             | DeleteRoleGroupAsAdmin404
             | DeleteRoleGroupAsAdmin409
+            | DeleteRoleGroupAsAdmin500
         >,
         {
             id: DeleteRoleGroupAsAdminPathParams["id"];

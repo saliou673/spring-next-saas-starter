@@ -89,9 +89,30 @@
                                 },
                                 "required": ["font", "theme"],
                                 "x-readme-ref-name": "AppearancePreferences"
+                            },
+                            "notifications": {
+                                "type": "object",
+                                "properties": {
+                                    "productUpdatesEnabled": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "x-readme-ref-name": "NotificationPreferences"
+                            },
+                            "display": {
+                                "type": "object",
+                                "properties": {
+                                    "textSize": {
+                                        "type": "string",
+                                        "enum": ["SMALL", "DEFAULT", "LARGE"]
+                                    },
+                                    "reduceMotion": { "type": "boolean" }
+                                },
+                                "required": ["textSize"],
+                                "x-readme-ref-name": "DisplayPreferences"
                             }
                         },
-                        "required": ["appearance"],
+                        "required": ["appearance", "display", "notifications"],
                         "x-readme-ref-name": "UserPreferences"
                     }
                 },

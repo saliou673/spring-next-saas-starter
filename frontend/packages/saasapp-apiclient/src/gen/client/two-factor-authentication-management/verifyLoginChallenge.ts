@@ -15,6 +15,7 @@ import type {
     VerifyLoginChallenge403,
     VerifyLoginChallenge404,
     VerifyLoginChallenge409,
+    VerifyLoginChallenge500,
 } from "../../types/VerifyLoginChallenge.ts";
 
 function getVerifyLoginChallengeUrl() {
@@ -42,6 +43,7 @@ export async function verifyLoginChallenge(
             | VerifyLoginChallenge403
             | VerifyLoginChallenge404
             | VerifyLoginChallenge409
+            | VerifyLoginChallenge500
         >,
         VerifyLoginChallengeMutationRequest
     >({

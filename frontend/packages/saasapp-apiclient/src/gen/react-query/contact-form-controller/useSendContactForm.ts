@@ -21,6 +21,7 @@ import type {
     SendContactForm403,
     SendContactForm404,
     SendContactForm409,
+    SendContactForm500,
 } from "../../types/SendContactForm.ts";
 
 export const sendContactFormMutationKey = () =>
@@ -39,7 +40,10 @@ export function sendContactFormMutationOptions<TContext = unknown>(
     return mutationOptions<
         SendContactFormMutationResponse,
         ResponseErrorConfig<
-            SendContactForm403 | SendContactForm404 | SendContactForm409
+            | SendContactForm403
+            | SendContactForm404
+            | SendContactForm409
+            | SendContactForm500
         >,
         {
             data: SendContactFormMutationRequest;
@@ -62,7 +66,10 @@ export function useSendContactForm<TContext>(
         mutation?: UseMutationOptions<
             SendContactFormMutationResponse,
             ResponseErrorConfig<
-                SendContactForm403 | SendContactForm404 | SendContactForm409
+                | SendContactForm403
+                | SendContactForm404
+                | SendContactForm409
+                | SendContactForm500
             >,
             {
                 data: SendContactFormMutationRequest;
@@ -85,7 +92,10 @@ export function useSendContactForm<TContext>(
     ) as UseMutationOptions<
         SendContactFormMutationResponse,
         ResponseErrorConfig<
-            SendContactForm403 | SendContactForm404 | SendContactForm409
+            | SendContactForm403
+            | SendContactForm404
+            | SendContactForm409
+            | SendContactForm500
         >,
         {
             data: SendContactFormMutationRequest;
@@ -97,7 +107,10 @@ export function useSendContactForm<TContext>(
     return useMutation<
         SendContactFormMutationResponse,
         ResponseErrorConfig<
-            SendContactForm403 | SendContactForm404 | SendContactForm409
+            | SendContactForm403
+            | SendContactForm404
+            | SendContactForm409
+            | SendContactForm500
         >,
         {
             data: SendContactFormMutationRequest;
@@ -114,7 +127,10 @@ export function useSendContactForm<TContext>(
     ) as UseMutationResult<
         SendContactFormMutationResponse,
         ResponseErrorConfig<
-            SendContactForm403 | SendContactForm404 | SendContactForm409
+            | SendContactForm403
+            | SendContactForm404
+            | SendContactForm409
+            | SendContactForm500
         >,
         {
             data: SendContactFormMutationRequest;

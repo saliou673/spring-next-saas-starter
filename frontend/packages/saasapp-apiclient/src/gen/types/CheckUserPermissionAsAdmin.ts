@@ -54,6 +54,11 @@ export type CheckUserPermissionAsAdmin404 = ValidationErrorResponseDTO;
  */
 export type CheckUserPermissionAsAdmin409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type CheckUserPermissionAsAdmin500 = ValidationErrorResponseDTO;
+
 export type CheckUserPermissionAsAdminQueryResponse =
     CheckUserPermissionAsAdmin200;
 
@@ -65,5 +70,6 @@ export type CheckUserPermissionAsAdminQuery = {
     Errors:
         | CheckUserPermissionAsAdmin403
         | CheckUserPermissionAsAdmin404
-        | CheckUserPermissionAsAdmin409;
+        | CheckUserPermissionAsAdmin409
+        | CheckUserPermissionAsAdmin500;
 };

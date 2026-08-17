@@ -15,6 +15,7 @@ import type {
     UpsertSecuritySettingsAsAdmin403,
     UpsertSecuritySettingsAsAdmin404,
     UpsertSecuritySettingsAsAdmin409,
+    UpsertSecuritySettingsAsAdmin500,
 } from "../../types/UpsertSecuritySettingsAsAdmin.ts";
 
 function getUpsertSecuritySettingsAsAdminUrl() {
@@ -42,6 +43,7 @@ export async function upsertSecuritySettingsAsAdmin(
             | UpsertSecuritySettingsAsAdmin403
             | UpsertSecuritySettingsAsAdmin404
             | UpsertSecuritySettingsAsAdmin409
+            | UpsertSecuritySettingsAsAdmin500
         >,
         UpsertSecuritySettingsAsAdminMutationRequest
     >({

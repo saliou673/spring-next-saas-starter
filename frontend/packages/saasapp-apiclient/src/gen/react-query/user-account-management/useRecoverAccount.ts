@@ -21,6 +21,7 @@ import type {
     RecoverAccount403,
     RecoverAccount404,
     RecoverAccount409,
+    RecoverAccount500,
 } from "../../types/RecoverAccount.ts";
 
 export const recoverAccountMutationKey = () =>
@@ -39,7 +40,10 @@ export function recoverAccountMutationOptions<TContext = unknown>(
     return mutationOptions<
         RecoverAccountMutationResponse,
         ResponseErrorConfig<
-            RecoverAccount403 | RecoverAccount404 | RecoverAccount409
+            | RecoverAccount403
+            | RecoverAccount404
+            | RecoverAccount409
+            | RecoverAccount500
         >,
         {
             data: RecoverAccountMutationRequest;
@@ -62,7 +66,10 @@ export function useRecoverAccount<TContext>(
         mutation?: UseMutationOptions<
             RecoverAccountMutationResponse,
             ResponseErrorConfig<
-                RecoverAccount403 | RecoverAccount404 | RecoverAccount409
+                | RecoverAccount403
+                | RecoverAccount404
+                | RecoverAccount409
+                | RecoverAccount500
             >,
             {
                 data: RecoverAccountMutationRequest;
@@ -85,7 +92,10 @@ export function useRecoverAccount<TContext>(
     ) as UseMutationOptions<
         RecoverAccountMutationResponse,
         ResponseErrorConfig<
-            RecoverAccount403 | RecoverAccount404 | RecoverAccount409
+            | RecoverAccount403
+            | RecoverAccount404
+            | RecoverAccount409
+            | RecoverAccount500
         >,
         {
             data: RecoverAccountMutationRequest;
@@ -97,7 +107,10 @@ export function useRecoverAccount<TContext>(
     return useMutation<
         RecoverAccountMutationResponse,
         ResponseErrorConfig<
-            RecoverAccount403 | RecoverAccount404 | RecoverAccount409
+            | RecoverAccount403
+            | RecoverAccount404
+            | RecoverAccount409
+            | RecoverAccount500
         >,
         {
             data: RecoverAccountMutationRequest;
@@ -114,7 +127,10 @@ export function useRecoverAccount<TContext>(
     ) as UseMutationResult<
         RecoverAccountMutationResponse,
         ResponseErrorConfig<
-            RecoverAccount403 | RecoverAccount404 | RecoverAccount409
+            | RecoverAccount403
+            | RecoverAccount404
+            | RecoverAccount409
+            | RecoverAccount500
         >,
         {
             data: RecoverAccountMutationRequest;
