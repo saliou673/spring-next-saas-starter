@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { type AppConfiguration, useDelete } from "@api-client";
-import { getAppConfigurationsAsAdminQueryKey } from "@api-client";
+import { type AppConfiguration, useDelete, getAppConfigurationsAsAdminQueryKey } from "@api-client";
 import { AlertTriangle } from "lucide-react";
 import { handleServerError } from "@/lib/handle-server-error";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
