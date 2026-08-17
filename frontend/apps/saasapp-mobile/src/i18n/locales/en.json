@@ -5,7 +5,8 @@
         "cancel": "Cancel",
         "confirm": "Confirm",
         "save": "Save",
-        "ok": "OK"
+        "ok": "OK",
+        "offlineBanner": "You're offline. Some features may be unavailable."
     },
     "languageSwitch": {
         "toggleLabel": "Toggle language",

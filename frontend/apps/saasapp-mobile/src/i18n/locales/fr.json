@@ -5,7 +5,8 @@
         "cancel": "Annuler",
         "confirm": "Confirmer",
         "save": "Enregistrer",
-        "ok": "OK"
+        "ok": "OK",
+        "offlineBanner": "Vous êtes hors ligne. Certaines fonctionnalités peuvent être indisponibles."
     },
     "languageSwitch": {
         "toggleLabel": "Changer de langue",
