@@ -5,10 +5,6 @@ package com.saasapp.domain.exceptions;
  */
 public class RoleGroupNameAlreadyExistsException extends FunctionalException {
     public RoleGroupNameAlreadyExistsException(String name) {
-        super(
-                "error.role-group.name-already-exists",
-                "A role group named '" + name + "' already exists.",
-                name
-        );
+        super("error.role-group.name-already-exists", "A role group named '" + name + "' already exists.", name);
     }
 }

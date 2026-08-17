@@ -3,6 +3,9 @@ package com.saasapp.infrastructure.adapter.out.persistence.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
+import java.io.Serial;
+import java.io.Serializable;
+import java.time.Instant;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,10 +14,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.io.Serial;
-import java.io.Serializable;
-import java.time.Instant;
 
 /**
  * Base abstract class for entities which will hold definitions for creation, last modified, last modified by attributes.

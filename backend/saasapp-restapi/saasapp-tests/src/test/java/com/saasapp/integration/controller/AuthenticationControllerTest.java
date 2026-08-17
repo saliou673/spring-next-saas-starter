@@ -1,5 +1,11 @@
 package com.saasapp.integration.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.saasapp.domain.models.auth.JwtToken;
 import com.saasapp.domain.models.auth.TwoFactorMethodType;
 import com.saasapp.infrastructure.adapter.in.rest.controller.dto.TwoFactorChallengeResponse;
@@ -11,12 +17,6 @@ import com.saasapp.integration.IntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class AuthenticationControllerTest extends IntegrationTest {
     private static final String AUTH_BASE_URL = "/api/auth";
@@ -33,12 +33,13 @@ class AuthenticationControllerTest extends IntegrationTest {
         createDefaultUser();
         LoginRequest login = new LoginRequest(DEFAULT_USER_EMAIL, DEFAULT_USER_PASSWORD, false);
 
-        JwtToken jwtToken = post(LOGIN_ROUTE,
-                                 login,
-                                 JwtToken.class,
-                                 status().isOk(),
-                                 header().string(AUTHORIZATION, not(nullValue())),
-                                 header().string(AUTHORIZATION, not(is(emptyString()))));
+        JwtToken jwtToken = post(
+                LOGIN_ROUTE,
+                login,
+                JwtToken.class,
+                status().isOk(),
+                header().string(AUTHORIZATION, not(nullValue())),
+                header().string(AUTHORIZATION, not(is(emptyString()))));
 
         assertThat(jwtToken).isNotNull();
         assertThat(jwtToken.accessToken()).isNotBlank();
@@ -50,12 +51,13 @@ class AuthenticationControllerTest extends IntegrationTest {
         createDefaultUser();
         LoginRequest login = new LoginRequest(DEFAULT_USER_EMAIL, DEFAULT_USER_PASSWORD, true);
 
-        JwtToken jwtToken = post(LOGIN_ROUTE,
-                                 login,
-                                 JwtToken.class,
-                                 status().isOk(),
-                                 header().string(AUTHORIZATION, not(nullValue())),
-                                 header().string(AUTHORIZATION, not(is(emptyString()))));
+        JwtToken jwtToken = post(
+                LOGIN_ROUTE,
+                login,
+                JwtToken.class,
+                status().isOk(),
+                header().string(AUTHORIZATION, not(nullValue())),
+                header().string(AUTHORIZATION, not(is(emptyString()))));
 
         assertThat(jwtToken).isNotNull();
         assertThat(jwtToken.accessToken()).isNotBlank();
@@ -66,10 +68,7 @@ class AuthenticationControllerTest extends IntegrationTest {
     void shouldNotAuthorizeInexistentUser() throws Exception {
         LoginRequest login = new LoginRequest("wrong-email@dev.com", "wrong password", false);
 
-        post(LOGIN_ROUTE,
-             login,
-             status().isUnauthorized(),
-             header().doesNotExist(AUTHORIZATION));
+        post(LOGIN_ROUTE, login, status().isUnauthorized(), header().doesNotExist(AUTHORIZATION));
     }
 
     @Test
@@ -79,10 +78,7 @@ class AuthenticationControllerTest extends IntegrationTest {
 
         JwtToken initialToken = post(LOGIN_ROUTE, login, JwtToken.class, status().isOk());
 
-        JwtToken refreshedToken = postText(REFRESH_ROUTE,
-                                           initialToken.refreshToken(),
-                                           JwtToken.class,
-                                           status().isOk());
+        JwtToken refreshedToken = postText(REFRESH_ROUTE, initialToken.refreshToken(), JwtToken.class, status().isOk());
 
         assertThat(refreshedToken).isNotNull();
         assertThat(refreshedToken.accessToken()).isNotBlank();
@@ -94,9 +90,7 @@ class AuthenticationControllerTest extends IntegrationTest {
     void shouldNotRefreshAccessTokenWithExpiredRefreshToken() throws Exception {
         String expiredRefreshToken = "expired.refresh.token";
 
-        postText(REFRESH_ROUTE,
-                 expiredRefreshToken,
-                 status().isUnauthorized());
+        postText(REFRESH_ROUTE, expiredRefreshToken, status().isUnauthorized());
     }
 
     @Test
@@ -105,21 +99,18 @@ class AuthenticationControllerTest extends IntegrationTest {
         LoginRequest login = new LoginRequest(DEFAULT_USER_EMAIL, DEFAULT_USER_PASSWORD, false);
         JwtToken jwtToken = post(LOGIN_ROUTE, login, JwtToken.class, status().isOk());
 
-        mockMvc.perform(
-                        MockMvcRequestBuilders.post(LOGOUT_ROUTE)
-                                .header(AUTHORIZATION, "Bearer " + jwtToken.accessToken()))
+        mockMvc.perform(MockMvcRequestBuilders.post(LOGOUT_ROUTE)
+                        .header(AUTHORIZATION, "Bearer " + jwtToken.accessToken()))
                 .andExpect(status().isNoContent());
 
-        mockMvc.perform(
-                        MockMvcRequestBuilders.post(LOGOUT_ROUTE)
-                                .header(AUTHORIZATION, "Bearer " + jwtToken.accessToken()))
+        mockMvc.perform(MockMvcRequestBuilders.post(LOGOUT_ROUTE)
+                        .header(AUTHORIZATION, "Bearer " + jwtToken.accessToken()))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     void shouldRejectLogoutWithoutAccessToken() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post(LOGOUT_ROUTE))
-                .andExpect(status().isUnauthorized());
+        mockMvc.perform(MockMvcRequestBuilders.post(LOGOUT_ROUTE)).andExpect(status().isUnauthorized());
     }
 
     // --- 2FA login tests ---
@@ -129,18 +120,20 @@ class AuthenticationControllerTest extends IntegrationTest {
         createUserWithTwoFactor(DEFAULT_USER_EMAIL, TwoFactorMethodType.EMAIL);
         LoginRequest login = new LoginRequest(DEFAULT_USER_EMAIL, DEFAULT_USER_PASSWORD, false);
 
-        TwoFactorChallengeResponse response = post(LOGIN_ROUTE,
-                                                   login,
-                                                   TwoFactorChallengeResponse.class,
-                                                   status().isAccepted(),
-                                                   header().doesNotExist(AUTHORIZATION));
+        TwoFactorChallengeResponse response = post(
+                LOGIN_ROUTE,
+                login,
+                TwoFactorChallengeResponse.class,
+                status().isAccepted(),
+                header().doesNotExist(AUTHORIZATION));
 
         assertThat(response).isNotNull();
         assertThat(response.challengeId()).isNotBlank();
         assertThat(response.type()).isEqualTo(TwoFactorMethodType.EMAIL);
 
         // Verify the challenge was persisted
-        assertThat(twoFactorChallengeRepository.findById(response.challengeId())).isPresent();
+        assertThat(twoFactorChallengeRepository.findById(response.challengeId()))
+                .isPresent();
     }
 
     @Test
@@ -149,10 +142,8 @@ class AuthenticationControllerTest extends IntegrationTest {
         LoginRequest login = new LoginRequest(DEFAULT_USER_EMAIL, DEFAULT_USER_PASSWORD, true);
 
         // Step 1: Login returns 202 with challengeId
-        TwoFactorChallengeResponse challengeResponse = post(LOGIN_ROUTE,
-                                                            login,
-                                                            TwoFactorChallengeResponse.class,
-                                                            status().isAccepted());
+        TwoFactorChallengeResponse challengeResponse =
+                post(LOGIN_ROUTE, login, TwoFactorChallengeResponse.class, status().isAccepted());
 
         assertThat(challengeResponse).isNotNull();
 
@@ -162,23 +153,23 @@ class AuthenticationControllerTest extends IntegrationTest {
                 .orElseThrow(() -> new AssertionError("Challenge not found in DB"));
 
         // Step 3: Verify the challenge to complete login
-        TwoFactorLoginVerifyRequest verifyRequest = new TwoFactorLoginVerifyRequest(
-                challengeResponse.challengeId(),
-                challenge.getCode()
-        );
+        TwoFactorLoginVerifyRequest verifyRequest =
+                new TwoFactorLoginVerifyRequest(challengeResponse.challengeId(), challenge.getCode());
 
-        JwtToken jwtToken = post(TWO_FACTOR_VERIFY_ROUTE,
-                                 verifyRequest,
-                                 JwtToken.class,
-                                 status().isOk(),
-                                 header().string(AUTHORIZATION, not(nullValue())));
+        JwtToken jwtToken = post(
+                TWO_FACTOR_VERIFY_ROUTE,
+                verifyRequest,
+                JwtToken.class,
+                status().isOk(),
+                header().string(AUTHORIZATION, not(nullValue())));
 
         assertThat(jwtToken).isNotNull();
         assertThat(jwtToken.accessToken()).isNotBlank();
         assertThat(jwtToken.refreshToken()).isNotBlank();
 
         // Challenge must be deleted after successful verification
-        assertThat(twoFactorChallengeRepository.findById(challengeResponse.challengeId())).isEmpty();
+        assertThat(twoFactorChallengeRepository.findById(challengeResponse.challengeId()))
+                .isEmpty();
     }
 
     @Test
@@ -186,25 +177,20 @@ class AuthenticationControllerTest extends IntegrationTest {
         createUserWithTwoFactor(DEFAULT_USER_EMAIL, TwoFactorMethodType.EMAIL);
         LoginRequest login = new LoginRequest(DEFAULT_USER_EMAIL, DEFAULT_USER_PASSWORD, false);
 
-        TwoFactorChallengeResponse challengeResponse = post(LOGIN_ROUTE,
-                                                            login,
-                                                            TwoFactorChallengeResponse.class,
-                                                            status().isAccepted());
+        TwoFactorChallengeResponse challengeResponse =
+                post(LOGIN_ROUTE, login, TwoFactorChallengeResponse.class, status().isAccepted());
 
         TwoFactorLoginVerifyRequest verifyRequest = new TwoFactorLoginVerifyRequest(
-                challengeResponse.challengeId(),
-                "000000" // wrong code
-        );
+                challengeResponse.challengeId(), "000000" // wrong code
+                );
 
         post(TWO_FACTOR_VERIFY_ROUTE, verifyRequest, status().isBadRequest());
     }
 
     @Test
     void shouldFailVerifyWithInvalidChallengeId() throws Exception {
-        TwoFactorLoginVerifyRequest verifyRequest = new TwoFactorLoginVerifyRequest(
-                "non-existent-challenge-id",
-                "123456"
-        );
+        TwoFactorLoginVerifyRequest verifyRequest =
+                new TwoFactorLoginVerifyRequest("non-existent-challenge-id", "123456");
 
         post(TWO_FACTOR_VERIFY_ROUTE, verifyRequest, status().isBadRequest());
     }
@@ -217,10 +203,7 @@ class AuthenticationControllerTest extends IntegrationTest {
         createDefaultUser(); // user without 2FA
         LoginRequest login = new LoginRequest(DEFAULT_USER_EMAIL, DEFAULT_USER_PASSWORD, false);
 
-        post(LOGIN_ROUTE,
-             login,
-             status().isForbidden(),
-             header().doesNotExist(AUTHORIZATION));
+        post(LOGIN_ROUTE, login, status().isForbidden(), header().doesNotExist(AUTHORIZATION));
     }
 
     @Test
@@ -230,11 +213,12 @@ class AuthenticationControllerTest extends IntegrationTest {
         LoginRequest login = new LoginRequest(DEFAULT_USER_EMAIL, DEFAULT_USER_PASSWORD, false);
 
         // Should return 202 with challenge (2FA required — user has it configured)
-        TwoFactorChallengeResponse response = post(LOGIN_ROUTE,
-                                                   login,
-                                                   TwoFactorChallengeResponse.class,
-                                                   status().isAccepted(),
-                                                   header().doesNotExist(AUTHORIZATION));
+        TwoFactorChallengeResponse response = post(
+                LOGIN_ROUTE,
+                login,
+                TwoFactorChallengeResponse.class,
+                status().isAccepted(),
+                header().doesNotExist(AUTHORIZATION));
 
         assertThat(response).isNotNull();
         assertThat(response.challengeId()).isNotBlank();

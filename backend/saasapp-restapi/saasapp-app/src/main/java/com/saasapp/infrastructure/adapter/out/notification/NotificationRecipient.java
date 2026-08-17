@@ -18,15 +18,15 @@ public record NotificationRecipient(
         String resetCode,
         String email,
         String phoneNumber,
-        String languageKey
-) {
+        String languageKey) {
 
-    public NotificationRecipient(String firstName,
-                                 String activationCode,
-                                 String resetCode,
-                                 String email,
-                                 String phoneNumber,
-                                 String languageKey) {
+    public NotificationRecipient(
+            String firstName,
+            String activationCode,
+            String resetCode,
+            String email,
+            String phoneNumber,
+            String languageKey) {
         this.firstName = firstName;
         this.activationCode = activationCode;
         this.resetCode = resetCode;
@@ -35,4 +35,3 @@ public record NotificationRecipient(
         this.languageKey = languageKey != null ? languageKey : DEFAULT_LANGUAGE;
     }
 }
-

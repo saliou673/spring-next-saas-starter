@@ -2,17 +2,17 @@ package com.saasapp.infrastructure.adapter.out.persistence.repository;
 
 import com.saasapp.domain.enumerations.AppConfigurationCategory;
 import com.saasapp.infrastructure.adapter.out.persistence.entity.AppConfigurationEntity;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 /**
  * Spring Data JPA repository for {@link AppConfigurationEntity}.
  */
 @Repository
-public interface AppConfigurationRepository extends JpaRepository<AppConfigurationEntity, Long>, JpaSpecificationExecutor<AppConfigurationEntity> {
+public interface AppConfigurationRepository
+        extends JpaRepository<AppConfigurationEntity, Long>, JpaSpecificationExecutor<AppConfigurationEntity> {
 
     Optional<AppConfigurationEntity> findByCategoryAndCode(AppConfigurationCategory category, String code);
 

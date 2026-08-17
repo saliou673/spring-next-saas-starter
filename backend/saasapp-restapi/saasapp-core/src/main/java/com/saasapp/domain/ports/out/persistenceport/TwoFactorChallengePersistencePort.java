@@ -2,7 +2,6 @@ package com.saasapp.domain.ports.out.persistenceport;
 
 import com.saasapp.domain.models.auth.TwoFactorChallenge;
 import com.saasapp.domain.models.auth.TwoFactorChallengePurpose;
-
 import java.util.Optional;
 
 /**

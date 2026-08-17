@@ -9,10 +9,7 @@ import org.mapstruct.ReportingPolicy;
 /**
  * MapStruct mapper converting {@link SecuritySettings} to {@link SecuritySettingsDTO}.
  */
-@Mapper(
-        componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedTargetPolicy = ReportingPolicy.ERROR
-)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface SecuritySettingsDtoMapper {
 
     SecuritySettingsDTO toDTO(SecuritySettings securitySettings);

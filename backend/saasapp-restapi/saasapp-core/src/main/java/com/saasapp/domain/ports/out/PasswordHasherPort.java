@@ -22,4 +22,3 @@ public interface PasswordHasherPort {
      */
     boolean matches(String rawPassword, String hashedPassword);
 }
-

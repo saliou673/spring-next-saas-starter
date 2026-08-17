@@ -1,20 +1,20 @@
 package com.saasapp.integration.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.http.HttpHeaders.ACCEPT_LANGUAGE;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import com.saasapp.domain.models.auth.JwtToken;
 import com.saasapp.infrastructure.adapter.in.rest.controller.dto.ValidationErrorResponseDTO;
 import com.saasapp.infrastructure.adapter.in.rest.controller.requests.LoginRequest;
 import com.saasapp.infrastructure.adapter.in.rest.controller.requests.PasswordChangeRequest;
-import com.saasapp.domain.models.auth.JwtToken;
 import com.saasapp.infrastructure.adapter.out.persistence.entity.UserEntity;
 import com.saasapp.integration.IntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.http.HttpHeaders.ACCEPT_LANGUAGE;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Verifies that domain exception messages are resolved to the correct locale by
@@ -38,8 +38,7 @@ class ExceptionLocalizationTest extends IntegrationTest {
                         .header(ACCEPT_LANGUAGE, "fr")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(login)),
-                status().isUnauthorized()
-        );
+                status().isUnauthorized());
 
         assertThat(response.errors().get("message")).isEqualTo("E-mail ou mot de passe incorrect.");
     }
@@ -54,8 +53,7 @@ class ExceptionLocalizationTest extends IntegrationTest {
                         .header(ACCEPT_LANGUAGE, "en")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(login)),
-                status().isUnauthorized()
-        );
+                status().isUnauthorized());
 
         assertThat(response.errors().get("message")).isEqualTo("Incorrect email or password.");
     }
@@ -76,8 +74,7 @@ class ExceptionLocalizationTest extends IntegrationTest {
                         .header(ACCEPT_LANGUAGE, "en")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)),
-                status().isBadRequest()
-        );
+                status().isBadRequest());
 
         assertThat(response.errors().get("message")).isEqualTo("Le mot de passe actuel est incorrect.");
     }
@@ -98,8 +95,7 @@ class ExceptionLocalizationTest extends IntegrationTest {
                         .header(ACCEPT_LANGUAGE, "fr")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)),
-                status().isBadRequest()
-        );
+                status().isBadRequest());
 
         assertThat(response.errors().get("message")).isEqualTo("The current password is incorrect.");
     }
@@ -111,9 +107,8 @@ class ExceptionLocalizationTest extends IntegrationTest {
     }
 
     private ValidationErrorResponseDTO performAndReadError(
-            MockHttpServletRequestBuilder builder,
-            org.springframework.test.web.servlet.ResultMatcher statusMatcher
-    ) throws Exception {
+            MockHttpServletRequestBuilder builder, org.springframework.test.web.servlet.ResultMatcher statusMatcher)
+            throws Exception {
         String json = mockMvc.perform(builder)
                 .andExpect(statusMatcher)
                 .andReturn()

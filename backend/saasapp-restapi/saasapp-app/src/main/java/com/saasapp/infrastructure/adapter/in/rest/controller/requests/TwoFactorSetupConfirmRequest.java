@@ -7,6 +7,4 @@ import jakarta.validation.constraints.NotBlank;
  *
  * @param code the code received via the chosen 2FA method
  */
-public record TwoFactorSetupConfirmRequest(
-        @NotBlank String code
-) {}
+public record TwoFactorSetupConfirmRequest(@NotBlank String code) {}

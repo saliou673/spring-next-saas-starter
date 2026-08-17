@@ -12,10 +12,7 @@ import org.mapstruct.ReportingPolicy;
 /**
  * MapStruct mapper converting a {@link com.saasapp.infrastructure.adapter.in.rest.controller.requests.CreateUserRequest} to domain objects.
  */
-@Mapper(
-        componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedTargetPolicy = ReportingPolicy.ERROR
-)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface CreateUserRequestMapper {
 
     default User toDomain(CreateUserRequest request) {

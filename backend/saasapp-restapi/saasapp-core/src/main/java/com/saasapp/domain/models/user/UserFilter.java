@@ -5,10 +5,9 @@ import com.saasapp.domain.models.query.filter.LongFilter;
 import com.saasapp.domain.models.query.filter.StringFilter;
 import com.saasapp.domain.models.query.filter.UserGenderFilter;
 import com.saasapp.domain.models.query.filter.UserStatusFilter;
-import lombok.*;
-
 import java.io.Serial;
 import java.io.Serializable;
+import lombok.*;
 
 /**
  * Domain-level filter for querying users.
@@ -51,9 +50,16 @@ public final class UserFilter extends AuditableFilter implements Serializable {
         this.address = other.address == null ? null : other.address.copy();
         this.languageKey = other.languageKey == null ? null : other.languageKey.copy();
         this.roleGroupName = other.roleGroupName == null ? null : other.roleGroupName.copy();
-        this.setCreationDate(other.getCreationDate() == null ? null : other.getCreationDate().copy());
-        this.setLastUpdateDate(other.getLastUpdateDate() == null ? null : other.getLastUpdateDate().copy());
-        this.setLastUpdatedBy(other.getLastUpdatedBy() == null ? null : other.getLastUpdatedBy().copy());
+        this.setCreationDate(
+                other.getCreationDate() == null ? null : other.getCreationDate().copy());
+        this.setLastUpdateDate(
+                other.getLastUpdateDate() == null
+                        ? null
+                        : other.getLastUpdateDate().copy());
+        this.setLastUpdatedBy(
+                other.getLastUpdatedBy() == null
+                        ? null
+                        : other.getLastUpdatedBy().copy());
     }
 
     public UserFilter copy() {

@@ -8,6 +8,10 @@ import com.saasapp.infrastructure.adapter.out.persistence.entity.*;
 import com.saasapp.infrastructure.adapter.out.persistence.mapper.UserMapper;
 import com.saasapp.infrastructure.adapter.out.persistence.repository.UserPreferenceRepository;
 import com.saasapp.infrastructure.adapter.out.persistence.repository.UserRepository;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -17,17 +21,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
 /**
  * JPA adapter implementing {@link UserQueryUseCase}.
  * Translates domain {@link UserFilter} into JPA {@link Specification} predicates.
  * All filter operators (equals, contains, in, range, etc.) are fully supported.
  */
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -43,11 +41,11 @@ public class AdminUserQueryService extends QueryService<UserEntity> implements U
         log.debug("Finding users by filter: {}", filter);
         Page<UserEntity> entityPage = userRepository.findAll(
                 createSpecification(filter),
-                PageRequest.of(page, size, Sort.by("id").ascending())
-        );
-        Map<Long, UserPreferenceEntity> preferencesByUserId = userPreferenceRepository.findAllByUserIdIn(
-                        entityPage.getContent().stream().map(UserEntity::getId).collect(Collectors.toSet())
-                ).stream()
+                PageRequest.of(page, size, Sort.by("id").ascending()));
+        Map<Long, UserPreferenceEntity> preferencesByUserId = userPreferenceRepository
+                .findAllByUserIdIn(
+                        entityPage.getContent().stream().map(UserEntity::getId).collect(Collectors.toSet()))
+                .stream()
                 .collect(Collectors.toMap(UserPreferenceEntity::getUserId, Function.identity()));
         List<User> users = entityPage.getContent().stream()
                 .map(userMapper::toDomain)
@@ -75,23 +73,25 @@ public class AdminUserQueryService extends QueryService<UserEntity> implements U
         }
 
         if (filter.getEmail() != null) {
-            spec = spec.and(buildSpecification(filter.getEmail(),
-                                               root -> root.get(UserEntity_.userCredentials).get(EmbeddableCredentials_.email)));
+            spec = spec.and(buildSpecification(
+                    filter.getEmail(),
+                    root -> root.get(UserEntity_.userCredentials).get(EmbeddableCredentials_.email)));
         }
 
         if (filter.getFirstName() != null) {
-            spec = spec.and(buildSpecification(filter.getFirstName(),
-                                               root -> root.get(UserEntity_.userInfo).get(EmbeddableUserInfo_.firstName)));
+            spec = spec.and(buildSpecification(
+                    filter.getFirstName(),
+                    root -> root.get(UserEntity_.userInfo).get(EmbeddableUserInfo_.firstName)));
         }
 
         if (filter.getLastName() != null) {
-            spec = spec.and(buildSpecification(filter.getLastName(),
-                                               root -> root.get(UserEntity_.userInfo).get(EmbeddableUserInfo_.lastName)));
+            spec = spec.and(buildSpecification(
+                    filter.getLastName(), root -> root.get(UserEntity_.userInfo).get(EmbeddableUserInfo_.lastName)));
         }
 
         if (filter.getGender() != null) {
-            spec = spec.and(buildSpecification(filter.getGender(),
-                                               root -> root.get(UserEntity_.userInfo).get(EmbeddableUserInfo_.gender)));
+            spec = spec.and(buildSpecification(
+                    filter.getGender(), root -> root.get(UserEntity_.userInfo).get(EmbeddableUserInfo_.gender)));
         }
 
         if (filter.getStatus() != null) {
@@ -99,30 +99,26 @@ public class AdminUserQueryService extends QueryService<UserEntity> implements U
         }
 
         if (filter.getPhoneNumber() != null) {
-            spec = spec.and(buildSpecification(filter.getPhoneNumber(),
-                                               root -> root.get(UserEntity_.userInfo).get(EmbeddableUserInfo_.phoneNumber)));
+            spec = spec.and(buildSpecification(
+                    filter.getPhoneNumber(),
+                    root -> root.get(UserEntity_.userInfo).get(EmbeddableUserInfo_.phoneNumber)));
         }
 
         if (filter.getAddress() != null) {
-            spec = spec.and(buildSpecification(filter.getAddress(),
-                                               root -> root.get(UserEntity_.userInfo).get(EmbeddableUserInfo_.address)));
+            spec = spec.and(buildSpecification(
+                    filter.getAddress(), root -> root.get(UserEntity_.userInfo).get(EmbeddableUserInfo_.address)));
         }
 
         if (filter.getLanguageKey() != null) {
-            spec = spec.and(buildSpecification(filter.getLanguageKey(),
-                                               root -> root.get(UserEntity_.userInfo).get(EmbeddableUserInfo_.languageKey)));
+            spec = spec.and(buildSpecification(
+                    filter.getLanguageKey(),
+                    root -> root.get(UserEntity_.userInfo).get(EmbeddableUserInfo_.languageKey)));
         }
 
         // Add audit fields specifications
         spec = addAuditFieldsSpecifications(
-                spec,
-                filter,
-                UserEntity_.creationDate,
-                UserEntity_.lastUpdateDate,
-                UserEntity_.lastUpdatedBy
-        );
+                spec, filter, UserEntity_.creationDate, UserEntity_.lastUpdateDate, UserEntity_.lastUpdatedBy);
 
         return spec;
     }
-
 }

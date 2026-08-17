@@ -19,9 +19,8 @@
 package com.saasapp.domain.models.query.filter;
 
 import com.saasapp.domain.enumerations.UserGender;
-import lombok.NoArgsConstructor;
-
 import java.io.Serial;
+import lombok.NoArgsConstructor;
 
 /**
  * Filter class for {@link UserGender} enum attributes.

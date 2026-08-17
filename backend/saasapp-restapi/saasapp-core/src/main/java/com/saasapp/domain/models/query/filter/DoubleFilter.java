@@ -18,9 +18,8 @@
  */
 package com.saasapp.domain.models.query.filter;
 
-import lombok.NoArgsConstructor;
-
 import java.io.Serial;
+import lombok.NoArgsConstructor;
 
 /**
  * Filter class for {@link Double} type attributes.

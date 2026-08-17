@@ -4,19 +4,17 @@ import com.saasapp.domain.models.rbac.Permission;
 import com.saasapp.domain.models.rbac.RoleGroup;
 import com.saasapp.infrastructure.adapter.out.persistence.entity.PermissionEntity;
 import com.saasapp.infrastructure.adapter.out.persistence.entity.RoleGroupEntity;
+import java.util.List;
+import java.util.Set;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 
-import java.util.List;
-import java.util.Set;
-
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.ERROR,
-        uses = PermissionMapper.class
-)
+        uses = PermissionMapper.class)
 /** MapStruct mapper between {@link com.saasapp.infrastructure.adapter.out.persistence.entity.RoleGroupEntity} and {@link com.saasapp.domain.models.rbac.RoleGroup}. */
 public interface RoleGroupMapper {
 
@@ -31,8 +29,7 @@ public interface RoleGroupMapper {
                 permissionsToDomain(entity.getPermissions()),
                 entity.getCreationDate(),
                 entity.getLastUpdateDate(),
-                entity.getLastUpdatedBy()
-        );
+                entity.getLastUpdatedBy());
     }
 
     // Distinct name avoids Set<X>/Set<Y> erasure clash

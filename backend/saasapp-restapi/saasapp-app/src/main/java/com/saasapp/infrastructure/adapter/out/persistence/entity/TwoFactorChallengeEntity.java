@@ -3,9 +3,8 @@ package com.saasapp.infrastructure.adapter.out.persistence.entity;
 import com.saasapp.domain.models.auth.TwoFactorChallengePurpose;
 import com.saasapp.domain.models.auth.TwoFactorMethodType;
 import jakarta.persistence.*;
-import lombok.*;
-
 import java.time.Instant;
+import lombok.*;
 
 /**
  * JPA entity mapping the {@code two_factor_challenge} table.

@@ -1,5 +1,8 @@
 package com.saasapp.integration.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.saasapp.domain.constants.DomainConstants;
 import com.saasapp.domain.enumerations.AppConfigurationCategory;
@@ -22,22 +25,18 @@ import com.saasapp.infrastructure.adapter.out.persistence.repository.PermissionR
 import com.saasapp.infrastructure.adapter.out.persistence.repository.RoleGroupRepository;
 import com.saasapp.infrastructure.adapter.out.query.PaginatedResult;
 import com.saasapp.integration.IntegrationTest;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @DirtiesContext
 class AdminUserControllerTest extends IntegrationTest {
@@ -59,7 +58,8 @@ class AdminUserControllerTest extends IntegrationTest {
     @AfterEach
     void cleanupTwoFactorConfigs() {
         for (TwoFactorMethodType method : TwoFactorMethodType.values()) {
-            appConfigurationRepository.findByCategoryAndCode(AppConfigurationCategory.TWO_FACTOR, method.name())
+            appConfigurationRepository
+                    .findByCategoryAndCode(AppConfigurationCategory.TWO_FACTOR, method.name())
                     .ifPresent(appConfigurationRepository::delete);
         }
     }
@@ -114,16 +114,11 @@ class AdminUserControllerTest extends IntegrationTest {
     @WithMockUser(authorities = {"user:read", "user:create", "user:update", "user:deactivate"})
     void shouldUpdateUserAsAdminSuccessfully() throws Exception {
         UserEntity user = createUser("admin-update@example.com", Set.of(UserGroupConstants.SYS_ADMIN));
-        UpdateUserRequest request = new UpdateUserRequest("Updated",
-                                                          "Admin",
-                                                          "123456789",
-                                                          LocalDate.of(1995, 4, 20),
-                                                          UserGender.FEMALE,
-                                                          "Conakry",
-                                                          "fr",
-                                                          null);
+        UpdateUserRequest request = new UpdateUserRequest(
+                "Updated", "Admin", "123456789", LocalDate.of(1995, 4, 20), UserGender.FEMALE, "Conakry", "fr", null);
 
-        UserDetailsDTO result = put(API_ADMIN_USERS + "/" + user.getId(), request, UserDetailsDTO.class, status().isOk());
+        UserDetailsDTO result =
+                put(API_ADMIN_USERS + "/" + user.getId(), request, UserDetailsDTO.class, status().isOk());
 
         assertThat(result).isNotNull();
         assertThat(result.getFirstName()).isEqualTo("Updated");
@@ -180,9 +175,8 @@ class AdminUserControllerTest extends IntegrationTest {
         createAdminUser("filter-beta@example.com", "Bob", "Jones", UserGender.MALE, UserStatus.ACTIVATED);
         createAdminUser("other@example.com", "Charlie", "Brown", UserGender.MALE, UserStatus.ACTIVATED);
 
-        PaginatedResult<UserDetailsDTO> result = get(
-                API_ADMIN_USERS + "?email.contains=filter-",
-                new TypeReference<>() {}, status().isOk());
+        PaginatedResult<UserDetailsDTO> result =
+                get(API_ADMIN_USERS + "?email.contains=filter-", new TypeReference<>() {}, status().isOk());
 
         assertThat(result.getTotalItems()).isEqualTo(2);
         assertThat(result.getItems())
@@ -196,9 +190,8 @@ class AdminUserControllerTest extends IntegrationTest {
         createAdminUser("exact@example.com", "Alice", "Smith", UserGender.FEMALE, UserStatus.ACTIVATED);
         createAdminUser("other@example.com", "Bob", "Jones", UserGender.MALE, UserStatus.ACTIVATED);
 
-        PaginatedResult<UserDetailsDTO> result = get(
-                API_ADMIN_USERS + "?email.equals=exact@example.com",
-                new TypeReference<>() {}, status().isOk());
+        PaginatedResult<UserDetailsDTO> result =
+                get(API_ADMIN_USERS + "?email.equals=exact@example.com", new TypeReference<>() {}, status().isOk());
 
         assertThat(result.getTotalItems()).isEqualTo(1);
         assertThat(result.getItems().getFirst().getEmail()).isEqualTo("exact@example.com");
@@ -211,9 +204,8 @@ class AdminUserControllerTest extends IntegrationTest {
         createAdminUser("user2@example.com", "Alicia", "Jones", UserGender.FEMALE, UserStatus.ACTIVATED);
         createAdminUser("user3@example.com", "Bob", "Brown", UserGender.MALE, UserStatus.ACTIVATED);
 
-        PaginatedResult<UserDetailsDTO> result = get(
-                API_ADMIN_USERS + "?firstName.contains=Ali",
-                new TypeReference<>() {}, status().isOk());
+        PaginatedResult<UserDetailsDTO> result =
+                get(API_ADMIN_USERS + "?firstName.contains=Ali", new TypeReference<>() {}, status().isOk());
 
         assertThat(result.getTotalItems()).isEqualTo(2);
         assertThat(result.getItems())
@@ -228,9 +220,8 @@ class AdminUserControllerTest extends IntegrationTest {
         createAdminUser("user2@example.com", "Bob", "Smithson", UserGender.MALE, UserStatus.ACTIVATED);
         createAdminUser("user3@example.com", "Charlie", "Brown", UserGender.MALE, UserStatus.ACTIVATED);
 
-        PaginatedResult<UserDetailsDTO> result = get(
-                API_ADMIN_USERS + "?lastName.contains=Smith",
-                new TypeReference<>() {}, status().isOk());
+        PaginatedResult<UserDetailsDTO> result =
+                get(API_ADMIN_USERS + "?lastName.contains=Smith", new TypeReference<>() {}, status().isOk());
 
         assertThat(result.getTotalItems()).isEqualTo(2);
         assertThat(result.getItems())
@@ -245,14 +236,11 @@ class AdminUserControllerTest extends IntegrationTest {
         createAdminUser("female-1@example.com", "Alice", "Jones", UserGender.FEMALE, UserStatus.ACTIVATED);
         createAdminUser("female-2@example.com", "Carol", "Brown", UserGender.FEMALE, UserStatus.ACTIVATED);
 
-        PaginatedResult<UserDetailsDTO> result = get(
-                API_ADMIN_USERS + "?gender.equals=FEMALE",
-                new TypeReference<>() {}, status().isOk());
+        PaginatedResult<UserDetailsDTO> result =
+                get(API_ADMIN_USERS + "?gender.equals=FEMALE", new TypeReference<>() {}, status().isOk());
 
         assertThat(result.getTotalItems()).isEqualTo(2);
-        assertThat(result.getItems())
-                .extracting(UserDetailsDTO::getGender)
-                .containsOnly(UserGender.FEMALE);
+        assertThat(result.getItems()).extracting(UserDetailsDTO::getGender).containsOnly(UserGender.FEMALE);
     }
 
     @Test
@@ -262,14 +250,11 @@ class AdminUserControllerTest extends IntegrationTest {
         createAdminUser("inactive-1@example.com", "Bob", "Jones", UserGender.MALE, UserStatus.NOT_ACTIVATED);
         createAdminUser("inactive-2@example.com", "Charlie", "Brown", UserGender.MALE, UserStatus.NOT_ACTIVATED);
 
-        PaginatedResult<UserDetailsDTO> result = get(
-                API_ADMIN_USERS + "?status.equals=NOT_ACTIVATED",
-                new TypeReference<>() {}, status().isOk());
+        PaginatedResult<UserDetailsDTO> result =
+                get(API_ADMIN_USERS + "?status.equals=NOT_ACTIVATED", new TypeReference<>() {}, status().isOk());
 
         assertThat(result.getTotalItems()).isEqualTo(2);
-        assertThat(result.getItems())
-                .extracting(UserDetailsDTO::getStatus)
-                .containsOnly(UserStatus.NOT_ACTIVATED);
+        assertThat(result.getItems()).extracting(UserDetailsDTO::getStatus).containsOnly(UserStatus.NOT_ACTIVATED);
     }
 
     @Test
@@ -280,8 +265,7 @@ class AdminUserControllerTest extends IntegrationTest {
         createAdminUser("user-charlie@example.com", "Charlie", "Brown", UserGender.MALE, UserStatus.ACTIVATED);
 
         PaginatedResult<UserDetailsDTO> result = get(
-                API_ADMIN_USERS + "?firstName.in=Alice&firstName.in=Bob",
-                new TypeReference<>() {}, status().isOk());
+                API_ADMIN_USERS + "?firstName.in=Alice&firstName.in=Bob", new TypeReference<>() {}, status().isOk());
 
         assertThat(result.getTotalItems()).isEqualTo(2);
         assertThat(result.getItems())
@@ -296,9 +280,8 @@ class AdminUserControllerTest extends IntegrationTest {
         createAdminUser("keep-2@example.com", "Bob", "Jones", UserGender.MALE, UserStatus.ACTIVATED);
         createAdminUser("exclude@example.com", "Charlie", "Brown", UserGender.MALE, UserStatus.ACTIVATED);
 
-        PaginatedResult<UserDetailsDTO> result = get(
-                API_ADMIN_USERS + "?email.doesNotContain=exclude",
-                new TypeReference<>() {}, status().isOk());
+        PaginatedResult<UserDetailsDTO> result =
+                get(API_ADMIN_USERS + "?email.doesNotContain=exclude", new TypeReference<>() {}, status().isOk());
 
         assertThat(result.getTotalItems()).isEqualTo(2);
         assertThat(result.getItems())
@@ -319,7 +302,8 @@ class AdminUserControllerTest extends IntegrationTest {
 
         PaginatedResult<UserDetailsDTO> result = get(
                 API_ADMIN_USERS + "?firstName.contains=Alice&gender.equals=FEMALE",
-                new TypeReference<>() {}, status().isOk());
+                new TypeReference<>() {},
+                status().isOk());
 
         assertThat(result.getTotalItems()).isEqualTo(1);
         assertThat(result.getItems().getFirst().getEmail()).isEqualTo("alice-f@example.com");
@@ -334,7 +318,8 @@ class AdminUserControllerTest extends IntegrationTest {
 
         PaginatedResult<UserDetailsDTO> result = get(
                 API_ADMIN_USERS + "?email.contains=inactive&status.equals=NOT_ACTIVATED",
-                new TypeReference<>() {}, status().isOk());
+                new TypeReference<>() {},
+                status().isOk());
 
         assertThat(result.getTotalItems()).isEqualTo(2);
         assertThat(result.getItems())
@@ -352,7 +337,8 @@ class AdminUserControllerTest extends IntegrationTest {
 
         PaginatedResult<UserDetailsDTO> result = get(
                 API_ADMIN_USERS + "?lastName.contains=Martin&gender.equals=FEMALE&status.equals=ACTIVATED",
-                new TypeReference<>() {}, status().isOk());
+                new TypeReference<>() {},
+                status().isOk());
 
         assertThat(result.getTotalItems()).isEqualTo(1);
         assertThat(result.getItems().getFirst().getEmail()).isEqualTo("target@example.com");
@@ -367,9 +353,8 @@ class AdminUserControllerTest extends IntegrationTest {
     void shouldReturnEmptyWhenNoFilterMatch() throws Exception {
         createAdminUser("user@example.com", "Alice", "Smith", UserGender.FEMALE, UserStatus.ACTIVATED);
 
-        PaginatedResult<UserDetailsDTO> result = get(
-                API_ADMIN_USERS + "?email.contains=nonexistent",
-                new TypeReference<>() {}, status().isOk());
+        PaginatedResult<UserDetailsDTO> result =
+                get(API_ADMIN_USERS + "?email.contains=nonexistent", new TypeReference<>() {}, status().isOk());
 
         assertThat(result.getTotalItems()).isEqualTo(0);
         assertThat(result.getItems()).isEmpty();
@@ -392,33 +377,31 @@ class AdminUserControllerTest extends IntegrationTest {
     @WithMockUser(authorities = {"user:read", "user:create", "user:update", "user:deactivate"})
     void shouldSupportPagination() throws Exception {
         for (int i = 1; i <= 5; i++) {
-            createAdminUser("page-user-" + i + "@example.com", "User" + i, "Test", UserGender.MALE, UserStatus.ACTIVATED);
+            createAdminUser(
+                    "page-user-" + i + "@example.com", "User" + i, "Test", UserGender.MALE, UserStatus.ACTIVATED);
         }
 
-        PaginatedResult<UserDetailsDTO> firstPage = get(
-                API_ADMIN_USERS + "?page=0&size=2",
-                new TypeReference<>() {}, status().isOk());
+        PaginatedResult<UserDetailsDTO> firstPage =
+                get(API_ADMIN_USERS + "?page=0&size=2", new TypeReference<>() {}, status().isOk());
 
         assertThat(firstPage.getTotalItems()).isEqualTo(5);
         assertThat(firstPage.getItems()).hasSize(2);
         assertThat(firstPage.getTotalPages()).isEqualTo(3);
         assertThat(firstPage.getPage()).isEqualTo(0);
 
-        PaginatedResult<UserDetailsDTO> secondPage = get(
-                API_ADMIN_USERS + "?page=1&size=2",
-                new TypeReference<>() {}, status().isOk());
+        PaginatedResult<UserDetailsDTO> secondPage =
+                get(API_ADMIN_USERS + "?page=1&size=2", new TypeReference<>() {}, status().isOk());
 
         assertThat(secondPage.getItems()).hasSize(2);
         assertThat(secondPage.getPage()).isEqualTo(1);
         assertThat(secondPage.getItems())
                 .extracting(UserDetailsDTO::getEmail)
                 .doesNotContainAnyElementsOf(firstPage.getItems().stream()
-                                                     .map(UserDetailsDTO::getEmail)
-                                                     .toList());
+                        .map(UserDetailsDTO::getEmail)
+                        .toList());
 
-        PaginatedResult<UserDetailsDTO> lastPage = get(
-                API_ADMIN_USERS + "?page=2&size=2",
-                new TypeReference<>() {}, status().isOk());
+        PaginatedResult<UserDetailsDTO> lastPage =
+                get(API_ADMIN_USERS + "?page=2&size=2", new TypeReference<>() {}, status().isOk());
 
         assertThat(lastPage.getItems()).hasSize(1);
         assertThat(lastPage.getPage()).isEqualTo(2);
@@ -428,13 +411,15 @@ class AdminUserControllerTest extends IntegrationTest {
     @WithMockUser(authorities = {"user:read", "user:create", "user:update", "user:deactivate"})
     void shouldSupportPaginationWithFilter() throws Exception {
         for (int i = 1; i <= 4; i++) {
-            createAdminUser("paginate-" + i + "@example.com", "PaginateUser", "Test", UserGender.MALE, UserStatus.ACTIVATED);
+            createAdminUser(
+                    "paginate-" + i + "@example.com", "PaginateUser", "Test", UserGender.MALE, UserStatus.ACTIVATED);
         }
         createAdminUser("other@example.com", "Other", "Test", UserGender.MALE, UserStatus.ACTIVATED);
 
         PaginatedResult<UserDetailsDTO> firstPage = get(
                 API_ADMIN_USERS + "?firstName.contains=PaginateUser&page=0&size=2",
-                new TypeReference<>() {}, status().isOk());
+                new TypeReference<>() {},
+                status().isOk());
 
         assertThat(firstPage.getTotalItems()).isEqualTo(4);
         assertThat(firstPage.getItems()).hasSize(2);
@@ -442,7 +427,8 @@ class AdminUserControllerTest extends IntegrationTest {
 
         PaginatedResult<UserDetailsDTO> secondPage = get(
                 API_ADMIN_USERS + "?firstName.contains=PaginateUser&page=1&size=2",
-                new TypeReference<>() {}, status().isOk());
+                new TypeReference<>() {},
+                status().isOk());
 
         assertThat(secondPage.getItems()).hasSize(2);
         assertThat(secondPage.getItems())
@@ -472,13 +458,13 @@ class AdminUserControllerTest extends IntegrationTest {
         UserEntity user = createUserWithoutRole("assign-role@example.com");
         RoleGroupEntity roleGroup = createRoleGroupForTest("Editors", "Can edit content");
 
-        post(API_ADMIN_USERS + "/" + user.getId() + "/role-groups",
-             new AssignRoleGroupRequest(roleGroup.getId()), status().isNoContent());
+        post(
+                API_ADMIN_USERS + "/" + user.getId() + "/role-groups",
+                new AssignRoleGroupRequest(roleGroup.getId()),
+                status().isNoContent());
 
         UserEntity updated = userRepository.findById(user.getId()).orElseThrow();
-        assertThat(updated.getRoleGroups())
-                .extracting(RoleGroupEntity::getId)
-                .containsExactly(roleGroup.getId());
+        assertThat(updated.getRoleGroups()).extracting(RoleGroupEntity::getId).containsExactly(roleGroup.getId());
     }
 
     @Test
@@ -486,8 +472,10 @@ class AdminUserControllerTest extends IntegrationTest {
     void shouldFailToAssignRoleGroupWhenRoleGroupAsAdminNotFound() throws Exception {
         UserEntity user = createUser("assign-missing-role@example.com");
 
-        post(API_ADMIN_USERS + "/" + user.getId() + "/role-groups",
-             new AssignRoleGroupRequest(99999L), status().isNotFound());
+        post(
+                API_ADMIN_USERS + "/" + user.getId() + "/role-groups",
+                new AssignRoleGroupRequest(99999L),
+                status().isNotFound());
     }
 
     @Test
@@ -496,11 +484,12 @@ class AdminUserControllerTest extends IntegrationTest {
         UserEntity user = createUserWithoutRole("revoke-role@example.com");
         RoleGroupEntity roleGroup = createRoleGroupForTest("Viewers", "Read-only access");
 
-        post(API_ADMIN_USERS + "/" + user.getId() + "/role-groups",
-             new AssignRoleGroupRequest(roleGroup.getId()), status().isNoContent());
+        post(
+                API_ADMIN_USERS + "/" + user.getId() + "/role-groups",
+                new AssignRoleGroupRequest(roleGroup.getId()),
+                status().isNoContent());
 
-        delete(API_ADMIN_USERS + "/" + user.getId() + "/role-groups/" + roleGroup.getId(),
-               status().isNoContent());
+        delete(API_ADMIN_USERS + "/" + user.getId() + "/role-groups/" + roleGroup.getId(), status().isNoContent());
 
         UserEntity updated = userRepository.findById(user.getId()).orElseThrow();
         assertThat(updated.getRoleGroups()).isEmpty();
@@ -510,8 +499,10 @@ class AdminUserControllerTest extends IntegrationTest {
     @WithMockUser(authorities = "ROLE_USER")
     void shouldForbidRoleGroupAssignmentForSimpleUser() throws Exception {
         UserEntity user = createUser("forbidden-assign@example.com");
-        post(API_ADMIN_USERS + "/" + user.getId() + "/role-groups",
-             new AssignRoleGroupRequest(1L), status().isForbidden());
+        post(
+                API_ADMIN_USERS + "/" + user.getId() + "/role-groups",
+                new AssignRoleGroupRequest(1L),
+                status().isForbidden());
     }
 
     // endregion
@@ -526,11 +517,8 @@ class AdminUserControllerTest extends IntegrationTest {
         user.getRoleGroups().add(roleGroup);
         userRepository.save(user);
 
-        List<PermissionDTO> result = get(
-                API_ADMIN_USERS + "/" + user.getId() + "/permissions",
-                new TypeReference<>() {},
-                status().isOk()
-        );
+        List<PermissionDTO> result =
+                get(API_ADMIN_USERS + "/" + user.getId() + "/permissions", new TypeReference<>() {}, status().isOk());
 
         assertThat(result).isNotNull();
         assertThat(result).extracting(PermissionDTO::code).contains("user:read");
@@ -542,11 +530,8 @@ class AdminUserControllerTest extends IntegrationTest {
     void shouldReturnEmptyPermissionsWhenUserHasNoRoleGroups() throws Exception {
         UserEntity user = createUserWithoutRole("no-role-group@example.com");
 
-        List<PermissionDTO> result = get(
-                API_ADMIN_USERS + "/" + user.getId() + "/permissions",
-                new TypeReference<>() {},
-                status().isOk()
-        );
+        List<PermissionDTO> result =
+                get(API_ADMIN_USERS + "/" + user.getId() + "/permissions", new TypeReference<>() {}, status().isOk());
 
         assertThat(result).isEmpty();
     }
@@ -578,8 +563,7 @@ class AdminUserControllerTest extends IntegrationTest {
         PermissionCheckResponse result = get(
                 API_ADMIN_USERS + "/" + user.getId() + "/permissions/check?code=user:read",
                 new TypeReference<>() {},
-                status().isOk()
-        );
+                status().isOk());
 
         assertThat(result.hasPermission()).isTrue();
     }
@@ -592,8 +576,7 @@ class AdminUserControllerTest extends IntegrationTest {
         PermissionCheckResponse result = get(
                 API_ADMIN_USERS + "/" + user.getId() + "/permissions/check?code=user:read",
                 new TypeReference<>() {},
-                status().isOk()
-        );
+                status().isOk());
 
         assertThat(result.hasPermission()).isFalse();
     }
@@ -610,8 +593,7 @@ class AdminUserControllerTest extends IntegrationTest {
         PermissionCheckResponse result = get(
                 API_ADMIN_USERS + "/" + user.getId() + "/permissions/check?code=user:create",
                 new TypeReference<>() {},
-                status().isOk()
-        );
+                status().isOk());
 
         assertThat(result.hasPermission()).isFalse();
     }
@@ -640,7 +622,9 @@ class AdminUserControllerTest extends IntegrationTest {
 
         post(API_ADMIN_USERS, request, UserDetailsDTO.class, status().isCreated());
 
-        UserEntity savedUser = userRepository.findOneByUserCredentialsEmailIgnoreCase(request.email()).orElseThrow();
+        UserEntity savedUser = userRepository
+                .findOneByUserCredentialsEmailIgnoreCase(request.email())
+                .orElseThrow();
         assertThat(savedUser.isTwoFactorEnabled()).isTrue();
         assertThat(savedUser.getTwoFactorMethod()).isEqualTo(TwoFactorMethodType.EMAIL);
     }
@@ -650,13 +634,22 @@ class AdminUserControllerTest extends IntegrationTest {
     void shouldNotEnableTwoFactorByDefaultForManagedUserWithUserOnlyRoleWhenConfigured() throws Exception {
         createActiveTwoFactorConfig(TwoFactorMethodType.EMAIL);
         CreateAdminUserRequest request = new CreateAdminUserRequest(
-                "2fa-user-only@example.com", "John", "Doe", LocalDate.of(1990, 1, 1),
-                UserGender.MALE, null, null, null, null, Set.of(UserGroupConstants.USER)
-        );
+                "2fa-user-only@example.com",
+                "John",
+                "Doe",
+                LocalDate.of(1990, 1, 1),
+                UserGender.MALE,
+                null,
+                null,
+                null,
+                null,
+                Set.of(UserGroupConstants.USER));
 
         post(API_ADMIN_USERS, request, UserDetailsDTO.class, status().isCreated());
 
-        UserEntity savedUser = userRepository.findOneByUserCredentialsEmailIgnoreCase(request.email()).orElseThrow();
+        UserEntity savedUser = userRepository
+                .findOneByUserCredentialsEmailIgnoreCase(request.email())
+                .orElseThrow();
         assertThat(savedUser.isTwoFactorEnabled()).isFalse();
         assertThat(savedUser.getTwoFactorMethod()).isNull();
     }
@@ -666,13 +659,22 @@ class AdminUserControllerTest extends IntegrationTest {
     void shouldEnableTwoFactorByDefaultForManagedUserWithMixedRolesWhenConfigured() throws Exception {
         createActiveTwoFactorConfig(TwoFactorMethodType.EMAIL);
         CreateAdminUserRequest request = new CreateAdminUserRequest(
-                "2fa-mixed@example.com", "Jane", "Doe", LocalDate.of(1990, 1, 1),
-                UserGender.FEMALE, null, null, null, null, Set.of(UserGroupConstants.USER, UserGroupConstants.ADMIN)
-        );
+                "2fa-mixed@example.com",
+                "Jane",
+                "Doe",
+                LocalDate.of(1990, 1, 1),
+                UserGender.FEMALE,
+                null,
+                null,
+                null,
+                null,
+                Set.of(UserGroupConstants.USER, UserGroupConstants.ADMIN));
 
         post(API_ADMIN_USERS, request, UserDetailsDTO.class, status().isCreated());
 
-        UserEntity savedUser = userRepository.findOneByUserCredentialsEmailIgnoreCase(request.email()).orElseThrow();
+        UserEntity savedUser = userRepository
+                .findOneByUserCredentialsEmailIgnoreCase(request.email())
+                .orElseThrow();
         assertThat(savedUser.isTwoFactorEnabled()).isTrue();
         assertThat(savedUser.getTwoFactorMethod()).isEqualTo(TwoFactorMethodType.EMAIL);
     }
@@ -684,7 +686,9 @@ class AdminUserControllerTest extends IntegrationTest {
 
         post(API_ADMIN_USERS, request, UserDetailsDTO.class, status().isCreated());
 
-        UserEntity savedUser = userRepository.findOneByUserCredentialsEmailIgnoreCase(request.email()).orElseThrow();
+        UserEntity savedUser = userRepository
+                .findOneByUserCredentialsEmailIgnoreCase(request.email())
+                .orElseThrow();
         assertThat(savedUser.isTwoFactorEnabled()).isFalse();
         assertThat(savedUser.getTwoFactorMethod()).isNull();
     }
@@ -703,24 +707,40 @@ class AdminUserControllerTest extends IntegrationTest {
                 null,
                 null,
                 Set.of(UserGroupConstants.SYS_ADMIN) // roleGroupNames
-        );
+                );
     }
 
     /**
      * Creates a user with the Admin role group and customizable profile data,
      * so they appear in the admin user list (which filters by Admin).
      */
-    private void createAdminUser(String email, String firstName, String lastName,
-                                 UserGender gender, UserStatus status) {
-        RoleGroupEntity adminRoleGroup = roleGroupRepository.findByNameIn(Set.of(UserGroupConstants.ADMIN)).iterator().next();
+    private void createAdminUser(
+            String email, String firstName, String lastName, UserGender gender, UserStatus status) {
+        RoleGroupEntity adminRoleGroup = roleGroupRepository
+                .findByNameIn(Set.of(UserGroupConstants.ADMIN))
+                .iterator()
+                .next();
 
         UserEntity user = new UserEntity(null, null, null, null, new HashSet<>(), false, null, null);
         user.setUserInfo(new EmbeddableUserInfo(
-                firstName, lastName, null, LocalDate.of(1990, 1, 1), gender, null,
-                DomainConstants.DEFAULT_LANGUAGE, null));
+                firstName,
+                lastName,
+                null,
+                LocalDate.of(1990, 1, 1),
+                gender,
+                null,
+                DomainConstants.DEFAULT_LANGUAGE,
+                null));
         user.setUserCredentials(new EmbeddableCredentials(
-                email.toLowerCase(), passwordEncoder.encode(DEFAULT_USER_PASSWORD),
-                null, Instant.now(), null, null, null, null, null));
+                email.toLowerCase(),
+                passwordEncoder.encode(DEFAULT_USER_PASSWORD),
+                null,
+                Instant.now(),
+                null,
+                null,
+                null,
+                null,
+                null));
         user.setStatus(status);
         user.setRoleGroups(Set.of(adminRoleGroup));
         user.setCreationDate(Instant.now());
@@ -741,9 +761,12 @@ class AdminUserControllerTest extends IntegrationTest {
 
     private AppConfigurationEntity createActiveTwoFactorConfig(TwoFactorMethodType method) {
         AppConfigurationEntity entity = new AppConfigurationEntity(
-                null, AppConfigurationCategory.TWO_FACTOR, method.name(),
-                method.name() + " two-factor authentication", null, true
-        );
+                null,
+                AppConfigurationCategory.TWO_FACTOR,
+                method.name(),
+                method.name() + " two-factor authentication",
+                null,
+                true);
         entity.setCreationDate(Instant.now());
         entity.setLastUpdateDate(Instant.now());
         entity.setLastUpdatedBy("test");

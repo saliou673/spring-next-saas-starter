@@ -2,19 +2,15 @@ package com.saasapp.infrastructure.adapter.out.persistence.entity;
 
 import com.saasapp.domain.enumerations.AppConfigurationCategory;
 import jakarta.persistence.*;
-import lombok.*;
-
 import java.io.Serial;
 import java.io.Serializable;
+import lombok.*;
 
 /**
  * JPA entity mapping the {@code app_configuration} table.
  */
 @Entity
-@Table(
-        name = "app_configuration",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"category", "code"})
-)
+@Table(name = "app_configuration", uniqueConstraints = @UniqueConstraint(columnNames = {"category", "code"}))
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter

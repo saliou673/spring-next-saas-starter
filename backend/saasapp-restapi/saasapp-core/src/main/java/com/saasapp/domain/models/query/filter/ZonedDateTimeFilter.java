@@ -18,10 +18,9 @@
  */
 package com.saasapp.domain.models.query.filter;
 
-import lombok.NoArgsConstructor;
-
 import java.time.ZonedDateTime;
 import java.util.List;
+import lombok.NoArgsConstructor;
 
 /**
  * Filter class for {@link ZonedDateTime} type attributes.

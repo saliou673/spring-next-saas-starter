@@ -2,12 +2,11 @@ package com.saasapp.infrastructure.adapter.out.persistence.mapper;
 
 import com.saasapp.domain.models.rbac.Permission;
 import com.saasapp.infrastructure.adapter.out.persistence.entity.PermissionEntity;
+import java.util.List;
+import java.util.Set;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
-
-import java.util.List;
-import java.util.Set;
 
 /**
  * MapStruct mapper between {@link com.saasapp.infrastructure.adapter.out.persistence.entity.PermissionEntity} and {@link com.saasapp.domain.models.rbac.Permission}.

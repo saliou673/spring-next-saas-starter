@@ -1,7 +1,6 @@
 package com.saasapp.infrastructure.adapter.in.rest.controller.requests;
 
 import com.saasapp.domain.constants.DomainConstants;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
@@ -16,7 +15,4 @@ public record RecoverAccountRequest(
         @Pattern(regexp = DomainConstants.EMAIL_REGEX_PATTERN, message = "Invalid email")
         String email,
 
-        @NotBlank(message = "Password is required")
-        String password
-) {
-}
+        @NotBlank(message = "Password is required") String password) {}

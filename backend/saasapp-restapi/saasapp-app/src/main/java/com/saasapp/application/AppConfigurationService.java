@@ -6,12 +6,11 @@ import com.saasapp.domain.exceptions.AppConfigurationNotFoundException;
 import com.saasapp.domain.models.appconfiguration.AppConfiguration;
 import com.saasapp.domain.ports.in.AppConfigurationUseCase;
 import com.saasapp.domain.ports.out.persistenceport.AppConfigurationPersistencePort;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 /**
  * Application service implementing {@link AppConfigurationUseCase}: CRUD for configuration reference data.
@@ -37,7 +36,8 @@ public class AppConfigurationService implements AppConfigurationUseCase {
     @Override
     public AppConfiguration update(Long id, String code, String label, String description, boolean active) {
         log.debug("Updating reference data id={}", id);
-        AppConfiguration appConfiguration = appConfigurationPersistencePort.findById(id)
+        AppConfiguration appConfiguration = appConfigurationPersistencePort
+                .findById(id)
                 .orElseThrow(() -> new AppConfigurationNotFoundException(id));
 
         if (appConfigurationPersistencePort.existsByCategoryAndCodeAndIdNot(appConfiguration.getCategory(), code, id)) {
@@ -49,12 +49,21 @@ public class AppConfigurationService implements AppConfigurationUseCase {
     }
 
     @Override
-    public AppConfiguration updateByCategoryAndCode(AppConfigurationCategory category, String code, String newCode, String label, String description, boolean active) {
+    public AppConfiguration updateByCategoryAndCode(
+            AppConfigurationCategory category,
+            String code,
+            String newCode,
+            String label,
+            String description,
+            boolean active) {
         log.debug("Updating reference data: category={}, code={}", category, code);
-        AppConfiguration appConfiguration = appConfigurationPersistencePort.findByCategoryAndCode(category, code)
+        AppConfiguration appConfiguration = appConfigurationPersistencePort
+                .findByCategoryAndCode(category, code)
                 .orElseThrow(() -> new AppConfigurationNotFoundException(category, code));
 
-        if (!code.equals(newCode) && appConfigurationPersistencePort.existsByCategoryAndCodeAndIdNot(category, newCode, appConfiguration.getId())) {
+        if (!code.equals(newCode)
+                && appConfigurationPersistencePort.existsByCategoryAndCodeAndIdNot(
+                        category, newCode, appConfiguration.getId())) {
             throw new AppConfigurationAlreadyExistsException(category, newCode);
         }
 
@@ -70,14 +79,16 @@ public class AppConfigurationService implements AppConfigurationUseCase {
     @Override
     public void delete(Long id) {
         log.debug("Deleting reference data id={}", id);
-        AppConfiguration appConfiguration = appConfigurationPersistencePort.findById(id)
+        AppConfiguration appConfiguration = appConfigurationPersistencePort
+                .findById(id)
                 .orElseThrow(() -> new AppConfigurationNotFoundException(id));
         appConfigurationPersistencePort.remove(appConfiguration);
     }
 
     @Override
     public AppConfiguration getById(Long id) {
-        return appConfigurationPersistencePort.findById(id)
+        return appConfigurationPersistencePort
+                .findById(id)
                 .orElseThrow(() -> new AppConfigurationNotFoundException(id));
     }
 }

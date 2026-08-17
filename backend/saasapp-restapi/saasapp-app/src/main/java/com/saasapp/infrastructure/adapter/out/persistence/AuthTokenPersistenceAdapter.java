@@ -1,17 +1,15 @@
 package com.saasapp.infrastructure.adapter.out.persistence;
 
-
 import com.saasapp.domain.models.auth.AuthToken;
 import com.saasapp.domain.models.user.User;
 import com.saasapp.domain.ports.out.persistenceport.AuthTokenPersistencePort;
 import com.saasapp.infrastructure.adapter.out.persistence.mapper.AuthTokenMapper;
 import com.saasapp.infrastructure.adapter.out.persistence.mapper.UserMapper;
 import com.saasapp.infrastructure.adapter.out.persistence.repository.AuthTokenRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 /**
  * JPA adapter implementing {@link AuthTokenPersistencePort}.
@@ -27,42 +25,39 @@ public class AuthTokenPersistenceAdapter implements AuthTokenPersistencePort {
     @Override
     public Optional<AuthToken> findByRefreshToken(String refreshToken) {
         return AdapterPersistenceUtils.executeDbOperation(
-                () -> authTokenRepository.findByRefreshToken(refreshToken)
+                () -> authTokenRepository
+                        .findByRefreshToken(refreshToken)
                         .map(entity -> authTokenMapper.toDomain(entity, userMapper)),
-                "Error fetching auth token by refresh token"
-        );
+                "Error fetching auth token by refresh token");
     }
 
     @Override
     public Optional<AuthToken> findByAccessToken(String accessToken) {
         return AdapterPersistenceUtils.executeDbOperation(
-                () -> authTokenRepository.findByAccessToken(accessToken)
+                () -> authTokenRepository
+                        .findByAccessToken(accessToken)
                         .map(entity -> authTokenMapper.toDomain(entity, userMapper)),
-                "Error fetching auth token by access token"
-        );
+                "Error fetching auth token by access token");
     }
 
     @Override
     public void save(AuthToken authToken) {
         AdapterPersistenceUtils.executeDbOperation(
                 () -> authTokenRepository.save(authTokenMapper.toEntity(authToken)),
-                "Error saving auth token for user: " + authToken.getUser().getId()
-        );
+                "Error saving auth token for user: " + authToken.getUser().getId());
     }
 
     @Override
     public void deleteAllForUser(User user) {
         AdapterPersistenceUtils.executeDbOperation(
                 () -> authTokenRepository.deleteAllByUserId(user.getId()),
-                "Error deleting auth tokens for user: " + user.getId()
-        );
+                "Error deleting auth tokens for user: " + user.getId());
     }
 
     @Override
     public void deleteByAccessToken(String accessToken) {
         AdapterPersistenceUtils.executeDbOperation(
                 () -> authTokenRepository.deleteByAccessToken(accessToken),
-                "Error deleting auth token by access token"
-        );
+                "Error deleting auth token by access token");
     }
 }

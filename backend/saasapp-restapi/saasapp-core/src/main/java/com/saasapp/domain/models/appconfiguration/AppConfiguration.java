@@ -2,9 +2,8 @@ package com.saasapp.domain.models.appconfiguration;
 
 import com.saasapp.domain.enumerations.AppConfigurationCategory;
 import com.saasapp.domain.models.Auditable;
-import lombok.Getter;
-
 import java.time.Instant;
+import lombok.Getter;
 
 /**
  * Domain entity representing a configurable reference-data entry (e.g. a supported currency).
@@ -42,8 +41,7 @@ public class AppConfiguration extends Auditable<Long> {
             boolean active,
             Instant creationDate,
             Instant lastUpdateDate,
-            String lastUpdatedBy
-    ) {
+            String lastUpdatedBy) {
         super(id, creationDate, lastUpdateDate, lastUpdatedBy);
         this.category = category;
         this.code = code;
@@ -53,11 +51,7 @@ public class AppConfiguration extends Auditable<Long> {
     }
 
     public static AppConfiguration create(
-            AppConfigurationCategory category,
-            String code,
-            String label,
-            String description
-    ) {
+            AppConfigurationCategory category, String code, String label, String description) {
         return new AppConfiguration(null, category, code, label, description, true, null, null, null);
     }
 
@@ -70,9 +64,9 @@ public class AppConfiguration extends Auditable<Long> {
             boolean active,
             Instant creationDate,
             Instant lastUpdateDate,
-            String lastUpdatedBy
-    ) {
-        return new AppConfiguration(id, category, code, label, description, active, creationDate, lastUpdateDate, lastUpdatedBy);
+            String lastUpdatedBy) {
+        return new AppConfiguration(
+                id, category, code, label, description, active, creationDate, lastUpdateDate, lastUpdatedBy);
     }
 
     public void update(String code, String label, String description, boolean active) {

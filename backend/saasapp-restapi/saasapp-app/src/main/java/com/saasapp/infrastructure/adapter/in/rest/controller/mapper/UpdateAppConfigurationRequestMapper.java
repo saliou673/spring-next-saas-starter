@@ -8,10 +8,7 @@ import org.mapstruct.ReportingPolicy;
 /**
  * MapStruct mapper extracting fields from an {@link com.saasapp.infrastructure.adapter.in.rest.controller.requests.UpdateAppConfigurationRequest} for use in service calls.
  */
-@Mapper(
-        componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedTargetPolicy = ReportingPolicy.ERROR
-)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface UpdateAppConfigurationRequestMapper {
 
     default String toCode(UpdateAppConfigurationRequest request) {

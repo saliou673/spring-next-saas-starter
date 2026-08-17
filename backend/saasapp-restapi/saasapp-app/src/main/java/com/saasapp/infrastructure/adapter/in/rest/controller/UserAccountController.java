@@ -1,6 +1,5 @@
 package com.saasapp.infrastructure.adapter.in.rest.controller;
 
-
 import com.saasapp.domain.models.rbac.Permission;
 import com.saasapp.domain.models.user.User;
 import com.saasapp.domain.models.user.UserInfoUpdate;
@@ -17,16 +16,14 @@ import com.saasapp.infrastructure.adapter.in.rest.controller.mapper.UserPreferen
 import com.saasapp.infrastructure.adapter.in.rest.controller.requests.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.util.Comparator;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Comparator;
-import java.util.List;
-
 
 /**
  * REST controller for managing the current user's account.
@@ -93,9 +90,7 @@ public class UserAccountController {
     @GetMapping("/me/permissions")
     @PreAuthorize("hasAuthority('user:read:own')")
     public List<PermissionDTO> getCurrentUserPermissions() {
-        return accountUseCase.getCurrentUserWithAuthorities()
-                .resolvePermissions()
-                .stream()
+        return accountUseCase.getCurrentUserWithAuthorities().resolvePermissions().stream()
                 .sorted(Comparator.comparing(Permission::code))
                 .map(permissionDtoMapper::toDTO)
                 .toList();
@@ -126,7 +121,8 @@ public class UserAccountController {
     @PutMapping("/me/preferences")
     @PreAuthorize("hasAuthority('user:update:own')")
     public UserPreferencesDTO updateCurrentUserPreferences(@Valid @RequestBody UserPreferencesDTO preferences) {
-        return userPreferencesDtoMapper.toDTO(userPreferenceUseCase.updateCurrentUserPreferences(userPreferencesDtoMapper.toDomain(preferences)));
+        return userPreferencesDtoMapper.toDTO(
+                userPreferenceUseCase.updateCurrentUserPreferences(userPreferencesDtoMapper.toDomain(preferences)));
     }
 
     /**
@@ -149,7 +145,6 @@ public class UserAccountController {
     public void recoverAccount(@Valid @RequestBody RecoverAccountRequest request) {
         accountUseCase.recoverAccount(request.email(), request.password());
     }
-
 
     /**
      * Changes the current user's password.
@@ -219,5 +214,4 @@ public class UserAccountController {
     public void confirmEmailChange(@RequestBody @Valid EmailChangeConfirmRequest request) {
         accountUseCase.confirmEmailChange(request.code());
     }
-
 }

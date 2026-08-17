@@ -1,5 +1,8 @@
 package com.saasapp.integration.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.saasapp.domain.models.auth.JwtToken;
 import com.saasapp.domain.models.auth.TwoFactorChallengePurpose;
 import com.saasapp.domain.models.auth.TwoFactorMethodType;
@@ -10,17 +13,13 @@ import com.saasapp.infrastructure.adapter.out.persistence.entity.TwoFactorChalle
 import com.saasapp.infrastructure.adapter.out.persistence.entity.UserEntity;
 import com.saasapp.infrastructure.adapter.out.persistence.repository.TwoFactorChallengeJpaRepository;
 import com.saasapp.integration.IntegrationTest;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
-
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.UUID;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DirtiesContext
 class TwoFactorControllerTest extends IntegrationTest {
@@ -46,7 +45,9 @@ class TwoFactorControllerTest extends IntegrationTest {
         post(API_2FA_SETUP, new TwoFactorSetupRequest(TwoFactorMethodType.EMAIL), status().isNoContent());
 
         // A SETUP challenge should be created in the DB
-        UserEntity user = userRepository.findOneByUserCredentialsEmailIgnoreCase(TEST_EMAIL).orElseThrow();
+        UserEntity user = userRepository
+                .findOneByUserCredentialsEmailIgnoreCase(TEST_EMAIL)
+                .orElseThrow();
         assertThat(twoFactorChallengeRepository.findByUserIdAndPurpose(user.getId(), TwoFactorChallengePurpose.SETUP))
                 .isPresent();
     }
@@ -59,7 +60,9 @@ class TwoFactorControllerTest extends IntegrationTest {
         post(API_2FA_SETUP, new TwoFactorSetupRequest(TwoFactorMethodType.EMAIL), status().isConflict());
 
         // No new challenge should be created
-        UserEntity user = userRepository.findOneByUserCredentialsEmailIgnoreCase(TEST_EMAIL).orElseThrow();
+        UserEntity user = userRepository
+                .findOneByUserCredentialsEmailIgnoreCase(TEST_EMAIL)
+                .orElseThrow();
         assertThat(twoFactorChallengeRepository.findByUserIdAndPurpose(user.getId(), TwoFactorChallengePurpose.SETUP))
                 .isEmpty();
     }
@@ -74,7 +77,9 @@ class TwoFactorControllerTest extends IntegrationTest {
         // Second init — should replace the first challenge
         post(API_2FA_SETUP, new TwoFactorSetupRequest(TwoFactorMethodType.EMAIL), status().isNoContent());
 
-        UserEntity user = userRepository.findOneByUserCredentialsEmailIgnoreCase(TEST_EMAIL).orElseThrow();
+        UserEntity user = userRepository
+                .findOneByUserCredentialsEmailIgnoreCase(TEST_EMAIL)
+                .orElseThrow();
         // Still only one SETUP challenge
         assertThat(twoFactorChallengeRepository.findByUserIdAndPurpose(user.getId(), TwoFactorChallengePurpose.SETUP))
                 .isPresent();
@@ -144,8 +149,7 @@ class TwoFactorControllerTest extends IntegrationTest {
                 TwoFactorChallengePurpose.SETUP,
                 false,
                 Instant.now().minus(10, ChronoUnit.MINUTES), // already expired
-                Instant.now().minus(15, ChronoUnit.MINUTES)
-        );
+                Instant.now().minus(15, ChronoUnit.MINUTES));
         twoFactorChallengeRepository.save(expiredChallenge);
 
         post(API_2FA_SETUP_CONFIRM, new TwoFactorSetupConfirmRequest("123456"), status().isBadRequest());
@@ -226,14 +230,11 @@ class TwoFactorControllerTest extends IntegrationTest {
                 TwoFactorChallengePurpose.LOGIN,
                 false,
                 Instant.now().plus(5, ChronoUnit.MINUTES),
-                Instant.now()
-        );
+                Instant.now());
         twoFactorChallengeRepository.save(challenge);
 
-        JwtToken jwtToken = post(API_2FA_VERIFY,
-                                 new TwoFactorLoginVerifyRequest(challengeId, code),
-                                 JwtToken.class,
-                                 status().isOk());
+        JwtToken jwtToken = post(
+                API_2FA_VERIFY, new TwoFactorLoginVerifyRequest(challengeId, code), JwtToken.class, status().isOk());
 
         assertThat(jwtToken).isNotNull();
         assertThat(jwtToken.accessToken()).isNotBlank();
@@ -256,13 +257,10 @@ class TwoFactorControllerTest extends IntegrationTest {
                 TwoFactorChallengePurpose.LOGIN,
                 false,
                 Instant.now().plus(5, ChronoUnit.MINUTES),
-                Instant.now()
-        );
+                Instant.now());
         twoFactorChallengeRepository.save(challenge);
 
-        post(API_2FA_VERIFY,
-             new TwoFactorLoginVerifyRequest(challengeId, "999999"),
-             status().isBadRequest());
+        post(API_2FA_VERIFY, new TwoFactorLoginVerifyRequest(challengeId, "999999"), status().isBadRequest());
 
         // Challenge must NOT be consumed on wrong code
         assertThat(twoFactorChallengeRepository.findById(challengeId)).isPresent();
@@ -281,20 +279,15 @@ class TwoFactorControllerTest extends IntegrationTest {
                 TwoFactorChallengePurpose.LOGIN,
                 false,
                 Instant.now().minus(10, ChronoUnit.MINUTES), // expired
-                Instant.now().minus(15, ChronoUnit.MINUTES)
-        );
+                Instant.now().minus(15, ChronoUnit.MINUTES));
         twoFactorChallengeRepository.save(expiredChallenge);
 
-        post(API_2FA_VERIFY,
-             new TwoFactorLoginVerifyRequest(challengeId, "123456"),
-             status().isBadRequest());
+        post(API_2FA_VERIFY, new TwoFactorLoginVerifyRequest(challengeId, "123456"), status().isBadRequest());
     }
 
     @Test
     void shouldFailVerifyLoginChallengeWithNonExistentId() throws Exception {
-        post(API_2FA_VERIFY,
-             new TwoFactorLoginVerifyRequest("non-existent-id", "123456"),
-             status().isBadRequest());
+        post(API_2FA_VERIFY, new TwoFactorLoginVerifyRequest("non-existent-id", "123456"), status().isBadRequest());
     }
 
     @Test
@@ -308,16 +301,13 @@ class TwoFactorControllerTest extends IntegrationTest {
                 userRepository.findById(user.getId()).orElseThrow(),
                 "123456",
                 TwoFactorMethodType.EMAIL,
-                TwoFactorChallengePurpose.SETUP,   // wrong purpose
+                TwoFactorChallengePurpose.SETUP, // wrong purpose
                 false,
                 Instant.now().plus(5, ChronoUnit.MINUTES),
-                Instant.now()
-        );
+                Instant.now());
         twoFactorChallengeRepository.save(setupChallenge);
 
-        post(API_2FA_VERIFY,
-             new TwoFactorLoginVerifyRequest(challengeId, "123456"),
-             status().isBadRequest());
+        post(API_2FA_VERIFY, new TwoFactorLoginVerifyRequest(challengeId, "123456"), status().isBadRequest());
     }
 
     // =====================================================================
@@ -353,11 +343,8 @@ class TwoFactorControllerTest extends IntegrationTest {
 
         // 2. Login — receives a 2FA challenge
         LoginRequest loginRequest = new LoginRequest(TEST_EMAIL, DEFAULT_USER_PASSWORD, false);
-        TwoFactorChallengeResponse challengeResponse = post(LOGIN_ROUTE,
-                                                            loginRequest,
-                                                            TwoFactorChallengeResponse.class,
-                                                            status().isAccepted());
-
+        TwoFactorChallengeResponse challengeResponse =
+                post(LOGIN_ROUTE, loginRequest, TwoFactorChallengeResponse.class, status().isAccepted());
 
         assertThat(challengeResponse.challengeId()).isNotBlank();
         assertThat(challengeResponse.type()).isEqualTo(TwoFactorMethodType.EMAIL);
@@ -368,10 +355,11 @@ class TwoFactorControllerTest extends IntegrationTest {
                 .orElseThrow(() -> new AssertionError("Login challenge not found"));
 
         // 4. Verify challenge to obtain JWT
-        JwtToken jwtToken = post(API_2FA_VERIFY,
-                                 new TwoFactorLoginVerifyRequest(challenge.getId(), challenge.getCode()),
-                                 JwtToken.class,
-                                 status().isOk());
+        JwtToken jwtToken = post(
+                API_2FA_VERIFY,
+                new TwoFactorLoginVerifyRequest(challenge.getId(), challenge.getCode()),
+                JwtToken.class,
+                status().isOk());
 
         assertThat(jwtToken).isNotNull();
         assertThat(jwtToken.accessToken()).isNotBlank();
@@ -393,7 +381,8 @@ class TwoFactorControllerTest extends IntegrationTest {
                 .orElseThrow();
         post(API_2FA_SETUP_CONFIRM, new TwoFactorSetupConfirmRequest(challenge.getCode()), status().isNoContent());
 
-        assertThat(userRepository.findById(user.getId()).orElseThrow().isTwoFactorEnabled()).isTrue();
+        assertThat(userRepository.findById(user.getId()).orElseThrow().isTwoFactorEnabled())
+                .isTrue();
 
         // 2. Disable 2FA
         delete(API_2FA_DISABLE, new TwoFactorDisableRequest(DEFAULT_USER_PASSWORD), status().isNoContent());
@@ -416,8 +405,7 @@ class TwoFactorControllerTest extends IntegrationTest {
                 API_2FA_SETUP,
                 new TwoFactorSetupRequest(TwoFactorMethodType.TOTP),
                 TotpSetupResponse.class,
-                status().isOk()
-        );
+                status().isOk());
 
         assertThat(response).isNotNull();
         assertThat(response.secret()).isNotBlank();
@@ -426,7 +414,9 @@ class TwoFactorControllerTest extends IntegrationTest {
         assertThat(response.otpAuthUri()).contains("issuer=");
 
         // A pending SETUP challenge should exist in the DB holding the secret
-        UserEntity user = userRepository.findOneByUserCredentialsEmailIgnoreCase(TEST_EMAIL).orElseThrow();
+        UserEntity user = userRepository
+                .findOneByUserCredentialsEmailIgnoreCase(TEST_EMAIL)
+                .orElseThrow();
         assertThat(twoFactorChallengeRepository.findByUserIdAndPurpose(user.getId(), TwoFactorChallengePurpose.SETUP))
                 .isPresent()
                 .hasValueSatisfying(challenge -> assertThat(challenge.getCode()).isEqualTo(response.secret()));
@@ -442,8 +432,7 @@ class TwoFactorControllerTest extends IntegrationTest {
                 API_2FA_SETUP,
                 new TwoFactorSetupRequest(TwoFactorMethodType.TOTP),
                 TotpSetupResponse.class,
-                status().isOk()
-        );
+                status().isOk());
 
         // Compute the correct TOTP code using the returned secret
         String validCode = computeTotpCode(setupResponse.secret());
@@ -469,7 +458,8 @@ class TwoFactorControllerTest extends IntegrationTest {
 
         post(API_2FA_SETUP_CONFIRM, new TwoFactorSetupConfirmRequest("000000"), status().isBadRequest());
 
-        assertThat(userRepository.findById(user.getId()).orElseThrow().isTwoFactorEnabled()).isFalse();
+        assertThat(userRepository.findById(user.getId()).orElseThrow().isTwoFactorEnabled())
+                .isFalse();
     }
 
     @Test
@@ -483,21 +473,21 @@ class TwoFactorControllerTest extends IntegrationTest {
         TwoFactorChallengeEntity challenge = new TwoFactorChallengeEntity(
                 challengeId,
                 userRepository.findById(user.getId()).orElseThrow(),
-                "",   // empty: TOTP uses the user's stored secret
+                "", // empty: TOTP uses the user's stored secret
                 TwoFactorMethodType.TOTP,
                 TwoFactorChallengePurpose.LOGIN,
                 false,
                 Instant.now().plus(5, ChronoUnit.MINUTES),
-                Instant.now()
-        );
+                Instant.now());
         twoFactorChallengeRepository.save(challenge);
 
         String validCode = computeTotpCode(totpSecret);
 
-        JwtToken jwtToken = post(API_2FA_VERIFY,
-                                 new TwoFactorLoginVerifyRequest(challengeId, validCode),
-                                 JwtToken.class,
-                                 status().isOk());
+        JwtToken jwtToken = post(
+                API_2FA_VERIFY,
+                new TwoFactorLoginVerifyRequest(challengeId, validCode),
+                JwtToken.class,
+                status().isOk());
 
         assertThat(jwtToken).isNotNull();
         assertThat(jwtToken.accessToken()).isNotBlank();
@@ -518,8 +508,7 @@ class TwoFactorControllerTest extends IntegrationTest {
                 TwoFactorChallengePurpose.LOGIN,
                 false,
                 Instant.now().plus(5, ChronoUnit.MINUTES),
-                Instant.now()
-        ));
+                Instant.now()));
 
         post(API_2FA_VERIFY, new TwoFactorLoginVerifyRequest(challengeId, "000000"), status().isBadRequest());
 
@@ -535,23 +524,23 @@ class TwoFactorControllerTest extends IntegrationTest {
 
         // Login — should return 202 with a TOTP challenge
         LoginRequest loginRequest = new LoginRequest(TEST_EMAIL, DEFAULT_USER_PASSWORD, false);
-        TwoFactorChallengeResponse challengeResponse = post(LOGIN_ROUTE,
-                                                            loginRequest,
-                                                            TwoFactorChallengeResponse.class,
-                                                            status().isAccepted());
+        TwoFactorChallengeResponse challengeResponse =
+                post(LOGIN_ROUTE, loginRequest, TwoFactorChallengeResponse.class, status().isAccepted());
 
         assertThat(challengeResponse.challengeId()).isNotBlank();
         assertThat(challengeResponse.type()).isEqualTo(TwoFactorMethodType.TOTP);
 
         // Verify the challenge with a valid TOTP code
         String validCode = computeTotpCode(totpSecret);
-        JwtToken jwtToken = post(API_2FA_VERIFY,
-                                 new TwoFactorLoginVerifyRequest(challengeResponse.challengeId(), validCode),
-                                 JwtToken.class,
-                                 status().isOk());
+        JwtToken jwtToken = post(
+                API_2FA_VERIFY,
+                new TwoFactorLoginVerifyRequest(challengeResponse.challengeId(), validCode),
+                JwtToken.class,
+                status().isOk());
 
         assertThat(jwtToken.accessToken()).isNotBlank();
-        assertThat(twoFactorChallengeRepository.findById(challengeResponse.challengeId())).isEmpty();
+        assertThat(twoFactorChallengeRepository.findById(challengeResponse.challengeId()))
+                .isEmpty();
     }
 
     // -------------------------------------------------------------------------

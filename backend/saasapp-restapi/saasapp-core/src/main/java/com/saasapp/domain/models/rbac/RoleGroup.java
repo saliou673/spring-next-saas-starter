@@ -1,12 +1,11 @@
 package com.saasapp.domain.models.rbac;
 
 import com.saasapp.domain.models.Auditable;
-import lombok.Getter;
-
 import java.time.Instant;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import lombok.Getter;
 
 /**
  * Aggregate representing a named role group that bundles a set of permissions.
@@ -34,8 +33,7 @@ public class RoleGroup extends Auditable<Long> {
             Set<Permission> permissions,
             Instant creationDate,
             Instant lastUpdateDate,
-            String lastUpdatedBy
-    ) {
+            String lastUpdatedBy) {
         super(id, creationDate, lastUpdateDate, lastUpdatedBy);
         this.name = name;
         this.description = description;
@@ -53,8 +51,7 @@ public class RoleGroup extends Auditable<Long> {
             Set<Permission> permissions,
             Instant creationDate,
             Instant lastUpdateDate,
-            String lastUpdatedBy
-    ) {
+            String lastUpdatedBy) {
         return new RoleGroup(id, name, description, permissions, creationDate, lastUpdateDate, lastUpdatedBy);
     }
 

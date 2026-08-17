@@ -1,5 +1,12 @@
 package com.saasapp.integration.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.saasapp.domain.enumerations.UserGender;
 import com.saasapp.domain.enumerations.UserGroupConstants;
@@ -8,12 +15,12 @@ import com.saasapp.domain.models.userpreference.FontPreference;
 import com.saasapp.domain.models.userpreference.TextSizePreference;
 import com.saasapp.domain.models.userpreference.ThemePreference;
 import com.saasapp.domain.ports.out.NotificationSenderPort;
-import com.saasapp.infrastructure.adapter.in.rest.controller.dto.UserPreferencesDTO;
-import com.saasapp.infrastructure.adapter.in.rest.controller.dto.PermissionDTO;
-import com.saasapp.infrastructure.adapter.in.rest.controller.dto.UserSummaryDTO;
 import com.saasapp.infrastructure.adapter.in.rest.controller.dto.AppearancePreferencesDTO;
-import com.saasapp.infrastructure.adapter.in.rest.controller.dto.NotificationPreferencesDTO;
 import com.saasapp.infrastructure.adapter.in.rest.controller.dto.DisplayPreferencesDTO;
+import com.saasapp.infrastructure.adapter.in.rest.controller.dto.NotificationPreferencesDTO;
+import com.saasapp.infrastructure.adapter.in.rest.controller.dto.PermissionDTO;
+import com.saasapp.infrastructure.adapter.in.rest.controller.dto.UserPreferencesDTO;
+import com.saasapp.infrastructure.adapter.in.rest.controller.dto.UserSummaryDTO;
 import com.saasapp.infrastructure.adapter.in.rest.controller.requests.*;
 import com.saasapp.infrastructure.adapter.out.persistence.entity.PermissionEntity;
 import com.saasapp.infrastructure.adapter.out.persistence.entity.RoleGroupEntity;
@@ -21,26 +28,18 @@ import com.saasapp.infrastructure.adapter.out.persistence.entity.UserEntity;
 import com.saasapp.infrastructure.adapter.out.persistence.repository.PermissionRepository;
 import com.saasapp.infrastructure.adapter.out.persistence.repository.RoleGroupRepository;
 import com.saasapp.integration.IntegrationTest;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @DirtiesContext
 class UserAccountControllerTest extends IntegrationTest {
@@ -94,16 +93,8 @@ class UserAccountControllerTest extends IntegrationTest {
 
     @Test
     void shouldFailToRegisterWithInvalidPassword() throws Exception {
-        CreateUserRequest request = new CreateUserRequest("test@example.com",
-                                                          "weakpassword",
-                                                          "Mamadou",
-                                                          "Diallo",
-                                                          null,
-                                                          UserGender.MALE,
-                                                          null,
-                                                          null,
-                                                          null,
-                                                          null);
+        CreateUserRequest request = new CreateUserRequest(
+                "test@example.com", "weakpassword", "Mamadou", "Diallo", null, UserGender.MALE, null, null, null, null);
 
         post(API_REGISTER, request, status().isBadRequest());
 
@@ -129,7 +120,8 @@ class UserAccountControllerTest extends IntegrationTest {
     @Test
     void shouldReplaceNonActivatedUserWithSameEmail() throws Exception {
         // Create an existing non-activated user
-        UserEntity existingUser = createNonActiveUser("test1@example.com", Instant.now().minus(4, ChronoUnit.DAYS));
+        UserEntity existingUser =
+                createNonActiveUser("test1@example.com", Instant.now().minus(4, ChronoUnit.DAYS));
 
         Long existingUserId = existingUser.getId();
 
@@ -140,9 +132,13 @@ class UserAccountControllerTest extends IntegrationTest {
 
         post(API_REGISTER, request, status().isCreated());
 
-        UserEntity createdUser = userRepository.findOneByUserCredentialsEmailIgnoreCase(request.email()).orElseThrow();
+        UserEntity createdUser = userRepository
+                .findOneByUserCredentialsEmailIgnoreCase(request.email())
+                .orElseThrow();
         assertThat(createdUser.getId()).as("The new user is created").isNotEqualTo(existingUserId);
-        assertThat(userRepository.count()).as("The old user is deleted").isEqualTo(2); // The old user is deleted and the new one is created
+        assertThat(userRepository.count())
+                .as("The old user is deleted")
+                .isEqualTo(2); // The old user is deleted and the new one is created
 
         verify(notificationSenderPort).sendActivationNotification(any());
     }
@@ -150,42 +146,18 @@ class UserAccountControllerTest extends IntegrationTest {
     @Test
     void shouldFailToRegisterWithInvalidData() throws Exception {
         // Test with null email
-        CreateUserRequest request = new CreateUserRequest(null,
-                                                          "validPassword123!",
-                                                          "Mamadou",
-                                                          "Diallo",
-                                                          null,
-                                                          UserGender.MALE,
-                                                          null,
-                                                          null,
-                                                          null,
-                                                          null);
+        CreateUserRequest request = new CreateUserRequest(
+                null, "validPassword123!", "Mamadou", "Diallo", null, UserGender.MALE, null, null, null, null);
         post(API_REGISTER, request, status().isBadRequest());
 
         // Test with blank email
-        request = new CreateUserRequest("",
-                                        "validPassword123!",
-                                        "Mamadou",
-                                        "Diallo",
-                                        null,
-                                        UserGender.MALE,
-                                        null,
-                                        null,
-                                        null,
-                                        null);
+        request = new CreateUserRequest(
+                "", "validPassword123!", "Mamadou", "Diallo", null, UserGender.MALE, null, null, null, null);
         post(API_REGISTER, request, status().isBadRequest());
 
         // Test with a null password
-        request = new CreateUserRequest("test@example.com",
-                                        null,
-                                        "Mamadou",
-                                        "Diallo",
-                                        null,
-                                        UserGender.MALE,
-                                        null,
-                                        null,
-                                        null,
-                                        null);
+        request = new CreateUserRequest(
+                "test@example.com", null, "Mamadou", "Diallo", null, UserGender.MALE, null, null, null, null);
         post(API_REGISTER, request, status().isBadRequest());
 
         assertThat(userRepository.count()).as("No user should be created").isZero();
@@ -226,14 +198,15 @@ class UserAccountControllerTest extends IntegrationTest {
     }
 
     @Test
-    @WithMockUser(username = "test@example.com", authorities = {"user:read:own", "user:update:own"})
+    @WithMockUser(
+            username = "test@example.com",
+            authorities = {"user:read:own", "user:update:own"})
     void shouldUpdateCurrentUserPreferencesSuccessfully() throws Exception {
         createUser("test@example.com", Set.of(UserGroupConstants.ADMIN));
         UserPreferencesDTO request = new UserPreferencesDTO(
                 new AppearancePreferencesDTO(ThemePreference.DARK, FontPreference.MANROPE),
                 new NotificationPreferencesDTO(true),
-                new DisplayPreferencesDTO(TextSizePreference.LARGE, true)
-        );
+                new DisplayPreferencesDTO(TextSizePreference.LARGE, true));
 
         UserPreferencesDTO updated = put(API_ACCOUNT_PREFERENCES, request, UserPreferencesDTO.class, status().isOk());
         UserSummaryDTO currentAccount = get(API_ACCOUNT, new TypeReference<>() {}, status().isOk());
@@ -246,7 +219,8 @@ class UserAccountControllerTest extends IntegrationTest {
         assertThat(updated.display().reduceMotion()).isTrue();
         assertThat(currentAccount.preferences().appearance().theme()).isEqualTo(ThemePreference.DARK);
         assertThat(currentAccount.preferences().appearance().font()).isEqualTo(FontPreference.MANROPE);
-        assertThat(currentAccount.preferences().notifications().productUpdatesEnabled()).isTrue();
+        assertThat(currentAccount.preferences().notifications().productUpdatesEnabled())
+                .isTrue();
         assertThat(currentAccount.preferences().display().textSize()).isEqualTo(TextSizePreference.LARGE);
         assertThat(currentAccount.preferences().display().reduceMotion()).isTrue();
         assertThat(currentPreferences.appearance().theme()).isEqualTo(ThemePreference.DARK);
@@ -264,8 +238,7 @@ class UserAccountControllerTest extends IntegrationTest {
         // preferences JSON document - the key is simply absent, not null.
         jdbcTemplate.update(
                 "UPDATE user_preference SET preferences = '{\"appearance\":{\"theme\":\"SYSTEM\",\"font\":\"INTER\"}}' WHERE user_id = ?",
-                user.getId()
-        );
+                user.getId());
 
         UserSummaryDTO result = get(API_ACCOUNT, new TypeReference<>() {}, status().isOk());
 
@@ -285,8 +258,7 @@ class UserAccountControllerTest extends IntegrationTest {
         List<PermissionDTO> result = get(API_ACCOUNT_PERMISSIONS, new TypeReference<>() {}, status().isOk());
 
         assertThat(result).isNotNull();
-        assertThat(result).extracting(PermissionDTO::code)
-                .containsExactlyInAnyOrder("user:read");
+        assertThat(result).extracting(PermissionDTO::code).containsExactlyInAnyOrder("user:read");
         assertThat(result).extracting(PermissionDTO::code).isSorted();
     }
 
@@ -305,14 +277,16 @@ class UserAccountControllerTest extends IntegrationTest {
     void shouldFlattenPermissionsFromMultipleRoleGroups() throws Exception {
         UserEntity user = createUserWithoutRole("test@example.com");
         RoleGroupEntity groupA = createRoleGroupWithPermissions("GroupA", Set.of("user:read"));
-        RoleGroupEntity groupB = createRoleGroupWithPermissions("GroupB", Set.of("role-group:read", "role-group:create"));
+        RoleGroupEntity groupB =
+                createRoleGroupWithPermissions("GroupB", Set.of("role-group:read", "role-group:create"));
         user.getRoleGroups().add(groupA);
         user.getRoleGroups().add(groupB);
         userRepository.save(user);
 
         List<PermissionDTO> result = get(API_ACCOUNT_PERMISSIONS, new TypeReference<>() {}, status().isOk());
 
-        assertThat(result).extracting(PermissionDTO::code)
+        assertThat(result)
+                .extracting(PermissionDTO::code)
                 .containsExactlyInAnyOrder("user:read", "role-group:read", "role-group:create");
         assertThat(result).extracting(PermissionDTO::code).isSorted();
     }
@@ -407,8 +381,12 @@ class UserAccountControllerTest extends IntegrationTest {
 
         // Verify password was changed
         UserEntity updatedUser = userRepository.findById(user.getId()).orElseThrow();
-        assertThat(passwordEncoder.matches(request.newPassword(), updatedUser.getUserCredentials().getPasswordHash())).isTrue();
-        assertThat(passwordEncoder.matches(currentPassword, updatedUser.getUserCredentials().getPasswordHash())).isFalse();
+        assertThat(passwordEncoder.matches(
+                        request.newPassword(), updatedUser.getUserCredentials().getPasswordHash()))
+                .isTrue();
+        assertThat(passwordEncoder.matches(
+                        currentPassword, updatedUser.getUserCredentials().getPasswordHash()))
+                .isFalse();
     }
 
     @Test
@@ -424,7 +402,9 @@ class UserAccountControllerTest extends IntegrationTest {
 
         // Verify that the password was not changed
         UserEntity unchangedUser = userRepository.findById(user.getId()).orElseThrow();
-        assertThat(passwordEncoder.matches("actualPassword123!", unchangedUser.getUserCredentials().getPasswordHash())).isTrue();
+        assertThat(passwordEncoder.matches(
+                        "actualPassword123!", unchangedUser.getUserCredentials().getPasswordHash()))
+                .isTrue();
     }
 
     @Test
@@ -456,18 +436,14 @@ class UserAccountControllerTest extends IntegrationTest {
     void shouldNotSendActivationKeyForActivatedUser() throws Exception {
         createUser("test@example.com");
 
-        postText(API_RESEND_ACTIVATION,
-                 "test@example.com",
-                 status().isOk()); // Should still return OK for security
+        postText(API_RESEND_ACTIVATION, "test@example.com", status().isOk()); // Should still return OK for security
 
         verify(notificationSenderPort, never()).sendActivationNotification(any());
     }
 
     @Test
     void shouldHandleRequestActivationCodeForNonExistentEmail() throws Exception {
-        postText(API_RESEND_ACTIVATION,
-                 "nonexistent@example.com",
-                 status().isBadRequest());
+        postText(API_RESEND_ACTIVATION, "nonexistent@example.com", status().isBadRequest());
 
         verify(notificationSenderPort, never()).sendActivationNotification(any());
     }
@@ -492,18 +468,17 @@ class UserAccountControllerTest extends IntegrationTest {
     void shouldNotRequestPasswordResetForNonActivatedUser() throws Exception {
         createNonActiveUser("test@example.com");
 
-        postText(API_RESET_PASSWORD_INIT,
-                 "test@example.com",
-                 status().isOk()); // Should still return OK for security
+        postText(API_RESET_PASSWORD_INIT, "test@example.com", status().isOk()); // Should still return OK for security
 
         verify(notificationSenderPort, never()).sendPasswordResetNotification(any());
     }
 
     @Test
     void shouldHandlePasswordResetForNonExistentEmail() throws Exception {
-        postText(API_RESET_PASSWORD_INIT,
-                 "nonexistent@example.com",
-                 status().isOk()); // Should still return OK for security
+        postText(
+                API_RESET_PASSWORD_INIT,
+                "nonexistent@example.com",
+                status().isOk()); // Should still return OK for security
 
         verify(notificationSenderPort, never()).sendPasswordResetNotification(any());
     }
@@ -515,13 +490,16 @@ class UserAccountControllerTest extends IntegrationTest {
         user.getUserCredentials().setResetDate(Instant.now());
         userRepository.save(user);
 
-        PasswordResetRequest request = new PasswordResetRequest(user.getUserCredentials().getResetCode(), "newPassword123!");
+        PasswordResetRequest request =
+                new PasswordResetRequest(user.getUserCredentials().getResetCode(), "newPassword123!");
 
         post(API_RESET_PASSWORD_FINISH, request, status().isOk());
 
         // Verify that the password was reset and keys cleared
         UserEntity updatedUser = userRepository.findById(user.getId()).orElseThrow();
-        assertThat(passwordEncoder.matches(request.newPassword(), updatedUser.getUserCredentials().getPasswordHash())).isTrue();
+        assertThat(passwordEncoder.matches(
+                        request.newPassword(), updatedUser.getUserCredentials().getPasswordHash()))
+                .isTrue();
         assertThat(updatedUser.getUserCredentials().getResetCode()).isNull();
         assertThat(updatedUser.getUserCredentials().getResetDate()).isNotNull();
     }
@@ -540,7 +518,8 @@ class UserAccountControllerTest extends IntegrationTest {
         user.getUserCredentials().setResetDate(Instant.now().minus(2, ChronoUnit.DAYS)); // Expired
         userRepository.save(user);
 
-        PasswordResetRequest request = new PasswordResetRequest(user.getUserCredentials().getResetCode(), "newPassword123!");
+        PasswordResetRequest request =
+                new PasswordResetRequest(user.getUserCredentials().getResetCode(), "newPassword123!");
 
         post(API_RESET_PASSWORD_FINISH, request, status().isBadRequest());
     }
@@ -560,7 +539,9 @@ class UserAccountControllerTest extends IntegrationTest {
 
         post(API_REGISTER, registerRequest, status().isCreated());
 
-        UserEntity createdUser = userRepository.findOneByUserCredentialsEmailIgnoreCase(registerRequest.email()).orElseThrow();
+        UserEntity createdUser = userRepository
+                .findOneByUserCredentialsEmailIgnoreCase(registerRequest.email())
+                .orElseThrow();
         assertThat(createdUser.getStatus()).isEqualTo(UserStatus.ACTIVATED);
         assertThat(createdUser.getUserCredentials().getActivationCode()).isNotNull();
 
@@ -569,7 +550,9 @@ class UserAccountControllerTest extends IntegrationTest {
         get(API_ACTIVATE + "?code=" + activationCode, status().isOk());
 
         // Verify activation code is cleared after confirmation
-        UserEntity confirmedUser = userRepository.findOneByUserCredentialsEmailIgnoreCase(registerRequest.email()).orElseThrow();
+        UserEntity confirmedUser = userRepository
+                .findOneByUserCredentialsEmailIgnoreCase(registerRequest.email())
+                .orElseThrow();
         assertThat(confirmedUser.isActivated()).isTrue();
         assertThat(confirmedUser.getUserCredentials().getActivationCode()).isNull();
         assertThat(confirmedUser.getUserCredentials().getActivationDate()).isNotNull();
@@ -597,7 +580,9 @@ class UserAccountControllerTest extends IntegrationTest {
 
         // Verify password was changed
         UserEntity updatedUser = userRepository.findById(user.getId()).orElseThrow();
-        assertThat(passwordEncoder.matches("newPassword123!", updatedUser.getUserCredentials().getPasswordHash())).isTrue();
+        assertThat(passwordEncoder.matches(
+                        "newPassword123!", updatedUser.getUserCredentials().getPasswordHash()))
+                .isTrue();
         assertThat(updatedUser.getUserCredentials().getResetCode()).isNull();
         assertThat(updatedUser.getUserCredentials().getResetDate()).isNotNull();
 
@@ -618,7 +603,9 @@ class UserAccountControllerTest extends IntegrationTest {
 
         UserEntity updatedUser = userRepository.findById(user.getId()).orElseThrow();
         assertThat(updatedUser.getStatus()).isEqualTo(UserStatus.ACTIVATED);
-        assertThat(passwordEncoder.matches("NewSecurePass1!", updatedUser.getUserCredentials().getPasswordHash())).isTrue();
+        assertThat(passwordEncoder.matches(
+                        "NewSecurePass1!", updatedUser.getUserCredentials().getPasswordHash()))
+                .isTrue();
         assertThat(updatedUser.getUserCredentials().getResetCode()).isNull();
         assertThat(updatedUser.getUserCredentials().getActivationDate()).isNotNull();
     }
@@ -690,7 +677,9 @@ class UserAccountControllerTest extends IntegrationTest {
         assertThat(activatedUser.getStatus()).isEqualTo(UserStatus.ACTIVATED);
         assertThat(activatedUser.getUserCredentials().getResetCode()).isNull();
         assertThat(activatedUser.getUserCredentials().getActivationDate()).isNotNull();
-        assertThat(passwordEncoder.matches(chosenPassword, activatedUser.getUserCredentials().getPasswordHash())).isTrue();
+        assertThat(passwordEncoder.matches(
+                        chosenPassword, activatedUser.getUserCredentials().getPasswordHash()))
+                .isTrue();
     }
 
     // region email change
@@ -705,7 +694,9 @@ class UserAccountControllerTest extends IntegrationTest {
         EmailChangeRequest request = new EmailChangeRequest("newemail@example.com");
         post(API_EMAIL_CHANGE_REQUEST, request, status().isNoContent());
 
-        UserEntity updatedUser = userRepository.findOneByUserCredentialsEmailIgnoreCase("test@example.com").orElseThrow();
+        UserEntity updatedUser = userRepository
+                .findOneByUserCredentialsEmailIgnoreCase("test@example.com")
+                .orElseThrow();
         assertThat(updatedUser.getUserCredentials().getPendingEmail()).isEqualTo("newemail@example.com");
         assertThat(updatedUser.getUserCredentials().getEmailChangeCode()).isNotNull();
         assertThat(updatedUser.getUserCredentials().getEmailChangeCodeDate()).isNotNull();
@@ -858,7 +849,9 @@ class UserAccountControllerTest extends IntegrationTest {
         EmailChangeRequest changeRequest = new EmailChangeRequest("new@example.com");
         post(API_EMAIL_CHANGE_REQUEST, changeRequest, status().isNoContent());
 
-        UserEntity userWithCode = userRepository.findOneByUserCredentialsEmailIgnoreCase("test@example.com").orElseThrow();
+        UserEntity userWithCode = userRepository
+                .findOneByUserCredentialsEmailIgnoreCase("test@example.com")
+                .orElseThrow();
         String emailChangeCode = userWithCode.getUserCredentials().getEmailChangeCode();
         assertThat(emailChangeCode).isNotNull();
         assertThat(userWithCode.getUserCredentials().getPendingEmail()).isEqualTo("new@example.com");
@@ -882,27 +875,22 @@ class UserAccountControllerTest extends IntegrationTest {
 
     private CreateUserRequest createValidUserRequest() {
 
-        return new CreateUserRequest("test@example.com",
-                                     "validPassword123!",
-                                     "Mamadou",
-                                     "Diallo",
-                                     java.time.LocalDate.of(1990, 1, 1),
-                                     UserGender.MALE,
-                                     null,
-                                     null,
-                                     null,
-                                     null);
+        return new CreateUserRequest(
+                "test@example.com",
+                "validPassword123!",
+                "Mamadou",
+                "Diallo",
+                java.time.LocalDate.of(1990, 1, 1),
+                UserGender.MALE,
+                null,
+                null,
+                null,
+                null);
     }
 
     private UpdateUserRequest createValidUpdateRequest() {
-        return new UpdateUserRequest("Updated",
-                                     "User",
-                                     null,
-                                     java.time.LocalDate.of(1992, 6, 15),
-                                     UserGender.FEMALE,
-                                     null,
-                                     null,
-                                     null);
+        return new UpdateUserRequest(
+                "Updated", "User", null, java.time.LocalDate.of(1992, 6, 15), UserGender.FEMALE, null, null, null);
     }
 
     private RoleGroupEntity createRoleGroupWithPermissions(String name, Set<String> permissionCodes) {

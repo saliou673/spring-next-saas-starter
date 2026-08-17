@@ -18,13 +18,12 @@
  */
 package com.saasapp.domain.models.query.filter;
 
+import java.io.Serial;
+import java.util.Objects;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.io.Serial;
-import java.util.Objects;
 
 /**
  * Class for filtering attributes with {@link String} type.
@@ -102,17 +101,14 @@ public class StringFilter extends Filter<String> {
      */
     @Override
     public String toString() {
-        return (
-                getFilterName() +
-                        " [" +
-                        (getEquals() != null ? "equals=" + getEquals() + ", " : "") +
-                        (getNotEquals() != null ? "notEquals=" + getNotEquals() + ", " : "") +
-                        (getSpecified() != null ? "specified=" + getSpecified() + ", " : "") +
-                        (getIn() != null ? "in=" + getIn() + ", " : "") +
-                        (getNotIn() != null ? "notIn=" + getNotIn() + ", " : "") +
-                        (getContains() != null ? "contains=" + getContains() + ", " : "") +
-                        (getDoesNotContain() != null ? "doesNotContain=" + getDoesNotContain() : "") +
-                        "]"
-        );
+        return (getFilterName() + " ["
+                + (getEquals() != null ? "equals=" + getEquals() + ", " : "")
+                + (getNotEquals() != null ? "notEquals=" + getNotEquals() + ", " : "")
+                + (getSpecified() != null ? "specified=" + getSpecified() + ", " : "")
+                + (getIn() != null ? "in=" + getIn() + ", " : "")
+                + (getNotIn() != null ? "notIn=" + getNotIn() + ", " : "")
+                + (getContains() != null ? "contains=" + getContains() + ", " : "")
+                + (getDoesNotContain() != null ? "doesNotContain=" + getDoesNotContain() : "")
+                + "]");
     }
 }

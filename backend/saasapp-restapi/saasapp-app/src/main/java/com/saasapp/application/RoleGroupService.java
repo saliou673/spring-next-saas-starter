@@ -8,13 +8,12 @@ import com.saasapp.domain.models.rbac.RoleGroup;
 import com.saasapp.domain.ports.in.RoleGroupUseCase;
 import com.saasapp.domain.ports.out.persistenceport.PermissionPersistencePort;
 import com.saasapp.domain.ports.out.persistenceport.RoleGroupPersistencePort;
+import java.util.List;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Set;
 
 /**
  * Application service implementing {@link RoleGroupUseCase}: CRUD and user assignment for role groups.
@@ -43,8 +42,7 @@ public class RoleGroupService implements RoleGroupUseCase {
     @Override
     @Transactional(readOnly = true)
     public RoleGroup getById(Long id) {
-        return roleGroupPersistencePort.findById(id)
-                .orElseThrow(() -> new RoleGroupNotFoundException(id));
+        return roleGroupPersistencePort.findById(id).orElseThrow(() -> new RoleGroupNotFoundException(id));
     }
 
     @Override

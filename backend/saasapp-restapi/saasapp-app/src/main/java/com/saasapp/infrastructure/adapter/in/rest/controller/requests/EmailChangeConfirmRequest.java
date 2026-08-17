@@ -11,6 +11,4 @@ import jakarta.validation.constraints.Size;
 public record EmailChangeConfirmRequest(
         @NotBlank(message = "Email change code is required")
         @Size(min = 4, max = 4, message = "Email change code must be exactly 4 characters")
-        String code
-) {
-}
+        String code) {}

@@ -1,10 +1,9 @@
 package com.saasapp.infrastructure.adapter.in.rest.controller.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.Instant;
 
 /**
  * Response DTO representing the security settings.
@@ -18,12 +17,7 @@ public class SecuritySettingsDTO extends AuditableDTO {
     private boolean twoFactorRequired;
 
     public SecuritySettingsDTO(
-            Long id,
-            boolean twoFactorRequired,
-            Instant creationDate,
-            Instant lastUpdateDate,
-            String lastUpdatedBy
-    ) {
+            Long id, boolean twoFactorRequired, Instant creationDate, Instant lastUpdateDate, String lastUpdatedBy) {
         super(creationDate, lastUpdateDate, lastUpdatedBy);
         this.id = id;
         this.twoFactorRequired = twoFactorRequired;

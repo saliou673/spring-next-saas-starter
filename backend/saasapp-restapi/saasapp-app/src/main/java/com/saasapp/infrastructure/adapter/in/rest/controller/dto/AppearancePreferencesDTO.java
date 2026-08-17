@@ -10,7 +10,4 @@ import jakarta.validation.constraints.NotNull;
  */
 @Schema(name = "AppearancePreferences")
 public record AppearancePreferencesDTO(
-        @NotNull ThemePreference theme,
-        @NotNull FontPreference font
-) {
-}
+        @NotNull ThemePreference theme, @NotNull FontPreference font) {}

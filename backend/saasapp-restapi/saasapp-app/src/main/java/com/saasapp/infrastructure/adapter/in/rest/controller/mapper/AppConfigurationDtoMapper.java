@@ -9,10 +9,7 @@ import org.mapstruct.ReportingPolicy;
 /**
  * MapStruct mapper converting {@link com.saasapp.domain.models.appconfiguration.AppConfiguration} to {@link com.saasapp.infrastructure.adapter.in.rest.controller.dto.AppConfigurationDTO}.
  */
-@Mapper(
-        componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedTargetPolicy = ReportingPolicy.ERROR
-)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface AppConfigurationDtoMapper {
 
     AppConfigurationDTO toDTO(AppConfiguration appConfiguration);

@@ -1,7 +1,6 @@
 package com.saasapp.domain.ports.out.persistenceport;
 
 import com.saasapp.domain.models.securitysettings.SecuritySettings;
-
 import java.util.Optional;
 
 /**

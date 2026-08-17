@@ -4,11 +4,10 @@ import com.saasapp.domain.models.securitysettings.SecuritySettings;
 import com.saasapp.domain.ports.out.persistenceport.SecuritySettingsPersistencePort;
 import com.saasapp.infrastructure.adapter.out.persistence.mapper.SecuritySettingsMapper;
 import com.saasapp.infrastructure.adapter.out.persistence.repository.SecuritySettingsRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 /**
  * JPA adapter implementing {@link SecuritySettingsPersistencePort}.
@@ -25,18 +24,15 @@ public class SecuritySettingsPersistenceAdapter implements SecuritySettingsPersi
     @Override
     public SecuritySettings save(SecuritySettings securitySettings) {
         return AdapterPersistenceUtils.executeDbOperation(
-                () -> securitySettingsMapper.toDomain(securitySettingsRepository.save(securitySettingsMapper.toEntity(securitySettings))),
-                "Error saving security settings"
-        );
+                () -> securitySettingsMapper.toDomain(
+                        securitySettingsRepository.save(securitySettingsMapper.toEntity(securitySettings))),
+                "Error saving security settings");
     }
 
     @Override
     public Optional<SecuritySettings> find() {
         return AdapterPersistenceUtils.executeDbOperation(
-                () -> securitySettingsRepository.findAll().stream()
-                        .findFirst()
-                        .map(securitySettingsMapper::toDomain),
-                "Error fetching security settings"
-        );
+                () -> securitySettingsRepository.findAll().stream().findFirst().map(securitySettingsMapper::toDomain),
+                "Error fetching security settings");
     }
 }

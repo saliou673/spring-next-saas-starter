@@ -9,6 +9,4 @@ import jakarta.validation.constraints.NotBlank;
  * @param code        the one-time code provided by the user
  */
 public record TwoFactorLoginVerifyRequest(
-        @NotBlank String challengeId,
-        @NotBlank String code
-) {}
+        @NotBlank String challengeId, @NotBlank String code) {}

@@ -1,6 +1,5 @@
 package com.saasapp.domain.models.user;
 
-
 import com.saasapp.domain.enumerations.UserStatus;
 import com.saasapp.domain.exceptions.UserAlreadyActivatedException;
 import com.saasapp.domain.models.Auditable;
@@ -8,9 +7,6 @@ import com.saasapp.domain.models.auth.TwoFactorMethodType;
 import com.saasapp.domain.models.rbac.Permission;
 import com.saasapp.domain.models.rbac.RoleGroup;
 import com.saasapp.domain.models.userpreference.UserPreferences;
-import lombok.Getter;
-import lombok.NonNull;
-
 import java.time.Instant;
 import java.time.temporal.TemporalAmount;
 import java.util.Collections;
@@ -18,6 +14,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * Aggregate root representing an application user.
@@ -70,8 +68,7 @@ public class User extends Auditable<Long> {
             UserPreferences preferences,
             Instant creationDate,
             Instant lastUpdateDate,
-            String lastUpdatedBy
-    ) {
+            String lastUpdatedBy) {
         super(id, creationDate, lastUpdateDate, lastUpdatedBy);
         this.userInfo = Objects.requireNonNull(userInfo, "userInfo must not be null");
         this.userCredentials = Objects.requireNonNull(userCredentials, "userCredentials must not be null");
@@ -83,10 +80,7 @@ public class User extends Auditable<Long> {
         this.preferences = preferences == null ? UserPreferences.defaults() : preferences;
     }
 
-    public static User create(
-            UserInfo userInfo,
-            UserCredentials userCredentials
-    ) {
+    public static User create(UserInfo userInfo, UserCredentials userCredentials) {
         return new User(
                 null,
                 userInfo,
@@ -99,8 +93,7 @@ public class User extends Auditable<Long> {
                 UserPreferences.defaults(),
                 null,
                 null,
-                null
-        );
+                null);
     }
 
     public static User rehydrate(
@@ -115,8 +108,7 @@ public class User extends Auditable<Long> {
             UserPreferences preferences,
             Instant creationDate,
             Instant lastUpdateDate,
-            String lastUpdatedBy
-    ) {
+            String lastUpdatedBy) {
         return new User(
                 id,
                 userInfo,
@@ -129,8 +121,7 @@ public class User extends Auditable<Long> {
                 preferences,
                 creationDate,
                 lastUpdateDate,
-                lastUpdatedBy
-        );
+                lastUpdatedBy);
     }
 
     public Set<RoleGroup> getRoleGroups() {
@@ -141,9 +132,7 @@ public class User extends Auditable<Long> {
      * Returns the flat set of permissions resolved from all assigned role groups.
      */
     public Set<Permission> resolvePermissions() {
-        return roleGroups.stream()
-                .flatMap(rg -> rg.getPermissions().stream())
-                .collect(Collectors.toUnmodifiableSet());
+        return roleGroups.stream().flatMap(rg -> rg.getPermissions().stream()).collect(Collectors.toUnmodifiableSet());
     }
 
     public void updateInfo(UserInfoUpdate newUserInfo) {

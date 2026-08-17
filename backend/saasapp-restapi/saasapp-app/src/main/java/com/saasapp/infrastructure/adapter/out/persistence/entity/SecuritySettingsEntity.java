@@ -1,10 +1,9 @@
 package com.saasapp.infrastructure.adapter.out.persistence.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-
 import java.io.Serial;
 import java.io.Serializable;
+import lombok.*;
 
 /**
  * JPA entity mapping the {@code app_security_settings} table (singleton row).

@@ -18,11 +18,10 @@
  */
 package com.saasapp.domain.models.query.filter;
 
-import lombok.NoArgsConstructor;
-
 import java.io.Serial;
 import java.time.LocalDate;
 import java.util.List;
+import lombok.NoArgsConstructor;
 
 /**
  * Filter class for {@link LocalDate} type attributes.

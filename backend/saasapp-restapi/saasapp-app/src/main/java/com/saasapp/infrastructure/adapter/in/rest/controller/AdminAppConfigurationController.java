@@ -1,5 +1,7 @@
 package com.saasapp.infrastructure.adapter.in.rest.controller;
 
+import static com.saasapp.util.PaginationConstants.DEFAULT_PAGE_SIZE_INT;
+
 import com.saasapp.domain.enumerations.AppConfigurationCategory;
 import com.saasapp.domain.models.appconfiguration.AppConfiguration;
 import com.saasapp.domain.models.appconfiguration.AppConfigurationFilter;
@@ -15,6 +17,8 @@ import com.saasapp.infrastructure.adapter.out.persistence.entity.AuditableEntity
 import com.saasapp.infrastructure.adapter.out.query.PaginatedResult;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.util.Arrays;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -23,11 +27,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Arrays;
-import java.util.List;
-
-import static com.saasapp.util.PaginationConstants.DEFAULT_PAGE_SIZE_INT;
 
 /**
  * REST controller for admin application configuration management.
@@ -54,10 +53,10 @@ public class AdminAppConfigurationController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('config:create')")
-    public AppConfigurationDTO createAppConfigurationAsAdmin(@Valid @RequestBody CreateAppConfigurationRequest request) {
-        return appConfigurationDtoMapper.toDTO(
-                appConfigurationUseCase.create(request.category(), request.code(), request.label(), request.description())
-        );
+    public AppConfigurationDTO createAppConfigurationAsAdmin(
+            @Valid @RequestBody CreateAppConfigurationRequest request) {
+        return appConfigurationDtoMapper.toDTO(appConfigurationUseCase.create(
+                request.category(), request.code(), request.label(), request.description()));
     }
 
     @GetMapping("/{id}")
@@ -70,18 +69,22 @@ public class AdminAppConfigurationController {
     @PreAuthorize("hasAuthority('config:read')")
     public PaginatedResult<AppConfigurationDTO> getAppConfigurationsAsAdmin(
             AppConfigurationFilter filter,
-            @PageableDefault(size = DEFAULT_PAGE_SIZE_INT, sort = AuditableEntity_.CREATION_DATE, direction = Sort.Direction.DESC) Pageable pageable
-    ) {
-        PagedResult<AppConfiguration> result = appConfigurationQueryUseCase.findAll(filter, pageable.getPageNumber(), pageable.getPageSize());
+            @PageableDefault(
+                            size = DEFAULT_PAGE_SIZE_INT,
+                            sort = AuditableEntity_.CREATION_DATE,
+                            direction = Sort.Direction.DESC)
+                    Pageable pageable) {
+        PagedResult<AppConfiguration> result =
+                appConfigurationQueryUseCase.findAll(filter, pageable.getPageNumber(), pageable.getPageSize());
         return new PaginatedResult<>(result, appConfigurationDtoMapper::toDTO);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('config:update')")
-    public AppConfigurationDTO updateAppConfigurationAsAdmin(@PathVariable Long id, @Valid @RequestBody UpdateAppConfigurationRequest request) {
-        return appConfigurationDtoMapper.toDTO(
-                appConfigurationUseCase.update(id, request.code(), request.label(), request.description(), Boolean.TRUE.equals(request.active()))
-        );
+    public AppConfigurationDTO updateAppConfigurationAsAdmin(
+            @PathVariable Long id, @Valid @RequestBody UpdateAppConfigurationRequest request) {
+        return appConfigurationDtoMapper.toDTO(appConfigurationUseCase.update(
+                id, request.code(), request.label(), request.description(), Boolean.TRUE.equals(request.active())));
     }
 
     @PutMapping("/{category}/{code}")
@@ -89,14 +92,14 @@ public class AdminAppConfigurationController {
     public AppConfigurationDTO updateByCategoryAndCode(
             @PathVariable AppConfigurationCategory category,
             @PathVariable String code,
-            @Valid @RequestBody UpdateAppConfigurationRequest request
-    ) {
-        return appConfigurationDtoMapper.toDTO(
-                appConfigurationUseCase.updateByCategoryAndCode(
-                        category, code, request.code(), request.label(), request.description(),
-                        Boolean.TRUE.equals(request.active())
-                )
-        );
+            @Valid @RequestBody UpdateAppConfigurationRequest request) {
+        return appConfigurationDtoMapper.toDTO(appConfigurationUseCase.updateByCategoryAndCode(
+                category,
+                code,
+                request.code(),
+                request.label(),
+                request.description(),
+                Boolean.TRUE.equals(request.active())));
     }
 
     @DeleteMapping("/{id}")

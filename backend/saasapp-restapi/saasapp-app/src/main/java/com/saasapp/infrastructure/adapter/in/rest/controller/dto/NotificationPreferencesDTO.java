@@ -6,5 +6,4 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * REST DTO for notification preferences.
  */
 @Schema(name = "NotificationPreferences")
-public record NotificationPreferencesDTO(boolean productUpdatesEnabled) {
-}
+public record NotificationPreferencesDTO(boolean productUpdatesEnabled) {}

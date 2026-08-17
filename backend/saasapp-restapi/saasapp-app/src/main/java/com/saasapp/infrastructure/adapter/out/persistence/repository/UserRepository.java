@@ -2,12 +2,11 @@ package com.saasapp.infrastructure.adapter.out.persistence.repository;
 
 import com.saasapp.domain.enumerations.UserStatus;
 import com.saasapp.infrastructure.adapter.out.persistence.entity.UserEntity;
+import java.time.Instant;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
-
-import java.time.Instant;
-import java.util.Optional;
 
 /**
  * Spring Data JPA repository for {@link UserEntity}.
@@ -35,7 +34,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>, JpaSpec
     boolean existsByUserCredentialsPendingEmailAndIdNot(String pendingEmail, Long id);
 
     @Modifying
-    int deleteAllByUserCredentialsActivationCodeIsNotNullAndStatusIsNotAndCreationDateBefore(UserStatus status, Instant dateTime);
+    int deleteAllByUserCredentialsActivationCodeIsNotNullAndStatusIsNotAndCreationDateBefore(
+            UserStatus status, Instant dateTime);
 
     @Modifying
     int deleteAllByStatusAndLastUpdateDateBefore(UserStatus status, Instant dateTime);

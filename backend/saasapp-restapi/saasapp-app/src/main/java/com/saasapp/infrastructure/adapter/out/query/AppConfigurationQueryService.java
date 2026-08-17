@@ -8,6 +8,7 @@ import com.saasapp.infrastructure.adapter.out.persistence.entity.AppConfiguratio
 import com.saasapp.infrastructure.adapter.out.persistence.entity.AppConfigurationEntity_;
 import com.saasapp.infrastructure.adapter.out.persistence.mapper.AppConfigurationMapper;
 import com.saasapp.infrastructure.adapter.out.persistence.repository.AppConfigurationRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -17,8 +18,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 /**
  * Query service implementing {@link AppConfigurationQueryUseCase} with JPA Specification-based filtering.
  */
@@ -26,7 +25,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class AppConfigurationQueryService extends QueryService<AppConfigurationEntity> implements AppConfigurationQueryUseCase {
+public class AppConfigurationQueryService extends QueryService<AppConfigurationEntity>
+        implements AppConfigurationQueryUseCase {
 
     private final AppConfigurationRepository appConfigurationRepository;
     private final AppConfigurationMapper appConfigurationMapper;
@@ -35,10 +35,10 @@ public class AppConfigurationQueryService extends QueryService<AppConfigurationE
     public PagedResult<AppConfiguration> findAll(AppConfigurationFilter filter, int page, int size) {
         log.debug("Finding reference data by filter: {}", filter);
         Page<AppConfigurationEntity> entityPage = appConfigurationRepository.findAll(
-                createSpecification(filter),
-                PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "creationDate"))
-        );
-        List<AppConfiguration> items = entityPage.getContent().stream().map(appConfigurationMapper::toDomain).toList();
+                createSpecification(filter), PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "creationDate")));
+        List<AppConfiguration> items = entityPage.getContent().stream()
+                .map(appConfigurationMapper::toDomain)
+                .toList();
         return new PagedResult<>(items, entityPage.getTotalElements(), page, size, entityPage.getTotalPages());
     }
 
@@ -80,8 +80,7 @@ public class AppConfigurationQueryService extends QueryService<AppConfigurationE
                 filter,
                 AppConfigurationEntity_.creationDate,
                 AppConfigurationEntity_.lastUpdateDate,
-                AppConfigurationEntity_.lastUpdatedBy
-        );
+                AppConfigurationEntity_.lastUpdatedBy);
 
         return spec;
     }

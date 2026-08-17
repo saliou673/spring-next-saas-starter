@@ -1,9 +1,8 @@
 package com.saasapp.domain.models.userpreference;
 
+import java.util.Objects;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.Objects;
 
 /**
  * Appearance-related preferences selected by the user.

@@ -1,6 +1,5 @@
 package com.saasapp.infrastructure.adapter.in.rest.controller.requests;
 
-
 import com.saasapp.domain.constants.DomainConstants;
 import com.saasapp.domain.enumerations.UserGender;
 import com.saasapp.util.Constants;
@@ -9,7 +8,6 @@ import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-
 import java.time.LocalDate;
 
 /**
@@ -26,28 +24,18 @@ public record CreateUserRequest(
         @Size(min = 8, message = "Password must be at least 8 characters")
         String password,
 
-        @NotBlank(message = "firstName must not be blank")
-        String firstName,
+        @NotBlank(message = "firstName must not be blank") String firstName,
 
-        @NotBlank(message = "lastName must not be blank")
-        String lastName,
+        @NotBlank(message = "lastName must not be blank") String lastName,
 
-        @Nullable
-        LocalDate birthDate,
+        @Nullable LocalDate birthDate,
 
-        @Nullable
-        UserGender gender,
+        @Nullable UserGender gender,
 
-        @Nullable
-        String phoneNumber,
+        @Nullable String phoneNumber,
 
-        @Nullable
-        String address,
+        @Nullable String address,
 
-        @Nullable
-        String languageKey,
+        @Nullable String languageKey,
 
-        @Nullable
-        String imageUrl
-) {
-}
+        @Nullable String imageUrl) {}

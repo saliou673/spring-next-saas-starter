@@ -9,18 +9,17 @@ import com.saasapp.infrastructure.adapter.out.persistence.entity.UserEntity;
 import com.saasapp.infrastructure.adapter.out.persistence.entity.UserPreferenceEntity;
 import com.saasapp.infrastructure.adapter.out.persistence.mapper.UserMapper;
 import com.saasapp.infrastructure.adapter.out.persistence.repository.RoleGroupRepository;
-import com.saasapp.infrastructure.adapter.out.persistence.repository.UserRepository;
 import com.saasapp.infrastructure.adapter.out.persistence.repository.UserPreferenceRepository;
+import com.saasapp.infrastructure.adapter.out.persistence.repository.UserRepository;
 import com.saasapp.infrastructure.security.UserLanguageKeyLookup;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * JPA adapter implementing {@link UserPersistencePort} and {@link UserDetailsPersistencePort}.
@@ -45,15 +44,15 @@ public class UserPersistenceAdapter implements UserPersistencePort, UserDetailsP
                         Set<Long> roleGroupIds = user.getRoleGroups().stream()
                                 .map(rg -> rg.getId())
                                 .collect(Collectors.toSet());
-                        Set<RoleGroupEntity> roleGroupEntities = new HashSet<>(roleGroupRepository.findAllById(roleGroupIds));
+                        Set<RoleGroupEntity> roleGroupEntities =
+                                new HashSet<>(roleGroupRepository.findAllById(roleGroupIds));
                         entity.setRoleGroups(roleGroupEntities);
                     }
                     UserEntity savedEntity = userRepository.save(entity);
                     userPreferenceRepository.save(new UserPreferenceEntity(savedEntity.getId(), user.getPreferences()));
                     return enrichPreferences(userMapper.toDomain(savedEntity));
                 },
-                "Error saving user with email: " + user.getUserCredentials().getEmail()
-        );
+                "Error saving user with email: " + user.getUserCredentials().getEmail());
         // The languageKey may have changed; evict so locale resolution picks it up immediately.
         userLanguageKeyLookup.evict(savedUser.getUserCredentials().getEmail());
         return savedUser;
@@ -62,21 +61,21 @@ public class UserPersistenceAdapter implements UserPersistencePort, UserDetailsP
     @Override
     public Optional<User> findWithAuthoritiesByEmail(String email) {
         return AdapterPersistenceUtils.executeDbOperation(
-                () -> userRepository.findOneWithAuthoritiesByUserCredentialsEmailIgnoreCase(email)
+                () -> userRepository
+                        .findOneWithAuthoritiesByUserCredentialsEmailIgnoreCase(email)
                         .map(userMapper::toDomain)
                         .map(this::enrichPreferences),
-                "Error fetching user with authorities by email: " + email
-        );
+                "Error fetching user with authorities by email: " + email);
     }
 
     @Override
     public Optional<User> findWithAuthoritiesById(Long id) {
         return AdapterPersistenceUtils.executeDbOperation(
-                () -> userRepository.findOneWithAuthoritiesById(id)
+                () -> userRepository
+                        .findOneWithAuthoritiesById(id)
                         .map(userMapper::toDomain)
                         .map(this::enrichPreferences),
-                "Error fetching user with authorities by id: " + id
-        );
+                "Error fetching user with authorities by id: " + id);
     }
 
     @Override
@@ -87,101 +86,99 @@ public class UserPersistenceAdapter implements UserPersistencePort, UserDetailsP
     @Override
     public Optional<User> findByActivationCode(String activationCode) {
         return AdapterPersistenceUtils.executeDbOperation(
-                () -> userRepository.findOneByUserCredentialsActivationCode(activationCode)
+                () -> userRepository
+                        .findOneByUserCredentialsActivationCode(activationCode)
                         .map(userMapper::toDomain)
                         .map(this::enrichPreferences),
-                "Error fetching user by activation code: " + activationCode
-        );
+                "Error fetching user by activation code: " + activationCode);
     }
 
     @Override
     public Optional<User> findByResetCode(String resetCode) {
         return AdapterPersistenceUtils.executeDbOperation(
-                () -> userRepository.findOneByUserCredentialsResetCode(resetCode)
+                () -> userRepository
+                        .findOneByUserCredentialsResetCode(resetCode)
                         .map(userMapper::toDomain)
                         .map(this::enrichPreferences),
-                "Error fetching user by reset code: " + resetCode
-        );
+                "Error fetching user by reset code: " + resetCode);
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
         return AdapterPersistenceUtils.executeDbOperation(
-                () -> userRepository.findOneByUserCredentialsEmailIgnoreCase(email)
+                () -> userRepository
+                        .findOneByUserCredentialsEmailIgnoreCase(email)
                         .map(userMapper::toDomain)
                         .map(this::enrichPreferences),
-                "Error fetching user by email: " + email
-        );
+                "Error fetching user by email: " + email);
     }
 
     @Override
     public boolean existsByActivationCode(String activationCode) {
         return AdapterPersistenceUtils.executeDbOperation(
                 () -> userRepository.existsByUserCredentialsActivationCode(activationCode),
-                "Error checking existing user activation code: " + activationCode
-        );
+                "Error checking existing user activation code: " + activationCode);
     }
 
     @Override
     public boolean existsByResetCode(String resetCode) {
         return AdapterPersistenceUtils.executeDbOperation(
                 () -> userRepository.existsByUserCredentialsResetCode(resetCode),
-                "Error checking existing user reset code: " + resetCode
-        );
+                "Error checking existing user reset code: " + resetCode);
     }
 
     @Override
     public int deleteInactiveUsersWithExpiredActivationCode(UserStatus status, Instant dateTime) {
         return AdapterPersistenceUtils.executeDbOperation(
-                () -> userRepository.deleteAllByUserCredentialsActivationCodeIsNotNullAndStatusIsNotAndCreationDateBefore(status, dateTime),
-                "Error deleting inactive users with expired activation codes"
-        );
+                () ->
+                        userRepository
+                                .deleteAllByUserCredentialsActivationCodeIsNotNullAndStatusIsNotAndCreationDateBefore(
+                                        status, dateTime),
+                "Error deleting inactive users with expired activation codes");
     }
 
     @Override
     public int deleteByStatusAndLastUpdateDateBefore(UserStatus status, Instant dateTime) {
         return AdapterPersistenceUtils.executeDbOperation(
                 () -> userRepository.deleteAllByStatusAndLastUpdateDateBefore(status, dateTime),
-                "Error deleting users with status " + status + " before " + dateTime
-        );
+                "Error deleting users with status " + status + " before " + dateTime);
     }
 
     @Override
     public void remove(User existingUser) {
         AdapterPersistenceUtils.executeDbOperation(
                 () -> userRepository.delete(userMapper.toEntity(existingUser)),
-                "Error removing user with email: " + existingUser.getUserCredentials().getEmail()
-        );
+                "Error removing user with email: "
+                        + existingUser.getUserCredentials().getEmail());
     }
 
     @Override
     public Optional<User> findByEmailChangeCode(String code) {
         return AdapterPersistenceUtils.executeDbOperation(
-                () -> userRepository.findOneByUserCredentialsEmailChangeCode(code)
+                () -> userRepository
+                        .findOneByUserCredentialsEmailChangeCode(code)
                         .map(userMapper::toDomain)
                         .map(this::enrichPreferences),
-                "Error fetching user by email change code: " + code
-        );
+                "Error fetching user by email change code: " + code);
     }
 
     @Override
     public boolean existsByEmailChangeCode(String code) {
         return AdapterPersistenceUtils.executeDbOperation(
                 () -> userRepository.existsByUserCredentialsEmailChangeCode(code),
-                "Error checking existing user email change code: " + code
-        );
+                "Error checking existing user email change code: " + code);
     }
 
     @Override
     public boolean existsPendingEmailForAnotherUser(String email, Long excludeUserId) {
         return AdapterPersistenceUtils.executeDbOperation(
                 () -> userRepository.existsByUserCredentialsPendingEmailAndIdNot(email, excludeUserId),
-                "Error checking pending email uniqueness for: " + email
-        );
+                "Error checking pending email uniqueness for: " + email);
     }
 
     private User enrichPreferences(User user) {
-        userPreferenceRepository.findById(user.getId())
+        userPreferenceRepository
+                .findById(user.getId())
                 .map(UserPreferenceEntity::getPreferences)
                 .ifPresent(user::updatePreferences);
         return user;

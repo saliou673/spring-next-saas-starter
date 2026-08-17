@@ -9,6 +9,8 @@ import com.saasapp.domain.ports.out.NotificationSenderPort;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
+import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -24,9 +26,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
-
-import java.nio.charset.StandardCharsets;
-import java.util.Locale;
 
 /**
  * Email adapter implementing {@link NotificationSenderPort} using Jakarta Mail and Thymeleaf templates.
@@ -90,8 +89,7 @@ public class EmailNotificationAdapterPort implements NotificationSenderPort {
                 userCredentials.getResetCode(),
                 userCredentials.getEmail(),
                 userInfo.phoneNumber(),
-                userInfo.languageKey()
-        );
+                userInfo.languageKey());
     }
 
     @Override
@@ -138,10 +136,12 @@ public class EmailNotificationAdapterPort implements NotificationSenderPort {
         this.sendEmailSync(to, subject, content, null, null);
     }
 
-    private void sendEmailSync(String to, String subject, String content, byte[] attachmentContent, String attachmentFilename) {
+    private void sendEmailSync(
+            String to, String subject, String content, byte[] attachmentContent, String attachmentFilename) {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         try {
-            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, attachmentContent != null, StandardCharsets.UTF_8.name());
+            MimeMessageHelper message =
+                    new MimeMessageHelper(mimeMessage, attachmentContent != null, StandardCharsets.UTF_8.name());
             message.setTo(to);
             message.setFrom(applicationProperties.getMail().from());
             message.setSubject(subject);
@@ -171,7 +171,12 @@ public class EmailNotificationAdapterPort implements NotificationSenderPort {
         context.setVariable(ACCOUNT_VALIDATION_ROUTE, mail.routes().accountValidation());
         context.setVariable(RESET_PASSWORD_ROUTE, mail.routes().resetPassword());
         context.setVariable(LOGIN_ROUTE, mail.routes().resetPassword());
-        context.setVariable(RECOVERY_PERIOD_DAYS, applicationProperties.getAccount().softDeletedUserRetentionPeriod().toDays());
+        context.setVariable(
+                RECOVERY_PERIOD_DAYS,
+                applicationProperties
+                        .getAccount()
+                        .softDeletedUserRetentionPeriod()
+                        .toDays());
         setCodeLifetimeVariables(context, locale);
         String content = templateEngine.process(templateName, context);
         String subject = messageSource.getMessage(titleKey, null, locale);
@@ -179,7 +184,8 @@ public class EmailNotificationAdapterPort implements NotificationSenderPort {
     }
 
     private void setCodeLifetimeVariables(Context context, Locale locale) {
-        long totalMinutes = applicationProperties.getAccount().resetCodeValidityPeriod().toMinutes();
+        long totalMinutes =
+                applicationProperties.getAccount().resetCodeValidityPeriod().toMinutes();
         long value;
         String unitKey;
 
@@ -202,7 +208,10 @@ public class EmailNotificationAdapterPort implements NotificationSenderPort {
     }
 
     private void setInvitationCodeLifetimeVariables(Context context, Locale locale) {
-        long totalMinutes = applicationProperties.getAccount().managedUserInvitationCodeValidityPeriod().toMinutes();
+        long totalMinutes = applicationProperties
+                .getAccount()
+                .managedUserInvitationCodeValidityPeriod()
+                .toMinutes();
         long value;
         String unitKey;
 
@@ -231,8 +240,11 @@ public class EmailNotificationAdapterPort implements NotificationSenderPort {
         Context context = new Context(locale);
         context.setVariable(CONTACT_FORM, contactForm);
         String content = templateEngine.process("mail/contactFormAdminEmail", context);
-        String subject = messageSource.getMessage("email.contact.admin.title", new Object[]{contactForm.subject()}, locale);
-        applicationProperties.getContact().recipientEmails()
+        String subject =
+                messageSource.getMessage("email.contact.admin.title", new Object[] {contactForm.subject()}, locale);
+        applicationProperties
+                .getContact()
+                .recipientEmails()
                 .forEach(recipient -> this.sendEmailSync(recipient, subject, content));
     }
 

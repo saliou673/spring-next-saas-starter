@@ -16,11 +16,6 @@ import com.saasapp.domain.ports.out.persistenceport.AuthTokenPersistencePort;
 import com.saasapp.domain.ports.out.persistenceport.SecuritySettingsPersistencePort;
 import com.saasapp.domain.ports.out.persistenceport.TwoFactorChallengePersistencePort;
 import com.saasapp.domain.ports.out.persistenceport.UserPersistencePort;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -28,6 +23,10 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Application service implementing {@link AuthenticationUseCase}: login, token refresh, and logout.
@@ -50,10 +49,10 @@ public class AuthenticationService implements AuthenticationUseCase {
     public LoginResult login(String email, String password, boolean rememberMe) {
         AuthenticatedUser authenticatedUser = jwtTokenPort.authenticate(email, password);
 
-        User user = userPersistencePort.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException(email));
+        User user = userPersistencePort.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
 
-        boolean globalTwoFactorRequired = securitySettingsPersistencePort.find()
+        boolean globalTwoFactorRequired = securitySettingsPersistencePort
+                .find()
                 .map(SecuritySettings::isTwoFactorRequired)
                 .orElse(false);
 
@@ -70,20 +69,20 @@ public class AuthenticationService implements AuthenticationUseCase {
 
     @Override
     public JwtToken refreshToken(String refreshTokenValue) {
-        AuthToken authToken = authTokenPersistencePort.findByRefreshToken(refreshTokenValue)
+        AuthToken authToken = authTokenPersistencePort
+                .findByRefreshToken(refreshTokenValue)
                 .filter(token -> token.isValid(Instant.now()))
                 .orElseThrow(InvalidRefreshTokenException::new);
 
         User user = authToken.getUser();
 
-        String authorities = user.resolvePermissions()
-                .stream()
-                .map(Permission::code)
-                .collect(Collectors.joining(" "));
+        String authorities =
+                user.resolvePermissions().stream().map(Permission::code).collect(Collectors.joining(" "));
 
         Instant newExpiryDate = jwtTokenPort.calculateTokenValidity(authToken.getRememberMe());
 
-        String accessToken = jwtTokenPort.generateAccessToken(user.getUserCredentials().getEmail(), authorities, newExpiryDate);
+        String accessToken =
+                jwtTokenPort.generateAccessToken(user.getUserCredentials().getEmail(), authorities, newExpiryDate);
 
         authToken.updateAccessToken(accessToken);
         authToken.updateExpiryDate(newExpiryDate.plus(30, ChronoUnit.DAYS));
@@ -100,10 +99,7 @@ public class AuthenticationService implements AuthenticationUseCase {
     public LoginResult.Complete completeLogin(AuthenticatedUser authenticatedUser, String email, boolean rememberMe) {
         Instant expiryDate = jwtTokenPort.calculateTokenValidity(rememberMe);
         String accessToken = jwtTokenPort.generateAccessToken(
-                authenticatedUser.email(),
-                authenticatedUser.authorities(),
-                expiryDate
-        );
+                authenticatedUser.email(), authenticatedUser.authorities(), expiryDate);
         String refreshToken = generateAndSaveRefreshToken(email, accessToken, expiryDate, rememberMe);
         return new LoginResult.Complete(new JwtToken(accessToken, refreshToken));
     }
@@ -114,9 +110,8 @@ public class AuthenticationService implements AuthenticationUseCase {
 
         String code = provider.generateAndSendCode(user);
 
-        Instant expiryDate = Instant.now().plus(
-                applicationProperties.getTwoFactor().codeValidityPeriod()
-        );
+        Instant expiryDate =
+                Instant.now().plus(applicationProperties.getTwoFactor().codeValidityPeriod());
 
         twoFactorChallengePersistencePort.deleteByUserId(user.getId());
 
@@ -127,8 +122,7 @@ public class AuthenticationService implements AuthenticationUseCase {
                 method,
                 TwoFactorChallengePurpose.LOGIN,
                 rememberMe,
-                expiryDate
-        );
+                expiryDate);
         TwoFactorChallenge saved = twoFactorChallengePersistencePort.save(challenge);
 
         return new LoginResult.TwoFactorRequired(saved.getId(), method);
@@ -144,9 +138,9 @@ public class AuthenticationService implements AuthenticationUseCase {
         return provider;
     }
 
-    private String generateAndSaveRefreshToken(String email, String accessToken, Instant accessTokenExpiryDate, boolean rememberMe) {
-        User user = userPersistencePort.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException(email));
+    private String generateAndSaveRefreshToken(
+            String email, String accessToken, Instant accessTokenExpiryDate, boolean rememberMe) {
+        User user = userPersistencePort.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
 
         authTokenPersistencePort.deleteAllForUser(user);
 

@@ -22,8 +22,8 @@ public class SecuritySettingsService implements SecuritySettingsUseCase {
     @Override
     public SecuritySettings upsert(boolean twoFactorRequired) {
         log.debug("Upserting security settings");
-        SecuritySettings settings = securitySettingsPersistencePort.find()
-                .orElseGet(() -> SecuritySettings.create(twoFactorRequired));
+        SecuritySettings settings =
+                securitySettingsPersistencePort.find().orElseGet(() -> SecuritySettings.create(twoFactorRequired));
 
         if (settings.getId() != null) {
             settings.update(twoFactorRequired);
@@ -35,7 +35,6 @@ public class SecuritySettingsService implements SecuritySettingsUseCase {
     @Override
     @Transactional(readOnly = true)
     public SecuritySettings get() {
-        return securitySettingsPersistencePort.find()
-                .orElseGet(() -> SecuritySettings.create(false));
+        return securitySettingsPersistencePort.find().orElseGet(() -> SecuritySettings.create(false));
     }
 }

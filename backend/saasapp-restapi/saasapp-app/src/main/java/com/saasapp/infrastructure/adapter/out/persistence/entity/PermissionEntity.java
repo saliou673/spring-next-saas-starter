@@ -6,10 +6,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import java.util.Objects;
 import lombok.*;
 import org.apache.commons.lang3.Strings;
-
-import java.util.Objects;
 
 /**
  * JPA entity mapping the {@code permission} table.

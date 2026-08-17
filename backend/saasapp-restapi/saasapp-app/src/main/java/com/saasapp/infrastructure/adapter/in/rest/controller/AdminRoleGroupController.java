@@ -1,5 +1,7 @@
 package com.saasapp.infrastructure.adapter.in.rest.controller;
 
+import static com.saasapp.util.PaginationConstants.DEFAULT_PAGE_SIZE_INT;
+
 import com.saasapp.domain.models.query.PagedResult;
 import com.saasapp.domain.models.rbac.Permission;
 import com.saasapp.domain.models.rbac.RoleGroup;
@@ -23,8 +25,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import static com.saasapp.util.PaginationConstants.DEFAULT_PAGE_SIZE_INT;
-
 /**
  * REST controller for admin role group management.
  */
@@ -43,8 +43,8 @@ public class AdminRoleGroupController {
 
     @GetMapping
     public PaginatedResult<RoleGroupDTO> getRoleGroupsAsAdmin(
-            @PageableDefault(size = DEFAULT_PAGE_SIZE_INT, sort = "creationDate", direction = Sort.Direction.DESC) Pageable pageable
-    ) {
+            @PageableDefault(size = DEFAULT_PAGE_SIZE_INT, sort = "creationDate", direction = Sort.Direction.DESC)
+                    Pageable pageable) {
         PagedResult<RoleGroup> result = roleGroupUseCase.findAll(pageable.getPageNumber(), pageable.getPageSize());
         return new PaginatedResult<>(result, roleGroupDtoMapper::toDTO);
     }
@@ -59,16 +59,15 @@ public class AdminRoleGroupController {
     @PreAuthorize("hasAuthority('role-group:create')")
     public RoleGroupDTO createRoleGroupAsAdmin(@Valid @RequestBody CreateRoleGroupRequest request) {
         return roleGroupDtoMapper.toDTO(
-                roleGroupUseCase.create(request.name(), request.description(), request.permissionCodes())
-        );
+                roleGroupUseCase.create(request.name(), request.description(), request.permissionCodes()));
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('role-group:update')")
-    public RoleGroupDTO updateRoleGroupAsAdmin(@PathVariable Long id, @Valid @RequestBody UpdateRoleGroupRequest request) {
+    public RoleGroupDTO updateRoleGroupAsAdmin(
+            @PathVariable Long id, @Valid @RequestBody UpdateRoleGroupRequest request) {
         return roleGroupDtoMapper.toDTO(
-                roleGroupUseCase.update(id, request.name(), request.description(), request.permissionCodes())
-        );
+                roleGroupUseCase.update(id, request.name(), request.description(), request.permissionCodes()));
     }
 
     @DeleteMapping("/{id}")
@@ -80,8 +79,8 @@ public class AdminRoleGroupController {
 
     @GetMapping("/permissions")
     public PaginatedResult<PermissionDTO> getPermissionsAsAdmin(
-            @PageableDefault(size = DEFAULT_PAGE_SIZE_INT, sort = "code", direction = Sort.Direction.ASC) Pageable pageable
-    ) {
+            @PageableDefault(size = DEFAULT_PAGE_SIZE_INT, sort = "code", direction = Sort.Direction.ASC)
+                    Pageable pageable) {
         PagedResult<Permission> result = permissionUseCase.findAll(pageable.getPageNumber(), pageable.getPageSize());
         return new PaginatedResult<>(result, permissionDtoMapper::toDTO);
     }

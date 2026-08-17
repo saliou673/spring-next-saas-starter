@@ -12,10 +12,4 @@ import java.util.List;
  * @param size       maximum items per page
  * @param totalPages total number of pages
  */
-public record PagedResult<T>(
-        List<T> items,
-        long totalItems,
-        int page,
-        int size,
-        int totalPages
-) {}
+public record PagedResult<T>(List<T> items, long totalItems, int page, int size, int totalPages) {}

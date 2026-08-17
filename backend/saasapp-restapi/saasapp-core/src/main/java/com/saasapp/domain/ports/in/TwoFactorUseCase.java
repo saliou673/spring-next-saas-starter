@@ -3,7 +3,6 @@ package com.saasapp.domain.ports.in;
 import com.saasapp.domain.models.auth.JwtToken;
 import com.saasapp.domain.models.auth.TotpSetupData;
 import com.saasapp.domain.models.auth.TwoFactorMethodType;
-
 import java.util.Optional;
 
 /**

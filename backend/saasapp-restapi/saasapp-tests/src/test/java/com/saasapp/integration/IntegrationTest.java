@@ -1,5 +1,8 @@
 package com.saasapp.integration;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.saasapp.domain.constants.DomainConstants;
@@ -15,6 +18,12 @@ import com.saasapp.infrastructure.adapter.out.persistence.entity.UserEntity;
 import com.saasapp.infrastructure.adapter.out.persistence.repository.RoleGroupRepository;
 import com.saasapp.infrastructure.adapter.out.persistence.repository.SecuritySettingsRepository;
 import com.saasapp.infrastructure.adapter.out.persistence.repository.UserRepository;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,16 +35,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -70,15 +69,18 @@ public class IntegrationTest {
         // Truncate all transient tables in one shot; CASCADE handles FK-dependent tables
         // (app_user_role_group, refresh_token, two_factor_challenge, stamp, transaction).
         jdbcTemplate.execute(
-                "TRUNCATE TABLE app_user, user_preference, app_configuration, app_security_settings RESTART IDENTITY CASCADE"
-        );
+                "TRUNCATE TABLE app_user, user_preference, app_configuration, app_security_settings RESTART IDENTITY CASCADE");
         // role_group holds both seed data (last_updated_by='system') and test-created rows.
         // Delete only the test rows; ON DELETE CASCADE handles role_group_permission automatically.
         jdbcTemplate.execute("DELETE FROM role_group WHERE last_updated_by <> 'system'");
     }
 
     protected <T> T get(String url, TypeReference<T> responseType, ResultMatcher... matchers) throws Exception {
-        String response = mockMvc.perform(MockMvcRequestBuilders.get(url)).andExpectAll(matchers).andReturn().getResponse().getContentAsString();
+        String response = mockMvc.perform(MockMvcRequestBuilders.get(url))
+                .andExpectAll(matchers)
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
         if (response.isEmpty()) {
             return null;
         }
@@ -87,7 +89,11 @@ public class IntegrationTest {
     }
 
     protected <T> T get(String url, Class<T> responseType, ResultMatcher... matchers) throws Exception {
-        String response = mockMvc.perform(MockMvcRequestBuilders.get(url)).andExpectAll(matchers).andReturn().getResponse().getContentAsString();
+        String response = mockMvc.perform(MockMvcRequestBuilders.get(url))
+                .andExpectAll(matchers)
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
         if (response.isEmpty()) {
             return null;
         }
@@ -99,26 +105,36 @@ public class IntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders.get(url)).andExpectAll(matchers);
     }
 
-    protected <T> T post(String url, Object requestBody, TypeReference<T> typeReference, ResultMatcher... matchers) throws Exception {
+    protected <T> T post(String url, Object requestBody, TypeReference<T> typeReference, ResultMatcher... matchers)
+            throws Exception {
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post(url).contentType(APPLICATION_JSON_VALUE);
 
         if (requestBody != null) {
             builder.content(objectMapper.writeValueAsString(requestBody));
         }
 
-        String response = mockMvc.perform(builder).andExpectAll(matchers).andReturn().getResponse().getContentAsString();
+        String response = mockMvc.perform(builder)
+                .andExpectAll(matchers)
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
 
         return response.isEmpty() ? null : objectMapper.readValue(response, typeReference);
     }
 
-    protected <T> T post(String url, Object requestBody, Class<T> responseType, ResultMatcher... matchers) throws Exception {
+    protected <T> T post(String url, Object requestBody, Class<T> responseType, ResultMatcher... matchers)
+            throws Exception {
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post(url).contentType(APPLICATION_JSON_VALUE);
 
         if (requestBody != null) {
             builder.content(objectMapper.writeValueAsString(requestBody));
         }
 
-        String response = mockMvc.perform(builder).andExpectAll(matchers).andReturn().getResponse().getContentAsString();
+        String response = mockMvc.perform(builder)
+                .andExpectAll(matchers)
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
 
         return response.isEmpty() ? null : objectMapper.readValue(response, responseType);
     }
@@ -133,14 +149,19 @@ public class IntegrationTest {
         mockMvc.perform(builder).andExpectAll(matchers);
     }
 
-    protected <T> T postText(String url, String textContent, Class<T> responseType, ResultMatcher... matchers) throws Exception {
+    protected <T> T postText(String url, String textContent, Class<T> responseType, ResultMatcher... matchers)
+            throws Exception {
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post(url).contentType(TEXT_PLAIN_VALUE);
 
         if (textContent != null) {
             builder.content(textContent);
         }
 
-        String response = mockMvc.perform(builder).andExpectAll(matchers).andReturn().getResponse().getContentAsString();
+        String response = mockMvc.perform(builder)
+                .andExpectAll(matchers)
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
 
         return response.isEmpty() ? null : objectMapper.readValue(response, responseType);
     }
@@ -155,26 +176,36 @@ public class IntegrationTest {
         mockMvc.perform(builder).andExpectAll(matchers);
     }
 
-    protected <T> T put(String url, Object requestBody, TypeReference<T> typeReference, ResultMatcher... matchers) throws Exception {
+    protected <T> T put(String url, Object requestBody, TypeReference<T> typeReference, ResultMatcher... matchers)
+            throws Exception {
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.put(url).contentType(APPLICATION_JSON_VALUE);
 
         if (requestBody != null) {
             builder.content(objectMapper.writeValueAsString(requestBody));
         }
 
-        String response = mockMvc.perform(builder).andExpectAll(matchers).andReturn().getResponse().getContentAsString();
+        String response = mockMvc.perform(builder)
+                .andExpectAll(matchers)
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
 
         return response.isEmpty() ? null : objectMapper.readValue(response, typeReference);
     }
 
-    protected <T> T put(String url, Object requestBody, Class<T> responseType, ResultMatcher... matchers) throws Exception {
+    protected <T> T put(String url, Object requestBody, Class<T> responseType, ResultMatcher... matchers)
+            throws Exception {
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.put(url).contentType(APPLICATION_JSON_VALUE);
 
         if (requestBody != null) {
             builder.content(objectMapper.writeValueAsString(requestBody));
         }
 
-        String response = mockMvc.perform(builder).andExpectAll(matchers).andReturn().getResponse().getContentAsString();
+        String response = mockMvc.perform(builder)
+                .andExpectAll(matchers)
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
 
         return response.isEmpty() ? null : objectMapper.readValue(response, responseType);
     }
@@ -190,7 +221,8 @@ public class IntegrationTest {
     }
 
     protected void delete(String url, Object requestBody, ResultMatcher... matchers) throws Exception {
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.delete(url).contentType(APPLICATION_JSON_VALUE);
+        MockHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.delete(url).contentType(APPLICATION_JSON_VALUE);
         if (requestBody != null) {
             builder.content(objectMapper.writeValueAsString(requestBody));
         }
@@ -198,13 +230,21 @@ public class IntegrationTest {
     }
 
     protected <T> T delete(String url, TypeReference<T> typeReference, ResultMatcher... matchers) throws Exception {
-        String response = mockMvc.perform(MockMvcRequestBuilders.delete(url)).andExpectAll(matchers).andReturn().getResponse().getContentAsString();
+        String response = mockMvc.perform(MockMvcRequestBuilders.delete(url))
+                .andExpectAll(matchers)
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
 
         return response.isEmpty() ? null : objectMapper.readValue(response, typeReference);
     }
 
     protected <T> T delete(String url, Class<T> responseType, ResultMatcher... matchers) throws Exception {
-        String response = mockMvc.perform(MockMvcRequestBuilders.delete(url)).andExpectAll(matchers).andReturn().getResponse().getContentAsString();
+        String response = mockMvc.perform(MockMvcRequestBuilders.delete(url))
+                .andExpectAll(matchers)
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
 
         return response.isEmpty() ? null : objectMapper.readValue(response, responseType);
     }
@@ -213,32 +253,45 @@ public class IntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders.delete(url)).andExpectAll(matchers);
     }
 
-    protected <T> T patch(String url, Object requestBody, TypeReference<T> typeReference, ResultMatcher... matchers) throws Exception {
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.patch(url).contentType(APPLICATION_JSON_VALUE);
+    protected <T> T patch(String url, Object requestBody, TypeReference<T> typeReference, ResultMatcher... matchers)
+            throws Exception {
+        MockHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.patch(url).contentType(APPLICATION_JSON_VALUE);
 
         if (requestBody != null) {
             builder.content(objectMapper.writeValueAsString(requestBody));
         }
 
-        String response = mockMvc.perform(builder).andExpectAll(matchers).andReturn().getResponse().getContentAsString();
+        String response = mockMvc.perform(builder)
+                .andExpectAll(matchers)
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
 
         return response.isEmpty() ? null : objectMapper.readValue(response, typeReference);
     }
 
-    protected <T> T patch(String url, Object requestBody, Class<T> responseType, ResultMatcher... matchers) throws Exception {
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.patch(url).contentType(APPLICATION_JSON_VALUE);
+    protected <T> T patch(String url, Object requestBody, Class<T> responseType, ResultMatcher... matchers)
+            throws Exception {
+        MockHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.patch(url).contentType(APPLICATION_JSON_VALUE);
 
         if (requestBody != null) {
             builder.content(objectMapper.writeValueAsString(requestBody));
         }
 
-        String response = mockMvc.perform(builder).andExpectAll(matchers).andReturn().getResponse().getContentAsString();
+        String response = mockMvc.perform(builder)
+                .andExpectAll(matchers)
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
 
         return response.isEmpty() ? null : objectMapper.readValue(response, responseType);
     }
 
     protected void patch(String url, Object requestBody, ResultMatcher... matchers) throws Exception {
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.patch(url).contentType(APPLICATION_JSON_VALUE);
+        MockHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.patch(url).contentType(APPLICATION_JSON_VALUE);
 
         if (requestBody != null) {
             builder.content(objectMapper.writeValueAsString(requestBody));
@@ -246,7 +299,6 @@ public class IntegrationTest {
 
         mockMvc.perform(builder).andExpectAll(matchers);
     }
-
 
     /**
      * Creates a new activated user with the specified email and role groups.
@@ -257,28 +309,16 @@ public class IntegrationTest {
      */
     protected UserEntity createUser(String email, Set<String> roleGroupNames) {
         Set<RoleGroupEntity> dbRoleGroups = roleGroupNames.stream()
-                .map(name -> roleGroupRepository.findByNameIn(Set.of(name)).iterator().next())
+                .map(name -> roleGroupRepository
+                        .findByNameIn(Set.of(name))
+                        .iterator()
+                        .next())
                 .collect(Collectors.toSet());
 
-        UserEntity user = new UserEntity(
-                null,
-                null,
-                null,
-                null,
-                new HashSet<>(),
-                false,
-                null,
-                null
-        );
+        UserEntity user = new UserEntity(null, null, null, null, new HashSet<>(), false, null, null);
         user.setUserInfo(buildUserInfo());
         user.setUserCredentials(buildCredentials(
-                email,
-                passwordEncoder.encode(DEFAULT_USER_PASSWORD),
-                null,
-                Instant.now(),
-                null,
-                null
-        ));
+                email, passwordEncoder.encode(DEFAULT_USER_PASSWORD), null, Instant.now(), null, null));
         user.setStatus(UserStatus.ACTIVATED);
         user.setRoleGroups(dbRoleGroups);
         user.setCreationDate(Instant.now());
@@ -331,28 +371,16 @@ public class IntegrationTest {
      */
     protected UserEntity createNonActiveUser(String email, Set<String> roleGroupNames) {
         Set<RoleGroupEntity> dbRoleGroups = roleGroupNames.stream()
-                .map(name -> roleGroupRepository.findByNameIn(Set.of(name)).iterator().next())
+                .map(name -> roleGroupRepository
+                        .findByNameIn(Set.of(name))
+                        .iterator()
+                        .next())
                 .collect(Collectors.toSet());
 
-        UserEntity user = new UserEntity(
-                null,
-                null,
-                null,
-                null,
-                new HashSet<>(),
-                false,
-                null,
-                null
-        );
+        UserEntity user = new UserEntity(null, null, null, null, new HashSet<>(), false, null, null);
         user.setUserInfo(buildUserInfo());
-        user.setUserCredentials(buildCredentials(
-                email,
-                passwordEncoder.encode(DEFAULT_USER_PASSWORD),
-                "ABDCD00",
-                null,
-                null,
-                null
-        ));
+        user.setUserCredentials(
+                buildCredentials(email, passwordEncoder.encode(DEFAULT_USER_PASSWORD), "ABDCD00", null, null, null));
         user.setStatus(UserStatus.NOT_ACTIVATED);
         user.setRoleGroups(dbRoleGroups);
         user.setCreationDate(Instant.now());
@@ -369,26 +397,11 @@ public class IntegrationTest {
     protected UserEntity createNonActiveUser(String email, Instant creationDate) {
         Set<RoleGroupEntity> dbRoleGroups = new HashSet<>();
 
-        UserEntity user = new UserEntity(
-                null,
-                null,
-                null,
-                null,
-                new HashSet<>(),
-                false,
-                null,
-                null
-        );
+        UserEntity user = new UserEntity(null, null, null, null, new HashSet<>(), false, null, null);
 
         user.setUserInfo(buildUserInfo());
-        user.setUserCredentials(buildCredentials(
-                email,
-                passwordEncoder.encode(DEFAULT_USER_PASSWORD),
-                "ABDCD00",
-                null,
-                null,
-                null
-        ));
+        user.setUserCredentials(
+                buildCredentials(email, passwordEncoder.encode(DEFAULT_USER_PASSWORD), "ABDCD00", null, null, null));
         user.setStatus(UserStatus.NOT_ACTIVATED);
         user.setRoleGroups(dbRoleGroups);
         user.setCreationDate(Instant.now());
@@ -409,16 +422,16 @@ public class IntegrationTest {
                 UserGender.MALE,
                 null,
                 DomainConstants.DEFAULT_LANGUAGE,
-                null
-        );
+                null);
     }
 
-    private static EmbeddableCredentials buildCredentials(String email,
-                                                          String passwordHash,
-                                                          String activationCode,
-                                                          Instant activationDate,
-                                                          String resetCode,
-                                                          Instant resetDate) {
+    private static EmbeddableCredentials buildCredentials(
+            String email,
+            String passwordHash,
+            String activationCode,
+            Instant activationDate,
+            String resetCode,
+            Instant resetDate) {
         return new EmbeddableCredentials(
                 email.toLowerCase(),
                 passwordHash,
@@ -428,8 +441,7 @@ public class IntegrationTest {
                 resetDate,
                 null,
                 null,
-                null
-        );
+                null);
     }
 
     protected void enableGlobalTwoFactorRequirement() {
@@ -443,10 +455,11 @@ public class IntegrationTest {
     private void forceUserCreationDate(Long userId, Instant creationDate) {
         int updated = jdbcTemplate.update(
                 "UPDATE app_user SET creation_date = ?, last_update_date = ? WHERE id = ?",
-                Timestamp.from(creationDate), Timestamp.from(creationDate), userId);
+                Timestamp.from(creationDate),
+                Timestamp.from(creationDate),
+                userId);
         if (updated != 1) {
             throw new RuntimeException("Expected 1 row updated, got " + updated);
         }
     }
-
 }

@@ -1,13 +1,12 @@
 package com.saasapp.domain.models.user;
 
+import static com.saasapp.domain.models.DomainValidation.checkRequiredField;
+
 import com.saasapp.domain.exceptions.UserAlreadyActivatedException;
 import com.saasapp.domain.models.DomainValidation;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.NonNull;
-
-import java.time.Instant;
-
-import static com.saasapp.domain.models.DomainValidation.checkRequiredField;
 
 /**
  * Holds the authentication credentials for a user account.
@@ -62,8 +61,7 @@ public class UserCredentials {
             Instant resetDate,
             String pendingEmail,
             String emailChangeCode,
-            Instant emailChangeCodeDate
-    ) {
+            Instant emailChangeCodeDate) {
         this.email = new Email(email);
 
         checkRequiredField(passwordHash, "passwordHash");
@@ -132,5 +130,4 @@ public class UserCredentials {
         this.emailChangeCode = null;
         this.emailChangeCodeDate = null;
     }
-
 }

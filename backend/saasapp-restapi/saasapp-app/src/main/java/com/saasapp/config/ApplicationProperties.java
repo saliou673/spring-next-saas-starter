@@ -1,12 +1,11 @@
 package com.saasapp.config;
 
+import java.time.Duration;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-
-import java.time.Duration;
-import java.util.List;
 
 /**
  * Strongly-typed configuration properties bound to the {@code app.*} namespace.
@@ -67,13 +66,12 @@ public class ApplicationProperties {
             Duration softDeletedUserRetentionPeriod,
             Duration resetCodeValidityPeriod,
             int managedUserInvitationCodeLength,
-            Duration managedUserInvitationCodeValidityPeriod
-    ) {}
+            Duration managedUserInvitationCodeValidityPeriod) {}
 
     public record Mail(String from, MailRoute routes) {}
 
-    public record MailRoute(String accountValidation, String resetPassword, String login,
-                            String managedUserInvitation) {}
+    public record MailRoute(
+            String accountValidation, String resetPassword, String login, String managedUserInvitation) {}
 
     public record Cors(List<String> allowedOrigins) {}
 

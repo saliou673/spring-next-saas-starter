@@ -5,7 +5,4 @@ import com.saasapp.domain.models.auth.TwoFactorMethodType;
 /**
  * Returned when a login attempt requires 2FA completion.
  */
-public record TwoFactorChallengeResponse(
-        String challengeId,
-        TwoFactorMethodType type
-) {}
+public record TwoFactorChallengeResponse(String challengeId, TwoFactorMethodType type) {}

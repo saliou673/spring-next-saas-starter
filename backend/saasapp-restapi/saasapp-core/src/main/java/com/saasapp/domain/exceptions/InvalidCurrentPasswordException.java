@@ -16,8 +16,6 @@ public class InvalidCurrentPasswordException extends FunctionalException {
 
     public static InvalidCurrentPasswordException forAccountRecovery() {
         return new InvalidCurrentPasswordException(
-                "error.auth.recovery-invalid-credentials",
-                "Invalid credentials for account recovery."
-        );
+                "error.auth.recovery-invalid-credentials", "Invalid credentials for account recovery.");
     }
 }

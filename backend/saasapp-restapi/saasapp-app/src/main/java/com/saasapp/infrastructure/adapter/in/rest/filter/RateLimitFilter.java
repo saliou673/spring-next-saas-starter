@@ -9,6 +9,12 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.time.Instant;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
@@ -17,13 +23,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
-import java.io.IOException;
-import java.time.Instant;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
 
 /**
  * Servlet filter that applies per-IP and per-user rate limiting using Resilience4j.
@@ -39,18 +38,15 @@ public class RateLimitFilter extends OncePerRequestFilter {
             Pattern.compile("/api/accounts/activation.*"),
             Pattern.compile("/api/accounts/reset-password/.*"),
             Pattern.compile("/api/accounts/recover"),
-            Pattern.compile("/api/accounts/invitation/.*")
-    );
+            Pattern.compile("/api/accounts/invitation/.*"));
 
     private final ApplicationProperties properties;
     private final RateLimiterRegistry registry;
     private final ObjectMapper objectMapper;
 
-
     @Override
-    protected void doFilterInternal(@Nonnull HttpServletRequest request,
-                                    @Nonnull HttpServletResponse response,
-                                    @Nonnull FilterChain chain)
+    protected void doFilterInternal(
+            @Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain chain)
             throws ServletException, IOException {
 
         if (!properties.getRateLimit().enabled()) {

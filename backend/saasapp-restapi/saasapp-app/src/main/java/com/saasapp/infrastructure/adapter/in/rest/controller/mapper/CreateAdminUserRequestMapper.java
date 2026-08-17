@@ -4,20 +4,16 @@ import com.saasapp.domain.models.user.User;
 import com.saasapp.domain.models.user.UserCredentials;
 import com.saasapp.domain.models.user.UserInfo;
 import com.saasapp.infrastructure.adapter.in.rest.controller.requests.CreateAdminUserRequest;
+import java.util.Set;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 
-import java.util.Set;
-
 /**
  * MapStruct mapper converting a {@link com.saasapp.infrastructure.adapter.in.rest.controller.requests.CreateAdminUserRequest} to domain objects.
  */
-@Mapper(
-        componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedTargetPolicy = ReportingPolicy.ERROR
-)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface CreateAdminUserRequestMapper {
 
     default User toDomain(CreateAdminUserRequest request) {

@@ -8,6 +8,4 @@ import jakarta.validation.constraints.NotNull;
  *
  * @param type the 2FA method to configure
  */
-public record TwoFactorSetupRequest(
-        @NotNull TwoFactorMethodType type
-) {}
+public record TwoFactorSetupRequest(@NotNull TwoFactorMethodType type) {}

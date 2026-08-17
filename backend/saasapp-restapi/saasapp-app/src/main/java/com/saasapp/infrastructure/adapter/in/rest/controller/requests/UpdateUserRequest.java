@@ -3,7 +3,6 @@ package com.saasapp.infrastructure.adapter.in.rest.controller.requests;
 import com.saasapp.domain.enumerations.UserGender;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
-
 import java.time.LocalDate;
 
 /**
@@ -19,29 +18,18 @@ import java.time.LocalDate;
  * @param imageUrl    optional profile picture URL
  */
 public record UpdateUserRequest(
+        @NotBlank(message = "firstName must not be blank") String firstName,
 
-        @NotBlank(message = "firstName must not be blank")
-        String firstName,
+        @NotBlank(message = "lastName must not be blank") String lastName,
 
-        @NotBlank(message = "lastName must not be blank")
-        String lastName,
+        @Nullable String phoneNumber,
 
-        @Nullable
-        String phoneNumber,
+        @Nullable LocalDate birthDate,
 
-        @Nullable
-        LocalDate birthDate,
+        @Nullable UserGender gender,
 
-        @Nullable
-        UserGender gender,
+        @Nullable String address,
 
-        @Nullable
-        String address,
+        @Nullable String languageKey,
 
-        @Nullable
-        String languageKey,
-
-        @Nullable
-        String imageUrl
-) {
-}
+        @Nullable String imageUrl) {}

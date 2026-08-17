@@ -20,5 +20,4 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         registrar.setUseIsoFormat(true);
         registrar.registerFormatters(registry);
     }
-
 }

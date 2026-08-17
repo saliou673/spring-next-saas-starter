@@ -15,8 +15,6 @@ public class InvalidResetCodeException extends FunctionalException {
 
     public static InvalidResetCodeException forInvitation() {
         return new InvalidResetCodeException(
-                "error.auth.invitation-code-invalid",
-                "The invitation code is invalid or has expired."
-        );
+                "error.auth.invitation-code-invalid", "The invitation code is invalid or has expired.");
     }
 }
