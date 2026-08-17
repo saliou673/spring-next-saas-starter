@@ -21,6 +21,7 @@ import type {
     GetCurrentUserPreferences403,
     GetCurrentUserPreferences404,
     GetCurrentUserPreferences409,
+    GetCurrentUserPreferences500,
 } from "../../types/GetCurrentUserPreferences.ts";
 
 export const getCurrentUserPreferencesQueryKey = () =>
@@ -41,6 +42,7 @@ export function getCurrentUserPreferencesQueryOptions(
             | GetCurrentUserPreferences403
             | GetCurrentUserPreferences404
             | GetCurrentUserPreferences409
+            | GetCurrentUserPreferences500
         >,
         GetCurrentUserPreferencesQueryResponse,
         typeof queryKey
@@ -72,6 +74,7 @@ export function useGetCurrentUserPreferences<
                     | GetCurrentUserPreferences403
                     | GetCurrentUserPreferences404
                     | GetCurrentUserPreferences409
+                    | GetCurrentUserPreferences500
                 >,
                 TData,
                 TQueryData,
@@ -99,6 +102,7 @@ export function useGetCurrentUserPreferences<
             | GetCurrentUserPreferences403
             | GetCurrentUserPreferences404
             | GetCurrentUserPreferences409
+            | GetCurrentUserPreferences500
         >
     > & { queryKey: TQueryKey };
 

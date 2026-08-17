@@ -63,6 +63,12 @@ export type GetAppConfigurationByCategoryAndCode404 =
 export type GetAppConfigurationByCategoryAndCode409 =
     ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type GetAppConfigurationByCategoryAndCode500 =
+    ValidationErrorResponseDTO;
+
 export type GetAppConfigurationByCategoryAndCodeQueryResponse =
     GetAppConfigurationByCategoryAndCode200;
 
@@ -73,5 +79,6 @@ export type GetAppConfigurationByCategoryAndCodeQuery = {
     Errors:
         | GetAppConfigurationByCategoryAndCode403
         | GetAppConfigurationByCategoryAndCode404
-        | GetAppConfigurationByCategoryAndCode409;
+        | GetAppConfigurationByCategoryAndCode409
+        | GetAppConfigurationByCategoryAndCode500;
 };

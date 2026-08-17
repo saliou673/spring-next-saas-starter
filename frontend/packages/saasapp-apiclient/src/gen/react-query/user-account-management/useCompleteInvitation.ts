@@ -21,6 +21,7 @@ import type {
     CompleteInvitation403,
     CompleteInvitation404,
     CompleteInvitation409,
+    CompleteInvitation500,
 } from "../../types/CompleteInvitation.ts";
 
 export const completeInvitationMutationKey = () =>
@@ -42,6 +43,7 @@ export function completeInvitationMutationOptions<TContext = unknown>(
             | CompleteInvitation403
             | CompleteInvitation404
             | CompleteInvitation409
+            | CompleteInvitation500
         >,
         {
             data: CompleteInvitationMutationRequest;
@@ -67,6 +69,7 @@ export function useCompleteInvitation<TContext>(
                 | CompleteInvitation403
                 | CompleteInvitation404
                 | CompleteInvitation409
+                | CompleteInvitation500
             >,
             {
                 data: CompleteInvitationMutationRequest;
@@ -92,6 +95,7 @@ export function useCompleteInvitation<TContext>(
             | CompleteInvitation403
             | CompleteInvitation404
             | CompleteInvitation409
+            | CompleteInvitation500
         >,
         {
             data: CompleteInvitationMutationRequest;
@@ -106,6 +110,7 @@ export function useCompleteInvitation<TContext>(
             | CompleteInvitation403
             | CompleteInvitation404
             | CompleteInvitation409
+            | CompleteInvitation500
         >,
         {
             data: CompleteInvitationMutationRequest;
@@ -125,6 +130,7 @@ export function useCompleteInvitation<TContext>(
             | CompleteInvitation403
             | CompleteInvitation404
             | CompleteInvitation409
+            | CompleteInvitation500
         >,
         {
             data: CompleteInvitationMutationRequest;

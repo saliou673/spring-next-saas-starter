@@ -22,6 +22,7 @@ import type {
     UpdateRoleGroupAsAdmin403,
     UpdateRoleGroupAsAdmin404,
     UpdateRoleGroupAsAdmin409,
+    UpdateRoleGroupAsAdmin500,
 } from "../../types/UpdateRoleGroupAsAdmin.ts";
 
 export const updateRoleGroupAsAdminMutationKey = () =>
@@ -43,6 +44,7 @@ export function updateRoleGroupAsAdminMutationOptions<TContext = unknown>(
             | UpdateRoleGroupAsAdmin403
             | UpdateRoleGroupAsAdmin404
             | UpdateRoleGroupAsAdmin409
+            | UpdateRoleGroupAsAdmin500
         >,
         {
             id: UpdateRoleGroupAsAdminPathParams["id"];
@@ -69,6 +71,7 @@ export function useUpdateRoleGroupAsAdmin<TContext>(
                 | UpdateRoleGroupAsAdmin403
                 | UpdateRoleGroupAsAdmin404
                 | UpdateRoleGroupAsAdmin409
+                | UpdateRoleGroupAsAdmin500
             >,
             {
                 id: UpdateRoleGroupAsAdminPathParams["id"];
@@ -95,6 +98,7 @@ export function useUpdateRoleGroupAsAdmin<TContext>(
             | UpdateRoleGroupAsAdmin403
             | UpdateRoleGroupAsAdmin404
             | UpdateRoleGroupAsAdmin409
+            | UpdateRoleGroupAsAdmin500
         >,
         {
             id: UpdateRoleGroupAsAdminPathParams["id"];
@@ -110,6 +114,7 @@ export function useUpdateRoleGroupAsAdmin<TContext>(
             | UpdateRoleGroupAsAdmin403
             | UpdateRoleGroupAsAdmin404
             | UpdateRoleGroupAsAdmin409
+            | UpdateRoleGroupAsAdmin500
         >,
         {
             id: UpdateRoleGroupAsAdminPathParams["id"];
@@ -130,6 +135,7 @@ export function useUpdateRoleGroupAsAdmin<TContext>(
             | UpdateRoleGroupAsAdmin403
             | UpdateRoleGroupAsAdmin404
             | UpdateRoleGroupAsAdmin409
+            | UpdateRoleGroupAsAdmin500
         >,
         {
             id: UpdateRoleGroupAsAdminPathParams["id"];

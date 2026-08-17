@@ -48,6 +48,11 @@ export type GetPermissionsAsAdmin404 = ValidationErrorResponseDTO;
  */
 export type GetPermissionsAsAdmin409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type GetPermissionsAsAdmin500 = ValidationErrorResponseDTO;
+
 export type GetPermissionsAsAdminQueryResponse = GetPermissionsAsAdmin200;
 
 export type GetPermissionsAsAdminQuery = {
@@ -57,5 +62,6 @@ export type GetPermissionsAsAdminQuery = {
     Errors:
         | GetPermissionsAsAdmin403
         | GetPermissionsAsAdmin404
-        | GetPermissionsAsAdmin409;
+        | GetPermissionsAsAdmin409
+        | GetPermissionsAsAdmin500;
 };

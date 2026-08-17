@@ -22,6 +22,7 @@ import type {
     GetAppConfigurations403,
     GetAppConfigurations404,
     GetAppConfigurations409,
+    GetAppConfigurations500,
 } from "../../types/GetAppConfigurations.ts";
 
 export const getAppConfigurationsQueryKey = (
@@ -44,6 +45,7 @@ export function getAppConfigurationsQueryOptions(
             | GetAppConfigurations403
             | GetAppConfigurations404
             | GetAppConfigurations409
+            | GetAppConfigurations500
         >,
         GetAppConfigurationsQueryResponse,
         typeof queryKey
@@ -77,6 +79,7 @@ export function useGetAppConfigurations<
                     | GetAppConfigurations403
                     | GetAppConfigurations404
                     | GetAppConfigurations409
+                    | GetAppConfigurations500
                 >,
                 TData,
                 TQueryData,
@@ -104,6 +107,7 @@ export function useGetAppConfigurations<
             | GetAppConfigurations403
             | GetAppConfigurations404
             | GetAppConfigurations409
+            | GetAppConfigurations500
         >
     > & { queryKey: TQueryKey };
 

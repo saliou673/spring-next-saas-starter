@@ -16,6 +16,7 @@ import type {
     UpdateUserAsAdmin403,
     UpdateUserAsAdmin404,
     UpdateUserAsAdmin409,
+    UpdateUserAsAdmin500,
 } from "../../types/UpdateUserAsAdmin.ts";
 
 function getUpdateUserAsAdminUrl(id: UpdateUserAsAdminPathParams["id"]) {
@@ -41,7 +42,10 @@ export async function updateUserAsAdmin(
     const res = await request<
         UpdateUserAsAdminMutationResponse,
         ResponseErrorConfig<
-            UpdateUserAsAdmin403 | UpdateUserAsAdmin404 | UpdateUserAsAdmin409
+            | UpdateUserAsAdmin403
+            | UpdateUserAsAdmin404
+            | UpdateUserAsAdmin409
+            | UpdateUserAsAdmin500
         >,
         UpdateUserAsAdminMutationRequest
     >({

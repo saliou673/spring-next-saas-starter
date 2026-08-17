@@ -22,6 +22,7 @@ import type {
     GetAppConfigurationByIdAsAdmin403,
     GetAppConfigurationByIdAsAdmin404,
     GetAppConfigurationByIdAsAdmin409,
+    GetAppConfigurationByIdAsAdmin500,
 } from "../../types/GetAppConfigurationByIdAsAdmin.ts";
 
 export const getAppConfigurationByIdAsAdminQueryKey = (
@@ -44,6 +45,7 @@ export function getAppConfigurationByIdAsAdminQueryOptions(
             | GetAppConfigurationByIdAsAdmin403
             | GetAppConfigurationByIdAsAdmin404
             | GetAppConfigurationByIdAsAdmin409
+            | GetAppConfigurationByIdAsAdmin500
         >,
         GetAppConfigurationByIdAsAdminQueryResponse,
         typeof queryKey
@@ -77,6 +79,7 @@ export function useGetAppConfigurationByIdAsAdmin<
                     | GetAppConfigurationByIdAsAdmin403
                     | GetAppConfigurationByIdAsAdmin404
                     | GetAppConfigurationByIdAsAdmin409
+                    | GetAppConfigurationByIdAsAdmin500
                 >,
                 TData,
                 TQueryData,
@@ -104,6 +107,7 @@ export function useGetAppConfigurationByIdAsAdmin<
             | GetAppConfigurationByIdAsAdmin403
             | GetAppConfigurationByIdAsAdmin404
             | GetAppConfigurationByIdAsAdmin409
+            | GetAppConfigurationByIdAsAdmin500
         >
     > & { queryKey: TQueryKey };
 
