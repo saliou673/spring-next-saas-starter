@@ -597,6 +597,41 @@
                     "body": "Si vous avez des questions concernant cette politique de confidentialité, veuillez nous contacter à :"
                 }
             ]
+        },
+        "cookiePolicy": {
+            "title": "Politique de cookies",
+            "lastUpdated": "Dernière mise à jour : 20 mars 2026",
+            "sections": [
+                {
+                    "heading": "1. Qu'est-ce qu'un cookie",
+                    "body": "Les cookies sont de petits fichiers texte stockés sur votre appareil lorsque vous visitez un site web. Ils nous permettent de reconnaître votre navigateur, de mémoriser vos préférences et d'améliorer votre expérience sur notre plateforme."
+                },
+                {
+                    "heading": "2. Types de cookies que nous utilisons",
+                    "body": "Nous utilisons les catégories de cookies suivantes :",
+                    "list": [
+                        "Cookies strictement nécessaires — Indispensables au fonctionnement de la plateforme. Cela inclut les cookies de session et d'authentification.",
+                        "Cookies de préférence — Enregistrent vos paramètres tels que la langue, le thème et les préférences d'affichage.",
+                        "Cookies analytiques — Nous aident à comprendre comment les visiteurs interagissent avec notre plateforme afin de l'améliorer."
+                    ]
+                },
+                {
+                    "heading": "3. Comment nous utilisons les cookies",
+                    "body": "Nous utilisons les cookies pour vous maintenir connecté, mémoriser vos préférences d'une session à l'autre, analyser les habitudes d'utilisation afin d'améliorer nos services, et garantir la sécurité et l'intégrité de votre compte."
+                },
+                {
+                    "heading": "4. Cookies tiers",
+                    "body": "Certains cookies peuvent être déposés par des services tiers présents sur nos pages. Nous ne contrôlons pas ces cookies et vous recommandons de consulter les politiques de confidentialité de ces tiers."
+                },
+                {
+                    "heading": "5. Gestion des cookies",
+                    "body": "Vous pouvez contrôler et supprimer les cookies via les paramètres de votre navigateur. Notez que la désactivation de certains cookies peut affecter le fonctionnement de notre plateforme. Consultez la documentation d'aide de votre navigateur pour savoir comment gérer les cookies."
+                },
+                {
+                    "heading": "6. Nous contacter",
+                    "body": "Si vous avez des questions concernant notre utilisation des cookies, veuillez nous contacter à :"
+                }
+            ]
         }
     },
     "errors": {
