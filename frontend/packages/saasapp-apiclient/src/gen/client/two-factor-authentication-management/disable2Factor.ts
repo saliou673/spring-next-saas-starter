@@ -15,6 +15,7 @@ import type {
     Disable2Factor403,
     Disable2Factor404,
     Disable2Factor409,
+    Disable2Factor500,
 } from "../../types/Disable2Factor.ts";
 
 function getDisable2FactorUrl() {
@@ -39,7 +40,10 @@ export async function disable2Factor(
     const res = await request<
         Disable2FactorMutationResponse,
         ResponseErrorConfig<
-            Disable2Factor403 | Disable2Factor404 | Disable2Factor409
+            | Disable2Factor403
+            | Disable2Factor404
+            | Disable2Factor409
+            | Disable2Factor500
         >,
         Disable2FactorMutationRequest
     >({

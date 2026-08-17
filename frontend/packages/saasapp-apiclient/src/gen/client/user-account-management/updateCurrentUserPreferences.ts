@@ -15,6 +15,7 @@ import type {
     UpdateCurrentUserPreferences403,
     UpdateCurrentUserPreferences404,
     UpdateCurrentUserPreferences409,
+    UpdateCurrentUserPreferences500,
 } from "../../types/UpdateCurrentUserPreferences.ts";
 
 function getUpdateCurrentUserPreferencesUrl() {
@@ -42,6 +43,7 @@ export async function updateCurrentUserPreferences(
             | UpdateCurrentUserPreferences403
             | UpdateCurrentUserPreferences404
             | UpdateCurrentUserPreferences409
+            | UpdateCurrentUserPreferences500
         >,
         UpdateCurrentUserPreferencesMutationRequest
     >({

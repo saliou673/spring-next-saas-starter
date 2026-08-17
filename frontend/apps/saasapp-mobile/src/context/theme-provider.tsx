@@ -10,7 +10,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 
-type Theme = "dark" | "light" | "system";
+export type Theme = "dark" | "light" | "system";
 type ResolvedTheme = Exclude<Theme, "system">;
 
 const DEFAULT_THEME: Theme = "system";

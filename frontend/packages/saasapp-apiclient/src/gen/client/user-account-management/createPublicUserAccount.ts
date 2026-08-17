@@ -15,6 +15,7 @@ import type {
     CreatePublicUserAccount403,
     CreatePublicUserAccount404,
     CreatePublicUserAccount409,
+    CreatePublicUserAccount500,
 } from "../../types/CreatePublicUserAccount.ts";
 
 function getCreatePublicUserAccountUrl() {
@@ -42,6 +43,7 @@ export async function createPublicUserAccount(
             | CreatePublicUserAccount403
             | CreatePublicUserAccount404
             | CreatePublicUserAccount409
+            | CreatePublicUserAccount500
         >,
         CreatePublicUserAccountMutationRequest
     >({

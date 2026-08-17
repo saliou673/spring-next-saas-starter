@@ -21,6 +21,7 @@ import type {
     CreateRoleGroupAsAdmin403,
     CreateRoleGroupAsAdmin404,
     CreateRoleGroupAsAdmin409,
+    CreateRoleGroupAsAdmin500,
 } from "../../types/CreateRoleGroupAsAdmin.ts";
 
 export const createRoleGroupAsAdminMutationKey = () =>
@@ -42,6 +43,7 @@ export function createRoleGroupAsAdminMutationOptions<TContext = unknown>(
             | CreateRoleGroupAsAdmin403
             | CreateRoleGroupAsAdmin404
             | CreateRoleGroupAsAdmin409
+            | CreateRoleGroupAsAdmin500
         >,
         {
             data: CreateRoleGroupAsAdminMutationRequest;
@@ -67,6 +69,7 @@ export function useCreateRoleGroupAsAdmin<TContext>(
                 | CreateRoleGroupAsAdmin403
                 | CreateRoleGroupAsAdmin404
                 | CreateRoleGroupAsAdmin409
+                | CreateRoleGroupAsAdmin500
             >,
             {
                 data: CreateRoleGroupAsAdminMutationRequest;
@@ -92,6 +95,7 @@ export function useCreateRoleGroupAsAdmin<TContext>(
             | CreateRoleGroupAsAdmin403
             | CreateRoleGroupAsAdmin404
             | CreateRoleGroupAsAdmin409
+            | CreateRoleGroupAsAdmin500
         >,
         {
             data: CreateRoleGroupAsAdminMutationRequest;
@@ -106,6 +110,7 @@ export function useCreateRoleGroupAsAdmin<TContext>(
             | CreateRoleGroupAsAdmin403
             | CreateRoleGroupAsAdmin404
             | CreateRoleGroupAsAdmin409
+            | CreateRoleGroupAsAdmin500
         >,
         {
             data: CreateRoleGroupAsAdminMutationRequest;
@@ -125,6 +130,7 @@ export function useCreateRoleGroupAsAdmin<TContext>(
             | CreateRoleGroupAsAdmin403
             | CreateRoleGroupAsAdmin404
             | CreateRoleGroupAsAdmin409
+            | CreateRoleGroupAsAdmin500
         >,
         {
             data: CreateRoleGroupAsAdminMutationRequest;

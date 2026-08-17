@@ -14,6 +14,7 @@ import type {
     GetSecuritySettingsAsAdmin403,
     GetSecuritySettingsAsAdmin404,
     GetSecuritySettingsAsAdmin409,
+    GetSecuritySettingsAsAdmin500,
 } from "../../types/GetSecuritySettingsAsAdmin.ts";
 
 function getGetSecuritySettingsAsAdminUrl() {
@@ -36,6 +37,7 @@ export async function getSecuritySettingsAsAdmin(
             | GetSecuritySettingsAsAdmin403
             | GetSecuritySettingsAsAdmin404
             | GetSecuritySettingsAsAdmin409
+            | GetSecuritySettingsAsAdmin500
         >,
         unknown
     >({

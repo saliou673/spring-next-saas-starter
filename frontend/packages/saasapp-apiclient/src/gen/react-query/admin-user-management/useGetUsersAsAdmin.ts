@@ -22,6 +22,7 @@ import type {
     GetUsersAsAdmin403,
     GetUsersAsAdmin404,
     GetUsersAsAdmin409,
+    GetUsersAsAdmin500,
 } from "../../types/GetUsersAsAdmin.ts";
 
 export const getUsersAsAdminQueryKey = (params: GetUsersAsAdminQueryParams) =>
@@ -40,7 +41,10 @@ export function getUsersAsAdminQueryOptions(
     return queryOptions<
         GetUsersAsAdminQueryResponse,
         ResponseErrorConfig<
-            GetUsersAsAdmin403 | GetUsersAsAdmin404 | GetUsersAsAdmin409
+            | GetUsersAsAdmin403
+            | GetUsersAsAdmin404
+            | GetUsersAsAdmin409
+            | GetUsersAsAdmin500
         >,
         GetUsersAsAdminQueryResponse,
         typeof queryKey
@@ -71,7 +75,10 @@ export function useGetUsersAsAdmin<
             QueryObserverOptions<
                 GetUsersAsAdminQueryResponse,
                 ResponseErrorConfig<
-                    GetUsersAsAdmin403 | GetUsersAsAdmin404 | GetUsersAsAdmin409
+                    | GetUsersAsAdmin403
+                    | GetUsersAsAdmin404
+                    | GetUsersAsAdmin409
+                    | GetUsersAsAdmin500
                 >,
                 TData,
                 TQueryData,
@@ -95,7 +102,10 @@ export function useGetUsersAsAdmin<
     ) as UseQueryResult<
         TData,
         ResponseErrorConfig<
-            GetUsersAsAdmin403 | GetUsersAsAdmin404 | GetUsersAsAdmin409
+            | GetUsersAsAdmin403
+            | GetUsersAsAdmin404
+            | GetUsersAsAdmin409
+            | GetUsersAsAdmin500
         >
     > & { queryKey: TQueryKey };
 
