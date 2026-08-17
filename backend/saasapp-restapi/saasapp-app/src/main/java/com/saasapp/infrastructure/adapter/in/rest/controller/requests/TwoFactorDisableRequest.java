@@ -7,6 +7,4 @@ import jakarta.validation.constraints.NotBlank;
  *
  * @param currentPassword the user's current password for confirmation
  */
-public record TwoFactorDisableRequest(
-        @NotBlank String currentPassword
-) {}
+public record TwoFactorDisableRequest(@NotBlank String currentPassword) {}

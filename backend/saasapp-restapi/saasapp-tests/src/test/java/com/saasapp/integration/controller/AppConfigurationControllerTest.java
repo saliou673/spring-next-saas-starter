@@ -1,5 +1,8 @@
 package com.saasapp.integration.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.saasapp.domain.enumerations.AppConfigurationCategory;
 import com.saasapp.infrastructure.adapter.in.rest.controller.dto.AppConfigurationDTO;
@@ -7,15 +10,11 @@ import com.saasapp.infrastructure.adapter.out.persistence.entity.AppConfiguratio
 import com.saasapp.infrastructure.adapter.out.persistence.repository.AppConfigurationRepository;
 import com.saasapp.infrastructure.adapter.out.query.PaginatedResult;
 import com.saasapp.integration.IntegrationTest;
+import java.time.Instant;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
-
-import java.time.Instant;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DirtiesContext
 class AppConfigurationControllerTest extends IntegrationTest {
@@ -52,10 +51,8 @@ class AppConfigurationControllerTest extends IntegrationTest {
         createAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
         createAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", false);
 
-        PaginatedResult<AppConfigurationDTO> result = get(
-                API + "?active.equals=true",
-                new TypeReference<>() {}, status().isOk()
-        );
+        PaginatedResult<AppConfigurationDTO> result =
+                get(API + "?active.equals=true", new TypeReference<>() {}, status().isOk());
 
         assertThat(result.getTotalItems()).isEqualTo(1);
         assertThat(result.getItems().getFirst().getCode()).isEqualTo("XOF");
@@ -68,13 +65,12 @@ class AppConfigurationControllerTest extends IntegrationTest {
         createAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
         createAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", true);
 
-        PaginatedResult<AppConfigurationDTO> result = get(
-                API + "?category.equals=CURRENCY",
-                new TypeReference<>() {}, status().isOk()
-        );
+        PaginatedResult<AppConfigurationDTO> result =
+                get(API + "?category.equals=CURRENCY", new TypeReference<>() {}, status().isOk());
 
         assertThat(result.getTotalItems()).isEqualTo(2);
-        assertThat(result.getItems()).extracting(AppConfigurationDTO::getCategory)
+        assertThat(result.getItems())
+                .extracting(AppConfigurationDTO::getCategory)
                 .containsOnly(AppConfigurationCategory.CURRENCY);
     }
 
@@ -84,10 +80,8 @@ class AppConfigurationControllerTest extends IntegrationTest {
         createAppConfiguration(AppConfigurationCategory.CURRENCY, "XOF", "Franc CFA", true);
         createAppConfiguration(AppConfigurationCategory.CURRENCY, "EUR", "Euro", false);
 
-        PaginatedResult<AppConfigurationDTO> result = get(
-                API + "?category.equals=CURRENCY&active.equals=true",
-                new TypeReference<>() {}, status().isOk()
-        );
+        PaginatedResult<AppConfigurationDTO> result =
+                get(API + "?category.equals=CURRENCY&active.equals=true", new TypeReference<>() {}, status().isOk());
 
         assertThat(result.getTotalItems()).isEqualTo(1);
         assertThat(result.getItems().getFirst().getCode()).isEqualTo("XOF");
@@ -129,7 +123,8 @@ class AppConfigurationControllerTest extends IntegrationTest {
 
     // endregion
 
-    private AppConfigurationEntity createAppConfiguration(AppConfigurationCategory category, String code, String label, boolean active) {
+    private AppConfigurationEntity createAppConfiguration(
+            AppConfigurationCategory category, String code, String label, boolean active) {
         AppConfigurationEntity entity = new AppConfigurationEntity(null, category, code, label, null, active);
         entity.setCreationDate(Instant.now());
         entity.setLastUpdateDate(Instant.now());

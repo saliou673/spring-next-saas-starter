@@ -15,10 +15,7 @@ import org.mapstruct.ReportingPolicy;
 /**
  * MapStruct mapper between preference domain models and REST DTOs.
  */
-@Mapper(
-        componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedTargetPolicy = ReportingPolicy.ERROR
-)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface UserPreferencesDtoMapper {
 
     default UserPreferencesDTO toDTO(UserPreferences preferences) {
@@ -26,10 +23,7 @@ public interface UserPreferencesDtoMapper {
             return null;
         }
         return new UserPreferencesDTO(
-                toDTO(preferences.appearance()),
-                toDTO(preferences.notifications()),
-                toDTO(preferences.display())
-        );
+                toDTO(preferences.appearance()), toDTO(preferences.notifications()), toDTO(preferences.display()));
     }
 
     default UserPreferences toDomain(UserPreferencesDTO preferences) {
@@ -39,8 +33,7 @@ public interface UserPreferencesDtoMapper {
         return UserPreferences.of(
                 toDomain(preferences.appearance()),
                 toDomain(preferences.notifications()),
-                toDomain(preferences.display())
-        );
+                toDomain(preferences.display()));
     }
 
     default AppearancePreferencesDTO toDTO(AppearancePreferences appearance) {

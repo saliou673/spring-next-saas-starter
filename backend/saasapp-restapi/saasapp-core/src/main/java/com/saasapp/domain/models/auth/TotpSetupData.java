@@ -14,5 +14,4 @@ public record TotpSetupData(
         /**
          * The {@code otpauth://totp/...} URI. Can be encoded as a QR code by the frontend.
          */
-        String otpAuthUri
-) {}
+        String otpAuthUri) {}

@@ -9,10 +9,7 @@ import org.mapstruct.ReportingPolicy;
 /**
  * MapStruct mapper converting an {@link com.saasapp.infrastructure.adapter.in.rest.controller.requests.UpdateUserRequest} to {@link com.saasapp.domain.models.user.UserInfoUpdate}.
  */
-@Mapper(
-        componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedTargetPolicy = ReportingPolicy.IGNORE
-)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UpdateUserRequestMapper {
     UserInfoUpdate toDomain(UpdateUserRequest request);
 }

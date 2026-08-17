@@ -2,10 +2,9 @@ package com.saasapp.domain.models.query;
 
 import com.saasapp.domain.models.query.filter.InstantFilter;
 import com.saasapp.domain.models.query.filter.StringFilter;
-import lombok.*;
-
 import java.io.Serial;
 import java.io.Serializable;
+import lombok.*;
 
 /**
  * Base filter exposing audit-field criteria shared by all entity filters.

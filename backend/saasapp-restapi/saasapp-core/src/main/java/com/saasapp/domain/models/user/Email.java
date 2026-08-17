@@ -1,8 +1,8 @@
 package com.saasapp.domain.models.user;
 
-import com.saasapp.domain.exceptions.InvalidUserNameException;
-
 import static com.saasapp.domain.constants.DomainConstants.EMAIL_PATTERN;
+
+import com.saasapp.domain.exceptions.InvalidUserNameException;
 
 /**
  * Value object representing a validated, normalized (lowercase) email address.

@@ -5,10 +5,9 @@ import com.saasapp.domain.models.query.filter.AppConfigurationCategoryFilter;
 import com.saasapp.domain.models.query.filter.BooleanFilter;
 import com.saasapp.domain.models.query.filter.LongFilter;
 import com.saasapp.domain.models.query.filter.StringFilter;
-import lombok.*;
-
 import java.io.Serial;
 import java.io.Serializable;
+import lombok.*;
 
 /**
  * Filter criteria for querying {@link com.saasapp.domain.models.appconfiguration.AppConfiguration} entries.
@@ -51,9 +50,16 @@ public final class AppConfigurationFilter extends AuditableFilter implements Ser
         this.code = other.code == null ? null : other.code.copy();
         this.label = other.label == null ? null : other.label.copy();
         this.active = other.active == null ? null : other.active.copy();
-        this.setCreationDate(other.getCreationDate() == null ? null : other.getCreationDate().copy());
-        this.setLastUpdateDate(other.getLastUpdateDate() == null ? null : other.getLastUpdateDate().copy());
-        this.setLastUpdatedBy(other.getLastUpdatedBy() == null ? null : other.getLastUpdatedBy().copy());
+        this.setCreationDate(
+                other.getCreationDate() == null ? null : other.getCreationDate().copy());
+        this.setLastUpdateDate(
+                other.getLastUpdateDate() == null
+                        ? null
+                        : other.getLastUpdateDate().copy());
+        this.setLastUpdatedBy(
+                other.getLastUpdatedBy() == null
+                        ? null
+                        : other.getLastUpdatedBy().copy());
     }
 
     public AppConfigurationFilter copy() {

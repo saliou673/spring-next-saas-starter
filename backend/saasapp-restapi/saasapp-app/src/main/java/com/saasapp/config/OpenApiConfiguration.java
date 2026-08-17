@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class OpenApiConfiguration {
     @Bean
-    public OpenAPI fullOpenAPIConfig(@Value("${app.version}") String version,
-                                     @Value("${app.description}") String description) {
+    public OpenAPI fullOpenAPIConfig(
+            @Value("${app.version}") String version, @Value("${app.description}") String description) {
         Info info = new Info()
                 .title("Saasapp REST API")
                 .version(description)

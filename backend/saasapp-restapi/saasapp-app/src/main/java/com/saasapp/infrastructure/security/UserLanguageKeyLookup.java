@@ -2,12 +2,11 @@ package com.saasapp.infrastructure.security;
 
 import com.saasapp.config.CacheConfiguration;
 import com.saasapp.infrastructure.adapter.out.persistence.repository.UserRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 /**
  * Resolves a user's preferred {@code languageKey} by email, caching the result so
@@ -22,7 +21,8 @@ public class UserLanguageKeyLookup {
 
     @Cacheable(CacheConfiguration.USER_LANGUAGE_KEY_CACHE)
     public Optional<String> findByEmail(String email) {
-        return userRepository.findOneByUserCredentialsEmailIgnoreCase(email)
+        return userRepository
+                .findOneByUserCredentialsEmailIgnoreCase(email)
                 .map(user -> user.getUserInfo().getLanguageKey());
     }
 

@@ -7,7 +7,6 @@ public class TwoFactorAlreadyEnabledException extends FunctionalException {
     public TwoFactorAlreadyEnabledException() {
         super(
                 "error.auth.two-factor-already-enabled",
-                "Two-factor authentication is already enabled for this account."
-        );
+                "Two-factor authentication is already enabled for this account.");
     }
 }

@@ -1,10 +1,9 @@
 package com.saasapp.domain.models.auth;
 
 import com.saasapp.domain.models.user.User;
-import lombok.Getter;
-
 import java.time.Instant;
 import java.util.Objects;
+import lombok.Getter;
 
 /**
  * Represents a pending two-factor authentication challenge.
@@ -54,8 +53,7 @@ public class TwoFactorChallenge {
             TwoFactorChallengePurpose purpose,
             boolean rememberMe,
             Instant expiryDate,
-            Instant creationDate
-    ) {
+            Instant creationDate) {
         this.id = Objects.requireNonNull(id, "id must not be null");
         this.user = Objects.requireNonNull(user, "user must not be null");
         this.code = Objects.requireNonNull(code, "code must not be null");
@@ -73,8 +71,7 @@ public class TwoFactorChallenge {
             TwoFactorMethodType type,
             TwoFactorChallengePurpose purpose,
             boolean rememberMe,
-            Instant expiryDate
-    ) {
+            Instant expiryDate) {
         return new TwoFactorChallenge(id, user, code, type, purpose, rememberMe, expiryDate, Instant.now());
     }
 
@@ -86,8 +83,7 @@ public class TwoFactorChallenge {
             TwoFactorChallengePurpose purpose,
             boolean rememberMe,
             Instant expiryDate,
-            Instant creationDate
-    ) {
+            Instant creationDate) {
         return new TwoFactorChallenge(id, user, code, type, purpose, rememberMe, expiryDate, creationDate);
     }
 

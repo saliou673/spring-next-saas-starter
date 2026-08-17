@@ -1,5 +1,7 @@
 package com.saasapp.infrastructure.adapter.in.rest.controller.dto;
 
+import static com.saasapp.domain.constants.DomainConstants.EMAIL_REGEX_PATTERN;
+
 import com.saasapp.domain.enumerations.UserGender;
 import com.saasapp.domain.enumerations.UserStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -8,15 +10,12 @@ import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
-
-import static com.saasapp.domain.constants.DomainConstants.EMAIL_REGEX_PATTERN;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Represents a user, with his resolved permissions.
@@ -109,7 +108,24 @@ public class UserDetailsDTO extends AuditableDTO {
     @NotNull
     private UserPreferencesDTO preferences;
 
-    public UserDetailsDTO(Long id, String email, String firstName, String lastName, @Nullable String phoneNumber, LocalDate birthDate, UserGender gender, @Nullable String address, @Nonnull UserStatus status, String languageKey, @Nullable String imageUrl, @NotNull List<String> permissions, @NotNull List<RoleGroupDTO> roleGroups, @NotNull UserPreferencesDTO preferences, Instant creationDate, Instant lastUpdateDate, String lastUpdatedBy) {
+    public UserDetailsDTO(
+            Long id,
+            String email,
+            String firstName,
+            String lastName,
+            @Nullable String phoneNumber,
+            LocalDate birthDate,
+            UserGender gender,
+            @Nullable String address,
+            @Nonnull UserStatus status,
+            String languageKey,
+            @Nullable String imageUrl,
+            @NotNull List<String> permissions,
+            @NotNull List<RoleGroupDTO> roleGroups,
+            @NotNull UserPreferencesDTO preferences,
+            Instant creationDate,
+            Instant lastUpdateDate,
+            String lastUpdatedBy) {
         super(creationDate, lastUpdateDate, lastUpdatedBy);
         this.id = id;
         this.email = email;
@@ -126,5 +142,4 @@ public class UserDetailsDTO extends AuditableDTO {
         this.roleGroups = roleGroups;
         this.preferences = preferences;
     }
-
 }

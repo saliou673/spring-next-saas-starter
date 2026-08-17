@@ -1,5 +1,7 @@
 package com.saasapp.infrastructure.adapter.in.rest.controller.dto;
 
+import static com.saasapp.domain.constants.DomainConstants.EMAIL_REGEX_PATTERN;
+
 import com.saasapp.domain.enumerations.UserGender;
 import com.saasapp.domain.enumerations.UserStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -7,11 +9,7 @@ import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-
 import java.time.LocalDate;
-import java.util.List;
-
-import static com.saasapp.domain.constants.DomainConstants.EMAIL_REGEX_PATTERN;
 
 /**
  * Represents a user, with his resolved permissions.
@@ -20,39 +18,26 @@ import static com.saasapp.domain.constants.DomainConstants.EMAIL_REGEX_PATTERN;
 public record UserSummaryDTO(
         Long id,
 
-        @Pattern(regexp = EMAIL_REGEX_PATTERN)
-        @NotBlank
-        String email,
+        @Pattern(regexp = EMAIL_REGEX_PATTERN) @NotBlank String email,
 
-        @Nullable
-        String phoneNumber,
+        @Nullable String phoneNumber,
 
-        @NotBlank
-        String firstName,
+        @NotBlank String firstName,
 
-        @NotBlank
-        String lastName,
+        @NotBlank String lastName,
 
-        @NotNull
-        LocalDate birthDate,
+        @NotNull LocalDate birthDate,
 
-        @NotNull
-        UserGender gender,
+        @NotNull UserGender gender,
 
-        @Nullable
-        String address,
+        @Nullable String address,
 
-        @Nullable
-        UserStatus status,
+        @Nullable UserStatus status,
 
         String languageKey,
 
-        @Nullable
-        String imageUrl,
+        @Nullable String imageUrl,
 
-        @NotNull
-        UserPreferencesDTO preferences,
+        @NotNull UserPreferencesDTO preferences,
 
-        boolean twoFactorEnabled) {
-
-}
+        boolean twoFactorEnabled) {}

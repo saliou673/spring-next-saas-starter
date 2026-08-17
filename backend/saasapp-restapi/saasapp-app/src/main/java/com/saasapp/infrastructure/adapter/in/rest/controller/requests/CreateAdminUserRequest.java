@@ -2,12 +2,10 @@ package com.saasapp.infrastructure.adapter.in.rest.controller.requests;
 
 import com.saasapp.domain.constants.DomainConstants;
 import com.saasapp.domain.enumerations.UserGender;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
-
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -19,31 +17,21 @@ public record CreateAdminUserRequest(
         @Pattern(regexp = DomainConstants.EMAIL_REGEX_PATTERN, message = "Invalid email")
         String email,
 
-        @NotBlank(message = "firstName must not be blank")
-        String firstName,
+        @NotBlank(message = "firstName must not be blank") String firstName,
 
-        @NotBlank(message = "lastName must not be blank")
-        String lastName,
+        @NotBlank(message = "lastName must not be blank") String lastName,
 
-        @Nullable
-        LocalDate birthDate,
+        @Nullable LocalDate birthDate,
 
-        @Nullable
-        UserGender gender,
+        @Nullable UserGender gender,
 
-        @Nullable
-        String phoneNumber,
+        @Nullable String phoneNumber,
 
-        @Nullable
-        String address,
+        @Nullable String address,
 
-        @Nullable
-        String languageKey,
+        @Nullable String languageKey,
 
-        @Nullable
-        String imageUrl,
+        @Nullable String imageUrl,
 
         @NotEmpty(message = "roleGroupNames must not be empty")
-        Set<@NotBlank(message = "role group name must not be blank") String> roleGroupNames
-) {
-}
+        Set<@NotBlank(message = "role group name must not be blank") String> roleGroupNames) {}

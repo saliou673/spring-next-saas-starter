@@ -1,10 +1,9 @@
 package com.saasapp.infrastructure.adapter.out.persistence.repository;
 
 import com.saasapp.infrastructure.adapter.out.persistence.entity.UserPreferenceEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.List;
 import java.util.Set;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * Repository for user preference rows.

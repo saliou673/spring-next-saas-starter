@@ -2,7 +2,6 @@ package com.saasapp.domain.ports.in;
 
 import com.saasapp.domain.models.user.User;
 import com.saasapp.domain.models.user.UserInfoUpdate;
-
 import java.util.Set;
 
 /**

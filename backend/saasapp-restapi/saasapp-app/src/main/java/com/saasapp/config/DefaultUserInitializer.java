@@ -1,6 +1,5 @@
 package com.saasapp.config;
 
-
 import com.saasapp.domain.constants.DomainConstants;
 import com.saasapp.domain.enumerations.UserGender;
 import com.saasapp.domain.enumerations.UserGroupConstants;
@@ -12,14 +11,12 @@ import com.saasapp.domain.ports.out.PasswordHasherPort;
 import com.saasapp.domain.ports.out.persistenceport.RoleGroupPersistencePort;
 import com.saasapp.domain.ports.out.persistenceport.UserPersistencePort;
 import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
-
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Set;
-
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
 /**
  * Creates the default sysadmin user on startup when running outside the test profile.
@@ -54,7 +51,8 @@ public class DefaultUserInitializer {
     }
 
     private User createUserObject(String email, String firstName, String roleGroupName) {
-        String passwordHash = passwordHasherPort.hash(applicationProperties.getDefaultUser().password());
+        String passwordHash =
+                passwordHasherPort.hash(applicationProperties.getDefaultUser().password());
         UserInfo userInfo = new UserInfo(
                 firstName,
                 "Dev",
@@ -63,19 +61,9 @@ public class DefaultUserInitializer {
                 UserGender.MALE,
                 "Guinée",
                 DomainConstants.DEFAULT_LANGUAGE,
-                null
-        );
-        UserCredentials credentials = new UserCredentials(
-                email,
-                passwordHash,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
+                null);
+        UserCredentials credentials =
+                new UserCredentials(email, passwordHash, null, null, null, null, null, null, null);
         User user = User.create(userInfo, credentials);
         user.assignRoleGroups(getRoleGroups(roleGroupName));
         user.activate(Instant.now());

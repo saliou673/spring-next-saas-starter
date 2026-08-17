@@ -2,7 +2,6 @@ package com.saasapp.domain.models.user;
 
 import com.saasapp.domain.enumerations.UserGender;
 import com.saasapp.domain.models.DomainValidation;
-
 import java.time.LocalDate;
 
 /**
@@ -25,8 +24,7 @@ public record UserInfo(
         UserGender gender,
         String address,
         String languageKey,
-        String imageUrl
-) {
+        String imageUrl) {
 
     public UserInfo {
         DomainValidation.checkRequiredField(firstName, "firstName");
@@ -42,8 +40,6 @@ public record UserInfo(
                 update.gender() != null ? update.gender() : gender,
                 update.address(),
                 update.languageKey(),
-                update.imageUrl()
-        );
+                update.imageUrl());
     }
-
 }

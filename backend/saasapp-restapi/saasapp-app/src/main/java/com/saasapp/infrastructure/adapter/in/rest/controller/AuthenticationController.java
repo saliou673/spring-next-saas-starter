@@ -40,7 +40,8 @@ public class AuthenticationController {
      */
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@Valid @RequestBody LoginRequest loginForm) {
-        LoginResult result = authenticationUseCase.login(loginForm.email(), loginForm.password(), loginForm.rememberMe());
+        LoginResult result =
+                authenticationUseCase.login(loginForm.email(), loginForm.password(), loginForm.rememberMe());
 
         return switch (result) {
             case LoginResult.Complete complete -> {
@@ -49,9 +50,9 @@ public class AuthenticationController {
                 headers.setBearerAuth(token.accessToken());
                 yield new ResponseEntity<>(token, headers, HttpStatus.OK);
             }
-            case LoginResult.TwoFactorRequired twoFactor -> ResponseEntity.accepted().body(
-                    new TwoFactorChallengeResponse(twoFactor.challengeId(), twoFactor.type())
-            );
+            case LoginResult.TwoFactorRequired twoFactor ->
+                ResponseEntity.accepted()
+                        .body(new TwoFactorChallengeResponse(twoFactor.challengeId(), twoFactor.type()));
         };
     }
 

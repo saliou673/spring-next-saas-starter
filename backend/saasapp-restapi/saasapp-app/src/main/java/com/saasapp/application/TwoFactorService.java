@@ -12,10 +12,6 @@ import com.saasapp.domain.ports.out.PasswordHasherPort;
 import com.saasapp.domain.ports.out.TwoFactorProviderPort;
 import com.saasapp.domain.ports.out.persistenceport.TwoFactorChallengePersistencePort;
 import com.saasapp.domain.ports.out.persistenceport.UserPersistencePort;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +19,9 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Application service implementing {@link TwoFactorUseCase}: 2FA setup, confirmation, disable, and login verification.
@@ -47,10 +46,9 @@ public class TwoFactorService implements TwoFactorUseCase {
             PasswordHasherPort passwordHasherPort,
             CurrentUserEmailPort currentUserEmailPort,
             ApplicationProperties applicationProperties,
-            AuthenticationService authenticationService
-    ) {
-        this.providers = providers.stream()
-                .collect(Collectors.toMap(TwoFactorProviderPort::getType, Function.identity()));
+            AuthenticationService authenticationService) {
+        this.providers =
+                providers.stream().collect(Collectors.toMap(TwoFactorProviderPort::getType, Function.identity()));
         this.challengePersistencePort = challengePersistencePort;
         this.userPersistencePort = userPersistencePort;
         this.passwordHasherPort = passwordHasherPort;
@@ -72,16 +70,10 @@ public class TwoFactorService implements TwoFactorUseCase {
 
         challengePersistencePort.deleteByUserId(user.getId());
 
-        Instant expiryDate = Instant.now().plus(applicationProperties.getTwoFactor().codeValidityPeriod());
+        Instant expiryDate =
+                Instant.now().plus(applicationProperties.getTwoFactor().codeValidityPeriod());
         TwoFactorChallenge challenge = TwoFactorChallenge.create(
-                UUID.randomUUID().toString(),
-                user,
-                code,
-                type,
-                TwoFactorChallengePurpose.SETUP,
-                false,
-                expiryDate
-        );
+                UUID.randomUUID().toString(), user, code, type, TwoFactorChallengePurpose.SETUP, false, expiryDate);
         challengePersistencePort.save(challenge);
 
         return provider.buildSetupData(user, code);
@@ -119,12 +111,11 @@ public class TwoFactorService implements TwoFactorUseCase {
 
         if (!user.isTwoFactorEnabled()) {
             throw new FunctionalException(
-                    "error.two-factor.not-enabled",
-                    "Two-factor authentication is not enabled for this account."
-            );
+                    "error.two-factor.not-enabled", "Two-factor authentication is not enabled for this account.");
         }
 
-        if (!passwordHasherPort.matches(currentPassword, user.getUserCredentials().getPasswordHash())) {
+        if (!passwordHasherPort.matches(
+                currentPassword, user.getUserCredentials().getPasswordHash())) {
             throw new InvalidCurrentPasswordException();
         }
 
@@ -135,7 +126,8 @@ public class TwoFactorService implements TwoFactorUseCase {
 
     @Override
     public JwtToken verifyLoginChallenge(String challengeId, String code) {
-        TwoFactorChallenge challenge = challengePersistencePort.findById(challengeId)
+        TwoFactorChallenge challenge = challengePersistencePort
+                .findById(challengeId)
                 .orElseThrow(InvalidTwoFactorChallengeException::notFoundOrExpired);
 
         if (!TwoFactorChallengePurpose.LOGIN.equals(challenge.getPurpose())) {
@@ -155,22 +147,21 @@ public class TwoFactorService implements TwoFactorUseCase {
 
         challengePersistencePort.deleteById(challengeId);
 
-        String authorities = user.resolvePermissions()
-                .stream()
-                .map(Permission::code)
-                .collect(Collectors.joining(" "));
+        String authorities =
+                user.resolvePermissions().stream().map(Permission::code).collect(Collectors.joining(" "));
 
-        AuthenticatedUser authenticatedUser = new AuthenticatedUser(
-                user.getUserCredentials().getEmail(),
-                authorities
-        );
+        AuthenticatedUser authenticatedUser =
+                new AuthenticatedUser(user.getUserCredentials().getEmail(), authorities);
 
-        return authenticationService.completeLogin(authenticatedUser, user.getUserCredentials().getEmail(), challenge.isRememberMe()).token();
+        return authenticationService
+                .completeLogin(authenticatedUser, user.getUserCredentials().getEmail(), challenge.isRememberMe())
+                .token();
     }
 
     private User getCurrentUser() {
         String email = currentUserEmailPort.getCurrentUserEmail();
-        return userPersistencePort.findWithAuthoritiesByEmail(email)
+        return userPersistencePort
+                .findWithAuthoritiesByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException(email));
     }
 

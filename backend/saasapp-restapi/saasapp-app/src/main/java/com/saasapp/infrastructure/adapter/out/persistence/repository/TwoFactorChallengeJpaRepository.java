@@ -2,9 +2,8 @@ package com.saasapp.infrastructure.adapter.out.persistence.repository;
 
 import com.saasapp.domain.models.auth.TwoFactorChallengePurpose;
 import com.saasapp.infrastructure.adapter.out.persistence.entity.TwoFactorChallengeEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * Spring Data JPA repository for {@link TwoFactorChallengeEntity}.

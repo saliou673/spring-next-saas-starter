@@ -1,12 +1,11 @@
 package com.saasapp.infrastructure.adapter.in.rest.controller.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.Instant;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.Instant;
 
 @Schema(name = "Auditable")
 @Getter

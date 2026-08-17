@@ -11,7 +11,6 @@ public class AppConfigurationAlreadyExistsException extends FunctionalException 
                 "error.app-configuration.already-exists",
                 "Reference data with category " + category + " and code " + code + " already exists.",
                 category,
-                code
-        );
+                code);
     }
 }

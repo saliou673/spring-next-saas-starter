@@ -5,6 +5,9 @@ import com.saasapp.domain.exceptions.*;
 import com.saasapp.domain.models.user.AuthenticatedUser;
 import com.saasapp.domain.ports.out.JwtTokenPort;
 import com.saasapp.infrastructure.security.JwtSecurityConstants;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -23,10 +26,6 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.stream.Collectors;
-
 /**
  * Adapter implementing {@link com.saasapp.domain.ports.out.JwtTokenPort} using Spring Security OAuth2 JWT.
  */
@@ -41,18 +40,15 @@ public class JwtTokenAdapter implements JwtTokenPort {
 
     @Override
     public AuthenticatedUser authenticate(String email, String password) {
-        UsernamePasswordAuthenticationToken authToken =
-                new UsernamePasswordAuthenticationToken(email, password);
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(email, password);
 
         try {
-            Authentication authentication = authenticationManagerBuilder
-                    .getObject()
-                    .authenticate(authToken);
+            Authentication authentication =
+                    authenticationManagerBuilder.getObject().authenticate(authToken);
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            String authorities = authentication.getAuthorities()
-                    .stream()
+            String authorities = authentication.getAuthorities().stream()
                     .map(GrantedAuthority::getAuthority)
                     .collect(Collectors.joining(StringUtils.SPACE));
 
@@ -91,7 +87,9 @@ public class JwtTokenAdapter implements JwtTokenPort {
                 .build();
 
         JwsHeader jwsHeader = JwsHeader.with(JwtSecurityConstants.JWT_ALGORITHM).build();
-        return this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claims)).getTokenValue();
+        return this.jwtEncoder
+                .encode(JwtEncoderParameters.from(jwsHeader, claims))
+                .getTokenValue();
     }
 
     @Override

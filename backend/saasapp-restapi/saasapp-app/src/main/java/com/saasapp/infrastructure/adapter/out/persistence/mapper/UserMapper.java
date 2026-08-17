@@ -1,6 +1,5 @@
 package com.saasapp.infrastructure.adapter.out.persistence.mapper;
 
-
 import com.saasapp.domain.models.rbac.RoleGroup;
 import com.saasapp.domain.models.user.User;
 import com.saasapp.domain.models.user.UserCredentials;
@@ -9,18 +8,16 @@ import com.saasapp.infrastructure.adapter.out.persistence.entity.EmbeddableCrede
 import com.saasapp.infrastructure.adapter.out.persistence.entity.EmbeddableUserInfo;
 import com.saasapp.infrastructure.adapter.out.persistence.entity.RoleGroupEntity;
 import com.saasapp.infrastructure.adapter.out.persistence.entity.UserEntity;
+import java.util.Set;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 
-import java.util.Set;
-
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.ERROR,
-        uses = {RoleGroupMapper.class}
-)
+        uses = {RoleGroupMapper.class})
 /** MapStruct mapper between {@link com.saasapp.infrastructure.adapter.out.persistence.entity.UserEntity} and the {@link com.saasapp.domain.models.user.User} domain model. */
 public interface UserMapper {
 
@@ -46,8 +43,7 @@ public interface UserMapper {
                 null,
                 entity.getCreationDate(),
                 entity.getLastUpdateDate(),
-                entity.getLastUpdatedBy()
-        );
+                entity.getLastUpdatedBy());
     }
 
     UserInfo toDomain(EmbeddableUserInfo embeddableUserInfo);

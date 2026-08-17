@@ -7,8 +7,7 @@ import org.mapstruct.*;
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.ERROR,
-        uses = UserMapper.class
-)
+        uses = UserMapper.class)
 /** MapStruct mapper between {@link com.saasapp.infrastructure.adapter.out.persistence.entity.AuthTokenEntity} and {@link com.saasapp.domain.models.auth.AuthToken}. */
 public interface AuthTokenMapper {
 
@@ -23,8 +22,7 @@ public interface AuthTokenMapper {
                 entity.getRememberMe(),
                 entity.getExpiryDate(),
                 userMapper.toDomain(entity.getUser()),
-                entity.getCreationDate()
-        );
+                entity.getCreationDate());
     }
 
     @Mapping(target = "creationDate", ignore = true)

@@ -18,12 +18,11 @@
  */
 package com.saasapp.domain.models.query.filter;
 
+import java.util.Objects;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.Objects;
 
 /**
  * Filter class for Comparable types, where less than / greater than / etc relations could be interpreted. It can be
@@ -102,12 +101,10 @@ public class RangeFilter<FIELD_TYPE extends Comparable<? super FIELD_TYPE>> exte
             return false;
         }
         RangeFilter<?> that = (RangeFilter<?>) o;
-        return (
-                Objects.equals(greaterThan, that.greaterThan) &&
-                        Objects.equals(lessThan, that.lessThan) &&
-                        Objects.equals(greaterThanOrEqual, that.greaterThanOrEqual) &&
-                        Objects.equals(lessThanOrEqual, that.lessThanOrEqual)
-        );
+        return (Objects.equals(greaterThan, that.greaterThan)
+                && Objects.equals(lessThan, that.lessThan)
+                && Objects.equals(greaterThanOrEqual, that.greaterThanOrEqual)
+                && Objects.equals(lessThanOrEqual, that.lessThanOrEqual));
     }
 
     /**
@@ -123,19 +120,16 @@ public class RangeFilter<FIELD_TYPE extends Comparable<? super FIELD_TYPE>> exte
      */
     @Override
     public String toString() {
-        return (
-                getFilterName() +
-                        " [" +
-                        (getEquals() != null ? "equals=" + getEquals() + ", " : "") +
-                        (getNotEquals() != null ? "notEquals=" + getNotEquals() + ", " : "") +
-                        (getSpecified() != null ? "specified=" + getSpecified() + ", " : "") +
-                        (getIn() != null ? "in=" + getIn() + ", " : "") +
-                        (getNotIn() != null ? "notIn=" + getNotIn() + ", " : "") +
-                        (getGreaterThan() != null ? "greaterThan=" + getGreaterThan() + ", " : "") +
-                        (getLessThan() != null ? "lessThan=" + getLessThan() + ", " : "") +
-                        (getGreaterThanOrEqual() != null ? "greaterThanOrEqual=" + getGreaterThanOrEqual() + ", " : "") +
-                        (getLessThanOrEqual() != null ? "lessThanOrEqual=" + getLessThanOrEqual() : "") +
-                        "]"
-        );
+        return (getFilterName() + " ["
+                + (getEquals() != null ? "equals=" + getEquals() + ", " : "")
+                + (getNotEquals() != null ? "notEquals=" + getNotEquals() + ", " : "")
+                + (getSpecified() != null ? "specified=" + getSpecified() + ", " : "")
+                + (getIn() != null ? "in=" + getIn() + ", " : "")
+                + (getNotIn() != null ? "notIn=" + getNotIn() + ", " : "")
+                + (getGreaterThan() != null ? "greaterThan=" + getGreaterThan() + ", " : "")
+                + (getLessThan() != null ? "lessThan=" + getLessThan() + ", " : "")
+                + (getGreaterThanOrEqual() != null ? "greaterThanOrEqual=" + getGreaterThanOrEqual() + ", " : "")
+                + (getLessThanOrEqual() != null ? "lessThanOrEqual=" + getLessThanOrEqual() : "")
+                + "]");
     }
 }

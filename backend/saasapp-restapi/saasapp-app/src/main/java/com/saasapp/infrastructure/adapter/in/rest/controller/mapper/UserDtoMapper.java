@@ -5,14 +5,13 @@ import com.saasapp.domain.models.user.Email;
 import com.saasapp.domain.models.user.User;
 import com.saasapp.infrastructure.adapter.in.rest.controller.dto.UserDetailsDTO;
 import com.saasapp.infrastructure.adapter.in.rest.controller.dto.UserSummaryDTO;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
-
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
 
 /**
  * MapStruct mapper converting {@link com.saasapp.domain.models.user.User} to REST DTOs.
@@ -20,8 +19,7 @@ import java.util.Set;
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.ERROR,
-        uses = {UserPreferencesDtoMapper.class, RoleGroupDtoMapper.class}
-)
+        uses = {UserPreferencesDtoMapper.class, RoleGroupDtoMapper.class})
 public interface UserDtoMapper {
     @Mapping(target = "email", source = "userCredentials.email")
     @Mapping(target = "firstName", source = "userInfo.firstName")
@@ -62,5 +60,4 @@ public interface UserDtoMapper {
                 .sorted(Comparator.naturalOrder())
                 .toList();
     }
-
 }

@@ -1,8 +1,10 @@
 package com.saasapp.infrastructure.adapter.in.rest.controller;
 
-
 import com.saasapp.domain.exceptions.*;
 import com.saasapp.infrastructure.adapter.in.rest.controller.dto.ValidationErrorResponseDTO;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
@@ -15,11 +17,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-
 
 /**
  * Translates domain and validation exceptions into structured, localized HTTP error responses.
@@ -42,7 +39,6 @@ public class GlobalExceptionHandler {
         logError(ex);
         return ResponseEntity.status(ex.getStatusCode()).body(ex.getMessage());
     }
-
 
     @ExceptionHandler(InvalidRefreshTokenException.class)
     public ResponseEntity<ValidationErrorResponseDTO> handleInvalidRefreshToken(InvalidRefreshTokenException ex) {
@@ -83,7 +79,6 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Technical Error", resolveMessage(ex));
     }
 
-
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> IllegalArgumentException(IllegalArgumentException ex) {
         logError(ex);
@@ -98,20 +93,14 @@ public class GlobalExceptionHandler {
         Map<String, String> errors = new HashMap<>();
 
         ex.getBindingResult().getAllErrors().forEach(error -> {
-            String fieldName = error instanceof FieldError ?
-                    ((FieldError) error).getField() :
-                    error.getObjectName();
+            String fieldName = error instanceof FieldError ? ((FieldError) error).getField() : error.getObjectName();
 
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
 
         ValidationErrorResponseDTO errorResponse = new ValidationErrorResponseDTO(
-                LocalDateTime.now(),
-                HttpStatus.BAD_REQUEST.value(),
-                "Validation Error",
-                errors
-        );
+                LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(), "Validation Error", errors);
 
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
@@ -125,19 +114,12 @@ public class GlobalExceptionHandler {
     }
 
     private ResponseEntity<ValidationErrorResponseDTO> buildErrorResponse(
-            HttpStatus status,
-            String title,
-            String message
-    ) {
+            HttpStatus status, String title, String message) {
         Map<String, String> errors = new HashMap<>();
         errors.put("message", message);
 
-        ValidationErrorResponseDTO errorResponse = new ValidationErrorResponseDTO(
-                LocalDateTime.now(),
-                status.value(),
-                title,
-                errors
-        );
+        ValidationErrorResponseDTO errorResponse =
+                new ValidationErrorResponseDTO(LocalDateTime.now(), status.value(), title, errors);
 
         return new ResponseEntity<>(errorResponse, status);
     }
@@ -151,7 +133,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(TwoFactorAlreadyEnabledException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ResponseEntity<ValidationErrorResponseDTO> handleTwoFactorAlreadyEnabled(TwoFactorAlreadyEnabledException ex) {
+    public ResponseEntity<ValidationErrorResponseDTO> handleTwoFactorAlreadyEnabled(
+            TwoFactorAlreadyEnabledException ex) {
         logError(ex);
         return buildErrorResponse(HttpStatus.CONFLICT, "2FA Error", resolveMessage(ex));
     }
@@ -165,7 +148,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RoleGroupNameAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ResponseEntity<ValidationErrorResponseDTO> handleRoleGroupNameConflict(RoleGroupNameAlreadyExistsException ex) {
+    public ResponseEntity<ValidationErrorResponseDTO> handleRoleGroupNameConflict(
+            RoleGroupNameAlreadyExistsException ex) {
         logError(ex);
         return buildErrorResponse(HttpStatus.CONFLICT, "Role Group Error", resolveMessage(ex));
     }
@@ -173,5 +157,4 @@ public class GlobalExceptionHandler {
     private static void logError(Exception ex) {
         log.error("Error occurred: {}", ex.getMessage(), ex);
     }
-
 }

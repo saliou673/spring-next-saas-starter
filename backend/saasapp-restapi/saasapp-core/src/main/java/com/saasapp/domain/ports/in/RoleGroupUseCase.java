@@ -2,7 +2,6 @@ package com.saasapp.domain.ports.in;
 
 import com.saasapp.domain.models.query.PagedResult;
 import com.saasapp.domain.models.rbac.RoleGroup;
-
 import java.util.List;
 import java.util.Set;
 

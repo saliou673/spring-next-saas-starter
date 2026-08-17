@@ -18,10 +18,9 @@
  */
 package com.saasapp.domain.models.query.filter;
 
-import lombok.NoArgsConstructor;
-
 import java.io.Serial;
 import java.time.Duration;
+import lombok.NoArgsConstructor;
 
 /**
  * Filter class for {@link Duration} type attributes.

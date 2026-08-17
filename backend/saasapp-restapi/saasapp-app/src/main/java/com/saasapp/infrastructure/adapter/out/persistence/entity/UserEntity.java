@@ -3,13 +3,12 @@ package com.saasapp.infrastructure.adapter.out.persistence.entity;
 import com.saasapp.domain.enumerations.UserStatus;
 import com.saasapp.domain.models.auth.TwoFactorMethodType;
 import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.BatchSize;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import lombok.*;
+import org.hibernate.annotations.BatchSize;
 
 /**
  * JPA entity mapping the {@code app_user} table.
@@ -47,8 +46,7 @@ public class UserEntity extends AuditableEntity<Long> implements Serializable {
     @JoinTable(
             name = "app_user_role_group",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_group_id")
-    )
+            inverseJoinColumns = @JoinColumn(name = "role_group_id"))
     @BatchSize(size = 20)
     private Set<RoleGroupEntity> roleGroups = new HashSet<>();
 

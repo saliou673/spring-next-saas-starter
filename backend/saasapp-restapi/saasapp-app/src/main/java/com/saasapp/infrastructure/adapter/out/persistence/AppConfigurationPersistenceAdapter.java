@@ -5,11 +5,10 @@ import com.saasapp.domain.models.appconfiguration.AppConfiguration;
 import com.saasapp.domain.ports.out.persistenceport.AppConfigurationPersistencePort;
 import com.saasapp.infrastructure.adapter.out.persistence.mapper.AppConfigurationMapper;
 import com.saasapp.infrastructure.adapter.out.persistence.repository.AppConfigurationRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 /**
  * JPA adapter implementing {@link AppConfigurationPersistencePort}.
@@ -25,56 +24,52 @@ public class AppConfigurationPersistenceAdapter implements AppConfigurationPersi
     @Override
     public AppConfiguration save(AppConfiguration appConfiguration) {
         return AdapterPersistenceUtils.executeDbOperation(
-                () -> appConfigurationMapper.toDomain(appConfigurationRepository.save(appConfigurationMapper.toEntity(appConfiguration))),
-                "Error saving reference data with code: " + appConfiguration.getCode()
-        );
+                () -> appConfigurationMapper.toDomain(
+                        appConfigurationRepository.save(appConfigurationMapper.toEntity(appConfiguration))),
+                "Error saving reference data with code: " + appConfiguration.getCode());
     }
 
     @Override
     public Optional<AppConfiguration> findById(Long id) {
         return AdapterPersistenceUtils.executeDbOperation(
                 () -> appConfigurationRepository.findById(id).map(appConfigurationMapper::toDomain),
-                "Error fetching reference data by id: " + id
-        );
+                "Error fetching reference data by id: " + id);
     }
 
     @Override
     public boolean existsByCategoryAndCode(AppConfigurationCategory category, String code) {
         return AdapterPersistenceUtils.executeDbOperation(
                 () -> appConfigurationRepository.existsByCategoryAndCode(category, code),
-                "Error checking reference data existence for category " + category + " and code: " + code
-        );
+                "Error checking reference data existence for category " + category + " and code: " + code);
     }
 
     @Override
     public boolean existsByCategoryAndCodeAndIdNot(AppConfigurationCategory category, String code, Long excludeId) {
         return AdapterPersistenceUtils.executeDbOperation(
                 () -> appConfigurationRepository.existsByCategoryAndCodeAndIdNot(category, code, excludeId),
-                "Error checking reference data existence for category " + category + " and code: " + code
-        );
+                "Error checking reference data existence for category " + category + " and code: " + code);
     }
 
     @Override
     public boolean existsActiveByCategoryAndCode(AppConfigurationCategory category, String code) {
         return AdapterPersistenceUtils.executeDbOperation(
                 () -> appConfigurationRepository.existsByCategoryAndCodeAndActiveTrue(category, code),
-                "Error checking active reference data existence for category " + category + " and code: " + code
-        );
+                "Error checking active reference data existence for category " + category + " and code: " + code);
     }
 
     @Override
     public Optional<AppConfiguration> findByCategoryAndCode(AppConfigurationCategory category, String code) {
         return AdapterPersistenceUtils.executeDbOperation(
-                () -> appConfigurationRepository.findByCategoryAndCode(category, code).map(appConfigurationMapper::toDomain),
-                "Error fetching reference data for category " + category + " and code: " + code
-        );
+                () -> appConfigurationRepository
+                        .findByCategoryAndCode(category, code)
+                        .map(appConfigurationMapper::toDomain),
+                "Error fetching reference data for category " + category + " and code: " + code);
     }
 
     @Override
     public void remove(AppConfiguration appConfiguration) {
         AdapterPersistenceUtils.executeDbOperation(
                 () -> appConfigurationRepository.delete(appConfigurationMapper.toEntity(appConfiguration)),
-                "Error removing reference data with id: " + appConfiguration.getId()
-        );
+                "Error removing reference data with id: " + appConfiguration.getId());
     }
 }

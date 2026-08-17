@@ -15,8 +15,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public record LoginRequest(
         @NotNull @Size(min = 1, max = 50) String email,
         @NotNull @Size(min = 4, max = 100) String password,
-        boolean rememberMe
-) {
+        boolean rememberMe) {
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
@@ -25,4 +24,3 @@ public record LoginRequest(
                 .toString(); // Do not add the password, it's sensible data
     }
 }
-

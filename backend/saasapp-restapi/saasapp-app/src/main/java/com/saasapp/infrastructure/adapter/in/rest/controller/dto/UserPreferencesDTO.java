@@ -11,6 +11,4 @@ import jakarta.validation.constraints.NotNull;
 public record UserPreferencesDTO(
         @NotNull @Valid AppearancePreferencesDTO appearance,
         @NotNull @Valid NotificationPreferencesDTO notifications,
-        @NotNull @Valid DisplayPreferencesDTO display
-) {
-}
+        @NotNull @Valid DisplayPreferencesDTO display) {}

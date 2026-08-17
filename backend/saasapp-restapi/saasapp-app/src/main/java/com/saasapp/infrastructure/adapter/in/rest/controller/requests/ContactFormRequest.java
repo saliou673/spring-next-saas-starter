@@ -13,20 +13,10 @@ import jakarta.validation.constraints.Size;
  * @param message message body
  */
 public record ContactFormRequest(
-        @NotBlank
-        @Size(max = 100)
-        String name,
+        @NotBlank @Size(max = 100) String name,
 
-        @NotBlank
-        @Email
-        @Size(max = 255)
-        String email,
+        @NotBlank @Email @Size(max = 255) String email,
 
-        @NotBlank
-        @Size(max = 150)
-        String subject,
+        @NotBlank @Size(max = 150) String subject,
 
-        @NotBlank
-        @Size(max = 5000)
-        String message
-) {}
+        @NotBlank @Size(max = 5000) String message) {}

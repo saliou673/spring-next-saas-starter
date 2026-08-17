@@ -4,11 +4,10 @@ import com.saasapp.domain.exceptions.InvalidRefreshTokenExpiryDateException;
 import com.saasapp.domain.exceptions.InvalidRefreshTokenTokenException;
 import com.saasapp.domain.exceptions.InvalidRefreshTokenUserException;
 import com.saasapp.domain.models.user.User;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
-
-import java.time.Instant;
 
 /**
  * Domain aggregate representing a persisted authentication token pair (access + refresh).
@@ -44,7 +43,14 @@ public class AuthToken {
      */
     private final Instant creationDate;
 
-    private AuthToken(Long id, String accessToken, String refreshToken, Boolean rememberMe, Instant expiryDate, User user, Instant creationDate) {
+    private AuthToken(
+            Long id,
+            String accessToken,
+            String refreshToken,
+            Boolean rememberMe,
+            Instant expiryDate,
+            User user,
+            Instant creationDate) {
         if (StringUtils.isBlank(accessToken)) {
             throw new InvalidRefreshTokenTokenException();
         }
@@ -67,11 +73,19 @@ public class AuthToken {
         this.creationDate = creationDate;
     }
 
-    public static AuthToken create(String accessToken, String refreshToken, boolean rememberMe, Instant expiryDate, User user) {
+    public static AuthToken create(
+            String accessToken, String refreshToken, boolean rememberMe, Instant expiryDate, User user) {
         return new AuthToken(null, accessToken, refreshToken, rememberMe, expiryDate, user, Instant.now());
     }
 
-    public static AuthToken rehydrate(Long id, String accessToken, String refreshToken, boolean rememberMe, Instant expiryDate, User user, Instant creationDate) {
+    public static AuthToken rehydrate(
+            Long id,
+            String accessToken,
+            String refreshToken,
+            boolean rememberMe,
+            Instant expiryDate,
+            User user,
+            Instant creationDate) {
         return new AuthToken(id, accessToken, refreshToken, rememberMe, expiryDate, user, creationDate);
     }
 

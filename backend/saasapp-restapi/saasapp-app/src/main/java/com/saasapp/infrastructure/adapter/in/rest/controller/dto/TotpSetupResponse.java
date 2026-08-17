@@ -14,5 +14,4 @@ public record TotpSetupResponse(
         /**
          * The full {@code otpauth://totp/...} URI ready to be encoded as a QR code.
          */
-        String otpAuthUri
-) {}
+        String otpAuthUri) {}

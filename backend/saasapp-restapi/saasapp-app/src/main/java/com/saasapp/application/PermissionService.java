@@ -4,11 +4,10 @@ import com.saasapp.domain.models.query.PagedResult;
 import com.saasapp.domain.models.rbac.Permission;
 import com.saasapp.domain.ports.in.PermissionUseCase;
 import com.saasapp.domain.ports.out.persistenceport.PermissionPersistencePort;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * Application service implementing {@link PermissionUseCase}: read-only permission queries.

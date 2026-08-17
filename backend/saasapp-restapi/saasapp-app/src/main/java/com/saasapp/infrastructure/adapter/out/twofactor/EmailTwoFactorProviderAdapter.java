@@ -7,6 +7,9 @@ import com.saasapp.domain.ports.out.TwoFactorProviderPort;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
+import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
+import java.util.Locale;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -18,10 +21,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
-
-import java.nio.charset.StandardCharsets;
-import java.security.SecureRandom;
-import java.util.Locale;
 
 /**
  * Email-based two-factor authentication provider implementing {@link TwoFactorProviderPort}.
@@ -80,7 +79,8 @@ public class EmailTwoFactorProviderAdapter implements TwoFactorProviderPort {
     }
 
     private void setCodeLifetimeVariables(Context context, Locale locale) {
-        long totalMinutes = applicationProperties.getTwoFactor().codeValidityPeriod().toMinutes();
+        long totalMinutes =
+                applicationProperties.getTwoFactor().codeValidityPeriod().toMinutes();
         long value;
         String unitKey;
 

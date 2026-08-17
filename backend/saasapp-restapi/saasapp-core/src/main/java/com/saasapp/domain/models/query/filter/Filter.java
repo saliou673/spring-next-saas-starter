@@ -18,16 +18,15 @@
  */
 package com.saasapp.domain.models.query.filter;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.Accessors;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 /**
  * Base class for the various attribute filters. It can be added to a criteria class as a member, to support the
@@ -94,13 +93,11 @@ public class Filter<FIELD_TYPE> implements Serializable {
             return false;
         }
         Filter<?> filter = (Filter<?>) o;
-        return (
-                Objects.equals(equals, filter.equals) &&
-                        Objects.equals(notEquals, filter.notEquals) &&
-                        Objects.equals(specified, filter.specified) &&
-                        Objects.equals(in, filter.in) &&
-                        Objects.equals(notIn, filter.notIn)
-        );
+        return (Objects.equals(equals, filter.equals)
+                && Objects.equals(notEquals, filter.notEquals)
+                && Objects.equals(specified, filter.specified)
+                && Objects.equals(in, filter.in)
+                && Objects.equals(notIn, filter.notIn));
     }
 
     /**
@@ -116,16 +113,13 @@ public class Filter<FIELD_TYPE> implements Serializable {
      */
     @Override
     public String toString() {
-        return (
-                getFilterName() +
-                        " [" +
-                        (getEquals() != null ? "equals=" + getEquals() + ", " : "") +
-                        (getNotEquals() != null ? "notEquals=" + getNotEquals() + ", " : "") +
-                        (getSpecified() != null ? "specified=" + getSpecified() + ", " : "") +
-                        (getIn() != null ? "in=" + getIn() + ", " : "") +
-                        (getNotIn() != null ? "notIn=" + getNotIn() : "") +
-                        "]"
-        );
+        return (getFilterName() + " ["
+                + (getEquals() != null ? "equals=" + getEquals() + ", " : "")
+                + (getNotEquals() != null ? "notEquals=" + getNotEquals() + ", " : "")
+                + (getSpecified() != null ? "specified=" + getSpecified() + ", " : "")
+                + (getIn() != null ? "in=" + getIn() + ", " : "")
+                + (getNotIn() != null ? "notIn=" + getNotIn() : "")
+                + "]");
     }
 
     /**

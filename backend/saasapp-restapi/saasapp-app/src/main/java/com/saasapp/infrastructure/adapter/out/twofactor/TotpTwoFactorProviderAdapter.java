@@ -5,19 +5,18 @@ import com.saasapp.domain.models.auth.TotpSetupData;
 import com.saasapp.domain.models.auth.TwoFactorMethodType;
 import com.saasapp.domain.models.user.User;
 import com.saasapp.domain.ports.out.TwoFactorProviderPort;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.binary.Base32;
-import org.springframework.stereotype.Service;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 import java.net.URLEncoder;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.Optional;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Base32;
+import org.springframework.stereotype.Service;
 
 /**
  * TOTP two-factor authentication provider (Google Authenticator compatible).
@@ -28,10 +27,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TotpTwoFactorProviderAdapter implements TwoFactorProviderPort {
 
-    private static final int SECRET_BYTES = 20;    // 160-bit HMAC-SHA1 key
+    private static final int SECRET_BYTES = 20; // 160-bit HMAC-SHA1 key
     private static final int TOTP_DIGITS = 6;
-    private static final int TOTP_PERIOD = 30;      // seconds
-    private static final int TOTP_WINDOW = 1;       // steps allowed before/after current
+    private static final int TOTP_PERIOD = 30; // seconds
+    private static final int TOTP_WINDOW = 1; // steps allowed before/after current
     private static final Base32 BASE32 = new Base32();
     private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
@@ -79,7 +78,10 @@ public class TotpTwoFactorProviderAdapter implements TwoFactorProviderPort {
             }
             return false;
         } catch (Exception e) {
-            log.warn("TOTP verification failed for user: {}", user.getUserCredentials().getEmail(), e);
+            log.warn(
+                    "TOTP verification failed for user: {}",
+                    user.getUserCredentials().getEmail(),
+                    e);
             return false;
         }
     }

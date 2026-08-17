@@ -1,10 +1,9 @@
 package com.saasapp;
 
 import com.saasapp.util.EnvironmentFileLoader;
+import java.io.FileNotFoundException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.io.FileNotFoundException;
 
 @SpringBootApplication
 public class RestapiApplication {
@@ -13,5 +12,4 @@ public class RestapiApplication {
         EnvironmentFileLoader.load(); // The .env file should be loaded before the spring boot app starts running.
         SpringApplication.run(RestapiApplication.class, args);
     }
-
 }

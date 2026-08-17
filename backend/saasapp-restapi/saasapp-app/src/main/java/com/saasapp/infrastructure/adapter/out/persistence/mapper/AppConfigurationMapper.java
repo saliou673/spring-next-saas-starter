@@ -10,10 +10,7 @@ import org.mapstruct.ReportingPolicy;
 /**
  * MapStruct mapper between {@link com.saasapp.infrastructure.adapter.out.persistence.entity.AppConfigurationEntity} and {@link com.saasapp.domain.models.appconfiguration.AppConfiguration}.
  */
-@Mapper(
-        componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedTargetPolicy = ReportingPolicy.ERROR
-)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface AppConfigurationMapper {
 
     @Mapping(target = "creationDate", ignore = true)
@@ -34,7 +31,6 @@ public interface AppConfigurationMapper {
                 entity.isActive(),
                 entity.getCreationDate(),
                 entity.getLastUpdateDate(),
-                entity.getLastUpdatedBy()
-        );
+                entity.getLastUpdatedBy());
     }
 }

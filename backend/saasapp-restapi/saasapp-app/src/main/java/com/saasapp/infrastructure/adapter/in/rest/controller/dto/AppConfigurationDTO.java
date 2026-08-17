@@ -2,10 +2,9 @@ package com.saasapp.infrastructure.adapter.in.rest.controller.dto;
 
 import com.saasapp.domain.enumerations.AppConfigurationCategory;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.Instant;
 
 @Schema(name = "AppConfiguration")
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
@@ -47,8 +46,7 @@ public class AppConfigurationDTO extends AuditableDTO {
             boolean active,
             Instant creationDate,
             Instant lastUpdateDate,
-            String lastUpdatedBy
-    ) {
+            String lastUpdatedBy) {
         super(creationDate, lastUpdateDate, lastUpdatedBy);
         this.id = id;
         this.category = category;

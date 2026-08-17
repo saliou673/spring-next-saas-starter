@@ -22,10 +22,14 @@ public class SecurityMetersService {
     private final Counter tokenMalformedCounter;
 
     public SecurityMetersService(MeterRegistry registry) {
-        this.tokenInvalidSignatureCounter = invalidTokensCounterForCauseBuilder("invalid-signature").register(registry);
-        this.tokenExpiredCounter = invalidTokensCounterForCauseBuilder("expired").register(registry);
-        this.tokenUnsupportedCounter = invalidTokensCounterForCauseBuilder("unsupported").register(registry);
-        this.tokenMalformedCounter = invalidTokensCounterForCauseBuilder("malformed").register(registry);
+        this.tokenInvalidSignatureCounter =
+                invalidTokensCounterForCauseBuilder("invalid-signature").register(registry);
+        this.tokenExpiredCounter =
+                invalidTokensCounterForCauseBuilder("expired").register(registry);
+        this.tokenUnsupportedCounter =
+                invalidTokensCounterForCauseBuilder("unsupported").register(registry);
+        this.tokenMalformedCounter =
+                invalidTokensCounterForCauseBuilder("malformed").register(registry);
     }
 
     private Counter.Builder invalidTokensCounterForCauseBuilder(String cause) {

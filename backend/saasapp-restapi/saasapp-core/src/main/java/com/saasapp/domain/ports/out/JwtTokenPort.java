@@ -1,8 +1,6 @@
 package com.saasapp.domain.ports.out;
 
-
 import com.saasapp.domain.models.user.AuthenticatedUser;
-
 import java.time.Instant;
 
 /**

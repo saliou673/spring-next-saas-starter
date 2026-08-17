@@ -17,17 +17,16 @@ import com.saasapp.domain.ports.out.persistenceport.AppConfigurationPersistenceP
 import com.saasapp.domain.ports.out.persistenceport.AuthTokenPersistencePort;
 import com.saasapp.domain.ports.out.persistenceport.RoleGroupPersistencePort;
 import com.saasapp.domain.ports.out.persistenceport.UserPersistencePort;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.security.SecureRandom;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAmount;
 import java.util.*;
 import java.util.function.Predicate;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Application service implementing {@link AccountUseCase}: user registration, activation, profile, and account recovery.
@@ -94,10 +93,12 @@ public class UserService implements AccountUseCase {
 
     @Override
     public void completeInvitation(String invitationCode, String newPassword) {
-        User user = userPersistencePort.findByResetCode(invitationCode)
+        User user = userPersistencePort
+                .findByResetCode(invitationCode)
                 .filter(u -> u.getStatus() == UserStatus.NOT_ACTIVATED)
                 .filter(u -> u.getUserCredentials().getResetDate() != null)
-                .filter(u -> u.getUserCredentials().getResetDate()
+                .filter(u -> u.getUserCredentials()
+                        .getResetDate()
                         .isAfter(Instant.now().minus(getManagedUserInvitationCodeValidityPeriod())))
                 .orElseThrow(InvalidResetCodeException::forInvitation);
 
@@ -108,7 +109,8 @@ public class UserService implements AccountUseCase {
 
     @Override
     public void activateRegistration(String activationCode) {
-        User user = userPersistencePort.findByActivationCode(activationCode)
+        User user = userPersistencePort
+                .findByActivationCode(activationCode)
                 .orElseThrow(() -> new ActivationCodeNotFoundException(activationCode));
 
         try {
@@ -128,9 +130,11 @@ public class UserService implements AccountUseCase {
 
     @Override
     public void completePasswordReset(String newPassword, String resetCode) {
-        User user = userPersistencePort.findByResetCode(resetCode)
+        User user = userPersistencePort
+                .findByResetCode(resetCode)
                 .filter(u -> u.getUserCredentials().getResetDate() != null)
-                .filter(u -> u.getUserCredentials().getResetDate()
+                .filter(u -> u.getUserCredentials()
+                        .getResetDate()
                         .isAfter(Instant.now().minus(getResetCodeValidityPeriod())))
                 .orElseThrow(InvalidResetCodeException::new);
 
@@ -141,14 +145,17 @@ public class UserService implements AccountUseCase {
 
     @Override
     public void requestPasswordReset(String email) {
-        userPersistencePort.findByEmail(email)
+        userPersistencePort
+                .findByEmail(email)
                 .filter(User::isActive)
-                .ifPresentOrElse(user -> {
-                    String resetCode = generateUniqueCode(userPersistencePort::existsByResetCode, "reset");
-                    user.updateResetCode(resetCode, Instant.now());
-                    User savedUser = userPersistencePort.save(user);
-                    notificationSenderPort.sendPasswordResetNotification(savedUser);
-                }, () -> log.warn("Cannot reset password for unactivated or not found user {}", email));
+                .ifPresentOrElse(
+                        user -> {
+                            String resetCode = generateUniqueCode(userPersistencePort::existsByResetCode, "reset");
+                            user.updateResetCode(resetCode, Instant.now());
+                            User savedUser = userPersistencePort.save(user);
+                            notificationSenderPort.sendPasswordResetNotification(savedUser);
+                        },
+                        () -> log.warn("Cannot reset password for unactivated or not found user {}", email));
     }
 
     @Override
@@ -175,10 +182,10 @@ public class UserService implements AccountUseCase {
     @Override
     public void changePassword(String currentPassword, String newPassword) {
         String email = getCurrentUserEmail();
-        User user = userPersistencePort.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException(email));
+        User user = userPersistencePort.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
 
-        if (!passwordHasherPort.matches(currentPassword, user.getUserCredentials().getPasswordHash())) {
+        if (!passwordHasherPort.matches(
+                currentPassword, user.getUserCredentials().getPasswordHash())) {
             throw new InvalidCurrentPasswordException();
         }
 
@@ -190,7 +197,8 @@ public class UserService implements AccountUseCase {
     @Override
     public User getCurrentUserWithAuthorities() {
         String email = getCurrentUserEmail();
-        return userPersistencePort.findWithAuthoritiesByEmail(email)
+        return userPersistencePort
+                .findWithAuthoritiesByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException(email));
     }
 
@@ -249,16 +257,14 @@ public class UserService implements AccountUseCase {
         if (!user.isDeactivated()) {
             throw new FunctionalException(
                     "error.account.recovery-not-available",
-                    "Account recovery is available only for deactivated accounts."
-            );
+                    "Account recovery is available only for deactivated accounts.");
         }
 
         Instant cutoff = Instant.now().minus(getSoftDeletedUserRetentionPeriod());
         if (user.getLastUpdateDate() != null && user.getLastUpdateDate().isBefore(cutoff)) {
             throw new FunctionalException(
                     "error.account.recovery-period-expired",
-                    "The recovery period has expired. Your account has been permanently deleted."
-            );
+                    "The recovery period has expired. Your account has been permanently deleted.");
         }
 
         if (!passwordHasherPort.matches(password, user.getUserCredentials().getPasswordHash())) {
@@ -271,7 +277,8 @@ public class UserService implements AccountUseCase {
 
     @Override
     public void removeSoftDeletedUsers() {
-        // TODO: Improve this method to check if the user is linked to any data (table) and then really anonymize the user and the set the status to DELETED.
+        // TODO: Improve this method to check if the user is linked to any data (table) and then really anonymize the
+        // user and the set the status to DELETED.
         Instant date = Instant.now().minus(getSoftDeletedUserRetentionPeriod());
         log.info("Deleting soft-deleted users since {}", date);
         int count = userPersistencePort.deleteByStatusAndLastUpdateDateBefore(UserStatus.DEACTIVATED, date);
@@ -286,17 +293,13 @@ public class UserService implements AccountUseCase {
         String normalizedNew = newEmail.toLowerCase().trim();
         if (normalizedNew.equals(user.getUserCredentials().getEmail())) {
             throw new FunctionalException(
-                    "error.email-change.same-as-current",
-                    "The new email must be different from your current email."
-            );
+                    "error.email-change.same-as-current", "The new email must be different from your current email.");
         }
 
         Instant lastRequest = user.getUserCredentials().getEmailChangeCodeDate();
         if (lastRequest != null && lastRequest.isAfter(Instant.now().minus(1, ChronoUnit.MINUTES))) {
             throw new FunctionalException(
-                    "error.email-change.cooldown",
-                    "Please wait before requesting another email change code."
-            );
+                    "error.email-change.cooldown", "Please wait before requesting another email change code.");
         }
 
         userPersistencePort.findByEmail(normalizedNew).ifPresent(existingUser -> {
@@ -364,10 +367,10 @@ public class UserService implements AccountUseCase {
         }
         throw new TechnicalException(
                 "error.technical.code-generation-failed",
-                "Unable to generate a unique " + codeType + " code after " + MAX_CODE_GENERATION_ATTEMPTS + " attempts.",
+                "Unable to generate a unique " + codeType + " code after " + MAX_CODE_GENERATION_ATTEMPTS
+                        + " attempts.",
                 codeType,
-                MAX_CODE_GENERATION_ATTEMPTS
-        );
+                MAX_CODE_GENERATION_ATTEMPTS);
     }
 
     private static String getRandomCode(int size) {
@@ -382,10 +385,7 @@ public class UserService implements AccountUseCase {
 
         userPersistencePort.findByEmail(email).ifPresent(existingUser -> {
             if (existingUser.isActivationExpired(getNonActivatedUserRetentionPeriod())) {
-                log.warn(
-                        "User with email {} already exists but is not activated. Deleting existing user.",
-                        email
-                );
+                log.warn("User with email {} already exists but is not activated. Deleting existing user.", email);
                 userPersistencePort.remove(existingUser);
             } else {
                 throw new UserAlreadyExistsException(email);
@@ -405,14 +405,11 @@ public class UserService implements AccountUseCase {
 
     private void secureCredentials(User user) {
         Objects.requireNonNull(user.getUserCredentials());
-        user.secureCredentials(passwordHasherPort.hash(
-                user.getUserCredentials().getPasswordHash()
-        ));
+        user.secureCredentials(passwordHasherPort.hash(user.getUserCredentials().getPasswordHash()));
     }
 
     private User getUserByEmailOrThrow(String email) {
-        return userPersistencePort.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException(email));
+        return userPersistencePort.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
     }
 
     private TemporalAmount getNonActivatedUserRetentionPeriod() {
@@ -446,7 +443,6 @@ public class UserService implements AccountUseCase {
     }
 
     private User getUserByIdOrThrow(Long id) {
-        return userPersistencePort.findWithAuthoritiesById(id)
-                .orElseThrow(() -> new UserNotFoundException(id));
+        return userPersistencePort.findWithAuthoritiesById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
 }

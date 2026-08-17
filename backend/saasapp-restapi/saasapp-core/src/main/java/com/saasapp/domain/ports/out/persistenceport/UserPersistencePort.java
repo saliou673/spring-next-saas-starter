@@ -2,7 +2,6 @@ package com.saasapp.domain.ports.out.persistenceport;
 
 import com.saasapp.domain.enumerations.UserStatus;
 import com.saasapp.domain.models.user.User;
-
 import java.time.Instant;
 import java.util.Optional;
 

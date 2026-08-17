@@ -1,13 +1,12 @@
 package com.saasapp.infrastructure.adapter.out.persistence.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.BatchSize;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import lombok.*;
+import org.hibernate.annotations.BatchSize;
 
 /**
  * JPA entity mapping the {@code role_group} table.
@@ -17,10 +16,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(
-        name = "role_group",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"name"})
-)
+@Table(name = "role_group", uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
 public class RoleGroupEntity extends AuditableEntity<Long> implements Serializable {
 
     @Serial
@@ -40,8 +36,7 @@ public class RoleGroupEntity extends AuditableEntity<Long> implements Serializab
     @JoinTable(
             name = "role_group_permission",
             joinColumns = @JoinColumn(name = "role_group_id"),
-            inverseJoinColumns = @JoinColumn(name = "permission_code")
-    )
+            inverseJoinColumns = @JoinColumn(name = "permission_code"))
     @BatchSize(size = 20)
     private Set<PermissionEntity> permissions = new HashSet<>();
 

@@ -1,11 +1,10 @@
 package com.saasapp.infrastructure.adapter.out.persistence;
 
 import com.saasapp.domain.exceptions.DataBaseException;
+import java.util.function.Supplier;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.dao.DataAccessException;
-
-import java.util.function.Supplier;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 /** Utility class that wraps JPA operations and converts {@link org.springframework.dao.DataAccessException} into {@link com.saasapp.domain.exceptions.DataBaseException}. */
@@ -26,5 +25,4 @@ public final class AdapterPersistenceUtils {
             throw new DataBaseException(errorMessage, e);
         }
     }
-
 }

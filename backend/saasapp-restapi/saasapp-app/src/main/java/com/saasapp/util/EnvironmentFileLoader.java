@@ -1,19 +1,16 @@
 package com.saasapp.util;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Strings;
-
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Stream;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Slf4j
@@ -33,7 +30,7 @@ public class EnvironmentFileLoader {
             Map<String, String> envProperties = buildEnvironmentVariables(optionalPath.get());
             addVariableToSystemEnvironmentVariable(envProperties);
         } catch (IOException e) {
-            log.error ("Unable to load any .env file. It should only be possible in production.");
+            log.error("Unable to load any .env file. It should only be possible in production.");
         }
     }
 
@@ -41,8 +38,7 @@ public class EnvironmentFileLoader {
         Path startDir = Paths.get(System.getProperty("user.dir"));
 
         try (Stream<Path> paths = Files.walk(startDir, maxDepth)) {
-            return paths
-                    .filter(Files::isRegularFile)
+            return paths.filter(Files::isRegularFile)
                     .filter(path -> Strings.CS.contains(path.toString(), "backend")
                             && Strings.CS.startsWith(path.getFileName().toString(), ".env")
                             && !Strings.CS.equals(path.getFileName().toString(), ".env.example"))

@@ -9,11 +9,10 @@ import com.saasapp.infrastructure.adapter.out.persistence.entity.UserEntity;
 import com.saasapp.infrastructure.adapter.out.persistence.mapper.UserMapper;
 import com.saasapp.infrastructure.adapter.out.persistence.repository.TwoFactorChallengeJpaRepository;
 import com.saasapp.infrastructure.adapter.out.persistence.repository.UserRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 /**
  * JPA adapter implementing {@link TwoFactorChallengePersistencePort}.
@@ -34,46 +33,40 @@ public class TwoFactorChallengePersistenceAdapter implements TwoFactorChallengeP
                     TwoFactorChallengeEntity entity = toEntity(challenge);
                     return toDomain(repository.save(entity), challenge.getUser());
                 },
-                "Error saving 2FA challenge for user: " + challenge.getUser().getId()
-        );
+                "Error saving 2FA challenge for user: " + challenge.getUser().getId());
     }
 
     @Override
     public Optional<TwoFactorChallenge> findById(String id) {
         return AdapterPersistenceUtils.executeDbOperation(
                 () -> repository.findById(id).map(entity -> toDomainWithUser(entity)),
-                "Error fetching 2FA challenge by id: " + id
-        );
+                "Error fetching 2FA challenge by id: " + id);
     }
 
     @Override
     public Optional<TwoFactorChallenge> findByUserIdAndPurpose(Long userId, TwoFactorChallengePurpose purpose) {
         return AdapterPersistenceUtils.executeDbOperation(
-                () -> repository.findByUserIdAndPurpose(userId, purpose)
-                        .map(entity -> toDomainWithUser(entity)),
-                "Error fetching 2FA challenge for user: " + userId
-        );
+                () -> repository.findByUserIdAndPurpose(userId, purpose).map(entity -> toDomainWithUser(entity)),
+                "Error fetching 2FA challenge for user: " + userId);
     }
 
     @Override
     public void deleteById(String id) {
         AdapterPersistenceUtils.executeDbOperation(
-                () -> repository.deleteById(id),
-                "Error deleting 2FA challenge by id: " + id
-        );
+                () -> repository.deleteById(id), "Error deleting 2FA challenge by id: " + id);
     }
 
     @Override
     public void deleteByUserId(Long userId) {
         AdapterPersistenceUtils.executeDbOperation(
-                () -> repository.deleteByUserId(userId),
-                "Error deleting 2FA challenges for user: " + userId
-        );
+                () -> repository.deleteByUserId(userId), "Error deleting 2FA challenges for user: " + userId);
     }
 
     private TwoFactorChallengeEntity toEntity(TwoFactorChallenge challenge) {
-        UserEntity userEntity = userRepository.findById(challenge.getUser().getId())
-                .orElseThrow(() -> new IllegalStateException("User not found: " + challenge.getUser().getId()));
+        UserEntity userEntity = userRepository
+                .findById(challenge.getUser().getId())
+                .orElseThrow(() -> new IllegalStateException(
+                        "User not found: " + challenge.getUser().getId()));
         return new TwoFactorChallengeEntity(
                 challenge.getId(),
                 userEntity,
@@ -82,8 +75,7 @@ public class TwoFactorChallengePersistenceAdapter implements TwoFactorChallengeP
                 challenge.getPurpose(),
                 challenge.isRememberMe(),
                 challenge.getExpiryDate(),
-                challenge.getCreationDate()
-        );
+                challenge.getCreationDate());
     }
 
     private TwoFactorChallenge toDomainWithUser(TwoFactorChallengeEntity entity) {
@@ -100,7 +92,6 @@ public class TwoFactorChallengePersistenceAdapter implements TwoFactorChallengeP
                 entity.getPurpose(),
                 entity.isRememberMe(),
                 entity.getExpiryDate(),
-                entity.getCreationDate()
-        );
+                entity.getCreationDate());
     }
 }

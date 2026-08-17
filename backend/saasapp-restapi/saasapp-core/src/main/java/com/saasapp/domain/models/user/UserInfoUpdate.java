@@ -1,7 +1,6 @@
 package com.saasapp.domain.models.user;
 
 import com.saasapp.domain.enumerations.UserGender;
-
 import java.time.LocalDate;
 
 /**
@@ -24,7 +23,4 @@ public record UserInfoUpdate(
         UserGender gender,
         String address,
         String languageKey,
-        String imageUrl
-) {
-
-}
+        String imageUrl) {}

@@ -2,7 +2,6 @@ package com.saasapp.domain.ports.out.persistenceport;
 
 import com.saasapp.domain.enumerations.AppConfigurationCategory;
 import com.saasapp.domain.models.appconfiguration.AppConfiguration;
-
 import java.util.Optional;
 
 /**

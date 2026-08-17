@@ -9,8 +9,5 @@ import jakarta.validation.constraints.NotBlank;
  * @param newEmail the desired new email address
  */
 public record EmailChangeRequest(
-        @NotBlank(message = "New email is required")
-        @Email(message = "New email must be a valid email address")
-        String newEmail
-) {
-}
+        @NotBlank(message = "New email is required") @Email(message = "New email must be a valid email address")
+        String newEmail) {}

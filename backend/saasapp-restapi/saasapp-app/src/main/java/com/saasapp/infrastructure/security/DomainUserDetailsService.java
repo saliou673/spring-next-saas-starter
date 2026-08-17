@@ -7,6 +7,7 @@ import com.saasapp.domain.models.rbac.Permission;
 import com.saasapp.domain.models.user.User;
 import com.saasapp.domain.ports.out.persistenceport.UserDetailsPersistencePort;
 import jakarta.annotation.Nonnull;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.internal.constraintvalidators.bv.EmailValidator;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,8 +15,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * Authenticate a user from the database.
@@ -44,13 +43,15 @@ public class DomainUserDetailsService implements UserDetailsService {
             throw new AccountNotActivatedException(email);
         }
 
-        List<SimpleGrantedAuthority> grantedAuthorities = user
-                .resolvePermissions()
-                .stream()
+        List<SimpleGrantedAuthority> grantedAuthorities = user.resolvePermissions().stream()
                 .map(Permission::code)
                 .map(SimpleGrantedAuthority::new)
                 .toList();
 
-        return new AuthenticatedUser(user.getUserCredentials().getEmail(), user.getUserCredentials().getPasswordHash(), grantedAuthorities, user.getUserInfo().languageKey());
+        return new AuthenticatedUser(
+                user.getUserCredentials().getEmail(),
+                user.getUserCredentials().getPasswordHash(),
+                grantedAuthorities,
+                user.getUserInfo().languageKey());
     }
 }

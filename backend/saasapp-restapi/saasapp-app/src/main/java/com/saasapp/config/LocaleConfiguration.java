@@ -3,6 +3,7 @@ package com.saasapp.config;
 import com.saasapp.infrastructure.security.AuthenticatedUser;
 import com.saasapp.infrastructure.security.UserLanguageKeyLookup;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Locale;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Bean;
@@ -12,8 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
-
-import java.util.Locale;
 
 /**
  * By default, all users will speak french. The i18n will come in next versions.
@@ -35,7 +34,8 @@ public class LocaleConfiguration {
         return new AcceptHeaderLocaleResolver() {
             @Override
             public Locale resolveLocale(HttpServletRequest request) {
-                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                Authentication authentication =
+                        SecurityContextHolder.getContext().getAuthentication();
                 String languageKey = resolveLanguageKey(authentication);
 
                 if (StringUtils.isNotBlank(languageKey)) {

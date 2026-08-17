@@ -1,5 +1,10 @@
 package com.saasapp.integration.controller;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.saasapp.domain.models.contact.ContactForm;
 import com.saasapp.domain.ports.out.NotificationSenderPort;
 import com.saasapp.infrastructure.adapter.in.rest.controller.requests.ContactFormRequest;
@@ -7,11 +12,6 @@ import com.saasapp.integration.IntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DirtiesContext
 class ContactFormControllerTest extends IntegrationTest {
@@ -27,8 +27,7 @@ class ContactFormControllerTest extends IntegrationTest {
                 "John Doe",
                 "john.doe@example.com",
                 "Question about my stamp",
-                "I would like to know the status of my order."
-        );
+                "I would like to know the status of my order.");
 
         post(API, request, status().isNoContent());
 
@@ -39,24 +38,15 @@ class ContactFormControllerTest extends IntegrationTest {
     @Test
     void shouldBePubliclyAccessibleWithoutAuthentication() throws Exception {
         // No createUser() call — endpoint must be reachable without a JWT
-        ContactFormRequest request = new ContactFormRequest(
-                "Jane Doe",
-                "jane.doe@example.com",
-                "Hello",
-                "Just a quick question."
-        );
+        ContactFormRequest request =
+                new ContactFormRequest("Jane Doe", "jane.doe@example.com", "Hello", "Just a quick question.");
 
         post(API, request, status().isNoContent());
     }
 
     @Test
     void shouldReturnBadRequestWhenNameIsBlank() throws Exception {
-        ContactFormRequest request = new ContactFormRequest(
-                "",
-                "john@example.com",
-                "Subject",
-                "A message."
-        );
+        ContactFormRequest request = new ContactFormRequest("", "john@example.com", "Subject", "A message.");
 
         post(API, request, status().isBadRequest());
 
@@ -66,12 +56,7 @@ class ContactFormControllerTest extends IntegrationTest {
 
     @Test
     void shouldReturnBadRequestWhenEmailIsBlank() throws Exception {
-        ContactFormRequest request = new ContactFormRequest(
-                "John Doe",
-                "",
-                "Subject",
-                "A message."
-        );
+        ContactFormRequest request = new ContactFormRequest("John Doe", "", "Subject", "A message.");
 
         post(API, request, status().isBadRequest());
 
@@ -81,12 +66,7 @@ class ContactFormControllerTest extends IntegrationTest {
 
     @Test
     void shouldReturnBadRequestWhenEmailIsInvalid() throws Exception {
-        ContactFormRequest request = new ContactFormRequest(
-                "John Doe",
-                "not-a-valid-email",
-                "Subject",
-                "A message."
-        );
+        ContactFormRequest request = new ContactFormRequest("John Doe", "not-a-valid-email", "Subject", "A message.");
 
         post(API, request, status().isBadRequest());
 
@@ -96,12 +76,7 @@ class ContactFormControllerTest extends IntegrationTest {
 
     @Test
     void shouldReturnBadRequestWhenSubjectIsBlank() throws Exception {
-        ContactFormRequest request = new ContactFormRequest(
-                "John Doe",
-                "john@example.com",
-                "",
-                "A message."
-        );
+        ContactFormRequest request = new ContactFormRequest("John Doe", "john@example.com", "", "A message.");
 
         post(API, request, status().isBadRequest());
 
@@ -111,12 +86,7 @@ class ContactFormControllerTest extends IntegrationTest {
 
     @Test
     void shouldReturnBadRequestWhenMessageIsBlank() throws Exception {
-        ContactFormRequest request = new ContactFormRequest(
-                "John Doe",
-                "john@example.com",
-                "Subject",
-                ""
-        );
+        ContactFormRequest request = new ContactFormRequest("John Doe", "john@example.com", "Subject", "");
 
         post(API, request, status().isBadRequest());
 

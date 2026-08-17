@@ -1,9 +1,8 @@
 package com.saasapp.domain.models.query.filter;
 
 import com.saasapp.domain.enumerations.AppConfigurationCategory;
-import lombok.NoArgsConstructor;
-
 import java.io.Serial;
+import lombok.NoArgsConstructor;
 
 /**
  * Filter class for {@link AppConfigurationCategory} enum attributes.

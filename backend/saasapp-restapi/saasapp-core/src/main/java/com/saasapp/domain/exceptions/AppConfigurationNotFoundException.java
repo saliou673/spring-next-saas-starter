@@ -8,11 +8,7 @@ import com.saasapp.domain.enumerations.AppConfigurationCategory;
 public class AppConfigurationNotFoundException extends FunctionalException {
 
     public AppConfigurationNotFoundException(Long id) {
-        super(
-                "error.app-configuration.not-found-by-id",
-                "Reference data not found with id " + id + ".",
-                id
-        );
+        super("error.app-configuration.not-found-by-id", "Reference data not found with id " + id + ".", id);
     }
 
     public AppConfigurationNotFoundException(AppConfigurationCategory category, String code) {
@@ -20,7 +16,6 @@ public class AppConfigurationNotFoundException extends FunctionalException {
                 "error.app-configuration.not-found-by-category-code",
                 "Reference data not found for category " + category + " and code " + code + ".",
                 category,
-                code
-        );
+                code);
     }
 }

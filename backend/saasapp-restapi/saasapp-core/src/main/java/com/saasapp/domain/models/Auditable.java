@@ -1,11 +1,10 @@
 package com.saasapp.domain.models;
 
+import java.time.Instant;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.Instant;
 
 /**
  * Base class carrying audit metadata for all domain entities.

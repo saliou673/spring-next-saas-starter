@@ -18,9 +18,8 @@
  */
 package com.saasapp.domain.models.query.filter;
 
-import lombok.NoArgsConstructor;
-
 import java.io.Serial;
+import lombok.NoArgsConstructor;
 
 /**
  * Class for filtering attributes with {@link Boolean} type. It can be added to a criteria class as a member, to support
@@ -39,7 +38,6 @@ public class BooleanFilter extends Filter<Boolean> {
 
     @Serial
     private static final long serialVersionUID = 1L;
-
 
     /**
      * <p>Constructor for BooleanFilter.</p>

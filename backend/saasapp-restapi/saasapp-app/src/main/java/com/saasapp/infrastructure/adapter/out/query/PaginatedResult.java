@@ -2,13 +2,11 @@ package com.saasapp.infrastructure.adapter.out.query;
 
 import com.saasapp.domain.models.query.PagedResult;
 import jakarta.annotation.Nonnull;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
-
+import lombok.Getter;
+import lombok.Setter;
 
 @Setter
 @Getter
@@ -35,7 +33,6 @@ public class PaginatedResult<T> {
      * Total number of matching items.
      */
     private final long totalItems;
-
 
     public <E> PaginatedResult(PagedResult<E> pagedResult, Function<E, T> toDTO) {
         this.items = pagedResult.items().stream().map(toDTO).toList();

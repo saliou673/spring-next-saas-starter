@@ -1,5 +1,8 @@
 package com.saasapp.integration.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.saasapp.infrastructure.adapter.in.rest.controller.dto.SecuritySettingsDTO;
 import com.saasapp.infrastructure.adapter.in.rest.controller.requests.UpsertSecuritySettingsRequest;
 import com.saasapp.infrastructure.adapter.out.persistence.repository.SecuritySettingsRepository;
@@ -8,9 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DirtiesContext
 class AdminSecuritySettingsControllerTest extends IntegrationTest {
@@ -55,7 +55,8 @@ class AdminSecuritySettingsControllerTest extends IntegrationTest {
         assertThat(result.getLastUpdatedBy()).isNotBlank();
 
         assertThat(securitySettingsRepository.findAll()).hasSize(1);
-        assertThat(securitySettingsRepository.findAll().get(0).isTwoFactorRequired()).isTrue();
+        assertThat(securitySettingsRepository.findAll().get(0).isTwoFactorRequired())
+                .isTrue();
     }
 
     @Test
@@ -66,12 +67,14 @@ class AdminSecuritySettingsControllerTest extends IntegrationTest {
         assertThat(securitySettingsRepository.findAll()).hasSize(1);
 
         // Second upsert — disable 2FA requirement
-        SecuritySettingsDTO result = put(API, new UpsertSecuritySettingsRequest(false), SecuritySettingsDTO.class, status().isOk());
+        SecuritySettingsDTO result =
+                put(API, new UpsertSecuritySettingsRequest(false), SecuritySettingsDTO.class, status().isOk());
 
         assertThat(result.isTwoFactorRequired()).isFalse();
         // Still only one row (singleton)
         assertThat(securitySettingsRepository.findAll()).hasSize(1);
-        assertThat(securitySettingsRepository.findAll().get(0).isTwoFactorRequired()).isFalse();
+        assertThat(securitySettingsRepository.findAll().get(0).isTwoFactorRequired())
+                .isFalse();
     }
 
     @Test

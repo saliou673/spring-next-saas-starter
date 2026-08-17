@@ -9,7 +9,6 @@ public class ActivationCodeNotFoundException extends FunctionalException {
         super(
                 "error.auth.activation-code-not-found",
                 "No account found for activation code " + activationCode + ".",
-                activationCode
-        );
+                activationCode);
     }
 }

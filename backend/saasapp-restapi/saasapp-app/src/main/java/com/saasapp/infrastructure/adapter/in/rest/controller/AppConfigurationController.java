@@ -1,5 +1,7 @@
 package com.saasapp.infrastructure.adapter.in.rest.controller;
 
+import static com.saasapp.util.PaginationConstants.DEFAULT_PAGE_SIZE_INT;
+
 import com.saasapp.domain.enumerations.AppConfigurationCategory;
 import com.saasapp.domain.models.appconfiguration.AppConfiguration;
 import com.saasapp.domain.models.appconfiguration.AppConfigurationFilter;
@@ -23,8 +25,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.saasapp.util.PaginationConstants.DEFAULT_PAGE_SIZE_INT;
-
 /**
  * REST controller for querying application configuration values.
  */
@@ -43,18 +43,21 @@ public class AppConfigurationController {
     @GetMapping
     public PaginatedResult<AppConfigurationDTO> getAppConfigurations(
             AppConfigurationFilter filter,
-            @PageableDefault(size = DEFAULT_PAGE_SIZE_INT, sort = AuditableEntity_.CREATION_DATE, direction = Sort.Direction.DESC) Pageable pageable
-    ) {
-        PagedResult<AppConfiguration> result = appConfigurationQueryUseCase.findAll(filter, pageable.getPageNumber(), pageable.getPageSize());
+            @PageableDefault(
+                            size = DEFAULT_PAGE_SIZE_INT,
+                            sort = AuditableEntity_.CREATION_DATE,
+                            direction = Sort.Direction.DESC)
+                    Pageable pageable) {
+        PagedResult<AppConfiguration> result =
+                appConfigurationQueryUseCase.findAll(filter, pageable.getPageNumber(), pageable.getPageSize());
         return new PaginatedResult<>(result, appConfigurationDtoMapper::toDTO);
     }
 
     @GetMapping("/{category}/{code}")
     public ResponseEntity<AppConfigurationDTO> getAppConfigurationByCategoryAndCode(
-            @PathVariable AppConfigurationCategory category,
-            @PathVariable String code
-    ) {
-        return appConfigurationUseCase.getByCategoryAndCode(category, code)
+            @PathVariable AppConfigurationCategory category, @PathVariable String code) {
+        return appConfigurationUseCase
+                .getByCategoryAndCode(category, code)
                 .map(appConfigurationDtoMapper::toDTO)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

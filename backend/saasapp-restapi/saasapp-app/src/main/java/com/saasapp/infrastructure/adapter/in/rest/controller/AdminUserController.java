@@ -1,5 +1,7 @@
 package com.saasapp.infrastructure.adapter.in.rest.controller;
 
+import static com.saasapp.util.PaginationConstants.DEFAULT_PAGE_SIZE_INT;
+
 import com.saasapp.domain.models.query.PagedResult;
 import com.saasapp.domain.models.rbac.Permission;
 import com.saasapp.domain.models.user.User;
@@ -22,6 +24,8 @@ import com.saasapp.infrastructure.adapter.out.persistence.entity.AuditableEntity
 import com.saasapp.infrastructure.adapter.out.query.PaginatedResult;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.util.Comparator;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -31,18 +35,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Comparator;
-import java.util.List;
-
-import static com.saasapp.util.PaginationConstants.DEFAULT_PAGE_SIZE_INT;
-
 /**
  * REST controller for admin user management.
  */
 @Validated
 @RestController
 @Tag(name = "Admin user management")
-@RequestMapping(path="/api/admin/users", version = "1.0")
+@RequestMapping(path = "/api/admin/users", version = "1.0")
 @RequiredArgsConstructor
 public class AdminUserController {
 
@@ -58,12 +57,9 @@ public class AdminUserController {
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('user:create')")
     public UserDetailsDTO createUserAsAdmin(@Valid @RequestBody CreateAdminUserRequest request) {
-        return userDtoMapper.toDetailsDTO(
-                accountUseCase.createManagedUser(
-                        createAdminUserRequestMapper.toDomain(request),
-                        createAdminUserRequestMapper.toRoleGroupNames(request)
-                )
-        );
+        return userDtoMapper.toDetailsDTO(accountUseCase.createManagedUser(
+                createAdminUserRequestMapper.toDomain(request),
+                createAdminUserRequestMapper.toRoleGroupNames(request)));
     }
 
     @GetMapping("/{id}")
@@ -76,8 +72,11 @@ public class AdminUserController {
     @PreAuthorize("hasAuthority('user:read')")
     public PaginatedResult<UserDetailsDTO> getUsersAsAdmin(
             UserFilter filter,
-            @PageableDefault(size = DEFAULT_PAGE_SIZE_INT, sort = AuditableEntity_.CREATION_DATE, direction = Sort.Direction.DESC) Pageable pageable
-    ) {
+            @PageableDefault(
+                            size = DEFAULT_PAGE_SIZE_INT,
+                            sort = AuditableEntity_.CREATION_DATE,
+                            direction = Sort.Direction.DESC)
+                    Pageable pageable) {
         PagedResult<User> result = userQueryUseCase.findAll(filter, pageable.getPageNumber(), pageable.getPageSize());
         return new PaginatedResult<>(result, userDtoMapper::toDetailsDTO);
     }
@@ -113,9 +112,7 @@ public class AdminUserController {
     @GetMapping("/{id}/permissions")
     @PreAuthorize("hasAuthority('user:read')")
     public List<PermissionDTO> getUserPermissionsAsAdmin(@PathVariable Long id) {
-        return accountUseCase.getUserWithAuthoritiesById(id)
-                .resolvePermissions()
-                .stream()
+        return accountUseCase.getUserWithAuthoritiesById(id).resolvePermissions().stream()
                 .sorted(Comparator.comparing(Permission::code))
                 .map(permissionDtoMapper::toDTO)
                 .toList();
@@ -124,9 +121,7 @@ public class AdminUserController {
     @GetMapping("/{id}/permissions/check")
     @PreAuthorize("hasAuthority('user:read')")
     public PermissionCheckResponse checkUserPermissionAsAdmin(@PathVariable Long id, @RequestParam String code) {
-        boolean hasPermission = accountUseCase.getUserWithAuthoritiesById(id)
-                .resolvePermissions()
-                .stream()
+        boolean hasPermission = accountUseCase.getUserWithAuthoritiesById(id).resolvePermissions().stream()
                 .anyMatch(p -> p.code().equals(code));
         return new PermissionCheckResponse(hasPermission);
     }

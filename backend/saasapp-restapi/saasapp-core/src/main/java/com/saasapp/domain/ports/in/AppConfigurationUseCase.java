@@ -2,7 +2,6 @@ package com.saasapp.domain.ports.in;
 
 import com.saasapp.domain.enumerations.AppConfigurationCategory;
 import com.saasapp.domain.models.appconfiguration.AppConfiguration;
-
 import java.util.Optional;
 
 /**
@@ -44,7 +43,13 @@ public interface AppConfigurationUseCase {
      * @param active      new active flag
      * @return the updated entry
      */
-    AppConfiguration updateByCategoryAndCode(AppConfigurationCategory category, String code, String newCode, String label, String description, boolean active);
+    AppConfiguration updateByCategoryAndCode(
+            AppConfigurationCategory category,
+            String code,
+            String newCode,
+            String label,
+            String description,
+            boolean active);
 
     /**
      * Deletes the configuration entry with the given identifier.

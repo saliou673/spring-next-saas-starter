@@ -21,11 +21,7 @@ public class ContactFormController {
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void sendContactForm(@Valid @RequestBody ContactFormRequest request) {
-        contactFormUseCase.submit(new ContactForm(
-                request.name(),
-                request.email(),
-                request.subject(),
-                request.message()
-        ));
+        contactFormUseCase.submit(
+                new ContactForm(request.name(), request.email(), request.subject(), request.message()));
     }
 }

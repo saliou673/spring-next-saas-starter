@@ -14,6 +14,4 @@ public record StripePaymentIntentDTO(
         /** Amount in the currency's smallest unit (e.g. cents). */
         long amountInSmallestUnit,
         /** ISO 4217 currency code in lowercase (e.g. "usd"). */
-        String currency
-) {
-}
+        String currency) {}

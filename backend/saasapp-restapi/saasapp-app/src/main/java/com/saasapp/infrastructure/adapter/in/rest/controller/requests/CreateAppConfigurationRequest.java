@@ -7,17 +7,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record CreateAppConfigurationRequest(
-        @NotNull(message = "category is required")
-        AppConfigurationCategory category,
+        @NotNull(message = "category is required") AppConfigurationCategory category,
 
-        @NotBlank(message = "code is required")
-        @Size(max = 50, message = "code must not exceed 50 characters")
+        @NotBlank(message = "code is required") @Size(max = 50, message = "code must not exceed 50 characters")
         String code,
 
-        @NotBlank(message = "label is required")
-        String label,
+        @NotBlank(message = "label is required") String label,
 
-        @Nullable
-        String description
-) {
-}
+        @Nullable String description) {}

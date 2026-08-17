@@ -1,5 +1,9 @@
 package com.saasapp.config;
 
+import static org.springframework.http.HttpMethod.*;
+import static org.springframework.security.config.Customizer.withDefaults;
+
+import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,11 +22,6 @@ import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWrite
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-
-import java.util.List;
-
-import static org.springframework.http.HttpMethod.*;
-import static org.springframework.security.config.Customizer.withDefaults;
 
 /**
  * Spring Security configuration: HTTP security, CSRF, session management, and password encoder bean.
@@ -43,8 +42,7 @@ public class SecurityConfiguration {
             new PublicRoute(POST, "/api/accounts/reset-password/finish"),
             new PublicRoute(POST, "/api/accounts/invitation/complete"),
             new PublicRoute(POST, "/api/auth/2fa/verify"),
-            new PublicRoute(POST, "/api/contact")
-    );
+            new PublicRoute(POST, "/api/contact"));
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -53,28 +51,20 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) {
-        http
-                .cors(withDefaults())
+        http.cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .headers(
-                        headers ->
-                                headers
-                                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
-                                        .referrerPolicy(
-                                                referrer -> referrer.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
-                                        )
-                )
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
+                        .referrerPolicy(referrer -> referrer.policy(
+                                ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> {
-                    PUBLIC_ROUTES.forEach(route -> auth.requestMatchers(route.method(), route.patterns()).permitAll());
+                    PUBLIC_ROUTES.forEach(route -> auth.requestMatchers(route.method(), route.patterns())
+                            .permitAll());
                     auth.requestMatchers("/**").authenticated();
                 })
-                .exceptionHandling(
-                        exceptions ->
-                                exceptions
-                                        .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-                                        .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
-                )
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+                        .accessDeniedHandler(new BearerTokenAccessDeniedHandler()))
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()));
         return http.build();
     }
@@ -87,7 +77,8 @@ public class SecurityConfiguration {
         if (cors != null && !CollectionUtils.isEmpty(cors.allowedOrigins())) {
             CorsConfiguration config = new CorsConfiguration();
             config.setAllowedOrigins(cors.allowedOrigins());
-            config.setAllowedMethods(List.of(GET.name(), POST.name(), PUT.name(), DELETE.name(), OPTIONS.name(), PATCH.name()));
+            config.setAllowedMethods(
+                    List.of(GET.name(), POST.name(), PUT.name(), DELETE.name(), OPTIONS.name(), PATCH.name()));
             config.setAllowedHeaders(List.of("*"));
             config.setAllowCredentials(true);
             source.registerCorsConfiguration("/**", config);
@@ -97,5 +88,4 @@ public class SecurityConfiguration {
     }
 
     private record PublicRoute(HttpMethod method, String... patterns) {}
-
 }

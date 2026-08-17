@@ -2,7 +2,6 @@ package com.saasapp.domain.ports.out.persistenceport;
 
 import com.saasapp.domain.models.query.PagedResult;
 import com.saasapp.domain.models.rbac.Permission;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;

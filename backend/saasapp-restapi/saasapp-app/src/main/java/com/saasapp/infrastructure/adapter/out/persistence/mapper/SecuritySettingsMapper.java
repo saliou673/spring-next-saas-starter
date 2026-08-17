@@ -10,10 +10,7 @@ import org.mapstruct.ReportingPolicy;
 /**
  * MapStruct mapper between {@link SecuritySettingsEntity} and {@link SecuritySettings}.
  */
-@Mapper(
-        componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedTargetPolicy = ReportingPolicy.ERROR
-)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface SecuritySettingsMapper {
 
     @Mapping(target = "creationDate", ignore = true)
@@ -30,7 +27,6 @@ public interface SecuritySettingsMapper {
                 entity.isTwoFactorRequired(),
                 entity.getCreationDate(),
                 entity.getLastUpdateDate(),
-                entity.getLastUpdatedBy()
-        );
+                entity.getLastUpdatedBy());
     }
 }

@@ -1,6 +1,7 @@
 package com.saasapp.infrastructure.security;
 
 import com.saasapp.domain.ports.out.CurrentUserEmailPort;
+import java.util.Optional;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -8,8 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 /**
  * Adapter implementing {@link CurrentUserEmailPort} by resolving the email from the Spring Security context.

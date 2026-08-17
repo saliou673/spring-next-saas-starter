@@ -5,9 +5,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import lombok.*;
-
 import java.time.LocalDate;
+import lombok.*;
 
 @Embeddable
 @Getter

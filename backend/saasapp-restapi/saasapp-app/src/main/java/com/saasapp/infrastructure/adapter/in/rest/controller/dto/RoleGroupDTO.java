@@ -1,12 +1,11 @@
 package com.saasapp.infrastructure.adapter.in.rest.controller.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.Instant;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.Instant;
-import java.util.List;
 
 @Schema(name = "RoleGroup")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -38,8 +37,7 @@ public class RoleGroupDTO extends AuditableDTO {
             List<PermissionDTO> permissions,
             Instant creationDate,
             Instant lastUpdateDate,
-            String lastUpdatedBy
-    ) {
+            String lastUpdatedBy) {
         super(creationDate, lastUpdateDate, lastUpdatedBy);
         this.id = id;
         this.name = name;

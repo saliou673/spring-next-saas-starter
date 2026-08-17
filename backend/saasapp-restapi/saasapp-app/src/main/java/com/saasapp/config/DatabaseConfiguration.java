@@ -10,5 +10,4 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableJpaRepositories({"com.saasapp.infrastructure.adapter.out.persistence.repository"})
 @EnableTransactionManagement
-public class DatabaseConfiguration {
-}
+public class DatabaseConfiguration {}

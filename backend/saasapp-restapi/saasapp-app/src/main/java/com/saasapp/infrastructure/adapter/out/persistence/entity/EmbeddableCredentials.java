@@ -2,9 +2,8 @@ package com.saasapp.infrastructure.adapter.out.persistence.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import lombok.*;
-
 import java.time.Instant;
+import lombok.*;
 
 /**
  * Embeddable JPA component for user authentication credentials.

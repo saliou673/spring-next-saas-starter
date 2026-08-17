@@ -39,7 +39,6 @@ public class UserPreferenceService implements UserPreferenceUseCase {
 
     private User getCurrentUser() {
         String email = currentUserEmailPort.getCurrentUserEmail();
-        return userPersistencePort.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException(email));
+        return userPersistencePort.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
     }
 }

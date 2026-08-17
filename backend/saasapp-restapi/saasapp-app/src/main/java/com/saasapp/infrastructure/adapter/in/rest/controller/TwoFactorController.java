@@ -51,7 +51,8 @@ public class TwoFactorController {
      */
     @PostMapping("/accounts/me/2fa/setup")
     public ResponseEntity<?> init2FactorSetup(@Valid @RequestBody TwoFactorSetupRequest request) {
-        return twoFactorUseCase.initSetup(request.type())
+        return twoFactorUseCase
+                .initSetup(request.type())
                 .map(data -> ResponseEntity.ok((Object) new TotpSetupResponse(data.secret(), data.otpAuthUri())))
                 .orElseGet(() -> ResponseEntity.noContent().build());
     }
@@ -71,7 +72,6 @@ public class TwoFactorController {
      */
     @DeleteMapping("/accounts/me/2fa")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-
     public void disable2Factor(@Valid @RequestBody TwoFactorDisableRequest request) {
         twoFactorUseCase.disable(request.currentPassword());
     }

@@ -1,10 +1,9 @@
 package com.saasapp.infrastructure.adapter.out.persistence.repository;
 
 import com.saasapp.infrastructure.adapter.out.persistence.entity.AuthTokenEntity;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 /**
  * Spring Data JPA repository for {@link AuthTokenEntity}.

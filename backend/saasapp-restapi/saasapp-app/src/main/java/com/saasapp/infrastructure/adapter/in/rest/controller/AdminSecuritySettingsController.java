@@ -32,9 +32,8 @@ public class AdminSecuritySettingsController {
 
     @PutMapping
     @PreAuthorize("hasAuthority('config:update')")
-    public SecuritySettingsDTO upsertSecuritySettingsAsAdmin(@Valid @RequestBody UpsertSecuritySettingsRequest request) {
-        return securitySettingsDtoMapper.toDTO(
-                securitySettingsUseCase.upsert(request.twoFactorRequired())
-        );
+    public SecuritySettingsDTO upsertSecuritySettingsAsAdmin(
+            @Valid @RequestBody UpsertSecuritySettingsRequest request) {
+        return securitySettingsDtoMapper.toDTO(securitySettingsUseCase.upsert(request.twoFactorRequired()));
     }
 }
