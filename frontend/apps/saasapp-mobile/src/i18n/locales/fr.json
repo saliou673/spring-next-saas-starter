@@ -679,6 +679,10 @@
             "title": "Le site est en maintenance !",
             "description": "Le site n'est pas disponible pour le moment.\nNous serons bientôt de retour.",
             "learnMore": "En savoir plus"
+        },
+        "notFound": {
+            "title": "Oups ! Page introuvable !",
+            "description": "Il semble que la page que vous recherchez\nn'existe pas ou a peut-être été supprimée."
         }
     }
 }
