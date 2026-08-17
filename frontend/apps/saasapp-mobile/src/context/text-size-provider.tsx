@@ -57,7 +57,6 @@ export function AppTextSizeProvider({ children }: TextSizeProviderProps) {
                 _setTextSize(stored);
             }
         });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []); // intentionally run once on mount only
 
     const setTextSize = useCallback((next: TextSize) => {

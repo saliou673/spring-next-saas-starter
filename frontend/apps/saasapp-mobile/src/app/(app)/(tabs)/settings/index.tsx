@@ -62,6 +62,34 @@ export default function SettingsHomeScreen() {
           />
         </SettingsSection>
 
+        <SettingsSection title={t('legal.nav.sectionTitle')}>
+          <SettingsRow
+            href="/legal/terms"
+            title={t('legal.nav.terms')}
+            icon={{ ios: 'doc.text', android: 'description', web: 'description' }}
+          />
+          <SettingsRow
+            href="/legal/privacy"
+            title={t('legal.nav.privacy')}
+            icon={{ ios: 'hand.raised', android: 'privacy_tip', web: 'privacy_tip' }}
+          />
+          <SettingsRow
+            href="/legal/cookie-policy"
+            title={t('legal.nav.cookiePolicy')}
+            icon={{ ios: 'circle.grid.2x2', android: 'cookie', web: 'cookie' }}
+          />
+          <SettingsRow
+            href="/legal/contact"
+            title={t('legal.nav.contact')}
+            icon={{ ios: 'envelope', android: 'mail', web: 'mail' }}
+          />
+          <SettingsRow
+            href="/legal/help-center"
+            title={t('legal.nav.helpCenter')}
+            icon={{ ios: 'questionmark.circle', android: 'help', web: 'help' }}
+          />
+        </SettingsSection>
+
         {(canReadUsers || canReadRoleGroups || canManageConfigurations) && (
           <SettingsSection title={t('settings.nav.sectionAdmin')}>
             {canReadUsers && (
