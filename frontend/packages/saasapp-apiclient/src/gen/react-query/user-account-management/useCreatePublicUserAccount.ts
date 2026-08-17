@@ -21,6 +21,7 @@ import type {
     CreatePublicUserAccount403,
     CreatePublicUserAccount404,
     CreatePublicUserAccount409,
+    CreatePublicUserAccount500,
 } from "../../types/CreatePublicUserAccount.ts";
 
 export const createPublicUserAccountMutationKey = () =>
@@ -42,6 +43,7 @@ export function createPublicUserAccountMutationOptions<TContext = unknown>(
             | CreatePublicUserAccount403
             | CreatePublicUserAccount404
             | CreatePublicUserAccount409
+            | CreatePublicUserAccount500
         >,
         {
             data: CreatePublicUserAccountMutationRequest;
@@ -67,6 +69,7 @@ export function useCreatePublicUserAccount<TContext>(
                 | CreatePublicUserAccount403
                 | CreatePublicUserAccount404
                 | CreatePublicUserAccount409
+                | CreatePublicUserAccount500
             >,
             {
                 data: CreatePublicUserAccountMutationRequest;
@@ -92,6 +95,7 @@ export function useCreatePublicUserAccount<TContext>(
             | CreatePublicUserAccount403
             | CreatePublicUserAccount404
             | CreatePublicUserAccount409
+            | CreatePublicUserAccount500
         >,
         {
             data: CreatePublicUserAccountMutationRequest;
@@ -106,6 +110,7 @@ export function useCreatePublicUserAccount<TContext>(
             | CreatePublicUserAccount403
             | CreatePublicUserAccount404
             | CreatePublicUserAccount409
+            | CreatePublicUserAccount500
         >,
         {
             data: CreatePublicUserAccountMutationRequest;
@@ -125,6 +130,7 @@ export function useCreatePublicUserAccount<TContext>(
             | CreatePublicUserAccount403
             | CreatePublicUserAccount404
             | CreatePublicUserAccount409
+            | CreatePublicUserAccount500
         >,
         {
             data: CreatePublicUserAccountMutationRequest;

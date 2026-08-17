@@ -40,6 +40,11 @@ export type RefreshToken404 = ValidationErrorResponseDTO;
  */
 export type RefreshToken409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type RefreshToken500 = ValidationErrorResponseDTO;
+
 export type RefreshTokenMutationRequest = string;
 
 export type RefreshTokenMutationResponse = RefreshToken200;
@@ -48,5 +53,9 @@ export type RefreshTokenMutation = {
     Response: RefreshToken200;
     Request: RefreshTokenMutationRequest;
     HeaderParams: RefreshTokenHeaderParams;
-    Errors: RefreshToken403 | RefreshToken404 | RefreshToken409;
+    Errors:
+        | RefreshToken403
+        | RefreshToken404
+        | RefreshToken409
+        | RefreshToken500;
 };

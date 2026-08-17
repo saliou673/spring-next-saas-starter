@@ -47,6 +47,11 @@ export type GetRoleGroupByIdAsAdmin404 = ValidationErrorResponseDTO;
  */
 export type GetRoleGroupByIdAsAdmin409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type GetRoleGroupByIdAsAdmin500 = ValidationErrorResponseDTO;
+
 export type GetRoleGroupByIdAsAdminQueryResponse = GetRoleGroupByIdAsAdmin200;
 
 export type GetRoleGroupByIdAsAdminQuery = {
@@ -56,5 +61,6 @@ export type GetRoleGroupByIdAsAdminQuery = {
     Errors:
         | GetRoleGroupByIdAsAdmin403
         | GetRoleGroupByIdAsAdmin404
-        | GetRoleGroupByIdAsAdmin409;
+        | GetRoleGroupByIdAsAdmin409
+        | GetRoleGroupByIdAsAdmin500;
 };

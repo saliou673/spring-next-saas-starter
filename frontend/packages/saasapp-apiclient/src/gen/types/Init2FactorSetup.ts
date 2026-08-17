@@ -40,6 +40,11 @@ export type Init2FactorSetup404 = ValidationErrorResponseDTO;
  */
 export type Init2FactorSetup409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type Init2FactorSetup500 = ValidationErrorResponseDTO;
+
 export type Init2FactorSetupMutationRequest = TwoFactorSetupRequest;
 
 export type Init2FactorSetupMutationResponse = Init2FactorSetup200;
@@ -48,5 +53,9 @@ export type Init2FactorSetupMutation = {
     Response: Init2FactorSetup200;
     Request: Init2FactorSetupMutationRequest;
     HeaderParams: Init2FactorSetupHeaderParams;
-    Errors: Init2FactorSetup403 | Init2FactorSetup404 | Init2FactorSetup409;
+    Errors:
+        | Init2FactorSetup403
+        | Init2FactorSetup404
+        | Init2FactorSetup409
+        | Init2FactorSetup500;
 };

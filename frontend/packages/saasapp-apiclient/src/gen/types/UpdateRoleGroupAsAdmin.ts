@@ -48,6 +48,11 @@ export type UpdateRoleGroupAsAdmin404 = ValidationErrorResponseDTO;
  */
 export type UpdateRoleGroupAsAdmin409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type UpdateRoleGroupAsAdmin500 = ValidationErrorResponseDTO;
+
 export type UpdateRoleGroupAsAdminMutationRequest = UpdateRoleGroupRequest;
 
 export type UpdateRoleGroupAsAdminMutationResponse = UpdateRoleGroupAsAdmin200;
@@ -60,5 +65,6 @@ export type UpdateRoleGroupAsAdminMutation = {
     Errors:
         | UpdateRoleGroupAsAdmin403
         | UpdateRoleGroupAsAdmin404
-        | UpdateRoleGroupAsAdmin409;
+        | UpdateRoleGroupAsAdmin409
+        | UpdateRoleGroupAsAdmin500;
 };

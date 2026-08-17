@@ -15,6 +15,7 @@ import type {
     ConfirmEmailChange403,
     ConfirmEmailChange404,
     ConfirmEmailChange409,
+    ConfirmEmailChange500,
 } from "../../types/ConfirmEmailChange.ts";
 
 function getConfirmEmailChangeUrl() {
@@ -45,6 +46,7 @@ export async function confirmEmailChange(
             | ConfirmEmailChange403
             | ConfirmEmailChange404
             | ConfirmEmailChange409
+            | ConfirmEmailChange500
         >,
         ConfirmEmailChangeMutationRequest
     >({

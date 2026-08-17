@@ -15,6 +15,7 @@ import type {
     ChangePassword403,
     ChangePassword404,
     ChangePassword409,
+    ChangePassword500,
 } from "../../types/ChangePassword.ts";
 
 function getChangePasswordUrl() {
@@ -39,7 +40,10 @@ export async function changePassword(
     const res = await request<
         ChangePasswordMutationResponse,
         ResponseErrorConfig<
-            ChangePassword403 | ChangePassword404 | ChangePassword409
+            | ChangePassword403
+            | ChangePassword404
+            | ChangePassword409
+            | ChangePassword500
         >,
         ChangePasswordMutationRequest
     >({

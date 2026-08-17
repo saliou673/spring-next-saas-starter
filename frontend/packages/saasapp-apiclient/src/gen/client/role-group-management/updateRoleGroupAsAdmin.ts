@@ -16,6 +16,7 @@ import type {
     UpdateRoleGroupAsAdmin403,
     UpdateRoleGroupAsAdmin404,
     UpdateRoleGroupAsAdmin409,
+    UpdateRoleGroupAsAdmin500,
 } from "../../types/UpdateRoleGroupAsAdmin.ts";
 
 function getUpdateRoleGroupAsAdminUrl(
@@ -46,6 +47,7 @@ export async function updateRoleGroupAsAdmin(
             | UpdateRoleGroupAsAdmin403
             | UpdateRoleGroupAsAdmin404
             | UpdateRoleGroupAsAdmin409
+            | UpdateRoleGroupAsAdmin500
         >,
         UpdateRoleGroupAsAdminMutationRequest
     >({
