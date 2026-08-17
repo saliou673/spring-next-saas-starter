@@ -142,6 +142,142 @@
             "invitationCompleted": "Your account is ready. Sign in with your email and new password."
         }
     },
+    "settings": {
+        "nav": {
+            "title": "Settings",
+            "description": "Manage your profile, account, and app preferences.",
+            "sectionAccount": "Account",
+            "sectionPreferences": "Preferences",
+            "profile": "Profile",
+            "account": "Account",
+            "appearance": "Appearance",
+            "notifications": "Notifications",
+            "display": "Display",
+            "language": "Language"
+        },
+        "account": {
+            "title": "Account",
+            "description": "Manage your email, password, two-factor authentication, and account deletion.",
+            "sectionSecurity": "Security",
+            "sectionDanger": "Danger zone",
+            "email": "Change email",
+            "password": "Change password",
+            "twoFactor": "Two-factor authentication",
+            "delete": "Delete account",
+            "emailChange": {
+                "description": "Enter a new email address. We'll send a code to confirm it.",
+                "confirmDescription": "Enter the code we sent to {{email}}.",
+                "newEmailLabel": "New email",
+                "newEmailPlaceholder": "name@example.com",
+                "emailInvalid": "Please enter a valid email address",
+                "sendButton": "Send code",
+                "codeLabel": "Confirmation code",
+                "codeLength": "Enter the {{count}}-character code",
+                "confirmButton": "Confirm",
+                "cancelButton": "Use a different email",
+                "invalidCode": "That code is invalid or has expired.",
+                "codeSentToast": "Code sent to {{email}}.",
+                "toastChanged": "Your email has been updated."
+            },
+            "changePassword": {
+                "description": "Choose a strong new password.",
+                "currentPasswordLabel": "Current password",
+                "newPasswordLabel": "New password",
+                "confirmPasswordLabel": "Confirm new password",
+                "currentPasswordRequired": "Please enter your current password",
+                "newPasswordRequired": "Please enter a new password",
+                "newPasswordTooShort": "Password must be at least 8 characters long",
+                "newPasswordTooWeak": "Password must include upper, lower, number, and special character",
+                "confirmPasswordRequired": "Please confirm your new password",
+                "passwordsDoNotMatch": "Passwords don't match.",
+                "invalidCurrentPassword": "Your current password is incorrect.",
+                "submit": "Update password",
+                "toastUpdated": "Your password has been updated."
+            },
+            "twoFactorSetup": {
+                "description": "Add an authenticator app for an extra layer of security when signing in.",
+                "enabledDescription": "Two-factor authentication is protecting your account.",
+                "startButton": "Enable two-factor authentication",
+                "startError": "Couldn't start setup. Please try again.",
+                "scanHint": "Scan this QR code with your authenticator app.",
+                "openAuthenticator": "Open in authenticator app",
+                "manualEntryHint": "Or enter this code manually in your authenticator app:",
+                "codeLabel": "Verification code",
+                "codeRequired": "Please enter the code from your authenticator app",
+                "invalidCode": "Invalid verification code",
+                "confirmButton": "Confirm and enable",
+                "toastEnabled": "Two-factor authentication is now enabled."
+            },
+            "twoFactorDisable": {
+                "description": "Enter your current password to turn off two-factor authentication.",
+                "currentPasswordLabel": "Current password",
+                "passwordRequired": "Please enter your current password",
+                "invalidPassword": "Your current password is incorrect.",
+                "submit": "Disable two-factor authentication",
+                "toastDisabled": "Two-factor authentication is now disabled."
+            },
+            "deleteAccount": {
+                "warningTitle": "This can't be undone",
+                "warningBody": "Deleting your account removes your access immediately. Contact an administrator if you change your mind.",
+                "accountLabel": "Account: {{email}}",
+                "confirmationWord": "DELETE",
+                "confirmationLabel": "Type {{word}} to confirm",
+                "confirmationRequired": "Type {{word}} to confirm account deletion",
+                "submit": "Delete my account",
+                "toastDeleted": "Your account has been deleted."
+            }
+        },
+        "profile": {
+            "fields": {
+                "email": "Email",
+                "firstName": "First name",
+                "lastName": "Last name",
+                "phoneNumber": "Phone number",
+                "birthDate": "Birth date",
+                "gender": "Gender",
+                "genderMale": "Male",
+                "genderFemale": "Female",
+                "address": "Address",
+                "imageUrl": "Profile image URL"
+            },
+            "firstNameRequired": "Please enter your first name",
+            "lastNameRequired": "Please enter your last name",
+            "birthDateInvalid": "Use the YYYY-MM-DD format",
+            "submit": "Save changes",
+            "toastUpdated": "Profile updated.",
+            "loadError": "Couldn't load your profile. Please try again."
+        },
+        "appearance": {
+            "description": "Choose how Saasapp looks on this device.",
+            "system": "System",
+            "light": "Light",
+            "dark": "Dark",
+            "saveError": "Couldn't save your appearance preference. Please try again."
+        },
+        "notifications": {
+            "productUpdatesLabel": "Product updates",
+            "productUpdatesDescription": "Receive occasional emails about new features and product news.",
+            "securityLabel": "Security emails",
+            "securityDescription": "Receive emails about your account security. Always on.",
+            "saveError": "Couldn't save your notification preference. Please try again.",
+            "loadError": "Couldn't load your notification preferences. Please try again."
+        },
+        "display": {
+            "textSizeLabel": "Text size",
+            "textSizeDescription": "Adjust how large text appears throughout the app.",
+            "textSizeSmall": "Small",
+            "textSizeDefault": "Default",
+            "textSizeLarge": "Large",
+            "reduceMotionLabel": "Reduce motion",
+            "reduceMotionDescription": "Minimize animations and transitions.",
+            "saveError": "Couldn't save your display preference. Please try again.",
+            "loadError": "Couldn't load your display preferences. Please try again."
+        },
+        "language": {
+            "description": "Choose the language used throughout the app.",
+            "syncError": "Language changed on this device, but couldn't be saved to your account."
+        }
+    },
     "errors": {
         "sessionExpired": "Your session has expired. Please sign in again.",
         "serverError": "Something went wrong on our end. Please try again.",

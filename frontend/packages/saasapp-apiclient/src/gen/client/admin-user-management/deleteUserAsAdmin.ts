@@ -15,6 +15,7 @@ import type {
     DeleteUserAsAdmin403,
     DeleteUserAsAdmin404,
     DeleteUserAsAdmin409,
+    DeleteUserAsAdmin500,
 } from "../../types/DeleteUserAsAdmin.ts";
 
 function getDeleteUserAsAdminUrl(id: DeleteUserAsAdminPathParams["id"]) {
@@ -35,7 +36,10 @@ export async function deleteUserAsAdmin(
     const res = await request<
         DeleteUserAsAdminMutationResponse,
         ResponseErrorConfig<
-            DeleteUserAsAdmin403 | DeleteUserAsAdmin404 | DeleteUserAsAdmin409
+            | DeleteUserAsAdmin403
+            | DeleteUserAsAdmin404
+            | DeleteUserAsAdmin409
+            | DeleteUserAsAdmin500
         >,
         unknown
     >({

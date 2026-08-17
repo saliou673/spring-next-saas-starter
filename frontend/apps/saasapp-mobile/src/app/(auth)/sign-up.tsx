@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
 import { Link, useRouter } from 'expo-router';
-import { useCreatePublicUserAccount } from '@api-client';
+import { useCreatePublicUserAccount, type ValidationErrorResponseDTO } from '@api-client';
 
 import { AuthScreen } from '@/components/auth-screen';
 import { FormTextField } from '@/components/form-text-field';
@@ -11,6 +11,7 @@ import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
 import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
+import { extractApiErrorMessage } from '@/lib/api-error';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MIN_PASSWORD_LENGTH = 8;
@@ -71,9 +72,7 @@ export default function SignUpScreen() {
       return;
     }
 
-    const data = error.response?.data as
-      | { message?: string; errors?: Record<string, string> }
-      | undefined;
+    const data = error.response?.data as ValidationErrorResponseDTO | undefined;
 
     if (data?.errors) {
       setFieldErrors({
@@ -86,7 +85,7 @@ export default function SignUpScreen() {
       if (Object.values(data.errors).some(Boolean)) return;
     }
 
-    setFormError(data?.message ?? t('errors.generic'));
+    setFormError(extractApiErrorMessage(error, t('errors.generic')));
   }
 
   async function onSubmit() {

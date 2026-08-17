@@ -21,6 +21,7 @@ import type {
     GetUserDetails403,
     GetUserDetails404,
     GetUserDetails409,
+    GetUserDetails500,
 } from "../../types/GetUserDetails.ts";
 
 export const getUserDetailsQueryKey = () =>
@@ -36,7 +37,10 @@ export function getUserDetailsQueryOptions(
     return queryOptions<
         GetUserDetailsQueryResponse,
         ResponseErrorConfig<
-            GetUserDetails403 | GetUserDetails404 | GetUserDetails409
+            | GetUserDetails403
+            | GetUserDetails404
+            | GetUserDetails409
+            | GetUserDetails500
         >,
         GetUserDetailsQueryResponse,
         typeof queryKey
@@ -65,7 +69,10 @@ export function useGetUserDetails<
             QueryObserverOptions<
                 GetUserDetailsQueryResponse,
                 ResponseErrorConfig<
-                    GetUserDetails403 | GetUserDetails404 | GetUserDetails409
+                    | GetUserDetails403
+                    | GetUserDetails404
+                    | GetUserDetails409
+                    | GetUserDetails500
                 >,
                 TData,
                 TQueryData,
@@ -89,7 +96,10 @@ export function useGetUserDetails<
     ) as UseQueryResult<
         TData,
         ResponseErrorConfig<
-            GetUserDetails403 | GetUserDetails404 | GetUserDetails409
+            | GetUserDetails403
+            | GetUserDetails404
+            | GetUserDetails409
+            | GetUserDetails500
         >
     > & { queryKey: TQueryKey };
 

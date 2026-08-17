@@ -21,6 +21,7 @@ import type {
     Delete403,
     Delete404,
     Delete409,
+    Delete500,
 } from "../../types/Delete.ts";
 
 export const deleteMutationKey = () =>
@@ -34,7 +35,7 @@ export function deleteMutationOptions<TContext = unknown>(
     const mutationKey = deleteMutationKey();
     return mutationOptions<
         DeleteMutationResponse,
-        ResponseErrorConfig<Delete403 | Delete404 | Delete409>,
+        ResponseErrorConfig<Delete403 | Delete404 | Delete409 | Delete500>,
         { id: DeletePathParams["id"]; headers?: DeleteHeaderParams },
         TContext
     >({
@@ -52,7 +53,7 @@ export function useDelete<TContext>(
     options: {
         mutation?: UseMutationOptions<
             DeleteMutationResponse,
-            ResponseErrorConfig<Delete403 | Delete404 | Delete409>,
+            ResponseErrorConfig<Delete403 | Delete404 | Delete409 | Delete500>,
             { id: DeletePathParams["id"]; headers?: DeleteHeaderParams },
             TContext
         > & { client?: QueryClient };
@@ -65,14 +66,14 @@ export function useDelete<TContext>(
 
     const baseOptions = deleteMutationOptions(config) as UseMutationOptions<
         DeleteMutationResponse,
-        ResponseErrorConfig<Delete403 | Delete404 | Delete409>,
+        ResponseErrorConfig<Delete403 | Delete404 | Delete409 | Delete500>,
         { id: DeletePathParams["id"]; headers?: DeleteHeaderParams },
         TContext
     >;
 
     return useMutation<
         DeleteMutationResponse,
-        ResponseErrorConfig<Delete403 | Delete404 | Delete409>,
+        ResponseErrorConfig<Delete403 | Delete404 | Delete409 | Delete500>,
         { id: DeletePathParams["id"]; headers?: DeleteHeaderParams },
         TContext
     >(
@@ -84,7 +85,7 @@ export function useDelete<TContext>(
         queryClient
     ) as UseMutationResult<
         DeleteMutationResponse,
-        ResponseErrorConfig<Delete403 | Delete404 | Delete409>,
+        ResponseErrorConfig<Delete403 | Delete404 | Delete409 | Delete500>,
         { id: DeletePathParams["id"]; headers?: DeleteHeaderParams },
         TContext
     >;

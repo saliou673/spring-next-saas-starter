@@ -15,6 +15,7 @@ import type {
     Authenticate403,
     Authenticate404,
     Authenticate409,
+    Authenticate500,
 } from "../../types/Authenticate.ts";
 
 function getAuthenticateUrl() {
@@ -39,7 +40,10 @@ export async function authenticate(
     const res = await request<
         AuthenticateMutationResponse,
         ResponseErrorConfig<
-            Authenticate403 | Authenticate404 | Authenticate409
+            | Authenticate403
+            | Authenticate404
+            | Authenticate409
+            | Authenticate500
         >,
         AuthenticateMutationRequest
     >({
