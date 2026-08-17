@@ -1,9 +1,12 @@
+import { useEffect } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Switch, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import { SymbolView, type SymbolViewProps } from 'expo-symbols';
 import {
   displayPreferencesTextSizeEnum,
+  getCurrentUserPreferencesQueryKey,
   useGetCurrentUserPreferences,
   useUpdateCurrentUserPreferences,
   type DisplayPreferencesTextSizeEnumKey,
@@ -15,6 +18,7 @@ import { ThemedText } from '@/components/themed-text';
 import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
+import { useTextSize } from '@/context/text-size-provider';
 
 const TEXT_SIZE_ICONS: Record<DisplayPreferencesTextSizeEnumKey, SymbolViewProps['name']> = {
   SMALL: { ios: 'textformat.size.smaller', android: 'text_decrease', web: 'text_decrease' },
@@ -29,20 +33,47 @@ const TEXT_SIZE_ICONS: Record<DisplayPreferencesTextSizeEnumKey, SymbolViewProps
 export default function DisplayScreen() {
   const { t } = useTranslation();
   const theme = useTheme();
+  const queryClient = useQueryClient();
+  const { textSize, setTextSize } = useTextSize();
   const { data: preferences, isLoading, isError } = useGetCurrentUserPreferences();
 
-  const { mutate: updatePreferences, isPending } = useUpdateCurrentUserPreferences({
-    mutation: { meta: { skipGlobalErrorToast: true } },
-  });
+  // Separate mutation instances so toggling one control's `isPending` (which
+  // drives its `disabled` prop) doesn't also flip the other control's -
+  // sharing one mutation made the reduce-motion Switch flash disabled/enabled
+  // every time a text size button was pressed, and vice versa.
+  const { mutate: updateTextSize, isPending: isTextSizePending } =
+    useUpdateCurrentUserPreferences({
+      mutation: { meta: { skipGlobalErrorToast: true } },
+    });
+  const { mutate: updateReduceMotion, isPending: isReduceMotionPending } =
+    useUpdateCurrentUserPreferences({
+      mutation: { meta: { skipGlobalErrorToast: true } },
+    });
+
+  // Keep the local text size in sync with the account's stored preference,
+  // e.g. after a reinstall or on a second device - same as AppThemeProvider
+  // does for theme in appearance.tsx.
+  useEffect(() => {
+    if (!preferences) return;
+    if (preferences.display.textSize !== textSize) {
+      setTextSize(preferences.display.textSize);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [preferences]);
 
   function onSaveError() {
     showToast(t('settings.display.saveError'), 'error');
   }
 
+  function onSaveSuccess() {
+    void queryClient.invalidateQueries({ queryKey: getCurrentUserPreferencesQueryKey() });
+  }
+
   function onTextSizeChange(textSize: DisplayPreferencesTextSizeEnumKey) {
     if (!preferences) return;
 
-    updatePreferences(
+    setTextSize(textSize);
+    updateTextSize(
       {
         data: {
           appearance: preferences.appearance,
@@ -50,14 +81,14 @@ export default function DisplayScreen() {
           display: { ...preferences.display, textSize },
         },
       },
-      { onError: onSaveError }
+      { onError: onSaveError, onSuccess: onSaveSuccess }
     );
   }
 
   function onReduceMotionChange(reduceMotion: boolean) {
     if (!preferences) return;
 
-    updatePreferences(
+    updateReduceMotion(
       {
         data: {
           appearance: preferences.appearance,
@@ -65,7 +96,7 @@ export default function DisplayScreen() {
           display: { ...preferences.display, reduceMotion },
         },
       },
-      { onError: onSaveError }
+      { onError: onSaveError, onSuccess: onSaveSuccess }
     );
   }
 
@@ -95,12 +126,12 @@ export default function DisplayScreen() {
               </ThemedText>
               <View style={styles.optionRow}>
                 {textSizeOptions.map((option) => {
-                  const selected = option.value === preferences.display.textSize;
+                  const selected = option.value === textSize;
                   return (
                     <Pressable
                       key={option.value}
                       accessibilityRole="button"
-                      disabled={isPending}
+                      disabled={isTextSizePending}
                       onPress={() => onTextSizeChange(option.value)}
                       style={[
                         styles.option,
@@ -135,7 +166,7 @@ export default function DisplayScreen() {
               </View>
               <Switch
                 value={preferences.display.reduceMotion}
-                disabled={isPending}
+                disabled={isReduceMotionPending}
                 onValueChange={onReduceMotionChange}
               />
             </View>
