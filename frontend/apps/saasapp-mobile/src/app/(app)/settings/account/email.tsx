@@ -6,13 +6,14 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Stack, useRouter } from 'expo-router';
 import { getUserDetailsQueryKey, useConfirmEmailChange, useRequestEmailChange } from '@api-client';
 
+import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { FormTextField } from '@/components/form-text-field';
 import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
 import { showToast } from '@/components/toast/toast-store';
 import { Fonts, Spacing } from '@/constants/theme';
+import { extractApiErrorMessage } from '@/lib/api-error';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const CODE_LENGTH = 4;
@@ -52,8 +53,7 @@ export default function ChangeEmailScreen() {
       setStep('confirm');
     } catch (error) {
       if (error instanceof AxiosError) {
-        const data = error.response?.data as { message?: string } | undefined;
-        setFormError(data?.message ?? t('errors.generic'));
+        setFormError(extractApiErrorMessage(error, t('errors.generic')));
         return;
       }
       setFormError(t('errors.generic'));
@@ -74,11 +74,15 @@ export default function ChangeEmailScreen() {
       await confirmChange({ data: { code: trimmedCode } });
       await queryClient.invalidateQueries({ queryKey: getUserDetailsQueryKey() });
       showToast(t('settings.account.emailChange.toastChanged'), 'success');
-      router.back();
+      // The user details refetch above can 401 and force a logout (e.g. a
+      // stale session), which tears down this screen's navigator before we
+      // get here - going back at that point has nothing to go back to.
+      if (router.canGoBack()) {
+        router.back();
+      }
     } catch (error) {
       if (error instanceof AxiosError) {
-        const data = error.response?.data as { message?: string } | undefined;
-        setCodeError(data?.message ?? t('settings.account.emailChange.invalidCode'));
+        setCodeError(extractApiErrorMessage(error, t('settings.account.emailChange.invalidCode')));
         return;
       }
       setFormError(t('errors.generic'));
@@ -100,7 +104,7 @@ export default function ChangeEmailScreen() {
             ? t('settings.account.emailChange.description')
             : t('settings.account.emailChange.confirmDescription', { email: newEmail.trim() })
         }>
-        <ThemedView type="backgroundElement" style={styles.card}>
+        <SettingsCard>
           {step === 'request' ? (
             <>
               <FormTextField
@@ -167,18 +171,13 @@ export default function ChangeEmailScreen() {
               </Pressable>
             </>
           )}
-        </ThemedView>
+        </SettingsCard>
       </SettingsListScreen>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    borderRadius: Spacing.three,
-    padding: Spacing.three,
-    gap: Spacing.three,
-  },
   codeInput: {
     fontFamily: Fonts.mono,
     fontSize: 28,

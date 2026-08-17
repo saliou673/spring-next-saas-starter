@@ -9,6 +9,7 @@ import { AppErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/toast/toaster';
 import { apiBaseUrl } from '@/constants/env';
 import { AppThemeProvider, useAppTheme } from '@/context/theme-provider';
+import { AppTextSizeProvider } from '@/context/text-size-provider';
 import { AuthProvider, useAuth } from '@/hooks/use-auth';
 import i18n, { hydrateStoredLanguage } from '@/i18n';
 import { hydrateAccessToken, setupAuthInterceptor } from '@/lib/auth-interceptor';
@@ -80,11 +81,13 @@ export default function RootLayout() {
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <AppThemeProvider>
-              <NavigationThemeSync>
-                <AnimatedSplashOverlay />
-                <RootNavigator />
-                <Toaster />
-              </NavigationThemeSync>
+              <AppTextSizeProvider>
+                <NavigationThemeSync>
+                  <AnimatedSplashOverlay />
+                  <RootNavigator />
+                  <Toaster />
+                </NavigationThemeSync>
+              </AppTextSizeProvider>
             </AppThemeProvider>
           </AuthProvider>
         </QueryClientProvider>

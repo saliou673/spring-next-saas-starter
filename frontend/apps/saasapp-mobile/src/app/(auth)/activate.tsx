@@ -12,6 +12,7 @@ import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
 import { showToast } from '@/components/toast/toast-store';
 import { Fonts, Spacing } from '@/constants/theme';
+import { extractApiErrorMessage } from '@/lib/api-error';
 
 // Mirrors `UserService.OTP_CODE_SIZE - 1`: 4 uppercase hex characters.
 const CODE_LENGTH = 4;
@@ -69,8 +70,7 @@ export default function ActivateScreen() {
           return;
         }
 
-        const data = error.response?.data as { message?: string } | undefined;
-        setCodeError(data?.message ?? t('auth.activate.invalidCode'));
+        setCodeError(extractApiErrorMessage(error, t('auth.activate.invalidCode')));
         return;
       }
 
@@ -94,14 +94,12 @@ export default function ActivateScreen() {
           return;
         }
 
-        const data = error.response?.data as { message?: string } | undefined;
-
         if (error.response?.status === 404) {
           setFormError(t('auth.activate.noAccount'));
           return;
         }
 
-        setFormError(data?.message ?? t('errors.generic'));
+        setFormError(extractApiErrorMessage(error, t('errors.generic')));
         return;
       }
 

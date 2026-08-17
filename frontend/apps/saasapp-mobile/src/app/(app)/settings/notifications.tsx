@@ -1,11 +1,16 @@
 import { ActivityIndicator, StyleSheet, Switch, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
-import { useGetCurrentUserPreferences, useUpdateCurrentUserPreferences } from '@api-client';
+import {
+  getCurrentUserPreferencesQueryKey,
+  useGetCurrentUserPreferences,
+  useUpdateCurrentUserPreferences,
+} from '@api-client';
 
+import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
 import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
 
@@ -15,6 +20,7 @@ import { Spacing } from '@/constants/theme';
 // app to make a preference meaningful for.
 export default function NotificationsScreen() {
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
   const { data: preferences, isLoading, isError } = useGetCurrentUserPreferences();
 
   const { mutate: updatePreferences, isPending } = useUpdateCurrentUserPreferences({
@@ -34,6 +40,9 @@ export default function NotificationsScreen() {
       },
       {
         onError: () => showToast(t('settings.notifications.saveError'), 'error'),
+        onSuccess: () => {
+          void queryClient.invalidateQueries({ queryKey: getCurrentUserPreferencesQueryKey() });
+        },
       }
     );
   }
@@ -47,7 +56,7 @@ export default function NotificationsScreen() {
         ) : isError || !preferences ? (
           <ThemedText themeColor="danger">{t('settings.notifications.loadError')}</ThemedText>
         ) : (
-          <ThemedView type="backgroundElement" style={styles.card}>
+          <SettingsCard style={styles.card}>
             <View style={styles.switchRow}>
               <View style={styles.switchLabel}>
                 <ThemedText>{t('settings.notifications.productUpdatesLabel')}</ThemedText>
@@ -71,7 +80,7 @@ export default function NotificationsScreen() {
               </View>
               <Switch value disabled />
             </View>
-          </ThemedView>
+          </SettingsCard>
         )}
       </SettingsListScreen>
     </>
@@ -80,8 +89,6 @@ export default function NotificationsScreen() {
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: Spacing.three,
-    padding: Spacing.three,
     gap: Spacing.four,
   },
   switchRow: {

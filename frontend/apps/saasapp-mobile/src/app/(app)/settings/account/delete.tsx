@@ -1,20 +1,16 @@
 import { useState } from 'react';
-import { StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import { Stack, useRouter } from 'expo-router';
 import { useDeleteCurrentAccount, useGetUserDetails } from '@api-client';
 
+import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { FormTextField } from '@/components/form-text-field';
 import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
 import { showToast } from '@/components/toast/toast-store';
-import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/use-auth';
-
-const CONFIRMATION_WORD = 'DELETE';
 
 export default function DeleteAccountScreen() {
   const { t } = useTranslation();
@@ -22,6 +18,8 @@ export default function DeleteAccountScreen() {
   const queryClient = useQueryClient();
   const { signOut } = useAuth();
   const { data: user } = useGetUserDetails();
+
+  const CONFIRMATION_WORD = t('settings.account.deleteAccount.confirmationWord');
 
   const [confirmationText, setConfirmationText] = useState('');
   const [formError, setFormError] = useState<string | null>(null);
@@ -55,7 +53,7 @@ export default function DeleteAccountScreen() {
     <>
       <Stack.Screen options={{ title: t('settings.account.delete') }} />
       <SettingsListScreen>
-        <ThemedView type="backgroundElement" style={styles.card}>
+        <SettingsCard>
           <ThemedText themeColor="danger" type="smallBold">
             {t('settings.account.deleteAccount.warningTitle')}
           </ThemedText>
@@ -92,16 +90,8 @@ export default function DeleteAccountScreen() {
             onPress={() => void onSubmit()}
             isPending={isPending}
           />
-        </ThemedView>
+        </SettingsCard>
       </SettingsListScreen>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  card: {
-    borderRadius: Spacing.three,
-    padding: Spacing.three,
-    gap: Spacing.three,
-  },
-});

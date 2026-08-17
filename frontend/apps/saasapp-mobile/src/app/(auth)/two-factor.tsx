@@ -10,6 +10,7 @@ import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
 import { showToast } from '@/components/toast/toast-store';
 import { useAuth } from '@/hooks/use-auth';
+import { extractApiErrorMessage } from '@/lib/api-error';
 
 const CODE_LENGTH = 6;
 
@@ -57,8 +58,7 @@ export default function TwoFactorScreen() {
       router.replace('/');
     } catch (error) {
       if (error instanceof AxiosError) {
-        const data = error.response?.data as { message?: string } | undefined;
-        setCodeError(data?.message ?? t('auth.twoFactor.invalidCode'));
+        setCodeError(extractApiErrorMessage(error, t('auth.twoFactor.invalidCode')));
         return;
       }
 
