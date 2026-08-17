@@ -155,7 +155,8 @@
             "notifications": "Notifications",
             "display": "Affichage",
             "language": "Langue",
-            "users": "Utilisateurs"
+            "users": "Utilisateurs",
+            "roleGroups": "Groupes de rôles"
         },
         "account": {
             "title": "Compte",
@@ -379,6 +380,19 @@
         "gender": {
             "MALE": "Homme",
             "FEMALE": "Femme"
+        }
+    },
+    "roleGroups": {
+        "list": {
+            "title": "Groupes de rôles",
+            "description": "Parcourez et recherchez les groupes de rôles de votre organisation.",
+            "addRoleGroup": "Ajouter un groupe de rôles",
+            "searchPlaceholder": "Rechercher par nom",
+            "errorFallback": "Impossible de charger les groupes de rôles.",
+            "noResults": "Aucun groupe de rôles trouvé.",
+            "previous": "Précédent",
+            "next": "Suivant",
+            "pageIndicator": "Page {{page}} sur {{totalPages}}"
         }
     },
     "errors": {

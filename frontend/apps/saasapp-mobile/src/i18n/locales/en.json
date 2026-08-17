@@ -155,7 +155,8 @@
             "notifications": "Notifications",
             "display": "Display",
             "language": "Language",
-            "users": "Users"
+            "users": "Users",
+            "roleGroups": "Role groups"
         },
         "account": {
             "title": "Account",
@@ -379,6 +380,19 @@
         "gender": {
             "MALE": "Male",
             "FEMALE": "Female"
+        }
+    },
+    "roleGroups": {
+        "list": {
+            "title": "Role groups",
+            "description": "Browse and search your organization's role groups.",
+            "addRoleGroup": "Add role group",
+            "searchPlaceholder": "Search by name",
+            "errorFallback": "Unable to load role groups.",
+            "noResults": "No role groups found.",
+            "previous": "Previous",
+            "next": "Next",
+            "pageIndicator": "Page {{page}} of {{totalPages}}"
         }
     },
     "errors": {
