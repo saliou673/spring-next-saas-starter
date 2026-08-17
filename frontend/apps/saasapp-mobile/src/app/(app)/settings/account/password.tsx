@@ -1,17 +1,16 @@
 import { useState } from 'react';
-import { StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
 import { Stack, useRouter } from 'expo-router';
 import { useChangePassword } from '@api-client';
 
+import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { FormTextField } from '@/components/form-text-field';
 import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
 import { showToast } from '@/components/toast/toast-store';
-import { Spacing } from '@/constants/theme';
+import { extractApiErrorMessage } from '@/lib/api-error';
 
 const MIN_PASSWORD_LENGTH = 8;
 // Mirrors the backend's PasswordChangeRequest constraint.
@@ -74,17 +73,19 @@ export default function ChangePasswordScreen() {
       router.back();
     } catch (error) {
       if (error instanceof AxiosError) {
-        const data = error.response?.data as { message?: string } | undefined;
         const status = error.response?.status;
 
         if (status === 403 || status === 409) {
           setFieldErrors({
-            currentPassword: data?.message ?? t('settings.account.changePassword.invalidCurrentPassword'),
+            currentPassword: extractApiErrorMessage(
+              error,
+              t('settings.account.changePassword.invalidCurrentPassword')
+            ),
           });
           return;
         }
 
-        setFormError(data?.message ?? t('errors.generic'));
+        setFormError(extractApiErrorMessage(error, t('errors.generic')));
         return;
       }
 
@@ -96,7 +97,7 @@ export default function ChangePasswordScreen() {
     <>
       <Stack.Screen options={{ title: t('settings.account.password') }} />
       <SettingsListScreen description={t('settings.account.changePassword.description')}>
-        <ThemedView type="backgroundElement" style={styles.card}>
+        <SettingsCard>
           <FormTextField
             label={t('settings.account.changePassword.currentPasswordLabel')}
             value={currentPassword}
@@ -145,16 +146,8 @@ export default function ChangePasswordScreen() {
             onPress={() => void onSubmit()}
             isPending={isPending}
           />
-        </ThemedView>
+        </SettingsCard>
       </SettingsListScreen>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  card: {
-    borderRadius: Spacing.three,
-    padding: Spacing.three,
-    gap: Spacing.three,
-  },
-});
