@@ -2,21 +2,20 @@ import { useState } from 'react';
 import { StyleSheet, Switch, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
-import { Link, useLocalSearchParams, useRouter } from 'expo-router';
-import { useAuthenticate } from '@api-client';
+import { Link, useRouter } from 'expo-router';
+import { useAuthenticate, type ValidationErrorResponseDTO } from '@api-client';
 
 import { AuthScreen } from '@/components/auth-screen';
 import { FormTextField } from '@/components/form-text-field';
 import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
+import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/use-auth';
+import { extractApiErrorMessage } from '@/lib/api-error';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MIN_PASSWORD_LENGTH = 7;
-
-/** Keys under `auth.notices` that other screens may hand to sign-in via search params. */
-const NOTICE_KEYS = ['accountCreated'] as const;
 
 type FieldErrors = {
   email?: string;
@@ -31,8 +30,10 @@ type FieldErrors = {
  */
 type LoginTokens = { accessToken: string; refreshToken: string };
 
-function isTwoFactorChallenge(response: unknown): boolean {
-  return typeof response === 'object' && response !== null && 'challengeId' in response;
+function getChallengeId(response: unknown): string | null {
+  if (typeof response !== 'object' || response === null) return null;
+  const candidate = response as { challengeId?: unknown };
+  return typeof candidate.challengeId === 'string' ? candidate.challengeId : null;
 }
 
 function isLoginTokens(response: unknown): response is LoginTokens {
@@ -45,7 +46,6 @@ export default function SignInScreen() {
   const { signIn } = useAuth();
   const { t } = useTranslation();
   const router = useRouter();
-  const { notice } = useLocalSearchParams<{ notice?: string }>();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -56,8 +56,6 @@ export default function SignInScreen() {
   const { mutateAsync, isPending } = useAuthenticate({
     mutation: { meta: { skipGlobalErrorToast: true } },
   });
-
-  const noticeKey = NOTICE_KEYS.find((key) => key === notice);
 
   function validate(): FieldErrors {
     const errors: FieldErrors = {};
@@ -83,9 +81,7 @@ export default function SignInScreen() {
       return;
     }
 
-    const data = error.response?.data as
-      | { message?: string; errors?: Record<string, string> }
-      | undefined;
+    const data = error.response?.data as ValidationErrorResponseDTO | undefined;
 
     if (data?.errors) {
       setFieldErrors({ email: data.errors.email, password: data.errors.password });
@@ -94,11 +90,11 @@ export default function SignInScreen() {
     if (data?.errors?.email || data?.errors?.password) return;
 
     if (error.response?.status === 401) {
-      setFormError(data?.message ?? t('auth.signIn.invalidCredentials'));
+      setFormError(extractApiErrorMessage(error, t('auth.signIn.invalidCredentials')));
       return;
     }
 
-    setFormError(data?.message ?? t('errors.generic'));
+    setFormError(extractApiErrorMessage(error, t('errors.generic')));
   }
 
   async function onSubmit() {
@@ -111,8 +107,9 @@ export default function SignInScreen() {
     try {
       const response = await mutateAsync({ data: { email, password, rememberMe } });
 
-      if (isTwoFactorChallenge(response)) {
-        setFormError(t('auth.signIn.twoFactorNotSupported'));
+      const challengeId = getChallengeId(response);
+      if (challengeId) {
+        router.push({ pathname: '/two-factor', params: { challengeId } });
         return;
       }
 
@@ -125,6 +122,7 @@ export default function SignInScreen() {
         accessToken: response.accessToken,
         refreshToken: response.refreshToken,
       });
+      showToast(t('auth.toasts.signedIn'), 'success');
       router.replace('/');
     } catch (error) {
       applyApiError(error);
@@ -133,12 +131,6 @@ export default function SignInScreen() {
 
   return (
     <AuthScreen title={t('auth.signIn.title')} subtitle={t('auth.signIn.subtitle')}>
-      {noticeKey && (
-        <ThemedText type="small" themeColor="textSecondary">
-          {t(`auth.notices.${noticeKey}`)}
-        </ThemedText>
-      )}
-
       <FormTextField
         label={t('auth.signIn.emailLabel')}
         value={email}
@@ -165,6 +157,10 @@ export default function SignInScreen() {
         editable={!isPending}
         onSubmitEditing={() => void onSubmit()}
       />
+
+      <Link href="/forgot-password" style={styles.forgotPassword}>
+        <ThemedText type="linkPrimary">{t('auth.signIn.forgotPassword')}</ThemedText>
+      </Link>
 
       <View style={styles.rememberMeRow}>
         <ThemedText type="small">{t('auth.signIn.rememberMe')}</ThemedText>
@@ -201,6 +197,9 @@ export default function SignInScreen() {
 }
 
 const styles = StyleSheet.create({
+  forgotPassword: {
+    alignSelf: 'flex-end',
+  },
   rememberMeRow: {
     flexDirection: 'row',
     alignItems: 'center',

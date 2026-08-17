@@ -15,6 +15,7 @@ import type {
     Init2FactorSetup403,
     Init2FactorSetup404,
     Init2FactorSetup409,
+    Init2FactorSetup500,
 } from "../../types/Init2FactorSetup.ts";
 
 function getInit2FactorSetupUrl() {
@@ -39,7 +40,10 @@ export async function init2FactorSetup(
     const res = await request<
         Init2FactorSetupMutationResponse,
         ResponseErrorConfig<
-            Init2FactorSetup403 | Init2FactorSetup404 | Init2FactorSetup409
+            | Init2FactorSetup403
+            | Init2FactorSetup404
+            | Init2FactorSetup409
+            | Init2FactorSetup500
         >,
         Init2FactorSetupMutationRequest
     >({

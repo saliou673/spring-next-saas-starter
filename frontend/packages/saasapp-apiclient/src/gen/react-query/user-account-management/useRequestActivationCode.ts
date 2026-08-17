@@ -21,6 +21,7 @@ import type {
     RequestActivationCode403,
     RequestActivationCode404,
     RequestActivationCode409,
+    RequestActivationCode500,
 } from "../../types/RequestActivationCode.ts";
 
 export const requestActivationCodeMutationKey = () =>
@@ -42,6 +43,7 @@ export function requestActivationCodeMutationOptions<TContext = unknown>(
             | RequestActivationCode403
             | RequestActivationCode404
             | RequestActivationCode409
+            | RequestActivationCode500
         >,
         {
             data: RequestActivationCodeMutationRequest;
@@ -67,6 +69,7 @@ export function useRequestActivationCode<TContext>(
                 | RequestActivationCode403
                 | RequestActivationCode404
                 | RequestActivationCode409
+                | RequestActivationCode500
             >,
             {
                 data: RequestActivationCodeMutationRequest;
@@ -92,6 +95,7 @@ export function useRequestActivationCode<TContext>(
             | RequestActivationCode403
             | RequestActivationCode404
             | RequestActivationCode409
+            | RequestActivationCode500
         >,
         {
             data: RequestActivationCodeMutationRequest;
@@ -106,6 +110,7 @@ export function useRequestActivationCode<TContext>(
             | RequestActivationCode403
             | RequestActivationCode404
             | RequestActivationCode409
+            | RequestActivationCode500
         >,
         {
             data: RequestActivationCodeMutationRequest;
@@ -125,6 +130,7 @@ export function useRequestActivationCode<TContext>(
             | RequestActivationCode403
             | RequestActivationCode404
             | RequestActivationCode409
+            | RequestActivationCode500
         >,
         {
             data: RequestActivationCodeMutationRequest;

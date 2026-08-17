@@ -21,6 +21,7 @@ import type {
     RequestPasswordReset403,
     RequestPasswordReset404,
     RequestPasswordReset409,
+    RequestPasswordReset500,
 } from "../../types/RequestPasswordReset.ts";
 
 export const requestPasswordResetMutationKey = () =>
@@ -42,6 +43,7 @@ export function requestPasswordResetMutationOptions<TContext = unknown>(
             | RequestPasswordReset403
             | RequestPasswordReset404
             | RequestPasswordReset409
+            | RequestPasswordReset500
         >,
         {
             data: RequestPasswordResetMutationRequest;
@@ -67,6 +69,7 @@ export function useRequestPasswordReset<TContext>(
                 | RequestPasswordReset403
                 | RequestPasswordReset404
                 | RequestPasswordReset409
+                | RequestPasswordReset500
             >,
             {
                 data: RequestPasswordResetMutationRequest;
@@ -92,6 +95,7 @@ export function useRequestPasswordReset<TContext>(
             | RequestPasswordReset403
             | RequestPasswordReset404
             | RequestPasswordReset409
+            | RequestPasswordReset500
         >,
         {
             data: RequestPasswordResetMutationRequest;
@@ -106,6 +110,7 @@ export function useRequestPasswordReset<TContext>(
             | RequestPasswordReset403
             | RequestPasswordReset404
             | RequestPasswordReset409
+            | RequestPasswordReset500
         >,
         {
             data: RequestPasswordResetMutationRequest;
@@ -125,6 +130,7 @@ export function useRequestPasswordReset<TContext>(
             | RequestPasswordReset403
             | RequestPasswordReset404
             | RequestPasswordReset409
+            | RequestPasswordReset500
         >,
         {
             data: RequestPasswordResetMutationRequest;

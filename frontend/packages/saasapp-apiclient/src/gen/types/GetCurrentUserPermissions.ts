@@ -40,6 +40,11 @@ export type GetCurrentUserPermissions404 = ValidationErrorResponseDTO;
  */
 export type GetCurrentUserPermissions409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type GetCurrentUserPermissions500 = ValidationErrorResponseDTO;
+
 export type GetCurrentUserPermissionsQueryResponse =
     GetCurrentUserPermissions200;
 
@@ -49,5 +54,6 @@ export type GetCurrentUserPermissionsQuery = {
     Errors:
         | GetCurrentUserPermissions403
         | GetCurrentUserPermissions404
-        | GetCurrentUserPermissions409;
+        | GetCurrentUserPermissions409
+        | GetCurrentUserPermissions500;
 };

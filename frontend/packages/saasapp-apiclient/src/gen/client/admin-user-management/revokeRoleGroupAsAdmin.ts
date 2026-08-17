@@ -15,6 +15,7 @@ import type {
     RevokeRoleGroupAsAdmin403,
     RevokeRoleGroupAsAdmin404,
     RevokeRoleGroupAsAdmin409,
+    RevokeRoleGroupAsAdmin500,
 } from "../../types/RevokeRoleGroupAsAdmin.ts";
 
 function getRevokeRoleGroupAsAdminUrl(
@@ -45,6 +46,7 @@ export async function revokeRoleGroupAsAdmin(
             | RevokeRoleGroupAsAdmin403
             | RevokeRoleGroupAsAdmin404
             | RevokeRoleGroupAsAdmin409
+            | RevokeRoleGroupAsAdmin500
         >,
         unknown
     >({
