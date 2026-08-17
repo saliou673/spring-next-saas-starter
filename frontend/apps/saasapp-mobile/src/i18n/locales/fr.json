@@ -220,6 +220,7 @@
                 "warningTitle": "Cette action est irréversible",
                 "warningBody": "La suppression de votre compte retire immédiatement votre accès. Contactez un administrateur si vous changez d'avis.",
                 "accountLabel": "Compte : {{email}}",
+                "confirmationWord": "SUPPRIMER",
                 "confirmationLabel": "Saisissez {{word}} pour confirmer",
                 "confirmationRequired": "Saisissez {{word}} pour confirmer la suppression du compte",
                 "submit": "Supprimer mon compte",

@@ -220,6 +220,7 @@
                 "warningTitle": "This can't be undone",
                 "warningBody": "Deleting your account removes your access immediately. Contact an administrator if you change your mind.",
                 "accountLabel": "Account: {{email}}",
+                "confirmationWord": "DELETE",
                 "confirmationLabel": "Type {{word}} to confirm",
                 "confirmationRequired": "Type {{word}} to confirm account deletion",
                 "submit": "Delete my account",

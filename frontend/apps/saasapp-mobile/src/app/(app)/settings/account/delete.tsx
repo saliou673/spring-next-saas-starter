@@ -12,14 +12,14 @@ import { ThemedText } from '@/components/themed-text';
 import { showToast } from '@/components/toast/toast-store';
 import { useAuth } from '@/hooks/use-auth';
 
-const CONFIRMATION_WORD = 'DELETE';
-
 export default function DeleteAccountScreen() {
   const { t } = useTranslation();
   const router = useRouter();
   const queryClient = useQueryClient();
   const { signOut } = useAuth();
   const { data: user } = useGetUserDetails();
+
+  const CONFIRMATION_WORD = t('settings.account.deleteAccount.confirmationWord');
 
   const [confirmationText, setConfirmationText] = useState('');
   const [formError, setFormError] = useState<string | null>(null);
