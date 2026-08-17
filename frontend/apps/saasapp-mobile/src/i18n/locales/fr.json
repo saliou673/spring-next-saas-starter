@@ -28,7 +28,56 @@
             "passwordTooShort": "Le mot de passe doit contenir au moins 7 caractères",
             "invalidCredentials": "E-mail ou mot de passe incorrect",
             "noAccount": "Vous n'avez pas de compte ?",
-            "signUpLink": "S'inscrire"
+            "signUpLink": "S'inscrire",
+            "forgotPassword": "Mot de passe oublié ?"
+        },
+        "forgotPassword": {
+            "title": "Réinitialiser votre mot de passe",
+            "subtitle": "Nous vous enverrons un code par e-mail pour définir un nouveau mot de passe.",
+            "emailLabel": "E-mail",
+            "emailPlaceholder": "nom@exemple.com",
+            "submit": "Envoyer le code",
+            "emailRequired": "Veuillez saisir votre e-mail",
+            "emailInvalid": "Veuillez saisir une adresse e-mail valide",
+            "noAccount": "Aucun compte ne correspond à cette adresse e-mail.",
+            "sentTitle": "Consultez vos e-mails",
+            "sentSubtitle": "Si un compte existe, nous avons envoyé un code à {{email}}.",
+            "enterCodeLink": "J'ai un code",
+            "backToSignIn": "Retour à la connexion"
+        },
+        "resetPassword": {
+            "title": "Définir un nouveau mot de passe",
+            "subtitle": "Saisissez le code reçu par e-mail et choisissez un nouveau mot de passe.",
+            "codeLabel": "Code de réinitialisation",
+            "codePlaceholder": "Collez le code reçu par e-mail",
+            "newPasswordLabel": "Nouveau mot de passe",
+            "confirmPasswordLabel": "Confirmer le nouveau mot de passe",
+            "passwordPlaceholder": "********",
+            "submit": "Réinitialiser le mot de passe",
+            "codeRequired": "Veuillez saisir votre code de réinitialisation",
+            "passwordRequired": "Veuillez saisir un nouveau mot de passe",
+            "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères",
+            "passwordTooWeak": "Le mot de passe doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial",
+            "confirmPasswordRequired": "Veuillez confirmer votre nouveau mot de passe",
+            "passwordsDoNotMatch": "Les mots de passe ne correspondent pas.",
+            "invalidCode": "Ce code de réinitialisation est invalide ou a expiré.",
+            "backToSignIn": "Retour à la connexion"
+        },
+        "invitation": {
+            "title": "Finaliser votre invitation",
+            "subtitle": "Choisissez un mot de passe pour terminer la configuration de votre compte.",
+            "newPasswordLabel": "Mot de passe",
+            "confirmPasswordLabel": "Confirmer le mot de passe",
+            "passwordPlaceholder": "********",
+            "submit": "Terminer la configuration",
+            "passwordRequired": "Veuillez saisir un mot de passe",
+            "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères",
+            "passwordTooWeak": "Le mot de passe doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial",
+            "confirmPasswordRequired": "Veuillez confirmer votre mot de passe",
+            "passwordsDoNotMatch": "Les mots de passe ne correspondent pas.",
+            "invalidCode": "Cette invitation est invalide ou a expiré. Contactez votre administrateur.",
+            "missingCode": "Lien d'invitation invalide ou manquant. Veuillez contacter votre administrateur.",
+            "backToSignIn": "Retour à la connexion"
         },
         "signUp": {
             "title": "Créer un compte",
@@ -56,8 +105,17 @@
             "signInLink": "Se connecter"
         },
         "activate": {
-            "title": "Activation de votre compte",
-            "subtitle": "Cela ne prend qu'un instant."
+            "title": "Activer votre compte",
+            "subtitle": "Saisissez le code envoyé à {{email}} pour terminer la création de votre compte.",
+            "subtitleGeneric": "Saisissez le code d'activation reçu par e-mail pour terminer la création de votre compte.",
+            "codeLabel": "Code d'activation",
+            "codePlaceholder": "A1B2",
+            "submit": "Activer le compte",
+            "codeRequired": "Veuillez saisir votre code d'activation",
+            "invalidCode": "Ce code d'activation est invalide ou a expiré.",
+            "resend": "Envoyez-moi un nouveau code",
+            "noAccount": "Aucun compte ne correspond à cette adresse e-mail.",
+            "backToSignIn": "Retour à la connexion"
         },
         "twoFactor": {
             "title": "Vérification en deux étapes",
@@ -68,11 +126,156 @@
             "codeLength": "Saisissez le code à {{count}} chiffres",
             "invalidCode": "Code de vérification invalide"
         },
-        "notices": {
-            "accountCreated": "Compte créé. Consultez votre e-mail pour le lien d'activation, puis connectez-vous.",
+        "logout": {
+            "action": "Se déconnecter"
+        },
+        "toasts": {
+            "signedIn": "Content de vous revoir !",
+            "signedOut": "Vous avez été déconnecté.",
+            "twoFactorVerified": "Vérification réussie.",
+            "resetCodeSent": "Code de réinitialisation envoyé à {{email}}.",
+            "accountCreated": "Compte créé. Saisissez le code reçu par e-mail pour terminer.",
             "accountActivated": "Votre compte est actif. Vous pouvez maintenant vous connecter.",
-            "activationFailed": "Ce lien d'activation est invalide ou a expiré. Demandez-en un nouveau depuis l'e-mail de confirmation d'inscription.",
-            "twoFactorExpired": "Votre session de vérification a expiré. Veuillez vous reconnecter."
+            "activationCodeSent": "Nous vous avons envoyé un nouveau code d'activation.",
+            "twoFactorExpired": "Votre session de vérification a expiré. Veuillez vous reconnecter.",
+            "passwordReset": "Votre mot de passe a été réinitialisé. Connectez-vous avec le nouveau.",
+            "invitationCompleted": "Votre compte est prêt. Connectez-vous avec votre e-mail et votre nouveau mot de passe."
+        }
+    },
+    "settings": {
+        "nav": {
+            "title": "Paramètres",
+            "description": "Gérez votre profil, votre compte et les préférences de l'application.",
+            "sectionAccount": "Compte",
+            "sectionPreferences": "Préférences",
+            "profile": "Profil",
+            "account": "Compte",
+            "appearance": "Apparence",
+            "notifications": "Notifications",
+            "display": "Affichage",
+            "language": "Langue"
+        },
+        "account": {
+            "title": "Compte",
+            "description": "Gérez votre e-mail, votre mot de passe, l'authentification à deux facteurs et la suppression du compte.",
+            "sectionSecurity": "Sécurité",
+            "sectionDanger": "Zone de danger",
+            "email": "Modifier l'e-mail",
+            "password": "Modifier le mot de passe",
+            "twoFactor": "Authentification à deux facteurs",
+            "delete": "Supprimer le compte",
+            "emailChange": {
+                "description": "Saisissez une nouvelle adresse e-mail. Nous vous enverrons un code pour la confirmer.",
+                "confirmDescription": "Saisissez le code envoyé à {{email}}.",
+                "newEmailLabel": "Nouvel e-mail",
+                "newEmailPlaceholder": "nom@exemple.com",
+                "emailInvalid": "Veuillez saisir une adresse e-mail valide",
+                "sendButton": "Envoyer le code",
+                "codeLabel": "Code de confirmation",
+                "codeLength": "Saisissez le code à {{count}} caractères",
+                "confirmButton": "Confirmer",
+                "cancelButton": "Utiliser une autre adresse e-mail",
+                "invalidCode": "Ce code est invalide ou a expiré.",
+                "codeSentToast": "Code envoyé à {{email}}.",
+                "toastChanged": "Votre e-mail a été mis à jour."
+            },
+            "changePassword": {
+                "description": "Choisissez un nouveau mot de passe robuste.",
+                "currentPasswordLabel": "Mot de passe actuel",
+                "newPasswordLabel": "Nouveau mot de passe",
+                "confirmPasswordLabel": "Confirmer le nouveau mot de passe",
+                "currentPasswordRequired": "Veuillez saisir votre mot de passe actuel",
+                "newPasswordRequired": "Veuillez saisir un nouveau mot de passe",
+                "newPasswordTooShort": "Le mot de passe doit contenir au moins 8 caractères",
+                "newPasswordTooWeak": "Le mot de passe doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial",
+                "confirmPasswordRequired": "Veuillez confirmer votre nouveau mot de passe",
+                "passwordsDoNotMatch": "Les mots de passe ne correspondent pas.",
+                "invalidCurrentPassword": "Votre mot de passe actuel est incorrect.",
+                "submit": "Mettre à jour le mot de passe",
+                "toastUpdated": "Votre mot de passe a été mis à jour."
+            },
+            "twoFactorSetup": {
+                "description": "Ajoutez une application d'authentification pour une sécurité renforcée lors de la connexion.",
+                "enabledDescription": "L'authentification à deux facteurs protège votre compte.",
+                "startButton": "Activer l'authentification à deux facteurs",
+                "startError": "Impossible de démarrer la configuration. Veuillez réessayer.",
+                "scanHint": "Scannez ce code QR avec votre application d'authentification.",
+                "openAuthenticator": "Ouvrir dans l'application d'authentification",
+                "manualEntryHint": "Ou saisissez ce code manuellement dans votre application d'authentification :",
+                "codeLabel": "Code de vérification",
+                "codeRequired": "Veuillez saisir le code de votre application d'authentification",
+                "invalidCode": "Code de vérification invalide",
+                "confirmButton": "Confirmer et activer",
+                "toastEnabled": "L'authentification à deux facteurs est maintenant activée."
+            },
+            "twoFactorDisable": {
+                "description": "Saisissez votre mot de passe actuel pour désactiver l'authentification à deux facteurs.",
+                "currentPasswordLabel": "Mot de passe actuel",
+                "passwordRequired": "Veuillez saisir votre mot de passe actuel",
+                "invalidPassword": "Votre mot de passe actuel est incorrect.",
+                "submit": "Désactiver l'authentification à deux facteurs",
+                "toastDisabled": "L'authentification à deux facteurs est maintenant désactivée."
+            },
+            "deleteAccount": {
+                "warningTitle": "Cette action est irréversible",
+                "warningBody": "La suppression de votre compte retire immédiatement votre accès. Contactez un administrateur si vous changez d'avis.",
+                "accountLabel": "Compte : {{email}}",
+                "confirmationWord": "SUPPRIMER",
+                "confirmationLabel": "Saisissez {{word}} pour confirmer",
+                "confirmationRequired": "Saisissez {{word}} pour confirmer la suppression du compte",
+                "submit": "Supprimer mon compte",
+                "toastDeleted": "Votre compte a été supprimé."
+            }
+        },
+        "profile": {
+            "fields": {
+                "email": "E-mail",
+                "firstName": "Prénom",
+                "lastName": "Nom",
+                "phoneNumber": "Numéro de téléphone",
+                "birthDate": "Date de naissance",
+                "gender": "Genre",
+                "genderMale": "Homme",
+                "genderFemale": "Femme",
+                "address": "Adresse",
+                "imageUrl": "URL de l'image de profil"
+            },
+            "firstNameRequired": "Veuillez saisir votre prénom",
+            "lastNameRequired": "Veuillez saisir votre nom",
+            "birthDateInvalid": "Utilisez le format AAAA-MM-JJ",
+            "submit": "Enregistrer les modifications",
+            "toastUpdated": "Profil mis à jour.",
+            "loadError": "Impossible de charger votre profil. Veuillez réessayer."
+        },
+        "appearance": {
+            "description": "Choisissez l'apparence de Saasapp sur cet appareil.",
+            "system": "Système",
+            "light": "Clair",
+            "dark": "Sombre",
+            "saveError": "Impossible d'enregistrer votre préférence d'apparence. Veuillez réessayer."
+        },
+        "notifications": {
+            "productUpdatesLabel": "Nouveautés produit",
+            "productUpdatesDescription": "Recevez occasionnellement des e-mails sur les nouvelles fonctionnalités et l'actualité du produit.",
+            "securityLabel": "E-mails de sécurité",
+            "securityDescription": "Recevez des e-mails sur la sécurité de votre compte. Toujours actif.",
+            "saveError": "Impossible d'enregistrer votre préférence de notification. Veuillez réessayer.",
+            "loadError": "Impossible de charger vos préférences de notification. Veuillez réessayer."
+        },
+        "display": {
+            "textSizeLabel": "Taille du texte",
+            "textSizeDescription": "Ajustez la taille du texte dans toute l'application.",
+            "textSizeSmall": "Petite",
+            "textSizeDefault": "Par défaut",
+            "textSizeLarge": "Grande",
+            "reduceMotionLabel": "Réduire les animations",
+            "reduceMotionDescription": "Minimise les animations et les transitions.",
+            "saveError": "Impossible d'enregistrer votre préférence d'affichage. Veuillez réessayer.",
+            "loadError": "Impossible de charger vos préférences d'affichage. Veuillez réessayer."
+        },
+        "language": {
+            "description": "Choisissez la langue utilisée dans l'application.",
+            "syncError": "Langue modifiée sur cet appareil, mais impossible de l'enregistrer sur votre compte."
         }
     },
     "errors": {

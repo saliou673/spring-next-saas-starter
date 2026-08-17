@@ -15,6 +15,7 @@ import type {
     GetAppConfigurationByCategoryAndCode403,
     GetAppConfigurationByCategoryAndCode404,
     GetAppConfigurationByCategoryAndCode409,
+    GetAppConfigurationByCategoryAndCode500,
 } from "../../types/GetAppConfigurationByCategoryAndCode.ts";
 
 function getGetAppConfigurationByCategoryAndCodeUrl(
@@ -45,6 +46,7 @@ export async function getAppConfigurationByCategoryAndCode(
             | GetAppConfigurationByCategoryAndCode403
             | GetAppConfigurationByCategoryAndCode404
             | GetAppConfigurationByCategoryAndCode409
+            | GetAppConfigurationByCategoryAndCode500
         >,
         unknown
     >({

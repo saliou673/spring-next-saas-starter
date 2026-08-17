@@ -15,6 +15,7 @@ import type {
     DeleteRoleGroupAsAdmin403,
     DeleteRoleGroupAsAdmin404,
     DeleteRoleGroupAsAdmin409,
+    DeleteRoleGroupAsAdmin500,
 } from "../../types/DeleteRoleGroupAsAdmin.ts";
 
 function getDeleteRoleGroupAsAdminUrl(
@@ -43,6 +44,7 @@ export async function deleteRoleGroupAsAdmin(
             | DeleteRoleGroupAsAdmin403
             | DeleteRoleGroupAsAdmin404
             | DeleteRoleGroupAsAdmin409
+            | DeleteRoleGroupAsAdmin500
         >,
         unknown
     >({

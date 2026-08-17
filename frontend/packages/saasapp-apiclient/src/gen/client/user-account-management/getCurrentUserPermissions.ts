@@ -14,6 +14,7 @@ import type {
     GetCurrentUserPermissions403,
     GetCurrentUserPermissions404,
     GetCurrentUserPermissions409,
+    GetCurrentUserPermissions500,
 } from "../../types/GetCurrentUserPermissions.ts";
 
 function getGetCurrentUserPermissionsUrl() {
@@ -36,6 +37,7 @@ export async function getCurrentUserPermissions(
             | GetCurrentUserPermissions403
             | GetCurrentUserPermissions404
             | GetCurrentUserPermissions409
+            | GetCurrentUserPermissions500
         >,
         unknown
     >({

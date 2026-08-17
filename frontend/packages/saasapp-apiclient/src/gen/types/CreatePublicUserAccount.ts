@@ -40,6 +40,11 @@ export type CreatePublicUserAccount404 = ValidationErrorResponseDTO;
  */
 export type CreatePublicUserAccount409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type CreatePublicUserAccount500 = ValidationErrorResponseDTO;
+
 export type CreatePublicUserAccountMutationRequest = CreateUserRequest;
 
 export type CreatePublicUserAccountMutationResponse =
@@ -52,5 +57,6 @@ export type CreatePublicUserAccountMutation = {
     Errors:
         | CreatePublicUserAccount403
         | CreatePublicUserAccount404
-        | CreatePublicUserAccount409;
+        | CreatePublicUserAccount409
+        | CreatePublicUserAccount500;
 };

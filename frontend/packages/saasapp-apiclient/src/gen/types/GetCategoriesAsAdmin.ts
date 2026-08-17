@@ -40,6 +40,11 @@ export type GetCategoriesAsAdmin404 = ValidationErrorResponseDTO;
  */
 export type GetCategoriesAsAdmin409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type GetCategoriesAsAdmin500 = ValidationErrorResponseDTO;
+
 export type GetCategoriesAsAdminQueryResponse = GetCategoriesAsAdmin200;
 
 export type GetCategoriesAsAdminQuery = {
@@ -48,5 +53,6 @@ export type GetCategoriesAsAdminQuery = {
     Errors:
         | GetCategoriesAsAdmin403
         | GetCategoriesAsAdmin404
-        | GetCategoriesAsAdmin409;
+        | GetCategoriesAsAdmin409
+        | GetCategoriesAsAdmin500;
 };

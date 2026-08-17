@@ -40,6 +40,11 @@ export type RecoverAccount404 = ValidationErrorResponseDTO;
  */
 export type RecoverAccount409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type RecoverAccount500 = ValidationErrorResponseDTO;
+
 export type RecoverAccountMutationRequest = RecoverAccountRequest;
 
 export type RecoverAccountMutationResponse = RecoverAccount200;
@@ -48,5 +53,9 @@ export type RecoverAccountMutation = {
     Response: RecoverAccount200;
     Request: RecoverAccountMutationRequest;
     HeaderParams: RecoverAccountHeaderParams;
-    Errors: RecoverAccount403 | RecoverAccount404 | RecoverAccount409;
+    Errors:
+        | RecoverAccount403
+        | RecoverAccount404
+        | RecoverAccount409
+        | RecoverAccount500;
 };

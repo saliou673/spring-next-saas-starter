@@ -21,6 +21,7 @@ import type {
     Confirm2FactorSetup403,
     Confirm2FactorSetup404,
     Confirm2FactorSetup409,
+    Confirm2FactorSetup500,
 } from "../../types/Confirm2FactorSetup.ts";
 
 export const confirm2FactorSetupMutationKey = () =>
@@ -42,6 +43,7 @@ export function confirm2FactorSetupMutationOptions<TContext = unknown>(
             | Confirm2FactorSetup403
             | Confirm2FactorSetup404
             | Confirm2FactorSetup409
+            | Confirm2FactorSetup500
         >,
         {
             data: Confirm2FactorSetupMutationRequest;
@@ -67,6 +69,7 @@ export function useConfirm2FactorSetup<TContext>(
                 | Confirm2FactorSetup403
                 | Confirm2FactorSetup404
                 | Confirm2FactorSetup409
+                | Confirm2FactorSetup500
             >,
             {
                 data: Confirm2FactorSetupMutationRequest;
@@ -92,6 +95,7 @@ export function useConfirm2FactorSetup<TContext>(
             | Confirm2FactorSetup403
             | Confirm2FactorSetup404
             | Confirm2FactorSetup409
+            | Confirm2FactorSetup500
         >,
         {
             data: Confirm2FactorSetupMutationRequest;
@@ -106,6 +110,7 @@ export function useConfirm2FactorSetup<TContext>(
             | Confirm2FactorSetup403
             | Confirm2FactorSetup404
             | Confirm2FactorSetup409
+            | Confirm2FactorSetup500
         >,
         {
             data: Confirm2FactorSetupMutationRequest;
@@ -125,6 +130,7 @@ export function useConfirm2FactorSetup<TContext>(
             | Confirm2FactorSetup403
             | Confirm2FactorSetup404
             | Confirm2FactorSetup409
+            | Confirm2FactorSetup500
         >,
         {
             data: Confirm2FactorSetupMutationRequest;

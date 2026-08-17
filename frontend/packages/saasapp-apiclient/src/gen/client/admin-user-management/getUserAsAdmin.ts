@@ -15,6 +15,7 @@ import type {
     GetUserAsAdmin403,
     GetUserAsAdmin404,
     GetUserAsAdmin409,
+    GetUserAsAdmin500,
 } from "../../types/GetUserAsAdmin.ts";
 
 function getGetUserAsAdminUrl(id: GetUserAsAdminPathParams["id"]) {
@@ -35,7 +36,10 @@ export async function getUserAsAdmin(
     const res = await request<
         GetUserAsAdminQueryResponse,
         ResponseErrorConfig<
-            GetUserAsAdmin403 | GetUserAsAdmin404 | GetUserAsAdmin409
+            | GetUserAsAdmin403
+            | GetUserAsAdmin404
+            | GetUserAsAdmin409
+            | GetUserAsAdmin500
         >,
         unknown
     >({
