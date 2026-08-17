@@ -8,8 +8,11 @@ import { fonts } from "@/config/fonts";
 import {
     appearancePreferencesFontEnum,
     appearancePreferencesThemeEnum,
+    displayPreferencesTextSizeEnum,
     getCurrentUserPreferencesQueryKey,
     getUserDetailsQueryKey,
+    type DisplayPreferences,
+    type NotificationPreferences,
     type UserSummary,
     type UserPreferences,
     useGetCurrentUserPreferences,
@@ -47,13 +50,26 @@ type AppearanceFormValues = z.infer<typeof appearanceFormSchema>;
 
 const defaultValues: AppearanceFormValues = defaultAppearancePreferenceValues;
 
+const defaultNotificationPreferences: NotificationPreferences = {
+    productUpdatesEnabled: false,
+};
+
+const defaultDisplayPreferences: DisplayPreferences = {
+    textSize: displayPreferencesTextSizeEnum.DEFAULT,
+    reduceMotion: false,
+};
+
 function mapApiPreferencesToFormValues(
     preferences?: UserPreferences | null
 ): AppearanceFormValues {
     return mapUserPreferencesToAppearanceValues(preferences);
 }
 
-function toApiPreferences(values: AppearanceFormValues): UserPreferences {
+function toApiPreferences(
+    values: AppearanceFormValues,
+    currentNotifications: NotificationPreferences,
+    currentDisplay: DisplayPreferences
+): UserPreferences {
     return {
         appearance: {
             theme: appearancePreferencesThemeEnum[
@@ -63,6 +79,10 @@ function toApiPreferences(values: AppearanceFormValues): UserPreferences {
                 values.font.toUpperCase() as keyof typeof appearancePreferencesFontEnum
             ],
         },
+        // This mutation replaces the whole preferences document, so the
+        // rest has to be carried through unchanged here.
+        notifications: currentNotifications,
+        display: currentDisplay,
     };
 }
 
@@ -172,7 +192,13 @@ export function AppearanceForm() {
     }, [form, preferences, setFont, setTheme]);
 
     function onSubmit(data: AppearanceFormValues) {
-        updatePreferences({ data: toApiPreferences(data) });
+        updatePreferences({
+            data: toApiPreferences(
+                data,
+                preferences?.notifications ?? defaultNotificationPreferences,
+                preferences?.display ?? defaultDisplayPreferences
+            ),
+        });
     }
 
     if (isLoadingPreferences) {
