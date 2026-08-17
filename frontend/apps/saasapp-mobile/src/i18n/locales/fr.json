@@ -561,6 +561,42 @@
                     "body": "Si vous avez des questions concernant ces conditions, veuillez nous contacter à :"
                 }
             ]
+        },
+        "privacy": {
+            "title": "Politique de confidentialité",
+            "lastUpdated": "Dernière mise à jour : 20 mars 2026",
+            "sections": [
+                {
+                    "heading": "1. Informations que nous collectons",
+                    "body": "Nous collectons les informations que vous nous fournissez directement, par exemple lorsque vous créez un compte, utilisez nos services ou nous contactez pour obtenir de l'aide. Cela inclut :",
+                    "list": [
+                        "Nom et adresse e-mail",
+                        "Identifiants du compte",
+                        "Informations de facturation et de paiement",
+                        "Données d'utilisation et journaux d'activité sur notre plateforme"
+                    ]
+                },
+                {
+                    "heading": "2. Comment nous utilisons vos informations",
+                    "body": "Nous utilisons les informations collectées pour exploiter, maintenir et améliorer nos services, traiter les transactions, envoyer des communications transactionnelles et promotionnelles, et respecter nos obligations légales."
+                },
+                {
+                    "heading": "3. Partage des informations",
+                    "body": "Nous ne vendons, n'échangeons ni ne louons vos informations personnelles à des tiers. Nous pouvons partager vos informations avec des prestataires de confiance qui nous aident à exploiter notre plateforme, dans le cadre d'accords de confidentialité."
+                },
+                {
+                    "heading": "4. Conservation des données",
+                    "body": "Nous conservons vos informations personnelles aussi longtemps que votre compte est actif ou que cela est nécessaire pour vous fournir nos services. Vous pouvez demander la suppression de vos données à tout moment en nous contactant."
+                },
+                {
+                    "heading": "5. Sécurité",
+                    "body": "Nous mettons en œuvre des mesures de sécurité conformes aux standards du secteur pour protéger vos informations personnelles contre tout accès non autorisé, altération, divulgation ou destruction."
+                },
+                {
+                    "heading": "6. Nous contacter",
+                    "body": "Si vous avez des questions concernant cette politique de confidentialité, veuillez nous contacter à :"
+                }
+            ]
         }
     },
     "errors": {
