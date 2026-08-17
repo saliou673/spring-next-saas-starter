@@ -351,12 +351,21 @@
             },
             "roleGroupsLabel": "Role groups",
             "noRoleGroups": "No role groups assigned.",
+            "manageRoleGroups": "Manage role groups",
             "permissionsLabel": "Effective permissions",
             "noPermissions": "No permissions.",
             "deactivate": "Deactivate user",
             "deactivateConfirmTitle": "Deactivate user",
             "deactivateConfirmMessage": "Are you sure you want to deactivate {{email}}? They will no longer be able to sign in.",
             "deactivateSuccess": "User deactivated."
+        },
+        "roleGroups": {
+            "title": "Role groups",
+            "description": "Assign or revoke role groups for this user.",
+            "loadError": "Unable to load this user.",
+            "empty": "No role groups available.",
+            "submit": "Save changes",
+            "toastUpdated": "Role groups updated."
         },
         "status": {
             "NOT_ACTIVATED": "Not activated",

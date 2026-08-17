@@ -351,12 +351,21 @@
             },
             "roleGroupsLabel": "Groupes de rôles",
             "noRoleGroups": "Aucun groupe de rôles assigné.",
+            "manageRoleGroups": "Gérer les groupes de rôles",
             "permissionsLabel": "Permissions effectives",
             "noPermissions": "Aucune permission.",
             "deactivate": "Désactiver l'utilisateur",
             "deactivateConfirmTitle": "Désactiver l'utilisateur",
             "deactivateConfirmMessage": "Êtes-vous sûr de vouloir désactiver {{email}} ? Cette personne ne pourra plus se connecter.",
             "deactivateSuccess": "Utilisateur désactivé."
+        },
+        "roleGroups": {
+            "title": "Groupes de rôles",
+            "description": "Assignez ou révoquez des groupes de rôles pour cet utilisateur.",
+            "loadError": "Impossible de charger cet utilisateur.",
+            "empty": "Aucun groupe de rôles disponible.",
+            "submit": "Enregistrer les modifications",
+            "toastUpdated": "Groupes de rôles mis à jour."
         },
         "status": {
             "NOT_ACTIVATED": "Non activé",
