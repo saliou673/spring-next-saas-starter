@@ -426,6 +426,14 @@
             },
             "submit": "Créer le groupe de rôles",
             "toastCreated": "Groupe de rôles créé."
+        },
+        "permissions": {
+            "title": "Permissions",
+            "description": "Activez ou désactivez les permissions accordées à ce groupe de rôles.",
+            "loadError": "Impossible de charger ce groupe de rôles.",
+            "empty": "Aucune permission disponible.",
+            "submit": "Enregistrer les modifications",
+            "toastUpdated": "Permissions mises à jour."
         }
     },
     "errors": {

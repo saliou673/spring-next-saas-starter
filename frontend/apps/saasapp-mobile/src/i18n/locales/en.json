@@ -426,6 +426,14 @@
             },
             "submit": "Create role group",
             "toastCreated": "Role group created."
+        },
+        "permissions": {
+            "title": "Permissions",
+            "description": "Toggle the permissions granted to this role group.",
+            "loadError": "Unable to load this role group.",
+            "empty": "No permissions available.",
+            "submit": "Save changes",
+            "toastUpdated": "Permissions updated."
         }
     },
     "errors": {
