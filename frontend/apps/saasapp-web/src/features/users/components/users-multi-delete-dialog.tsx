@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { type Table } from "@tanstack/react-table";
-import { useDeleteUserAsAdmin, getUsersAsAdminQueryKey } from "@api-client";
+import { useDeleteUserAsAdmin } from "@api-client";
 import { AlertTriangle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
@@ -55,8 +55,11 @@ export function UsersMultiDeleteDialog<TData>({
         }
 
         if (deletedCount > 0) {
+            // getUsersAsAdminQueryKey() requires a filter/pageable params
+            // argument, so invalidate by the shared URL prefix instead of
+            // reconstructing whatever params the list view happened to use.
             await queryClient.invalidateQueries({
-                queryKey: getUsersAsAdminQueryKey(),
+                queryKey: [{ url: "/api/admin/users" }],
             });
         }
 

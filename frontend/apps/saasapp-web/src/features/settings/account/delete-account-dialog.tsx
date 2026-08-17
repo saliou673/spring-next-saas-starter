@@ -56,15 +56,18 @@ export function DeleteAccountDialog({
             return;
         }
 
-        deleteAccount(undefined, {
-            onSuccess: async () => {
-                queryClient.clear();
-                await signOut({ redirect: true, callbackUrl: "/" });
-            },
-            onError: () => {
-                toast.error(t("genericErrorToast"));
-            },
-        });
+        deleteAccount(
+            {},
+            {
+                onSuccess: async () => {
+                    queryClient.clear();
+                    await signOut({ redirect: true, callbackUrl: "/" });
+                },
+                onError: () => {
+                    toast.error(t("genericErrorToast"));
+                },
+            }
+        );
     };
 
     return (

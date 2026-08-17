@@ -115,7 +115,7 @@ function UserPreferenceSync() {
     const { setTheme } = useTheme();
     const { setFont } = useFont();
     const sessionEmail = session?.user?.email ?? null;
-    const { data: preferences } = useGetCurrentUserPreferences({
+    const { data: preferences } = useGetCurrentUserPreferences(undefined, {
         query: {
             enabled: status === "authenticated" && !!sessionEmail,
             queryKey: [...getCurrentUserPreferencesQueryKey(), sessionEmail],

@@ -55,7 +55,7 @@ export function useCurrentUser() {
         queryClient.removeQueries({ queryKey: getUserDetailsQueryKey() });
     }, [queryClient, sessionEmail]);
 
-    const query = useGetUserDetails({
+    const query = useGetUserDetails(undefined, {
         query: {
             enabled: status === "authenticated",
         },

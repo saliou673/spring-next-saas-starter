@@ -90,7 +90,7 @@ export function AppSidebar() {
     const { status } = useSession();
     const t = useTranslations("Sidebar");
     const tSettingsNav = useTranslations("Settings.nav");
-    const { data: permissions } = useGetCurrentUserPermissions({
+    const { data: permissions } = useGetCurrentUserPermissions(undefined, {
         query: {
             enabled: status === "authenticated",
         },

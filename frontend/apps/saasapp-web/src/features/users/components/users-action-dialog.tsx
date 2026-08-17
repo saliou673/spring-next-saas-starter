@@ -15,7 +15,6 @@ import {
     useGetUserAsAdmin,
     useRevokeRoleGroupAsAdmin,
     useUpdateUserAsAdmin,
-    getUsersAsAdminQueryKey,
 } from "@api-client";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
@@ -124,11 +123,15 @@ export function UsersActionDialog({
         defaultValues: getDefaultValues(currentRow),
     });
 
-    const { data: userDetails } = useGetUserAsAdmin(currentRow?.id ?? 0, {
-        query: {
-            enabled: open && isEdit && !!currentRow?.id,
-        },
-    });
+    const { data: userDetails } = useGetUserAsAdmin(
+        currentRow?.id ?? 0,
+        undefined,
+        {
+            query: {
+                enabled: open && isEdit && !!currentRow?.id,
+            },
+        }
+    );
     const { data: roleGroupsData, isLoading: isRoleGroupsLoading } =
         useGetRoleGroupsAsAdmin(
             {
@@ -137,6 +140,7 @@ export function UsersActionDialog({
                     size: 100,
                 },
             },
+            undefined,
             {
                 query: {
                     enabled: open,
@@ -170,8 +174,11 @@ export function UsersActionDialog({
     }, [currentRow, form, isEdit, userDetails, open]);
 
     const invalidateUsers = async () => {
+        // getUsersAsAdminQueryKey() requires a filter/pageable params
+        // argument, so invalidate by the shared URL prefix instead of
+        // reconstructing whatever params the list view happened to use.
         await queryClient.invalidateQueries({
-            queryKey: getUsersAsAdminQueryKey(),
+            queryKey: [{ url: "/api/admin/users" }],
         });
     };
 

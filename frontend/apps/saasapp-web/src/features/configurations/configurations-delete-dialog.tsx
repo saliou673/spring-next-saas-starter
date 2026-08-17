@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { type AppConfiguration, useDelete, getAppConfigurationsAsAdminQueryKey } from "@api-client";
+import { type AppConfiguration, useDelete } from "@api-client";
 import { AlertTriangle } from "lucide-react";
 import { handleServerError } from "@/lib/handle-server-error";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -28,8 +28,11 @@ export function ConfigurationsDeleteDialog({
     const { mutate: deleteConfiguration, isPending: isDeleting } = useDelete({
         mutation: {
             onSuccess: async () => {
+                // getAppConfigurationsAsAdminQueryKey() requires a filter/pageable
+                // params argument, so invalidate by the shared URL prefix instead
+                // of reconstructing whatever params the list view happened to use.
                 await queryClient.invalidateQueries({
-                    queryKey: getAppConfigurationsAsAdminQueryKey(),
+                    queryKey: [{ url: "/api/admin/configurations" }],
                 });
 
                 setValue("");
@@ -60,7 +63,7 @@ export function ConfigurationsDeleteDialog({
         }
     };
 
-    const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         handleDelete();
     };

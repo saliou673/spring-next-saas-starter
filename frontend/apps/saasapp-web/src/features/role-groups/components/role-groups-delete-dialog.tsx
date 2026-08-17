@@ -1,10 +1,7 @@
 "use client";
 
 import { useQueryClient } from "@tanstack/react-query";
-import {
-    getRoleGroupsAsAdminQueryKey,
-    useDeleteRoleGroupAsAdmin,
-} from "@api-client";
+import { useDeleteRoleGroupAsAdmin } from "@api-client";
 import { AlertTriangle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
@@ -28,8 +25,11 @@ export function RoleGroupsDeleteDialog({
     const { mutate, isPending } = useDeleteRoleGroupAsAdmin({
         mutation: {
             onSuccess: async () => {
+                // getRoleGroupsAsAdminQueryKey() requires a pageable params
+                // argument, so invalidate by the shared URL prefix instead of
+                // reconstructing whatever params the list view happened to use.
                 await queryClient.invalidateQueries({
-                    queryKey: getRoleGroupsAsAdminQueryKey(),
+                    queryKey: [{ url: "/api/admin/role-groups" }],
                 });
                 toast.success(t("successToast"));
                 onOpenChange(false);

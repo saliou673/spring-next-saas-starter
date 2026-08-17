@@ -67,7 +67,7 @@ export function RoleGroupsTable({ canManageRoleGroups }: RoleGroupsTableProps) {
     );
 
     const { data, isLoading, isFetching, isError, error } =
-        useGetRoleGroupsAsAdmin(queryParams, {
+        useGetRoleGroupsAsAdmin(queryParams, undefined, {
             query: {
                 placeholderData: (previousData) => previousData,
             },
