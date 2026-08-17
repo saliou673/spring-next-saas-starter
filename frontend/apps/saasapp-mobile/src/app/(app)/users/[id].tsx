@@ -203,6 +203,13 @@ export default function UserDetailScreen() {
                   {t('users.detail.noRoleGroups')}
                 </ThemedText>
               )}
+
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => router.push(`/users/role-groups/${userId}` as Href)}
+                style={({ pressed }) => pressed && styles.pressed}>
+                <ThemedText type="linkPrimary">{t('users.detail.manageRoleGroups')}</ThemedText>
+              </Pressable>
             </SettingsCard>
 
             <SettingsCard>
@@ -263,6 +270,9 @@ const styles = StyleSheet.create({
     minHeight: 48,
   },
   pressedButton: {
+    opacity: 0.7,
+  },
+  pressed: {
     opacity: 0.7,
   },
 });
