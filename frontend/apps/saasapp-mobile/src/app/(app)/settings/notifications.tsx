@@ -1,7 +1,12 @@
 import { ActivityIndicator, StyleSheet, Switch, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
-import { useGetCurrentUserPreferences, useUpdateCurrentUserPreferences } from '@api-client';
+import {
+  getCurrentUserPreferencesQueryKey,
+  useGetCurrentUserPreferences,
+  useUpdateCurrentUserPreferences,
+} from '@api-client';
 
 import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
@@ -15,6 +20,7 @@ import { Spacing } from '@/constants/theme';
 // app to make a preference meaningful for.
 export default function NotificationsScreen() {
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
   const { data: preferences, isLoading, isError } = useGetCurrentUserPreferences();
 
   const { mutate: updatePreferences, isPending } = useUpdateCurrentUserPreferences({
@@ -34,6 +40,9 @@ export default function NotificationsScreen() {
       },
       {
         onError: () => showToast(t('settings.notifications.saveError'), 'error'),
+        onSuccess: () => {
+          void queryClient.invalidateQueries({ queryKey: getCurrentUserPreferencesQueryKey() });
+        },
       }
     );
   }
