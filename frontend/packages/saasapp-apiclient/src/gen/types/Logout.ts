@@ -39,10 +39,15 @@ export type Logout404 = ValidationErrorResponseDTO;
  */
 export type Logout409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type Logout500 = ValidationErrorResponseDTO;
+
 export type LogoutMutationResponse = Logout204;
 
 export type LogoutMutation = {
     Response: Logout204;
     HeaderParams: LogoutHeaderParams;
-    Errors: Logout403 | Logout404 | Logout409;
+    Errors: Logout403 | Logout404 | Logout409 | Logout500;
 };

@@ -39,6 +39,11 @@ export type RequestPasswordReset404 = ValidationErrorResponseDTO;
  */
 export type RequestPasswordReset409 = ValidationErrorResponseDTO;
 
+/**
+ * @description Internal Server Error
+ */
+export type RequestPasswordReset500 = ValidationErrorResponseDTO;
+
 export type RequestPasswordResetMutationRequest = string;
 
 export type RequestPasswordResetMutationResponse = RequestPasswordReset200;
@@ -50,5 +55,6 @@ export type RequestPasswordResetMutation = {
     Errors:
         | RequestPasswordReset403
         | RequestPasswordReset404
-        | RequestPasswordReset409;
+        | RequestPasswordReset409
+        | RequestPasswordReset500;
 };

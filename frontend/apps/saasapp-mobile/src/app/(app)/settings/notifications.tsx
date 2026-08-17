@@ -1,105 +1,87 @@
-import { useState } from 'react';
-import { Pressable, StyleSheet, Switch, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Switch, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
+import {
+  getCurrentUserPreferencesQueryKey,
+  useGetCurrentUserPreferences,
+  useUpdateCurrentUserPreferences,
+} from '@api-client';
 
+import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
-import { useTheme } from '@/hooks/use-theme';
 
-type NotifyType = 'all' | 'mentions' | 'none';
-
-// No `notifications` field exists on UserPreferences yet - saasapp-web's own
-// notifications-form.tsx is the same: local component state only, submitted
-// to a `showSubmittedData` stub rather than a real endpoint. This mirrors
-// that (still-fake) behavior rather than inventing persistence the backend
-// doesn't have.
+// There's no `notifications` field on UserPreferences beyond
+// `productUpdatesEnabled` - security-relevant emails are always sent and
+// aren't a user preference, and no other notification type exists in this
+// app to make a preference meaningful for.
 export default function NotificationsScreen() {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const queryClient = useQueryClient();
+  const { data: preferences, isLoading, isError } = useGetCurrentUserPreferences();
 
-  const [notifyType, setNotifyType] = useState<NotifyType>('all');
-  const [communicationEmails, setCommunicationEmails] = useState(false);
-  const [marketingEmails, setMarketingEmails] = useState(false);
-  const [socialEmails, setSocialEmails] = useState(true);
+  const { mutate: updatePreferences, isPending } = useUpdateCurrentUserPreferences({
+    mutation: { meta: { skipGlobalErrorToast: true } },
+  });
 
-  const typeOptions: { value: NotifyType; label: string }[] = [
-    { value: 'all', label: t('settings.notifications.typeAll') },
-    { value: 'mentions', label: t('settings.notifications.typeMentions') },
-    { value: 'none', label: t('settings.notifications.typeNone') },
-  ];
+  function onToggle(productUpdatesEnabled: boolean) {
+    if (!preferences) return;
+
+    updatePreferences(
+      {
+        data: {
+          appearance: preferences.appearance,
+          notifications: { productUpdatesEnabled },
+          display: preferences.display,
+        },
+      },
+      {
+        onError: () => showToast(t('settings.notifications.saveError'), 'error'),
+        onSuccess: () => {
+          void queryClient.invalidateQueries({ queryKey: getCurrentUserPreferencesQueryKey() });
+        },
+      }
+    );
+  }
 
   return (
     <>
       <Stack.Screen options={{ title: t('settings.nav.notifications') }} />
       <SettingsListScreen>
-        <ThemedView type="backgroundElement" style={styles.card}>
-          <View style={styles.field}>
-            <ThemedText type="smallBold">{t('settings.notifications.notifyLabel')}</ThemedText>
-            {typeOptions.map((option) => (
-              <Pressable
-                key={option.value}
-                accessibilityRole="radio"
-                accessibilityState={{ selected: option.value === notifyType }}
-                onPress={() => setNotifyType(option.value)}
-                style={styles.radioRow}>
-                <View
-                  style={[
-                    styles.radioOuter,
-                    { borderColor: theme.text },
-                    option.value === notifyType && { borderColor: theme.text },
-                  ]}>
-                  {option.value === notifyType && (
-                    <View style={[styles.radioInner, { backgroundColor: theme.text }]} />
-                  )}
-                </View>
-                <ThemedText>{option.label}</ThemedText>
-              </Pressable>
-            ))}
-          </View>
-
-          <View style={styles.switchRow}>
-            <View style={styles.switchLabel}>
-              <ThemedText>{t('settings.notifications.communicationLabel')}</ThemedText>
-              <ThemedText type="small" themeColor="textSecondary">
-                {t('settings.notifications.communicationDescription')}
-              </ThemedText>
+        {isLoading ? (
+          <ActivityIndicator />
+        ) : isError || !preferences ? (
+          <ThemedText themeColor="danger">{t('settings.notifications.loadError')}</ThemedText>
+        ) : (
+          <SettingsCard style={styles.card}>
+            <View style={styles.switchRow}>
+              <View style={styles.switchLabel}>
+                <ThemedText>{t('settings.notifications.productUpdatesLabel')}</ThemedText>
+                <ThemedText type="small" themeColor="textSecondary">
+                  {t('settings.notifications.productUpdatesDescription')}
+                </ThemedText>
+              </View>
+              <Switch
+                value={preferences.notifications.productUpdatesEnabled}
+                disabled={isPending}
+                onValueChange={onToggle}
+              />
             </View>
-            <Switch value={communicationEmails} onValueChange={setCommunicationEmails} />
-          </View>
 
-          <View style={styles.switchRow}>
-            <View style={styles.switchLabel}>
-              <ThemedText>{t('settings.notifications.marketingLabel')}</ThemedText>
-              <ThemedText type="small" themeColor="textSecondary">
-                {t('settings.notifications.marketingDescription')}
-              </ThemedText>
+            <View style={styles.switchRow}>
+              <View style={styles.switchLabel}>
+                <ThemedText>{t('settings.notifications.securityLabel')}</ThemedText>
+                <ThemedText type="small" themeColor="textSecondary">
+                  {t('settings.notifications.securityDescription')}
+                </ThemedText>
+              </View>
+              <Switch value disabled />
             </View>
-            <Switch value={marketingEmails} onValueChange={setMarketingEmails} />
-          </View>
-
-          <View style={styles.switchRow}>
-            <View style={styles.switchLabel}>
-              <ThemedText>{t('settings.notifications.socialLabel')}</ThemedText>
-              <ThemedText type="small" themeColor="textSecondary">
-                {t('settings.notifications.socialDescription')}
-              </ThemedText>
-            </View>
-            <Switch value={socialEmails} onValueChange={setSocialEmails} />
-          </View>
-
-          <View style={styles.switchRow}>
-            <View style={styles.switchLabel}>
-              <ThemedText>{t('settings.notifications.securityLabel')}</ThemedText>
-              <ThemedText type="small" themeColor="textSecondary">
-                {t('settings.notifications.securityDescription')}
-              </ThemedText>
-            </View>
-            <Switch value disabled />
-          </View>
-        </ThemedView>
+          </SettingsCard>
+        )}
       </SettingsListScreen>
     </>
   );
@@ -107,30 +89,7 @@ export default function NotificationsScreen() {
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: Spacing.three,
-    padding: Spacing.three,
     gap: Spacing.four,
-  },
-  field: {
-    gap: Spacing.two,
-  },
-  radioRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Spacing.two,
-  },
-  radioOuter: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderWidth: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  radioInner: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
   },
   switchRow: {
     flexDirection: 'row',

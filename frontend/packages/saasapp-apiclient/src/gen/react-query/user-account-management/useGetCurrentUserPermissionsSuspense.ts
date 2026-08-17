@@ -21,6 +21,7 @@ import type {
     GetCurrentUserPermissions403,
     GetCurrentUserPermissions404,
     GetCurrentUserPermissions409,
+    GetCurrentUserPermissions500,
 } from "../../types/GetCurrentUserPermissions.ts";
 
 export const getCurrentUserPermissionsSuspenseQueryKey = () =>
@@ -41,6 +42,7 @@ export function getCurrentUserPermissionsSuspenseQueryOptions(
             | GetCurrentUserPermissions403
             | GetCurrentUserPermissions404
             | GetCurrentUserPermissions409
+            | GetCurrentUserPermissions500
         >,
         GetCurrentUserPermissionsQueryResponse,
         typeof queryKey
@@ -71,6 +73,7 @@ export function useGetCurrentUserPermissionsSuspense<
                     | GetCurrentUserPermissions403
                     | GetCurrentUserPermissions404
                     | GetCurrentUserPermissions409
+                    | GetCurrentUserPermissions500
                 >,
                 TData,
                 TQueryKey
@@ -97,6 +100,7 @@ export function useGetCurrentUserPermissionsSuspense<
             | GetCurrentUserPermissions403
             | GetCurrentUserPermissions404
             | GetCurrentUserPermissions409
+            | GetCurrentUserPermissions500
         >
     > & { queryKey: TQueryKey };
 
