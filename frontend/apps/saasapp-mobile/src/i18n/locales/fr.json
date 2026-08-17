@@ -5,7 +5,8 @@
         "cancel": "Annuler",
         "confirm": "Confirmer",
         "save": "Enregistrer",
-        "ok": "OK"
+        "ok": "OK",
+        "offlineBanner": "Vous êtes hors ligne. Certaines fonctionnalités peuvent être indisponibles."
     },
     "languageSwitch": {
         "toggleLabel": "Changer de langue",
@@ -670,6 +671,23 @@
         "forbidden": {
             "title": "Accès interdit",
             "description": "Vous n'avez pas les autorisations nécessaires\npour accéder à cette ressource."
+        },
+        "serverErrorScreen": {
+            "title": "Oups ! Une erreur est survenue :')",
+            "description": "Nous sommes désolés pour la gêne occasionnée.\nVeuillez réessayer plus tard."
+        },
+        "maintenance": {
+            "title": "Le site est en maintenance !",
+            "description": "Le site n'est pas disponible pour le moment.\nNous serons bientôt de retour.",
+            "learnMore": "En savoir plus"
+        },
+        "notFound": {
+            "title": "Oups ! Page introuvable !",
+            "description": "Il semble que la page que vous recherchez\nn'existe pas ou a peut-être été supprimée."
+        },
+        "unauthorized": {
+            "title": "Accès non autorisé",
+            "description": "Votre session a pris fin.\nVeuillez vous reconnecter pour continuer."
         }
     }
 }
