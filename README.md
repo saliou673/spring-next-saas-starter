@@ -25,6 +25,14 @@ focus on your product's actual domain from day one.
 |---|---|
 | ![Role groups](./docs/screenshots/role-groups.jpg) | ![Appearance settings](./docs/screenshots/appearance-settings.jpg) |
 
+### Mobile app
+
+<p>
+  <img src="./docs/screenshots/mobile-sign-in.jpg" alt="Mobile sign in" width="220" />
+  <img src="./docs/screenshots/mobile-home.jpg" alt="Mobile home" width="220" />
+  <img src="./docs/screenshots/mobile-settings.jpg" alt="Mobile settings" width="220" />
+</p>
+
 ## Table of contents
 
 - [Screenshots](#screenshots)
