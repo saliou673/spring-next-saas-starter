@@ -11,8 +11,23 @@ focus on your product's actual domain from day one.
 > starter. You may still find a few internal references to that origin (e.g. package name `com.saasapp`, database
 > name `saasappdb`) — treat `saasapp` as the placeholder name to rename for your own project.
 
+## Screenshots
+
+| Landing page | Sign in |
+|---|---|
+| ![Landing page](./docs/screenshots/landing.jpg) | ![Sign in](./docs/screenshots/sign-in.jpg) |
+
+| Dashboard | Users |
+|---|---|
+| ![Dashboard](./docs/screenshots/dashboard.jpg) | ![Users](./docs/screenshots/users.jpg) |
+
+| Role groups | Appearance settings |
+|---|---|
+| ![Role groups](./docs/screenshots/role-groups.jpg) | ![Appearance settings](./docs/screenshots/appearance-settings.jpg) |
+
 ## Table of contents
 
+- [Screenshots](#screenshots)
 - [Features](#features)
 - [Tech stack](#tech-stack)
 - [Project structure](#project-structure)
