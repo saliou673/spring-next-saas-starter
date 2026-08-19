@@ -180,7 +180,24 @@ See [docs/architecture.md](./docs/architecture.md) for diagrams.
 
 ## Getting started
 
-### 1. Clone the repository
+### 1. Create your project
+
+The quickest way to start a new project from this template is the scaffold script: it clones the repo and renames
+every `saasapp` reference (Java package, Maven artifacts, pnpm packages, Docker/DB names, mobile bundle id, docs, ...)
+to your project's name.
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/saliou673/spring-next-saas-starter/main/scripts/create-project.sh | bash
+```
+
+It will prompt you for a project name (kebab-case, e.g. `acme-billing`) and a target directory, then clone and rename
+in place. Run `curl -fsSL .../create-project.sh | bash -s -- --help` to see non-interactive flags.
+
+Maintaining your own fork? Pass `--repo <your-fork-url>` (or set `SAAS_STARTER_REPO`) so the script scaffolds from
+your fork instead of upstream — see the comment at the top of [`create-project.sh`](./scripts/create-project.sh) for
+how to make that the default for your users.
+
+Prefer to do it by hand instead?
 
 ```bash
 git clone git@github.com:saliou673/spring-next-saas-starter.git
